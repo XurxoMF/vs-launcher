@@ -1,1 +1,8 @@
-{}
+{
+  "components": {
+    "gameRunningOverlay": {
+      "desc": "Translate this",
+      "subDesc": "Translate that"
+    }
+  }
+}
