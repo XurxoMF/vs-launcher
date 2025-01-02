@@ -11,7 +11,7 @@ reviews:
             id: r8_h5c9uy0bG55FESQ6gw
             type: approve
             comment: Test
-            time: "2024-12-19T22:08:33.236Z"
+            time: '2024-12-19T22:08:33.236Z'
             resolved: true
           - user:
               name: XurxoMF
@@ -19,10 +19,10 @@ reviews:
             id: vgC9jZsM7DSZr2-zm5AgS
             type: approve
             comment: Respuesta
-            time: "2024-12-19T22:08:54.712Z"
+            time: '2024-12-19T22:08:54.712Z'
             resolved: true
   components.mainMenu.gameRunningDescSub:
-    description: ""
+    description: ''
   components.mainMenu.changelogDesc:
     locales:
       es-ES:
@@ -32,7 +32,31 @@ reviews:
               email: xurxolaxe@gmail.com
             id: un2QHCHTZ8UOhuza7MQwU
             comment: fgg
-            suggestion: ""
+            suggestion: ''
             type: approve
-            time: "2024-12-19T22:38:30.975Z"
+            time: '2024-12-19T22:38:30.975Z'
             resolved: true
+  features.versions.versionFolder:
+    locales:
+      de-DE:
+        comments:
+          - user:
+              name: BradyThe
+              email: brady_the@pm.me
+            id: EYrq2MPfx-SgBbOzGILgu
+            comment: More context needed for a more acurate translation!
+            suggestion: ''
+            type: comment
+            time: '2025-01-02T02:20:21.824Z'
+  generic.issues:
+    locales:
+      de-DE:
+        comments:
+          - user:
+              name: BradyThe
+              email: brady_the@pm.me
+            id: OYJBkHS59DCdkgQQddzdu
+            comment: Assuming it's the equivalent of "top-minimenu-issues".
+            suggestion: Probleme
+            type: comment
+            time: '2025-01-02T02:36:50.317Z'
