@@ -1,29 +1,21 @@
-CUSTOM License
+MIT License
 
 Copyright (c) 2025 Xurxo Martínez Ferreira
 
---------------------------------------------------------------------------------
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-PLEASE, CREDIT ME WITH A LINK TO THIS REPOSITORY IF YOU USE THE CODE OR ANYTHING
-ELSE.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-I'M SPENDING SOOOO MUCH TIME ON THIS APP AND I DON'T WANT IT TO DISSAPEAR IF 
-SOMETHING HAPPENS, THAT'S WHY IT'S SOURCE CODE IS PUBLIC BUT PLEASE,
-WHILE I WORK ON THIS AND KEEP IT UPDATED DON'T REDISTEIBUTE IT. YOU CAN MODIFY
-IT FOR PERSONAL USE OR FAMILY/FRIEND USE BUT DON'T POST IT AS A PUBLIC
-ALTERNATIVE.
-
---------------------------------------------------------------------------------
-
-I'LL WRITE IT HERE SO EVERYONE CAN SEE IT:
-
-SOME TIME AGO THERE WAS A DISCUSSION ABOUT WHAT TO DO WITH ABANDONED MODS AND
-SO ON SO...
-
-IF I SAY IT EXPRESSLY OR I DISSAPEAR FOR MORE THAN A YEAR ON DISCORD, MODDB
-AND GITHUB, YOU CAN START REDISTRIBUTING THIS APP AS YOU WANT(with credits) AND
-USE THIS CODE AS A BASE, WITH OR WITHOUT MODIFICATONS.
-
---------------------------------------------------------------------------------
-
-Copyright (c) 2025 Xurxo Martínez Ferreira
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
