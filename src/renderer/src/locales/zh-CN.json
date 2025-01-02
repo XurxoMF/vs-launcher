@@ -7,23 +7,82 @@
     "guides": "指南",
     "source": "源码",
     "play": "开始游戏",
-    "discard": "忽略"
+    "openOnFileExplorer": "在文件资源管理器中打开文件夹",
+    "discard": "忽略",
+    "minMaxLength": "{{min}} 到 {{max}} 个字符",
+    "byAnonymous": "by liuyujielol",
+    "folder": "文件夹",
+    "browse": "浏览",
+    "add": "添加",
+    "goBack": "返回",
+    "save": "保持",
+    "name": "名称",
+    "version": "版本",
+    "releaseDate": "发布日期",
+    "type": "类型",
+    "install": "安装"
   },
   "features": {
-    "generic": {},
+    "generic": {
+      "notImplemented": "这个页面还没有准备好！",
+      "notImplementedDesc": "也许下个版本就准备好了!"
+    },
     "home": {
       "title": "欢迎使用《复古物语》启动器",
       "description": "非官方《复古物语》启动器，包含您需要的所有功能。"
     },
     "versions": {
-      "uninstallVersion": "卸载游戏版本",
-      "noVersionsFound": "未找到任何版本",
-      "areYouSureUninstall": "您确定要卸载此版本吗？",
+      "uninstallVersion": "卸载版本",
+      "noVersionsFound": "未找到任何版本！",
+      "noVersionsFoundDescOnPage": "使用 <button/> 按钮安装一个新版本",
+      "areYouSureUninstall": "您确定要卸载该版本吗？",
       "uninstallingNotReversible": "卸载过程不可逆，但是您随时可以再次下载该版本。",
+      "noVersionSelected": "未检测到任何版本!",
+      "versionAlreadyInstalled": "版本 {{version}} 已经安装！",
+      "noVersionFoundOnThatFolder": "在您选择的文件夹中未找到任何版本！",
+      "versionSuccessfullyAdded": "该版本已添加成功！",
       "versionUninstalledSuccesfully": "版本 {{version}} 卸载成功！",
-      "versionUninstallationFailed": "在卸载版本 {{version}} 时出现错误！"
+      "versionUninstallationFailed": "在卸载版本 {{version}} 时出现错误！",
+      "versionNotInstalled": "版本 {{version}} 未安装！",
+      "labelGameVersion": "游戏版本",
+      "versionFolder": "版本文件夹",
+      "gameVersionDownloadDesc": "正在下载游戏版本 {{version}}！",
+      "gameVersionTaskName": "游戏版本 {{version}}",
+      "gameVersionExtractDesc": "解压游戏版本 {{version}}！",
+      "installTitle": "安装一个新版本",
+      "labelStables": "稳定版本",
+      "labelRCs": "RC版本",
+      "labelPreReleases": "预发布版本",
+      "listTitle": "版本列表",
+      "searchForAGameVersion": "查找游戏版本",
+      "missingFolderOrVersion": "您未选择任何文件夹或您选择的文件夹中没有任何游戏版本！",
+      "lookForAVersion": "查找一个版本",
+      "versionFound": "找到版本"
     },
-    "installations": {},
+    "installations": {
+      "noInstallationsFound": "为找到任何安装！",
+      "noInstallationsFoundDesc": "在 <link /> 页面安装一个新游戏版本",
+      "noInstallationsFoundDescOnPage": "使用 <button/> 按钮安装一个新游戏版本",
+      "deleteInstallation": "删除安装",
+      "areYouSureDelete": "您确定要删除该安装吗？",
+      "deletingNotReversible": "删除过程不可逆， 如果您勾选删除数据选项，您将不能恢复您的游戏存档、数据以及其他信息。",
+      "noInstallationFound": "未找到任何安装！",
+      "noInstallationSelected": "未选择任何安装！",
+      "installationNameMinMaxCharacters": "安装名称的长度必须在 {{min}} 到 {{max}} 个字符之间！",
+      "defaultName": "My New Installation",
+      "folderAlreadyInUse": "该文件夹已被其他安装所使用！",
+      "installationSuccessfullyAdded": "安装成功！",
+      "errorAddingInstallation": "在添加安装时出现错误！",
+      "addTitle": "添加一个新安装",
+      "installationSuccessfullyEdited": "编辑安装成功！",
+      "errorEditingInstallation": "在编辑安装时出现错误！",
+      "editTitle": "编辑安装",
+      "noInstallationFoundDesc": "您选择的安装不存在！",
+      "listTitle": "安装列表",
+      "deleteData": "删除数据",
+      "installationSuccessfullyDeleted": "安装删除成功！",
+      "errorDeletingInstallation": "在删除安装时出现错误！"
+    },
     "mods": {
       "modsCount": "{{count}} 个模组",
       "modsCount_zero": "{{count}} 个模组",
@@ -39,25 +98,25 @@
       "homeTitle": "Home",
       "homeDesc": "主页面",
       "versionsTitle": "版本",
-      "versionsDesc": "管理游戏版本",
+      "versionsDesc": "管理您的游戏版本",
       "modsTitle": "模组",
-      "modsDesc": "管理/安装模组",
+      "modsDesc": "管理已安装的模组",
       "newsTitle": "新闻",
       "newsDesc": "《复古物语》启动器新闻",
       "changelogTitle": "更新日志",
       "changelogDesc": "《复古物语》更新日志",
       "installationsTitle": "安装",
-      "installationsDesc": "管理安装"
+      "installationsDesc": "管理您的游戏安装"
     },
     "gameRunningOverlay": {
       "title": "游戏正在运行",
-      "desc": "游戏正在后台运行, 请关闭游戏再使用《复古物语》启动器！",
-      "subDesc": "为避免与游戏冲突，您无法在游玩游戏时运行《复古物语》启动器。"
+      "desc": "游戏正在后台运行，请关闭游戏再使用《复古物语》启动器",
+      "subDesc": "为避免与游戏冲突，您无法在游玩游戏运行时使用《复古物语》启动器。"
     },
     "tasksMenu": {
-      "downloading": "下载",
-      "extracting": "解压",
-      "error": "在处理时出现了一个错误！",
+      "downloading": "正在下载",
+      "extracting": "正在解压",
+      "error": "执行任务时出现错误！",
       "noTasksAvailable": "未安排任何任务！"
     }
   },
@@ -69,15 +128,18 @@
       "success": "成功"
     },
     "body": {
-      "folderDoesntExists": "该文件夹不存在！请先执行游戏！",
-      "updateAvailable": "启动器有更新可用！正在下载...",
-      "updateDownloaded": "更新下载成功！重新启动《复古物语》启动器以完成更新。",
-      "downloading": "开始下载 {{downloadName}}！",
-      "downloaded": "{{downloadName}} 下载完成！",
-      "downloadError": "下载 {{downloadName}} 出现错误！",
-      "extracting": "开始解压 {{extractName}}！",
-      "extracted": "{{extractName}} 解压完成！",
-      "extractError": "解压 {{extractName}} 失败！"
+      "folderDoesntExists": "您尝试打开的文件夹不存在！",
+      "updateAvailable": "有更新可用! 正在下载...",
+      "updateDownloaded": "更新下载成功！重新启动启动器以完成更新。",
+      "downloading": "正在开始下载: {{downloadName}}!",
+      "downloaded": "下载完成: {{downloadName}}!",
+      "downloadError": "下载出现错误: {{downloadName}}!",
+      "extracting": "正在开始解压: {{extractName}}!",
+      "extracted": "解压完成: {{extractName}}!",
+      "extractError": "解压出现错误: {{extractName}}!",
+      "gameExitedWithErrors": "《复古物语》因出现错误退出！",
+      "errorExecutingGame": "执行游戏时发生错误！",
+      "missingFields": "请填写所有字段！"
     },
     "discard": "忽略通知"
   }
