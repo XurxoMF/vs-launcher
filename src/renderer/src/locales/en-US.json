@@ -124,6 +124,10 @@
       "extracting": "Extracting",
       "error": "An error has ocurred during the process!",
       "noTasksAvailable": "There are no tasks queued!"
+    },
+    "loader": {
+      "title": "Wellcome to VS Launcher!",
+      "desc": "We are preparing everything for you!"
     }
   },
   "notifications": {

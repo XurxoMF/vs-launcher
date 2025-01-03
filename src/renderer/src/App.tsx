@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
 import { HashRouter as Router, Route, Routes } from "react-router-dom"
-import { FiExternalLink } from "react-icons/fi"
+import { FiExternalLink, FiLoader } from "react-icons/fi"
 import { useTranslation } from "react-i18next"
+import { AnimatePresence, motion } from "motion/react"
 import "./i18n"
 
 import { ConfigProvider } from "@renderer/contexts/ConfigContext"
@@ -45,6 +46,8 @@ function App(): JSX.Element {
           <TaskProvider>
             <Router>
               <div className="relative w-screen h-screen flex">
+                <Loader />
+
                 <MainMenu />
 
                 <main className="relative w-full h-full flex-1">
@@ -109,6 +112,42 @@ function MiniLinks({ to, text }: { to: string; text: string }): JSX.Element {
     <a title={text} onClick={() => window.api.utils.openOnBrowser(to)} className="flex flex-row flex-nowrap items-center gap-1 cursor-pointer">
       {text} <FiExternalLink />
     </a>
+  )
+}
+
+function Loader(): JSX.Element {
+  const { t } = useTranslation()
+
+  const [minTimeElapsed, setMinTimeElapsed] = useState(false)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      console.log("Min time elapsed")
+      setMinTimeElapsed(true)
+    }, 3000)
+
+    return (): void => clearTimeout(timer)
+  }, [])
+
+  return (
+    <AnimatePresence>
+      {!minTimeElapsed && (
+        <motion.div initial={{ opacity: 1 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-zinc-800 z-[1000]">
+          <motion.div
+            initial={{ opacity: 0, y: 100 }}
+            animate={{ opacity: 1, y: 0, transition: { delay: 0.5 } }}
+            exit={{ opacity: 0, y: -100 }}
+            className="flex flex-col gap-4 items-center justify-center"
+          >
+            <h1 className="text-4xl">{t("components.loader.title")}</h1>
+            <p className="text-xl">{t("components.loader.desc")}</p>
+            <p className="pt-4">
+              <FiLoader className="animate-spin text-5xl text-zinc-500 " />
+            </p>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   )
 }
 
