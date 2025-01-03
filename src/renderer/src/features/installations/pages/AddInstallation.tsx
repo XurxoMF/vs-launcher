@@ -19,7 +19,7 @@ function AddInslallation(): JSX.Element {
 
   useEffect(() => {
     ;(async (): Promise<void> => {
-      if (name && !folderByUser) setFolder(await window.api.pathsManager.formatPath([await window.api.pathsManager.getCurrentUserDataPath(), "VSLInstallations", name.replace(/[^a-zA-Z0-9]/g, "-")]))
+      if (name && !folderByUser) setFolder(await window.api.pathsManager.formatPath([config.defaultInstallationsFolder, name.replace(/[^a-zA-Z0-9]/g, "-")]))
     })()
   }, [name])
 

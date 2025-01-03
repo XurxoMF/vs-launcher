@@ -91,6 +91,12 @@
       "modsCount_few": "{{count}} mods",
       "modsCount_many": "{{count}} mods",
       "modsCount_other": "{{count}} mods"
+    },
+    "config": {
+      "title": "Settings",
+      "defaultInstallationsFolder": "Installations:",
+      "folders": "Default folders",
+      "defaultVersionsFolder": "Versions:"
     }
   },
   "components": {

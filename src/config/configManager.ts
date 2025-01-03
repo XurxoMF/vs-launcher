@@ -6,6 +6,8 @@ import { logMessage } from "@src/utils/logManager"
 const defaultConfig: ConfigType = {
   version: 1.1,
   lastUsedInstallation: null,
+  defaultInstallationsFolder: join(app.getPath("appData"), "VSLInstallations"),
+  defaultVersionsFolder: join(app.getPath("appData"), "VSLGameVersions"),
   installations: [],
   gameVersions: []
 }
@@ -84,6 +86,8 @@ const ensureConfigProperties = (config: ConfigType): ConfigType => {
     ...config,
     version: !config.version || config.version < defaultConfig.version ? defaultConfig.version : config.version,
     lastUsedInstallation: config.lastUsedInstallation ?? defaultConfig.lastUsedInstallation,
+    defaultInstallationsFolder: config.defaultInstallationsFolder ?? defaultConfig.defaultInstallationsFolder,
+    defaultVersionsFolder: config.defaultVersionsFolder ?? defaultConfig.defaultVersionsFolder,
     installations,
     gameVersions
   }

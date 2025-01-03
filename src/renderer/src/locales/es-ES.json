@@ -95,6 +95,9 @@
       "versionSuccessfullyAdded": "¡Esa versión se agregó con éxito!",
       "versionUninstallationFailed": "¡Ocurrió un error al desinstalar la versión {{version}}!",
       "versionUninstalledSuccesfully": "¡La versión {{version}} se desinstaló correctamente!"
+    },
+    "config": {
+      "title": "Ajustes"
     }
   },
   "generic": {

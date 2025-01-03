@@ -83,7 +83,7 @@ function MainMenu(): JSX.Element {
   return (
     <header className="z-99 w-[280px] flex flex-col gap-4 p-2 shadow-[0_0_5px_2px] shadow-zinc-900">
       <div className={`flex h-7 shrink-0 gap-2`}>
-        <Link to="/config" className="shrink-0 w-7 h-7 bg-zinc-850 rounded flex items-center justify-center shadow shadow-zinc-900 hover:shadow-none">
+        <Link to="/config" title={t("features.config.title")} className="shrink-0 w-7 h-7 bg-zinc-850 rounded flex items-center justify-center shadow shadow-zinc-900 hover:shadow-none">
           <PiGearFill />
         </Link>
         <TasksMenu />

@@ -2,6 +2,8 @@ declare global {
   type BasicConfigType = {
     version: number
     lastUsedInstallation: string | null
+    defaultInstallationsFolder: string
+    defaultVersionsFolder: string
   }
 
   type GameVersionType = {

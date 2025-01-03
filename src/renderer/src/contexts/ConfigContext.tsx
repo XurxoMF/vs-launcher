@@ -4,6 +4,8 @@ export enum CONFIG_ACTIONS {
   SET_CONFIG = "SET_CONFIG",
   SET_VERSION = "SET_VERSION",
   SET_LAST_USED_INSTALLATION = "SET_LAST_USED_INSTALLATION",
+  SET_DEFAULT_INSTALLATIONS_FOLDER = "SET_DEFAULT_INSTALLATIONS_FOLDER",
+  SET_DEFAULT_VERSIONS_FOLDER = "SET_DEFAULT_VERSIONS_FOLDER",
   ADD_INSTALLATION = "ADD_INSTALLATION",
   DELETE_INSTALLATION = "DELETE_INSTALLATION",
   EDIT_INSTALLATION = "EDIT_INSTALLATION",
@@ -25,6 +27,16 @@ export interface SetVersion {
 export interface SetLastUsedInstallation {
   type: CONFIG_ACTIONS.SET_LAST_USED_INSTALLATION
   payload: string | null
+}
+
+export interface SetDefaultInstllationsFolder {
+  type: CONFIG_ACTIONS.SET_DEFAULT_INSTALLATIONS_FOLDER
+  payload: string
+}
+
+export interface SetDefaultVersionsFolder {
+  type: CONFIG_ACTIONS.SET_DEFAULT_VERSIONS_FOLDER
+  payload: string
 }
 
 export interface AddInstallation {
@@ -63,7 +75,18 @@ export interface EditGameVersion {
   }
 }
 
-export type ConfigAction = SetConfig | SetVersion | SetLastUsedInstallation | AddInstallation | DeleteInstallation | EditInstallation | AddGameVersion | DeleteGameVersion | EditGameVersion
+export type ConfigAction =
+  | SetConfig
+  | SetVersion
+  | SetLastUsedInstallation
+  | SetDefaultInstllationsFolder
+  | SetDefaultVersionsFolder
+  | AddInstallation
+  | DeleteInstallation
+  | EditInstallation
+  | AddGameVersion
+  | DeleteGameVersion
+  | EditGameVersion
 
 const configReducer = (config: ConfigType, action: ConfigAction): ConfigType => {
   switch (action.type) {
@@ -73,6 +96,10 @@ const configReducer = (config: ConfigType, action: ConfigAction): ConfigType => 
       return { ...config, version: action.payload }
     case CONFIG_ACTIONS.SET_LAST_USED_INSTALLATION:
       return { ...config, lastUsedInstallation: action.payload }
+    case CONFIG_ACTIONS.SET_DEFAULT_INSTALLATIONS_FOLDER:
+      return { ...config, defaultInstallationsFolder: action.payload }
+    case CONFIG_ACTIONS.SET_DEFAULT_VERSIONS_FOLDER:
+      return { ...config, defaultVersionsFolder: action.payload }
     case CONFIG_ACTIONS.ADD_INSTALLATION:
       return { ...config, installations: [action.payload, ...config.installations] }
     case CONFIG_ACTIONS.DELETE_INSTALLATION:
@@ -103,8 +130,10 @@ const configReducer = (config: ConfigType, action: ConfigAction): ConfigType => 
 }
 
 export const initialState: ConfigType = {
-  version: 1.1,
+  version: 0,
   lastUsedInstallation: null,
+  defaultInstallationsFolder: "",
+  defaultVersionsFolder: "",
   installations: [],
   gameVersions: []
 }

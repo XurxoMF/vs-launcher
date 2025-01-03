@@ -33,7 +33,7 @@ function AddVersion(): JSX.Element {
 
   useEffect(() => {
     ;(async (): Promise<void> => {
-      if (version && !folderByUser) setFolder(await window.api.pathsManager.formatPath([await window.api.pathsManager.getCurrentUserDataPath(), "VSLGameVersions", version.version]))
+      if (version && !folderByUser) setFolder(await window.api.pathsManager.formatPath([config.defaultVersionsFolder, version.version]))
     })()
   }, [version])
 
