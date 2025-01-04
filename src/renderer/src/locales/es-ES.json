@@ -75,9 +75,9 @@
     },
     "versions": {
       "areYouSureUninstall": "¿Estás seguro de que quieres desinstalar esta versión?",
-      "gameVersionDownloadDesc": "¡Descargando la versión {{versión}} del juego!",
-      "gameVersionExtractDesc": "¡Extrayendo la versión {{versión}} del juego!",
-      "gameVersionTaskName": "versión {{versión}} del juego ",
+      "gameVersionDownloadDesc": "¡Descargando la versión {{version}} del juego!",
+      "gameVersionExtractDesc": "¡Extrayendo la versión {{version}} del juego!",
+      "gameVersionTaskName": "versión {{version}} del juego ",
       "installTitle": "Instala una nueva versión",
       "labelGameVersion": "Versión del juego",
       "labelPreReleases": "Prelanzamientos",
@@ -143,8 +143,8 @@
       "folderDoesntExists": "¡La carpeta que estás intentando abrir no existe!",
       "gameExitedWithErrors": "¡Vintage Story se cerró con errores!",
       "missingFields": "¡Por favor completa todos los campos!",
-      "updateAvailable": "¡Nueva actualización disponible! \nDescargando...",
-      "updateDownloaded": "¡Actualización descargada con éxito! \nReinicia VS Launcher para actualizar."
+      "updateAvailable": "¡Nueva actualización disponible! Descargando...",
+      "updateDownloaded": "¡Actualización descargada con éxito! Reinicia VS Launcher para actualizar."
     },
     "discard": "Descartar notificación",
     "titles": {
