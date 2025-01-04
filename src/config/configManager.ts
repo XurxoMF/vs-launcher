@@ -17,6 +17,7 @@ const defaultInstallation: InstallationType = {
   name: "",
   path: "",
   version: "",
+  startParams: "",
   mods: []
 }
 
@@ -73,6 +74,7 @@ const ensureConfigProperties = (config: ConfigType): ConfigType => {
     name: installation.name ?? defaultInstallation.name,
     path: installation.path ?? defaultInstallation.path,
     version: installation.version ?? defaultInstallation.version,
+    startParams: installation.startParams ?? defaultInstallation.startParams,
     mods: installation.mods ?? defaultInstallation.mods
   }))
 

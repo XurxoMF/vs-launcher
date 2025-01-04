@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Link, useParams, useNavigate } from "react-router-dom"
 import { Button, Input } from "@headlessui/react"
-import { useTranslation } from "react-i18next"
+import { useTranslation, Trans } from "react-i18next"
 
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/contexts/ConfigContext"
@@ -18,6 +18,7 @@ function EditInslallation(): JSX.Element {
 
   const [name, setName] = useState<string>(installation?.name ?? "")
   const [version, setVersion] = useState<GameVersionType>(config.gameVersions.find((gv) => gv.version === installation?.version) ?? config.gameVersions[0])
+  const [startParams, setStartParams] = useState<string>(installation?.startParams ?? "")
 
   const handleAddInstallation = async (): Promise<void> => {
     if (!installation) return addNotification(t("notifications.titles.warning"), t("features.installations.noInstallationFound"), "warning")
@@ -26,8 +27,10 @@ function EditInslallation(): JSX.Element {
 
     if (name.length < 5 || name.length > 50) return addNotification(t("notifications.titles.warning"), t("features.installations.installationNameMinMaxCharacters"), "warning")
 
+    if (startParams.includes("--dataPath")) return addNotification(t("notifications.titles.error"), t("features.installations.cantUseDataPath"), "error")
+
     try {
-      configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id, updates: { name, version: version.version } } })
+      configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id, updates: { name, version: version.version, startParams } } })
       addNotification(t("notifications.titles.success"), t("features.installations.installationSuccessfullyEdited"), "success")
       navigate("/installations")
     } catch (error) {
@@ -77,6 +80,7 @@ function EditInslallation(): JSX.Element {
                 <div className="w-full sticky top-0 bg-zinc-850 flex">
                   <div className="w-full text-center p-1">{t("generic.version")}</div>
                 </div>
+
                 <div className="w-full">
                   {config.gameVersions.length < 1 && (
                     <div className="w-full p-1 flex items-center justify-center">
@@ -93,6 +97,36 @@ function EditInslallation(): JSX.Element {
                     </div>
                   ))}
                 </div>
+              </div>
+            </div>
+
+            <div className="w-full flex gap-4">
+              <div className="w-48 flex flex-col gap-4 text-right">
+                <p className="text-lg">{t("features.installations.labelStartParams")}</p>
+              </div>
+
+              <div className="w-full flex flex-col gap-1">
+                <Input
+                  type="text"
+                  className={`w-full h-8 px-2 py-1 rounded-md shadow shadow-zinc-900 hover:shadow-none ${name.length < 5 || name.length > 50 ? "border border-red-800 bg-red-800/10" : "bg-zinc-850"}`}
+                  value={startParams}
+                  onChange={(e) => {
+                    setStartParams(e.target.value)
+                  }}
+                  placeholder={t("features.installations.startParams")}
+                />
+                <p className="text-sm text-zinc-500 pl-1 flex gap-1 items-center flex-wrap">
+                  <Trans
+                    i18nKey="features.installations.startParamsDesc"
+                    components={{
+                      link: (
+                        <button onClick={() => window.api.utils.openOnBrowser("https://wiki.vintagestory.at/Client_startup_parameters")} className="text-vs">
+                          {t("components.installations.startParamsLink")}
+                        </button>
+                      )
+                    }}
+                  />
+                </p>
               </div>
             </div>
           </>

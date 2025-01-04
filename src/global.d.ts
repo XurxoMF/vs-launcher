@@ -23,6 +23,7 @@ declare global {
     name: string
     path: string
     version: string
+    startParams: string
     mods: ModType[]
   }
 

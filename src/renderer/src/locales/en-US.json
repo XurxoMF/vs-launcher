@@ -82,7 +82,11 @@
       "deleteData": "Delete data",
       "installationSuccessfullyDeleted": "Installation deleted succesfully!",
       "errorDeletingInstallation": "An error has ocurred while deleting installation!",
-      "installationFolder": "Installation folder"
+      "installationFolder": "Installation folder",
+      "labelStartParams": "Start params",
+      "startParams": "Start params",
+      "startParamsDesc": "List of all the available start params: <link />",
+      "cantUseDataPath": "Start param --dataPath can't be used as it's used by VS Launcher. If you want another folder change it on the installation."
     },
     "mods": {
       "modsCount": "{{count}} mods",
@@ -129,6 +133,9 @@
     "loader": {
       "title": "Wellcome to VS Launcher!",
       "desc": "We are preparing everything for you!"
+    },
+    "installations": {
+      "startParamsLink": "Vintage Story Wiki"
     }
   },
   "notifications": {

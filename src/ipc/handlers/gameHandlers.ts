@@ -21,7 +21,7 @@ ipcMain.handle(IPC_CHANNELS.GAME_MANAGER.EXECUTE_GAME, async (_event, version: G
         if (files.includes("Vintagestory")) {
           logMessage("info", `[execute-game] Vintagestory detected, running with Vintagestory <args>`)
 
-          const externalApp = spawn(join(version.path, "Vintagestory"), [`--dataPath=${installation.path}`])
+          const externalApp = spawn(join(version.path, "Vintagestory"), [`--dataPath=${installation.path}`, installation.startParams])
 
           externalApp.stdout.on("data", (data) => {
             logMessage("info", `[execute-game] Game sent data: ${data}`)
@@ -43,7 +43,7 @@ ipcMain.handle(IPC_CHANNELS.GAME_MANAGER.EXECUTE_GAME, async (_event, version: G
         } else if (files.includes("Vintagestory.exe")) {
           logMessage("info", `[execute-game] Vintagestory.exe detected, running with mono Vintagestory.exe <args>`)
 
-          const externalApp = spawn("mono", [join(version.path, "Vintagestory.exe"), `--dataPath=${installation.path}`])
+          const externalApp = spawn("mono", [join(version.path, "Vintagestory.exe"), `--dataPath=${installation.path}`, installation.startParams])
 
           externalApp.stdout.on("data", (data) => {
             logMessage("info", `[execute-game] Game sent data: ${data}`)
@@ -77,7 +77,7 @@ ipcMain.handle(IPC_CHANNELS.GAME_MANAGER.EXECUTE_GAME, async (_event, version: G
       try {
         logMessage("info", `[execute-game] Executing game version ${version.version} from ${version.path}\\Vintagestory.exe with data path ${installation.path}`)
 
-        const externalApp = spawn(join(version.path, "Vintagestory.exe"), [`--dataPath=${installation.path}`])
+        const externalApp = spawn(join(version.path, "Vintagestory.exe"), [`--dataPath=${installation.path}`, installation.startParams])
 
         externalApp.stdout.on("data", (data) => {
           logMessage("info", `[execute-game] Game sent data: ${data}`)

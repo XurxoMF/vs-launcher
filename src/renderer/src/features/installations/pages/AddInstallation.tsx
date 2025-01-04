@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { Button, Input } from "@headlessui/react"
-import { useTranslation } from "react-i18next"
+import { useTranslation, Trans } from "react-i18next"
 import { v4 as uuidv4 } from "uuid"
 
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
@@ -17,6 +17,7 @@ function AddInslallation(): JSX.Element {
   const [folder, setFolder] = useState<string>("")
   const [folderByUser, setFolderByUser] = useState<boolean>(false)
   const [version, setVersion] = useState<GameVersionType>(config.gameVersions[0])
+  const [startParams, setStartParams] = useState<string>("")
 
   useEffect(() => {
     ;(async (): Promise<void> => {
@@ -31,12 +32,15 @@ function AddInslallation(): JSX.Element {
 
     if (config.installations.some((igv) => igv.path === folder)) return addNotification(t("notifications.titles.error"), t("features.installations.folderAlreadyInUse"), "error")
 
+    if (startParams.includes("--dataPath")) return addNotification(t("notifications.titles.error"), t("features.installations.cantUseDataPath"), "error")
+
     try {
       const newInstallation: InstallationType = {
         id: uuidv4(),
         name,
-        version: version.version,
         path: folder,
+        version: version.version,
+        startParams,
         mods: []
       }
 
@@ -128,6 +132,36 @@ function AddInslallation(): JSX.Element {
               onChange={(e) => setFolder(e.target.value)}
               className={`w-full h-8 px-2 py-1 rounded-md shadow shadow-zinc-900 hover:shadow-none ${folder.length < 1 ? "border border-red-800 bg-red-800/10" : "bg-zinc-850"}`}
             />
+          </div>
+        </div>
+
+        <div className="w-full flex gap-4">
+          <div className="w-48 flex flex-col gap-4 text-right">
+            <p className="text-lg">{t("features.installations.labelStartParams")}</p>
+          </div>
+
+          <div className="w-full flex flex-col gap-1">
+            <Input
+              type="text"
+              className={`w-full h-8 px-2 py-1 rounded-md shadow shadow-zinc-900 hover:shadow-none ${name.length < 5 || name.length > 50 ? "border border-red-800 bg-red-800/10" : "bg-zinc-850"}`}
+              value={startParams}
+              onChange={(e) => {
+                setStartParams(e.target.value)
+              }}
+              placeholder={t("features.installations.startParams")}
+            />
+            <p className="text-sm text-zinc-500 pl-1 flex gap-1 items-center flex-wrap">
+              <Trans
+                i18nKey="features.installations.startParamsDesc"
+                components={{
+                  link: (
+                    <button onClick={() => window.api.utils.openOnBrowser("https://wiki.vintagestory.at/Client_startup_parameters")} className="text-vs">
+                      {t("components.installations.startParamsLink")}
+                    </button>
+                  )
+                }}
+              />
+            </p>
           </div>
         </div>
       </div>
