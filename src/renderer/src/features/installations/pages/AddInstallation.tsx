@@ -143,7 +143,7 @@ function AddInslallation(): JSX.Element {
           <div className="w-full flex flex-col gap-1">
             <Input
               type="text"
-              className={`w-full h-8 px-2 py-1 rounded-md shadow shadow-zinc-900 hover:shadow-none ${name.length < 5 || name.length > 50 ? "border border-red-800 bg-red-800/10" : "bg-zinc-850"}`}
+              className={`w-full h-8 px-2 py-1 rounded-md shadow shadow-zinc-900 hover:shadow-none bg-zinc-850`}
               value={startParams}
               onChange={(e) => {
                 setStartParams(e.target.value)
