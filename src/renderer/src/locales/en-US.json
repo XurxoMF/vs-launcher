@@ -81,7 +81,8 @@
       "listTitle": "Installations list",
       "deleteData": "Delete data",
       "installationSuccessfullyDeleted": "Installation deleted succesfully!",
-      "errorDeletingInstallation": "An error has ocurred while deleting installation!"
+      "errorDeletingInstallation": "An error has ocurred while deleting installation!",
+      "installationFolder": "Installation folder"
     },
     "mods": {
       "modsCount": "{{count}} mods",

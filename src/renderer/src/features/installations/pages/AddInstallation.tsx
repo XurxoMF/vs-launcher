@@ -121,7 +121,7 @@ function AddInslallation(): JSX.Element {
             </Button>
             <Input
               type="text"
-              placeholder={t("features.versions.versionFolder")}
+              placeholder={t("features.installations.installationFolder")}
               value={folder}
               onChange={(e) => setFolder(e.target.value)}
               className={`w-full h-8 px-2 py-1 rounded-md shadow shadow-zinc-900 hover:shadow-none ${folder.length < 1 ? "border border-red-800 bg-red-800/10" : "bg-zinc-850"}`}

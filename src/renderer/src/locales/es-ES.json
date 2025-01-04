@@ -24,6 +24,10 @@
       "error": "¡Ha ocurrido un error durante el proceso!",
       "extracting": "Extrayendo",
       "noTasksAvailable": "¡No hay tareas en cola!"
+    },
+    "loader": {
+      "desc": "¡Estamos preparando todo para ti!",
+      "title": "¡Bienvenid@ a VS Launcher!"
     }
   },
   "features": {
@@ -57,7 +61,8 @@
       "noInstallationSelected": "¡No se seleccionó ninguna instalación!",
       "noInstallationsFound": "¡No se encontraron instalaciones!",
       "noInstallationsFoundDesc": "Añade una nueva en la página <link />",
-      "noInstallationsFoundDescOnPage": "Añade una nueva con el botón <button/>"
+      "noInstallationsFoundDescOnPage": "Añade una nueva con el botón <button/>",
+      "installationFolder": "Carpeta de instalación"
     },
     "mods": {
       "modsCount": "{{count}} mods",
@@ -97,7 +102,10 @@
       "versionUninstalledSuccesfully": "¡La versión {{version}} se desinstaló correctamente!"
     },
     "config": {
-      "title": "Ajustes"
+      "title": "Ajustes",
+      "defaultInstallationsFolder": "Instalaciones:",
+      "defaultVersionsFolder": "Versiones:",
+      "folders": "Carpetas predeterminadas"
     }
   },
   "generic": {

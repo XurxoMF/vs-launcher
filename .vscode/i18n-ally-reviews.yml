@@ -48,6 +48,18 @@ reviews:
             suggestion: ''
             type: comment
             time: '2025-01-02T02:20:21.824Z'
+          - user:
+              name: XurxoMF
+              email: xurxolaxe@gmail.com
+            id: EX3JBya0MHuMeVSNllPQt
+            type: comment
+            comment: >-
+              This one and the features.installations.installationFolder are
+              just placeholders. On the Add version and Add installation pages
+              you have a field to choose the folder to use for that
+              installation/version. If you empty the path input it'll show this
+              as preview.
+            time: '2025-01-04T09:22:51.065Z'
   generic.issues:
     locales:
       de-DE:
@@ -60,3 +72,13 @@ reviews:
             suggestion: Probleme
             type: comment
             time: '2025-01-02T02:36:50.317Z'
+          - user:
+              name: XurxoMF
+              email: xurxolaxe@gmail.com
+            id: nEygo4Z05O7Hl_JcHE1Lg
+            comment: >-
+              It's the new top-minimenu-issues. Now it's just one word. This key
+              may be user in other palces too if needed.
+            suggestion: ''
+            type: comment
+            time: '2025-01-04T09:18:25.129Z'
