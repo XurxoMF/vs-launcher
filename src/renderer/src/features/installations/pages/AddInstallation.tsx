@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { Button, Input } from "@headlessui/react"
 import { useTranslation } from "react-i18next"
 import { v4 as uuidv4 } from "uuid"
@@ -11,6 +11,7 @@ function AddInslallation(): JSX.Element {
   const { t } = useTranslation()
   const { addNotification } = useNotificationsContext()
   const { config, configDispatch } = useConfigContext()
+  const navigate = useNavigate()
 
   const [name, setName] = useState<string>(t("features.installations.defaultName"))
   const [folder, setFolder] = useState<string>("")
@@ -41,6 +42,7 @@ function AddInslallation(): JSX.Element {
 
       configDispatch({ type: CONFIG_ACTIONS.ADD_INSTALLATION, payload: newInstallation })
       addNotification(t("notifications.titles.success"), t("features.installations.installationSuccessfullyAdded"), "success")
+      navigate("/installations")
     } catch (error) {
       addNotification(t("notifications.titles.error"), t("features.installations.errorAddingInstallation"), "error")
     }

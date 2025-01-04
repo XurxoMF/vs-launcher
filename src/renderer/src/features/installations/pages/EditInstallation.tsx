@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Link, useParams } from "react-router-dom"
+import { Link, useParams, useNavigate } from "react-router-dom"
 import { Button, Input } from "@headlessui/react"
 import { useTranslation } from "react-i18next"
 
@@ -10,6 +10,7 @@ function EditInslallation(): JSX.Element {
   const { t } = useTranslation()
   const { addNotification } = useNotificationsContext()
   const { config, configDispatch } = useConfigContext()
+  const navigate = useNavigate()
 
   const { id } = useParams()
 
@@ -28,6 +29,7 @@ function EditInslallation(): JSX.Element {
     try {
       configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id, updates: { name, version: version.version } } })
       addNotification(t("notifications.titles.success"), t("features.installations.installationSuccessfullyEdited"), "success")
+      navigate("/installations")
     } catch (error) {
       addNotification(t("notifications.titles.error"), t("features.installations.errorEditingInstallation"), "error")
     }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Button, Input } from "@headlessui/react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
 
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
@@ -13,6 +13,7 @@ function AddVersion(): JSX.Element {
   const { addNotification } = useNotificationsContext()
   const { config, configDispatch } = useConfigContext()
   const { startDownload, startExtract } = useTaskContext()
+  const navigate = useNavigate()
 
   const [gameVersions, setGameVersions] = useState<DownloadableGameVersionType[]>([])
   const [version, setVersion] = useState<DownloadableGameVersionType | undefined>()
@@ -57,6 +58,7 @@ function AddVersion(): JSX.Element {
     }
 
     configDispatch({ type: CONFIG_ACTIONS.ADD_GAME_VERSION, payload: newGameVersion })
+    navigate("/versions")
 
     startDownload(
       t("features.versions.gameVersionTaskName", { version: newGameVersion.version }),

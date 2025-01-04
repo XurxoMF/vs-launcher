@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Button } from "@headlessui/react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 import { CONFIG_ACTIONS, useConfigContext } from "@renderer/contexts/ConfigContext"
@@ -10,6 +10,7 @@ function LookForAVersion(): JSX.Element {
   const { t } = useTranslation()
   const { addNotification } = useNotificationsContext()
   const { config, configDispatch } = useConfigContext()
+  const navigate = useNavigate()
 
   const [folder, setFolder] = useState<string>("")
   const [versionFound, setVersionFound] = useState<string>("")
@@ -29,6 +30,7 @@ function LookForAVersion(): JSX.Element {
 
       configDispatch({ type: CONFIG_ACTIONS.ADD_GAME_VERSION, payload: newGameVersion })
       addNotification(t("notifications.titles.success"), t("features.versions.versionSuccessfullyAdded", { version: versionFound }), "success")
+      navigate("/versions")
     } catch (err) {
       console.log(err)
     } finally {
