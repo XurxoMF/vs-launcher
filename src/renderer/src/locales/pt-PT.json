@@ -81,7 +81,8 @@
       "listTitle": "Lista de instalações",
       "deleteData": "Apagar dados",
       "installationSuccessfullyDeleted": "Instalação apagada com sucesso!",
-      "errorDeletingInstallation": "Ocorreu um erro ao apagar a instalação!"
+      "errorDeletingInstallation": "Ocorreu um erro ao apagar a instalação!",
+      "installationFolder": "Pasta de instalação"
     },
     "mods": {
       "modsCount": "{{count}} mods",
@@ -91,6 +92,12 @@
       "modsCount_few": "{{count}} mods",
       "modsCount_many": "{{count}} mods",
       "modsCount_other": "{{count}} mods"
+    },
+    "config": {
+      "defaultInstallationsFolder": "Instalações:",
+      "defaultVersionsFolder": "Versões:",
+      "title": "Definições",
+      "folders": "Pastas predefinidas"
     }
   },
   "components": {
@@ -118,6 +125,10 @@
       "extracting": "A extrair",
       "error": "Ocorreu um erro durante o processo!",
       "noTasksAvailable": "Não há tarefas na fila!"
+    },
+    "loader": {
+      "desc": "Estamos a preparar tudo para ti!",
+      "title": "Bem-vindo(a) ao VS Launcher!"
     }
   },
   "notifications": {
@@ -137,7 +148,7 @@
       "extracting": "A iniciar a extração: {{extractName}}!",
       "extracted": "Extração concluída: {{extractName}}!",
       "extractError": "Erro na extração: {{extractName}}!",
-      "gameExitedWithErrors": "Vintage Story saiu com erros!",
+      "gameExitedWithErrors": "Vintage Story parou com erros!",
       "errorExecutingGame": "Ocorreu um erro ao executar o jogo!",
       "missingFields": "Por favor, preencha todos os campos!"
     },
