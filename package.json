@@ -1,10 +1,10 @@
 {
   "name": "vs-launcher",
-  "version": "0.0.5",
+  "version": "1.0.0",
   "description": "Unofficial Vintage Story Launcher for... Vintage Story :)",
   "main": "./out/main/index.js",
   "author": "XurxoMF",
-  "homepage": "https://xurxomf.xyz",
+  "homepage": "https://github.com/XurxoMF/vs-launcher/wiki",
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",

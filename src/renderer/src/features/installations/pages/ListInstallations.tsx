@@ -109,7 +109,7 @@ function ListInslallations(): JSX.Element {
                     className="px-2 py-1 bg-red-800 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
                     onClick={async () => {
                       try {
-                        if (!(await window.api.pathsManager.deletePath(installationToDelete.path))) throw new Error("Error deleting installation data!")
+                        if (deleteData && !(await window.api.pathsManager.deletePath(installationToDelete.path))) throw new Error("Error deleting installation data!")
 
                         configDispatch({ type: CONFIG_ACTIONS.DELETE_INSTALLATION, payload: { id: installationToDelete.id } })
                         addNotification(t("notifications.titles.success"), t("features.installations.installationSuccessfullyDeleted"), "success")
