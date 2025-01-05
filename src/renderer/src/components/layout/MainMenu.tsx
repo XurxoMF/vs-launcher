@@ -110,12 +110,18 @@ function MainMenu(): JSX.Element {
             const id = uuidv4()
             try {
               window.api.utils.setPreventAppClose("add", id)
+
               const installationToRun = config.installations.find((installation) => installation.id === config.lastUsedInstallation)
+
               if (!installationToRun) return addNotification(t("notifications.titles.warning"), t("features.installations.noInstallationSelected"), "warning")
+
               const gameVersionToRun = config.gameVersions.find((gv) => gv.version === installationToRun.version)
-              if (!gameVersionToRun || !gameVersionToRun.installed)
+
+              if (!gameVersionToRun || gameVersionToRun._installing)
                 return addNotification(t("notifications.titles.warning"), t("features.versions.versionNotInstalled", { version: installationToRun.version }), "warning")
+
               const closeStatus = await window.api.gameManager.executeGame(gameVersionToRun, installationToRun)
+
               if (!closeStatus) return addNotification(t("notifications.titles.error"), t("notifications.body.gameExitedWithErrors"), "error")
             } catch (err) {
               addNotification(t("notifications.titles.error"), t("notifications.body.errorExecutingGame"), "error")

@@ -23,8 +23,7 @@ const defaultInstallation: InstallationType = {
 
 const defaultGameVersion: GameVersionType = {
   version: "",
-  path: "",
-  installed: true
+  path: ""
 }
 
 let configPath: string

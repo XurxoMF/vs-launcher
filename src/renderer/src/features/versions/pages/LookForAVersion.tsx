@@ -24,8 +24,7 @@ function LookForAVersion(): JSX.Element {
 
       const newGameVersion: GameVersionType = {
         version: versionFound,
-        path: folder,
-        installed: true
+        path: folder
       }
 
       configDispatch({ type: CONFIG_ACTIONS.ADD_GAME_VERSION, payload: newGameVersion })

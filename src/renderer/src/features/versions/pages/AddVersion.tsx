@@ -54,7 +54,7 @@ function AddVersion(): JSX.Element {
     const newGameVersion: GameVersionType = {
       version: version!.version,
       path: folder,
-      installed: false
+      _installing: true
     }
 
     configDispatch({ type: CONFIG_ACTIONS.ADD_GAME_VERSION, payload: newGameVersion })
@@ -75,7 +75,7 @@ function AddVersion(): JSX.Element {
           folder,
           (status) => {
             if (!status) return configDispatch({ type: CONFIG_ACTIONS.DELETE_GAME_VERSION, payload: { version: newGameVersion.version } })
-            configDispatch({ type: CONFIG_ACTIONS.EDIT_GAME_VERSION, payload: { version: newGameVersion.version, updates: { installed: true } } })
+            configDispatch({ type: CONFIG_ACTIONS.EDIT_GAME_VERSION, payload: { version: newGameVersion.version, updates: { _installing: undefined } } })
           }
         )
       }
