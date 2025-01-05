@@ -4,19 +4,18 @@ declare global {
     lastUsedInstallation: string | null
     defaultInstallationsFolder: string
     defaultVersionsFolder: string
-  }
+  } & Record<string, unknown>
 
   type GameVersionType = {
     version: string
     path: string
-    installed: boolean
-  }
+  } & Record<string, unknown>
 
   type ModType = {
     modid: number
     releaseid: number
     filename: string
-  }
+  } & Record<string, unknown>
 
   type InstallationType = {
     id: string
@@ -25,12 +24,12 @@ declare global {
     version: string
     startParams: string
     mods: ModType[]
-  }
+  } & Record<string, unknown>
 
   type ConfigType = BasicConfigType & {
     installations: InstallationType[]
     gameVersions: GameVersionType[]
-  }
+  } & Record<string, unknown>
 
   type DownloadableGameVersionType = {
     version: string

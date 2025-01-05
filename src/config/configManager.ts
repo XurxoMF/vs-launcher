@@ -31,7 +31,12 @@ let configPath: string
 
 export async function saveConfig(config: ConfigType): Promise<boolean> {
   try {
-    await fse.writeJSON(configPath, config)
+    const cleanedConfig = JSON.parse(
+      JSON.stringify(config, (key, value) => {
+        return key.startsWith("_") ? undefined : value
+      })
+    )
+    await fse.writeJSON(configPath, cleanedConfig)
     logMessage("info", `[config] Config saved at ${configPath}`)
     return true
   } catch (err) {
@@ -68,7 +73,7 @@ export async function ensureConfig(): Promise<boolean> {
   }
 }
 
-const ensureConfigProperties = (config: ConfigType): ConfigType => {
+function ensureConfigProperties(config: ConfigType): ConfigType {
   const installations = config.installations.map((installation) => ({
     id: installation.id ?? defaultInstallation.id,
     name: installation.name ?? defaultInstallation.name,
@@ -80,8 +85,7 @@ const ensureConfigProperties = (config: ConfigType): ConfigType => {
 
   const gameVersions = config.gameVersions.map((gameVersion) => ({
     version: gameVersion.version ?? defaultGameVersion.version,
-    path: gameVersion.path ?? defaultGameVersion.path,
-    installed: gameVersion.installed ?? defaultGameVersion.installed
+    path: gameVersion.path ?? defaultGameVersion.path
   }))
 
   const fixedConfig = {

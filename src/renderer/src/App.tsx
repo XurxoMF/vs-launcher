@@ -117,7 +117,6 @@ function Loader(): JSX.Element {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      console.log("Min time elapsed")
       setMinTimeElapsed(true)
     }, 3000)
 
