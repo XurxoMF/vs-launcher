@@ -9,7 +9,6 @@ export interface TaskType {
   name: string
   desc: string
   type: "download" | "extract"
-  data: { url?: string; outputPath?: string; filePath?: string }
   progress: number
   status: "pending" | "in-progress" | "completed" | "failed"
 }
@@ -87,18 +86,13 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }): JSX.E
     }
   }, [])
 
-  useEffect(() => {
-    ;((): void => {
-      window.api.utils.setPreventAppClose(tasks.some((task) => task.status === "in-progress" || task.status === "pending"))
-    })()
-  }, [tasks])
-
   async function startDownload(name: string, desc: string, url: string, outputPath: string, onFinish: (status: boolean, path: string, error: Error | null) => void): Promise<void> {
     const id = uuidv4()
 
     try {
+      window.api.utils.setPreventAppClose("add", id)
       window.api.utils.logMessage("info", `[component] [TaskManager] [${id}] Adding download of ${url} to ${outputPath}.`)
-      tasksDispatch({ type: ACTIONS.ADD_TASK, payload: { id, name, desc, type: "download", data: { url, outputPath }, progress: 0, status: "pending" } })
+      tasksDispatch({ type: ACTIONS.ADD_TASK, payload: { id, name, desc, type: "download", progress: 0, status: "pending" } })
 
       window.api.utils.logMessage("info", `[component] [TaskManager] [${id}] Downloading ${url}...`)
       addNotification(t("notifications.titles.info"), t("notifications.body.downloading", { downloadName: name }), "info")
@@ -113,6 +107,8 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }): JSX.E
       tasksDispatch({ type: ACTIONS.UPDATE_TASK, payload: { id, updates: { status: "failed" } } })
       addNotification(t("notifications.titles.error"), t("notifications.body.downloadError", { downloadName: name }), "error")
       onFinish(false, "", new Error(`Error downloading ${url}: ${err}`))
+    } finally {
+      window.api.utils.setPreventAppClose("remove", id)
     }
   }
 
@@ -120,8 +116,9 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }): JSX.E
     const id = uuidv4()
 
     try {
+      window.api.utils.setPreventAppClose("add", id)
       window.api.utils.logMessage("info", `[component] [TaskManager] [${id}] Adding extraction of ${filePath} to ${outputPath}.`)
-      tasksDispatch({ type: ACTIONS.ADD_TASK, payload: { id, name, desc, type: "extract", data: { filePath, outputPath }, progress: 0, status: "pending" } })
+      tasksDispatch({ type: ACTIONS.ADD_TASK, payload: { id, name, desc, type: "extract", progress: 0, status: "pending" } })
 
       window.api.utils.logMessage("info", `[component] [TaskManager] [${id}] Extracting ${filePath}...`)
       addNotification(t("notifications.titles.info"), t("notifications.body.extracting", { extractName: name }), "info")
@@ -142,6 +139,8 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }): JSX.E
       tasksDispatch({ type: ACTIONS.UPDATE_TASK, payload: { id, updates: { status: "failed" } } })
       addNotification(t("notifications.titles.error"), t("notifications.body.extractError", { extractName: name }), "error")
       onFinish(false, new Error(`Error extracting ${filePath}: ${err}`))
+    } finally {
+      window.api.utils.setPreventAppClose("remove", id)
     }
   }
 

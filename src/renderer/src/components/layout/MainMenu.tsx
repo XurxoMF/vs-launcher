@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next"
 import { Link, useLocation } from "react-router-dom"
 import { Button } from "@headlessui/react"
 import { PiGearFill } from "react-icons/pi"
+import { v4 as uuidv4 } from "uuid"
 
 import icon from "@renderer/assets/icon.png"
 import iconVersions from "@renderer/assets/icon-versions.png"
@@ -12,7 +13,6 @@ import iconChangelog from "@renderer/assets/icon-changelog.png"
 
 import { useConfigContext } from "@renderer/contexts/ConfigContext"
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
-import { usePlayingContext } from "@renderer/contexts/PlayingContext"
 
 import LanguagesMenu from "@renderer/components/ui/LanguagesMenu"
 import InstallationsDropdownMenu from "@renderer/features/installations/components/InstallationsDropdownMenu"
@@ -36,7 +36,6 @@ function MainMenu(): JSX.Element {
   const { t } = useTranslation()
   const { config } = useConfigContext()
   const { addNotification } = useNotificationsContext()
-  const { setPlaying } = usePlayingContext()
 
   const LINKS: MainMenuLinkProps[] = [
     {
@@ -108,19 +107,20 @@ function MainMenu(): JSX.Element {
         <Button
           title={t("generic.play")}
           onClick={async () => {
+            const id = uuidv4()
             try {
+              window.api.utils.setPreventAppClose("add", id)
               const installationToRun = config.installations.find((installation) => installation.id === config.lastUsedInstallation)
               if (!installationToRun) return addNotification(t("notifications.titles.warning"), t("features.installations.noInstallationSelected"), "warning")
               const gameVersionToRun = config.gameVersions.find((gv) => gv.version === installationToRun.version)
               if (!gameVersionToRun || !gameVersionToRun.installed)
                 return addNotification(t("notifications.titles.warning"), t("features.versions.versionNotInstalled", { version: installationToRun.version }), "warning")
-              setPlaying(true)
               const closeStatus = await window.api.gameManager.executeGame(gameVersionToRun, installationToRun)
               if (!closeStatus) return addNotification(t("notifications.titles.error"), t("notifications.body.gameExitedWithErrors"), "error")
             } catch (err) {
               addNotification(t("notifications.titles.error"), t("notifications.body.errorExecutingGame"), "error")
             } finally {
-              setPlaying(false)
+              window.api.utils.setPreventAppClose("remove", id)
             }
           }}
           className="w-full h-14 bg-vs rounded"

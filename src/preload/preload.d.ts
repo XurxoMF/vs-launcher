@@ -10,7 +10,7 @@ declare global {
       getAppVersion: () => Promise<string>
       getOs: () => Promise<NodeJS.Platform>
       logMessage: (mode: ErrorTypes, message: string) => void
-      setPreventAppClose: (value: boolean) => void
+      setPreventAppClose: (action: "add" | "remove", id: string) => void
       openOnBrowser: (url: string) => void
       selectFolderDialog: () => Promise<string>
     }

@@ -7,12 +7,10 @@ import "./i18n"
 
 import { ConfigProvider } from "@renderer/contexts/ConfigContext"
 import { NotificationsProvider } from "@renderer/contexts/NotificationsContext"
-import { PlayingProvider } from "@renderer/contexts/PlayingContext"
 import { TaskProvider } from "@renderer/contexts/TaskManagerContext"
 
 import i18n from "./i18n"
 import NotificationsOverlay from "@renderer/components/layout/NotificationsOverlay"
-import PlayingOverlay from "@renderer/components/layout/PlayingOverlay"
 
 import MainMenu from "@renderer/components/layout/MainMenu"
 
@@ -42,42 +40,39 @@ function App(): JSX.Element {
   return (
     <ConfigProvider>
       <NotificationsProvider>
-        <PlayingProvider>
-          <TaskProvider>
-            <Router>
-              <div className="relative w-screen h-screen flex">
-                <Loader />
+        <TaskProvider>
+          <Router>
+            <div className="relative w-screen h-screen flex">
+              <Loader />
 
-                <MainMenu />
+              <MainMenu />
 
-                <main className="relative w-full h-full flex-1">
-                  <AppInfo />
+              <main className="relative w-full h-full flex-1">
+                <AppInfo />
 
-                  <Routes>
-                    <Route path="/" element={<HomePage />} />
-                    <Route path="/installations" element={<InstallationsLayout />}>
-                      <Route index element={<ListInslallations />} />
-                      <Route path="add" element={<AddInslallation />} />
-                      <Route path="edit/:id" element={<EditInslallation />} />
-                    </Route>
-                    <Route path="/versions" element={<VersionsLayout />}>
-                      <Route index element={<ListVersions />} />
-                      <Route path="add" element={<AddVersion />} />
-                      <Route path="look-for-a-version" element={<LookForAVersion />} />
-                    </Route>
-                    <Route path="/mods" element={<ModsLayout />}>
-                      <Route index element={<ListMods />} />
-                    </Route>
-                    <Route path="/config" element={<ConfigPage />} />
-                  </Routes>
-                </main>
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/installations" element={<InstallationsLayout />}>
+                    <Route index element={<ListInslallations />} />
+                    <Route path="add" element={<AddInslallation />} />
+                    <Route path="edit/:id" element={<EditInslallation />} />
+                  </Route>
+                  <Route path="/versions" element={<VersionsLayout />}>
+                    <Route index element={<ListVersions />} />
+                    <Route path="add" element={<AddVersion />} />
+                    <Route path="look-for-a-version" element={<LookForAVersion />} />
+                  </Route>
+                  <Route path="/mods" element={<ModsLayout />}>
+                    <Route index element={<ListMods />} />
+                  </Route>
+                  <Route path="/config" element={<ConfigPage />} />
+                </Routes>
+              </main>
 
-                <NotificationsOverlay />
-                <PlayingOverlay />
-              </div>
-            </Router>
-          </TaskProvider>
-        </PlayingProvider>
+              <NotificationsOverlay />
+            </div>
+          </Router>
+        </TaskProvider>
       </NotificationsProvider>
     </ConfigProvider>
   )

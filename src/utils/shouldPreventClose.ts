@@ -1,7 +1,15 @@
-let shouldPreventClose = false
+import { logMessage } from "./logManager"
 
-export const getShouldPreventClose = (): boolean => shouldPreventClose
+const tasksBlockingClose = new Set()
 
-export const setShouldPreventClose = (value): void => {
-  shouldPreventClose = value
+export const getShouldPreventClose = (): boolean => tasksBlockingClose.size > 0
+
+export const setShouldPreventClose = (action: "add" | "remove", id: string): void => {
+  logMessage("info", `[utils] [shouldPreventClose] [${id}] [${action}]`)
+
+  if (action === "add") {
+    tasksBlockingClose.add(id)
+  } else if (action === "remove") {
+    tasksBlockingClose.delete(id)
+  }
 }
