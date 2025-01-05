@@ -109,7 +109,7 @@ function MainMenu(): JSX.Element {
           onClick={async () => {
             const id = uuidv4()
             try {
-              window.api.utils.setPreventAppClose("add", id)
+              window.api.utils.setPreventAppClose("add", id, "Started playing Vintage Story.")
 
               const installationToRun = config.installations.find((installation) => installation.id === config.lastUsedInstallation)
 
@@ -126,7 +126,7 @@ function MainMenu(): JSX.Element {
             } catch (err) {
               addNotification(t("notifications.titles.error"), t("notifications.body.errorExecutingGame"), "error")
             } finally {
-              window.api.utils.setPreventAppClose("remove", id)
+              window.api.utils.setPreventAppClose("remove", id, "Finished playing vintage Story.")
             }
           }}
           className="w-full h-14 bg-vs rounded"

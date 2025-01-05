@@ -17,8 +17,8 @@ ipcMain.on(IPC_CHANNELS.UTILS.LOG_MESSAGE, (_event, mode: ErrorTypes, message: s
   logMessage(mode, message)
 })
 
-ipcMain.on(IPC_CHANNELS.UTILS.SET_PREVENT_APP_CLOSE, (_event, action: "add" | "remove", id: string) => {
-  setShouldPreventClose(action, id)
+ipcMain.on(IPC_CHANNELS.UTILS.SET_PREVENT_APP_CLOSE, (_event, action: "add" | "remove", id: string, desc: string) => {
+  setShouldPreventClose(action, id, desc)
 })
 
 ipcMain.on(IPC_CHANNELS.UTILS.OPEN_ON_BROWSER, (_event, url: string): void => {
