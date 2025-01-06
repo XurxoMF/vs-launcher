@@ -19,7 +19,7 @@ function ListVersions(): JSX.Element {
     <>
       <h1 className="text-3xl text-center font-bold">{t("features.versions.listTitle")}</h1>
 
-      <div className="mx-auto w-full max-w-[800px]">
+      <div className="mx-auto max-w-[800px] w-full">
         <ul className="w-full flex flex-col">
           {config.gameVersions.length < 1 && (
             <div className="w-full flex flex-col items-center justify-center gap-2 rounded bg-zinc-850 p-4">

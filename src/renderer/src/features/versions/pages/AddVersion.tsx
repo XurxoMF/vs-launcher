@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
-import { Button, Input } from "@headlessui/react"
-import { Link, useNavigate } from "react-router-dom"
+import { Input } from "@headlessui/react"
+import { useNavigate } from "react-router-dom"
 import axios from "axios"
 
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 import { CONFIG_ACTIONS, useConfigContext } from "@renderer/contexts/ConfigContext"
 import { useTaskContext } from "@renderer/contexts/TaskManagerContext"
+
+import { FormBody, FormHead, FormLabel, FromGroup, FromWrapper, ButtonsWrapper, FormFieldGroup, FormButton, FormInputText, FormLinkButton } from "@renderer/components/ui/FormComponents"
+import { TableBody, TableBodyRow, TableCell, TableHead, TableHeadRow, TableWrapper } from "@renderer/components/ui/Table"
 
 function AddVersion(): JSX.Element {
   const { t } = useTranslation()
@@ -86,11 +89,12 @@ function AddVersion(): JSX.Element {
     <>
       <h1 className="text-3xl text-center font-bold">{t("features.versions.installTitle")}</h1>
 
-      <div className="mx-auto w-[800px] flex flex-col gap-4 items-start justify-center">
-        <div className="w-full flex gap-4">
-          <div className="w-48 flex flex-col gap-4 text-right">
-            <p className="text-lg">{t("features.versions.labelGameVersion")}</p>
-            <div className="flex flex-col gap-1 text-sm">
+      <FromWrapper className="max-w-[800px] w-full">
+        <FromGroup>
+          <FormHead>
+            <FormLabel content={t("features.versions.labelGameVersion")} />
+
+            <div className="flex flex-col gap-1 text-sm text-right">
               <div className="flex items-center select-none">
                 <label htmlFor="stable-version" className="w-full cursor-pointer pr-2">
                   {t("features.versions.labelStables")}
@@ -100,101 +104,83 @@ function AddVersion(): JSX.Element {
                   id="stable-version"
                   checked={versionFilters.stable}
                   onChange={(e) => setVersionFilters({ ...versionFilters, stable: e.target.checked })}
-                  className="bg-vs cursor-pointer"
+                  className="cursor-pointer"
                 />
               </div>
               <div className="flex items-center select-none">
                 <label htmlFor="rc-version" className="w-full cursor-pointer pr-2">
                   {t("features.versions.labelRCs")}
                 </label>
-                <Input type="checkbox" id="rc-version" checked={versionFilters.rc} onChange={(e) => setVersionFilters({ ...versionFilters, rc: e.target.checked })} className="bg-vs cursor-pointer" />
+                <Input type="checkbox" id="rc-version" checked={versionFilters.rc} onChange={(e) => setVersionFilters({ ...versionFilters, rc: e.target.checked })} className="cursor-pointer" />
               </div>
               <div className="flex items-center select-none">
                 <label htmlFor="pre-version" className="w-full cursor-pointer pr-2">
                   {t("features.versions.labelPreReleases")}
                 </label>
-                <Input
-                  type="checkbox"
-                  id="pre-version"
-                  checked={versionFilters.pre}
-                  onChange={(e) => setVersionFilters({ ...versionFilters, pre: e.target.checked })}
-                  className="bg-vs cursor-pointer"
-                />
+                <Input type="checkbox" id="pre-version" checked={versionFilters.pre} onChange={(e) => setVersionFilters({ ...versionFilters, pre: e.target.checked })} className="cursor-pointer" />
               </div>
             </div>
-          </div>
+          </FormHead>
 
-          <div className="w-full max-h-[250px] bg-zinc-850 rounded overflow-x-hidden shadow shadow-zinc-900 overflow-y-scroll">
-            <div className="w-full sticky top-0 bg-zinc-850 flex">
-              <div className="w-full text-center p-1">{t("generic.version")}</div>
-              <div className="shrink-0 w-36 text-center p-1">{t("generic.releaseDate")}</div>
-              <div className="shrink-0 w-24 text-center p-1">{t("generic.type")}</div>
-            </div>
-            <div className="w-full">
-              {gameVersions.map(
-                (gv) =>
-                  versionFilters[gv.type] && (
-                    <div
-                      key={gv.version}
-                      onClick={() => !config.gameVersions.find((igv) => igv.version === gv.version) && setVersion(gv)}
-                      className={`flex border-l-4 border-transparent
-                    ${version?.version === gv.version ? "bg-vs/15 border-vs" : "odd:bg-zinc-800"} 
-                    ${config.gameVersions.find((igv) => igv.version === gv.version) ? "text-zinc-500" : "cursor-pointer duration-100 hover:pl-1"}`}
-                    >
-                      <div className="w-full p-1">
-                        <p>{gv.version}</p>
-                      </div>
-                      <div className="shrink-0 w-36 text-center p-1">
-                        <p>{new Date(gv.releaseDate).toLocaleDateString("es")}</p>
-                      </div>
-                      <div className="shrink-0 w-24 text-center p-1">
-                        <p>{gv.type}</p>
-                      </div>
-                    </div>
-                  )
-              )}
-            </div>
-          </div>
-        </div>
+          <FormBody>
+            <TableWrapper className="max-h-[250px] overflow-y-scroll text-center">
+              <TableHead>
+                <TableHeadRow>
+                  <TableCell className="w-3/6 ">{t("generic.version")}</TableCell>
+                  <TableCell className="w-2/6">{t("generic.releaseDate")}</TableCell>
+                  <TableCell className="w-1/6">{t("generic.type")}</TableCell>
+                </TableHeadRow>
+              </TableHead>
 
-        <div className="w-full flex gap-4">
-          <div className="w-48 flex flex-col gap-4 text-right">
-            <p className="text-lg">{t("generic.folder")}</p>
-          </div>
+              <TableBody className="overflow-x-hidden">
+                {gameVersions.map(
+                  (gv) =>
+                    versionFilters[gv.type] && (
+                      <TableBodyRow
+                        key={gv.version}
+                        selected={version?.version === gv.version}
+                        disabled={config.gameVersions.some((igv) => igv.version === gv.version)}
+                        onClick={() => !config.gameVersions.find((igv) => igv.version === gv.version) && setVersion(gv)}
+                      >
+                        <TableCell className="w-3/6">{gv.version}</TableCell>
+                        <TableCell className="w-2/6">{new Date(gv.releaseDate).toLocaleDateString("es")}</TableCell>
+                        <TableCell className="w-1/6">{gv.type}</TableCell>
+                      </TableBodyRow>
+                    )
+                )}
+              </TableBody>
+            </TableWrapper>
+          </FormBody>
+        </FromGroup>
 
-          <div className="w-full flex gap-2">
-            <Button
-              onClick={async () => {
-                const path = await window.api.utils.selectFolderDialog()
-                if (path && path.length > 0) {
-                  setFolder(path)
-                  setFolderByUser(true)
-                }
-              }}
-              title={t("generic.browse")}
-              className="w-fit h-8 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
-            >
-              <p className="px-2 py-1">{t("generic.browse")}</p>
-            </Button>
-            <Input
-              type="text"
-              placeholder={t("features.versions.versionFolder")}
-              value={folder}
-              onChange={(e) => setFolder(e.target.value)}
-              className="w-full h-8 bg-zinc-850 px-2 py-1 rounded-md shadow shadow-zinc-900 hover:shadow-none"
-            />
-          </div>
-        </div>
-      </div>
+        <FromGroup>
+          <FormHead>
+            <FormLabel content={t("generic.folder")} />
+          </FormHead>
 
-      <div className="flex gap-2 justify-center items-center">
-        <Button onClick={handleInstallVersion} title={t("generic.install")} className="w-fit h-8 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded">
-          <p className="px-2 py-1">{t("generic.install")}</p>
-        </Button>
-        <Link to="/versions" title={t("generic.cancel")} className="w-fit h-8 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded">
-          <p className="px-2 py-1">{t("generic.cancel")}</p>
-        </Link>
-      </div>
+          <FormBody>
+            <FormFieldGroup alignment="x">
+              <FormButton
+                onClick={async () => {
+                  const path = await window.api.utils.selectFolderDialog()
+                  if (path && path.length > 0) {
+                    setFolder(path)
+                    setFolderByUser(true)
+                  }
+                }}
+                title={t("generic.browse")}
+              />
+
+              <FormInputText placeholder={t("features.versions.versionFolder")} value={folder} onChange={(e) => setFolder(e.target.value)} className="w-full" />
+            </FormFieldGroup>
+          </FormBody>
+        </FromGroup>
+      </FromWrapper>
+
+      <ButtonsWrapper>
+        <FormButton onClick={handleInstallVersion} title={t("generic.install")} />
+        <FormLinkButton to="/versions" title={t("generic.cancel")} />
+      </ButtonsWrapper>
     </>
   )
 }

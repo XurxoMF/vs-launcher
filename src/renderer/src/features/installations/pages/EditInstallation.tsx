@@ -1,10 +1,24 @@
 import { useState } from "react"
-import { Link, useParams, useNavigate } from "react-router-dom"
-import { Button, Input } from "@headlessui/react"
+import { useParams, useNavigate } from "react-router-dom"
 import { useTranslation, Trans } from "react-i18next"
 
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/contexts/ConfigContext"
+
+import {
+  FormBody,
+  FormHead,
+  FormLabel,
+  FromGroup,
+  FromWrapper,
+  ButtonsWrapper,
+  FormFieldGroupWithDescription,
+  FormInputText,
+  FormFieldDescription,
+  FormButton,
+  FormLinkButton
+} from "@renderer/components/ui/FormComponents"
+import { TableBody, TableBodyRow, TableCell, TableHead, TableHeadRow, TableWrapper } from "@renderer/components/ui/Table"
 
 function EditInslallation(): JSX.Element {
   const { t } = useTranslation()
@@ -42,7 +56,7 @@ function EditInslallation(): JSX.Element {
     <>
       <h1 className="text-3xl text-center font-bold">{t("features.installations.editTitle")}</h1>
 
-      <div className="mx-auto w-[800px] flex flex-col gap-4 items-start justify-center">
+      <FromWrapper className="max-w-[800px] w-full">
         {!installation ? (
           <div className="w-full flex flex-col items-center justify-center gap-2 rounded bg-zinc-850 p-4">
             <p className="text-2xl">{t("features.installations.noInstallationFound")}</p>
@@ -50,97 +64,81 @@ function EditInslallation(): JSX.Element {
           </div>
         ) : (
           <>
-            <div className="w-full flex gap-4">
-              <div className="w-48 flex flex-col gap-4 text-right">
-                <p className="text-lg">{t("generic.name")}</p>
-              </div>
+            <FromGroup>
+              <FormHead>
+                <FormLabel content={t("generic.name")} />
+              </FormHead>
 
-              <div className="w-full flex flex-col gap-1">
-                <Input
-                  type="text"
-                  className={`w-full h-8 px-2 py-1 rounded-md shadow shadow-zinc-900 hover:shadow-none ${name.length < 5 || name.length > 50 ? "border border-red-800 bg-red-800/10" : "bg-zinc-850"}`}
-                  value={name}
-                  onChange={(e) => {
-                    setName(e.target.value)
-                  }}
-                  placeholder={t("features.installations.defaultName")}
-                  minLength={5}
-                  maxLength={50}
-                />
-                <p className="text-sm text-zinc-500 pl-1">{t("generic.minMaxLength", { min: 5, max: 50 })}</p>
-              </div>
-            </div>
+              <FormBody>
+                <FormFieldGroupWithDescription>
+                  <FormInputText value={name} onChange={(e) => setName(e.target.value)} minLength={5} maxLength={50} placeholder={t("features.installations.defaultName")} />
+                  <FormFieldDescription content={t("generic.minMaxLength", { min: 5, max: 50 })} />
+                </FormFieldGroupWithDescription>
+              </FormBody>
+            </FromGroup>
 
-            <div className="w-full flex gap-4">
-              <div className="w-48 flex flex-col gap-4 text-right">
-                <p className="text-lg">{t("features.versions.labelGameVersion")}</p>
-              </div>
+            <FromGroup>
+              <FormHead>
+                <FormLabel content={t("features.versions.labelGameVersion")} />
+              </FormHead>
 
-              <div className="w-full max-h-[250px] bg-zinc-850 rounded overflow-x-hidden shadow shadow-zinc-900 overflow-y-scroll">
-                <div className="w-full sticky top-0 bg-zinc-850 flex">
-                  <div className="w-full text-center p-1">{t("generic.version")}</div>
-                </div>
+              <FormBody>
+                <TableWrapper className="max-h-[250px] overflow-y-scroll">
+                  <TableHead>
+                    <TableHeadRow>
+                      <TableCell className="w-full text-center">{t("generic.version")}</TableCell>
+                    </TableHeadRow>
+                  </TableHead>
 
-                <div className="w-full">
-                  {config.gameVersions.length < 1 && (
-                    <div className="w-full p-1 flex items-center justify-center">
-                      <p>{t("features.versions.noVersionsFound")}</p>
-                    </div>
-                  )}
-                  {config.gameVersions.map((gv) => (
-                    <div
-                      key={gv.version}
-                      onClick={() => setVersion(gv)}
-                      className={`flex border-l-4 border-transparent cursor-pointer duration-100 hover:pl-1 ${version?.version === gv.version ? "bg-vs/15 border-vs" : "odd:bg-zinc-800"}`}
-                    >
-                      <div className="w-full p-1">{gv.version}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+                  <TableBody className="overflow-hidden">
+                    {config.gameVersions.length < 1 && (
+                      <div className="w-full p-1 flex items-center justify-center">
+                        <p>{t("features.versions.noVersionsFound")}</p>
+                      </div>
+                    )}
+                    {config.gameVersions.map((gv) => (
+                      <TableBodyRow key={gv.version} onClick={() => setVersion(gv)} selected={version?.version === gv.version}>
+                        <TableCell className="w-full">{gv.version}</TableCell>
+                      </TableBodyRow>
+                    ))}
+                  </TableBody>
+                </TableWrapper>
+              </FormBody>
+            </FromGroup>
 
-            <div className="w-full flex gap-4">
-              <div className="w-48 flex flex-col gap-4 text-right">
-                <p className="text-lg">{t("features.installations.labelStartParams")}</p>
-              </div>
+            <FromGroup>
+              <FormHead>
+                <FormLabel content={t("features.installations.labelStartParams")} />
+              </FormHead>
 
-              <div className="w-full flex flex-col gap-1">
-                <Input
-                  type="text"
-                  className={`w-full h-8 px-2 py-1 rounded-md shadow shadow-zinc-900 hover:shadow-none bg-zinc-850`}
-                  value={startParams}
-                  onChange={(e) => {
-                    setStartParams(e.target.value)
-                  }}
-                  placeholder={t("features.installations.startParams")}
-                />
-                <p className="text-sm text-zinc-500 pl-1 flex gap-1 items-center flex-wrap">
-                  <Trans
-                    i18nKey="features.installations.startParamsDesc"
-                    components={{
-                      link: (
-                        <button onClick={() => window.api.utils.openOnBrowser("https://wiki.vintagestory.at/Client_startup_parameters")} className="text-vs">
-                          {t("components.installations.startParamsLink")}
-                        </button>
-                      )
-                    }}
+              <FormBody>
+                <FormFieldGroupWithDescription>
+                  <FormInputText value={startParams} onChange={(e) => setStartParams(e.target.value)} placeholder={t("features.installations.startParams")} />
+                  <FormFieldDescription
+                    content={
+                      <Trans
+                        i18nKey="features.installations.startParamsDesc"
+                        components={{
+                          link: (
+                            <button onClick={() => window.api.utils.openOnBrowser("https://wiki.vintagestory.at/Client_startup_parameters")} className="text-vs">
+                              {t("components.installations.startParamsLink")}
+                            </button>
+                          )
+                        }}
+                      />
+                    }
                   />
-                </p>
-              </div>
-            </div>
+                </FormFieldGroupWithDescription>
+              </FormBody>
+            </FromGroup>
           </>
         )}
-      </div>
+      </FromWrapper>
 
-      <div className="flex gap-2 justify-center items-center">
-        <Button onClick={handleAddInstallation} title={t("generic.save")} className="w-fit h-8 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded">
-          <p className="px-2 py-1">{t("generic.save")}</p>
-        </Button>
-        <Link to="/installations" title={t("generic.cancel")} className="w-fit h-8 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded">
-          <p className="px-2 py-1">{t("generic.cancel")}</p>
-        </Link>
-      </div>
+      <ButtonsWrapper>
+        <FormButton onClick={handleAddInstallation} title={t("generic.save")} />
+        <FormLinkButton to="/installations" title={t("generic.cancel")} />
+      </ButtonsWrapper>
     </>
   )
 }

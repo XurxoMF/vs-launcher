@@ -20,7 +20,7 @@ function ListInslallations(): JSX.Element {
     <>
       <h1 className="text-3xl text-center font-bold">{t("features.installations.listTitle")}</h1>
 
-      <div className="mx-auto w-full max-w-[800px]">
+      <div className="mx-auto max-w-[800px] w-full">
         <ul className="w-full flex flex-col">
           {config.installations.length < 1 && (
             <div className="w-full flex flex-col items-center justify-center gap-2 rounded bg-zinc-850 p-4">

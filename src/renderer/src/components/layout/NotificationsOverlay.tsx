@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "motion/react"
 import { PiInfoFill, PiWarningFill, PiCheckCircleFill, PiProhibitInsetFill, PiXBold } from "react-icons/pi"
 import { useTranslation } from "react-i18next"
+import clsx from "clsx"
 
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 
@@ -35,7 +36,7 @@ function NotificationsOverlay(): JSX.Element {
         {notifications.map(({ id, title, body, type, options }) => (
           <motion.div
             key={id}
-            className={`w-[300px] flex items-center justify-between gap-2 p-2 rounded text-center bg-zinc-850 border-l-4 ${BORDER_COLOR_TYPES[type]}`}
+            className={clsx("w-[300px] flex items-center justify-between gap-2 p-2 rounded text-center bg-zinc-850 border-l-4", BORDER_COLOR_TYPES[type])}
             initial={{ x: 320 }}
             animate={{ x: 0 }}
             exit={{ x: 320 }}
@@ -46,7 +47,7 @@ function NotificationsOverlay(): JSX.Element {
             }}
           >
             <div className="flex items-center gap-2 text-start">
-              <span className={`text-xl p-2 rounded-full border ${BORDER_COLOR_TYPES[type]} ${FONT_COLOR_TYPES[type]}`}>{ICON_TYPES[type]}</span>
+              <span className={clsx("text-xl p-2 rounded-full border", BORDER_COLOR_TYPES[type], FONT_COLOR_TYPES[type])}>{ICON_TYPES[type]}</span>
               <div className="flex flex-col items-start justify-center select-none">
                 <p className="font-bold text-sm">{title}</p>
                 <p className="text-xs text-zinc-500">{body}</p>

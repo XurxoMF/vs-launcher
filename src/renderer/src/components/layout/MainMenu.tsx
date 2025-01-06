@@ -17,6 +17,7 @@ import { useNotificationsContext } from "@renderer/contexts/NotificationsContext
 import LanguagesMenu from "@renderer/components/ui/LanguagesMenu"
 import InstallationsDropdownMenu from "@renderer/features/installations/components/InstallationsDropdownMenu"
 import TasksMenu from "@renderer/components/ui/TasksMenu"
+import clsx from "clsx"
 
 interface MainMenuLinkProps {
   icon: string
@@ -79,9 +80,33 @@ function MainMenu(): JSX.Element {
     }
   ]
 
+  async function PlayHandler(): Promise<void> {
+    const id = uuidv4()
+    try {
+      window.api.utils.setPreventAppClose("add", id, "Started playing Vintage Story.")
+
+      const installationToRun = config.installations.find((installation) => installation.id === config.lastUsedInstallation)
+
+      if (!installationToRun) return addNotification(t("notifications.titles.warning"), t("features.installations.noInstallationSelected"), "warning")
+
+      const gameVersionToRun = config.gameVersions.find((gv) => gv.version === installationToRun.version)
+
+      if (!gameVersionToRun || gameVersionToRun._installing)
+        return addNotification(t("notifications.titles.warning"), t("features.versions.versionNotInstalled", { version: installationToRun.version }), "warning")
+
+      const closeStatus = await window.api.gameManager.executeGame(gameVersionToRun, installationToRun)
+
+      if (!closeStatus) return addNotification(t("notifications.titles.error"), t("notifications.body.gameExitedWithErrors"), "error")
+    } catch (err) {
+      addNotification(t("notifications.titles.error"), t("notifications.body.errorExecutingGame"), "error")
+    } finally {
+      window.api.utils.setPreventAppClose("remove", id, "Finished playing vintage Story.")
+    }
+  }
+
   return (
     <header className="z-99 w-[280px] flex flex-col gap-4 p-2 shadow-[0_0_5px_2px] shadow-zinc-900">
-      <div className={`flex h-7 shrink-0 gap-2`}>
+      <div className="flex h-7 shrink-0 gap-2">
         <Link to="/config" title={t("features.config.title")} className="shrink-0 w-7 h-7 bg-zinc-850 rounded flex items-center justify-center shadow shadow-zinc-900 hover:shadow-none">
           <PiGearFill />
         </Link>
@@ -104,33 +129,7 @@ function MainMenu(): JSX.Element {
 
       <div className="flex flex-col gap-2">
         <InstallationsDropdownMenu />
-        <Button
-          title={t("generic.play")}
-          onClick={async () => {
-            const id = uuidv4()
-            try {
-              window.api.utils.setPreventAppClose("add", id, "Started playing Vintage Story.")
-
-              const installationToRun = config.installations.find((installation) => installation.id === config.lastUsedInstallation)
-
-              if (!installationToRun) return addNotification(t("notifications.titles.warning"), t("features.installations.noInstallationSelected"), "warning")
-
-              const gameVersionToRun = config.gameVersions.find((gv) => gv.version === installationToRun.version)
-
-              if (!gameVersionToRun || gameVersionToRun._installing)
-                return addNotification(t("notifications.titles.warning"), t("features.versions.versionNotInstalled", { version: installationToRun.version }), "warning")
-
-              const closeStatus = await window.api.gameManager.executeGame(gameVersionToRun, installationToRun)
-
-              if (!closeStatus) return addNotification(t("notifications.titles.error"), t("notifications.body.gameExitedWithErrors"), "error")
-            } catch (err) {
-              addNotification(t("notifications.titles.error"), t("notifications.body.errorExecutingGame"), "error")
-            } finally {
-              window.api.utils.setPreventAppClose("remove", id, "Finished playing vintage Story.")
-            }
-          }}
-          className="w-full h-14 bg-vs rounded"
-        >
+        <Button title={t("generic.play")} onClick={PlayHandler} className="w-full h-14 bg-vs rounded">
           <p className="text-2xl">{t("generic.play")}</p>
         </Button>
       </div>
@@ -155,11 +154,9 @@ function LinkContent({ icon, text, desc, link, external }: LinkContentProps): JS
   }
 
   return (
-    <div
-      className={`w-full flex items-center gap-2 px-2 py-1 rounded duration-100 group hover:translate-x-1 border-l-4 ${currentLocation() ? "border-vs bg-vs/15" : "border-transparent"} duration-100`}
-    >
+    <div className={clsx("w-full flex items-center gap-2 px-2 py-1 rounded duration-100 group hover:translate-x-1 border-l-4", currentLocation() ? "border-vs bg-vs/15" : "border-transparent")}>
       <img src={icon} alt={text} className="w-7" />
-      <div className={`flex flex-col overflow-hidden whitespace-nowrap`}>
+      <div className="flex flex-col overflow-hidden whitespace-nowrap">
         <div className="font-bold text-sm flex items-center gap-2">
           <p className="overflow-hidden text-ellipsis">{text}</p>
           {external && <FiExternalLink className="text-zinc-500" />}
