@@ -121,7 +121,7 @@ function EditInslallation(): JSX.Element {
                         components={{
                           link: (
                             <button onClick={() => window.api.utils.openOnBrowser("https://wiki.vintagestory.at/Client_startup_parameters")} className="text-vs">
-                              {t("components.installations.startParamsLink")}
+                              {t("features.installations.startParamsLink")}
                             </button>
                           )
                         }}

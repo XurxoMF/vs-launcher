@@ -1,164 +1,162 @@
 {
-   "generic": {
-     "delete": "Löschen",
-     "uninstall": "Deinstallieren",
-     "cancel": "Abbrechen",
-     "issues": "Hilfe & Probleme melden",
-     "guides": "Leitfaden",
-     "source": "Quelle",
-     "play": "Starten",
-     "openOnFileExplorer": "Ordner im Dateiexplorer öffnen",
-     "discard": "Verwerfen",
-     "minMaxLength": "{{min}} bis {{max}} Zeichen",
-     "byAnonymous": "von Unbekannt",
-     "folder": "Ordner",
-     "browse": "Durchsuchen",
-     "add": "Hinzufügen",
-     "goBack": "Zurückgehen",
-     "save": "Speichern",
-     "name": "Name",
-     "version": "Version",
-     "releaseDate": "Erscheinungsdatum",
-     "type": "Typ",
-     "install": "Installieren"
-   },
-   "features": {
-     "generic": {
-       "notImplemented": "Dieser Bereich ist noch nicht verfügbar!",
-       "notImplementedDesc": "Schau bei der nächsten Aktualisierung vorbei, möglicherweise ist dieser dann bereits benutzbar!"
-     },
-     "home": {
-       "title": "Willkommen zum VS Launcher",
-       "description": "Der inoffizielle Vintage Story Launcher mit allen Funktionen, die du benötigst."
-     },
-     "versions": {
-       "uninstallVersion": "Version deinstallieren",
-       "noVersionsFound": "Keine Version gefunden!",
-       "noVersionsFoundDescOnPage": "Mit der <button/>-Schaltfläche eine neue Version installieren",
-       "areYouSureUninstall": "Bist du sicher, dass du diese Version deinstallieren willst?",
-       "uninstallingNotReversible": "Die Deinstallation kann nicht rückgängig gemacht werden, aber du kannst die gleiche Version erneut herunterladen!",
-       "noVersionSelected": "Keine Version ausgewählt!",
-       "versionAlreadyInstalled": "Version {{version}} ist bereits installiert!",
-       "noVersionFoundOnThatFolder": "Es wurde keine Version in diesem Ordner gefunden!",
-       "versionSuccessfullyAdded": "Die Version wurde erfolgreich hinzugefügt!",
-       "versionUninstalledSuccesfully": "Version {{version}} erfolgreich deinstalliert!",
-       "versionUninstallationFailed": "Bei der Deinstallation der Version {{version}} ist ein Fehler aufgetreten!",
-       "versionNotInstalled": "Version {{version}} nicht installiert!",
-       "labelGameVersion": "Spielversion",
-       "versionFound": "Version gefunden",
-       "gameVersionDownloadDesc": "Spielversion {{version}} wird heruntergeladen!",
-       "gameVersionTaskName": "Spielversion {{version}}",
-       "gameVersionExtractDesc": "Spielversion {{version}} wird extrahiert!",
-       "installTitle": "Installiere eine neue Version",
-       "labelStables": "Stabile Versionen",
-       "labelRCs": "Freigabekandidaten",
-       "labelPreReleases": "Vorabveröffentlichungen",
-       "listTitle": "Liste der Versionen",
-       "searchForAGameVersion": "Spielversion suchen",
-       "missingFolderOrVersion": "Du hast keinen Ordner ausgewählt oder der Ordner, den du ausgewählt hast, enthält keine Spielversion!",
-       "lookForAVersion": "Version suchen",
-       "versionFolder": "Versionsordner"
-     },
-     "installations": {
-       "noInstallationsFound": "Keine Installation gefunden!",
-       "noInstallationsFoundDesc": "Füge auf der <link />-Seite eine neue Installation hinzu",
-       "noInstallationsFoundDescOnPage": "Mit der <button/>-Schaltfläche eine neue Installation hinzufügen",
-       "deleteInstallation": "Installation entfernen",
-       "areYouSureDelete": "Bist du dir sicher, dass du diese Installation entfernen möchtest?",
-       "deletingNotReversible": "Dieser Deinstallationsvorgang ist nicht rückgängig zu machen! Nach Beendigung werden deine Welten, Daten und andere Informatinonen unwiderbringlich verloren sein.",
-       "noInstallationFound": "Installation nicht gefunden!",
-       "noInstallationSelected": "Keine Installation ausgewählt!",
-       "installationNameMinMaxCharacters": "Der Installationsname muss zwischen {{min}} und {{max}} Zeichen lang sein!",
-       "defaultName": "Meine neue Installation",
-       "folderAlreadyInUse": "Dieser Ordner wird bereits von einer anderen Installation verwendet!",
-       "installationSuccessfullyAdded": "Installation erfolgreich hinzugefügt!",
-       "errorAddingInstallation": "Es ist ein Fehler beim Hinzufügen der Installation aufgetreten!",
-       "addTitle": "Installation hinzufügen",
-       "installationSuccessfullyEdited": "Installation erfolgreich bearbeitet!",
-       "errorEditingInstallation": "Es ist ein Fehler beim Bearbeiten der Installation aufgetreten!",
-       "editTitle": "Installation anpassen",
-       "noInstallationFoundDesc": "Die von dir gewählte Installation existiert nicht!",
-       "listTitle": "Liste der Installationen",
-       "deleteData": "Daten entfernen",
-       "installationSuccessfullyDeleted": "Installation erfolgreich entfernt!",
-       "errorDeletingInstallation": "Es ist ein Fehler beim Löschen der Installation aufgetreten!",
-       "installationFolder": "Installationsordner",
-       "labelStartParams": "Startparameter",
-       "startParams": "Startparameter",
-       "startParamsDesc": "Liste aller verfügbaren Startparameter: <link />",
-       "cantUseDataPath": "Startparameter --dataPath kann nicht genutzt werden, da dieser bereits von VS Launcher genutzt wird. Wenn du einen anderen Ordner möchtest, ändere dies während der Installation."
-     },
-     "mods": {
-       "modsCount": "{{count}} Modifikationen",
-       "modsCount_zero": "{{count}} Modifikationen",
-       "modsCount_one": "{{count}} Modifikation",
-       "modsCount_two": "{{count}} Modifikationen",
-       "modsCount_few": "{{count}} Modifikationen",
-       "modsCount_many": "{{count}} Modifikationen",
-       "modsCount_other": "{{count}} Modifikationen"
-     },
-     "config": {
-       "title": "Einstellungen",
-       "defaultInstallationsFolder": "Installationen:",
-       "folders": "Standard Ordner",
-       "defaultVersionsFolder": "Versionen:"
-     }
-   },
-   "components": {
-     "mainMenu": {
-       "homeTitle": "Startseite",
-       "homeDesc": "Hauptseite",
-       "versionsTitle": "Spielversionen",
-       "versionsDesc": "Spielversionen verwalten",
-       "modsTitle": "Modifikationen",
-       "modsDesc": "Modifikationen verwalten",
-       "newsTitle": "Neuigkeiten",
-       "newsDesc": "VS Launcher Neuigkeiten",
-       "changelogTitle": "Versionshistorie",
-       "changelogDesc": "Vintage Story Versionshistorie",
-       "installationsDesc": "Installationen verwalten",
-       "installationsTitle": "Installationen"
-     },
-     "gameRunningOverlay": {
-       "title": "SPIEL AKTIV",
-       "desc": "Das Spiel läuft im Hintergrund, bitte schließe es, um den VS Launcher benutzen zu können!",
-       "subDesc": "Um Konflikte mit dem Spiel zu vermeiden, ist die Benutzung des VS Launcher während des Spielens nicht möglich."
-     },
-     "tasksMenu": {
-       "downloading": "Herunterladend",
-       "extracting": "Extrahierend",
-       "error": "Während des Vorgangs ist ein Fehler aufgetreten!",
-       "noTasksAvailable": "Es gibt keine anstehenden Aufgaben!"
-     },
-     "loader": {
-       "title": "Willkommen zum VS Launcher!",
-       "desc": "Wir bereiten alles für dich vor!"
-     },
-     "installations": {
-       "startParamsLink": "Vintage Story Wiki"
-     }
-   },
-   "notifications": {
-     "titles": {
-       "error": "Fehler",
-       "warning": "Warnung",
-       "info": "Information",
-       "success": "Erfolg"
-     },
-     "body": {
-       "folderDoesntExists": "Der zu öffnende Ordner existiert nicht!",
-       "updateAvailable": "Eine Aktualisierung ist verfügbar und wird im Hintergrund heruntergeladen.",
-       "updateDownloaded": "Aktualisierung erfolgreich heruntergeladen. Starte den VS Launcher neu, um diese zu installieren.",
-       "downloading": "Herunterladen begonnen: {{downloadName}}!",
-       "downloaded": "Erfolgreich heruntergeladen: {{downloadName}}!",
-       "downloadError": "Fehler beim Herunterladen: {{downloadName}}!",
-       "extracting": "Extrahierung begonnen: {{extractName}}!",
-       "extracted": "Extrahierung abgeschlossen: {{extractName}}!",
-       "extractError": "Fehler beim Extrahieren: {{extractName}}!",
-       "gameExitedWithErrors": "Vintage Story mit einem Fehler geschlossen!",
-       "errorExecutingGame": "Fehler beim Starten des Spiels!",
-       "missingFields": "Bitte alle Felder ausfüllen!"
-     },
-     "discard": "Benachrichtigungen löschen"
-   }
- }
+  "generic": {
+    "delete": "Löschen",
+    "uninstall": "Deinstallieren",
+    "cancel": "Abbrechen",
+    "issues": "Hilfe & Probleme melden",
+    "guides": "Leitfaden",
+    "source": "Quelle",
+    "play": "Starten",
+    "openOnFileExplorer": "Ordner im Dateiexplorer öffnen",
+    "discard": "Verwerfen",
+    "minMaxLength": "{{min}} bis {{max}} Zeichen",
+    "byAnonymous": "von Unbekannt",
+    "folder": "Ordner",
+    "browse": "Durchsuchen",
+    "add": "Hinzufügen",
+    "goBack": "Zurückgehen",
+    "save": "Speichern",
+    "name": "Name",
+    "version": "Version",
+    "releaseDate": "Erscheinungsdatum",
+    "type": "Typ",
+    "install": "Installieren"
+  },
+  "features": {
+    "generic": {
+      "notImplemented": "Dieser Bereich ist noch nicht verfügbar!",
+      "notImplementedDesc": "Schau bei der nächsten Aktualisierung vorbei, möglicherweise ist dieser dann bereits benutzbar!"
+    },
+    "home": {
+      "title": "Willkommen zum VS Launcher",
+      "description": "Der inoffizielle Vintage Story Launcher mit allen Funktionen, die du benötigst."
+    },
+    "versions": {
+      "uninstallVersion": "Version deinstallieren",
+      "noVersionsFound": "Keine Version gefunden!",
+      "noVersionsFoundDescOnPage": "Mit der <button/>-Schaltfläche eine neue Version installieren",
+      "areYouSureUninstall": "Bist du sicher, dass du diese Version deinstallieren willst?",
+      "uninstallingNotReversible": "Die Deinstallation kann nicht rückgängig gemacht werden, aber du kannst die gleiche Version erneut herunterladen!",
+      "noVersionSelected": "Keine Version ausgewählt!",
+      "versionAlreadyInstalled": "Version {{version}} ist bereits installiert!",
+      "noVersionFoundOnThatFolder": "Es wurde keine Version in diesem Ordner gefunden!",
+      "versionSuccessfullyAdded": "Die Version wurde erfolgreich hinzugefügt!",
+      "versionUninstalledSuccesfully": "Version {{version}} erfolgreich deinstalliert!",
+      "versionUninstallationFailed": "Bei der Deinstallation der Version {{version}} ist ein Fehler aufgetreten!",
+      "versionNotInstalled": "Version {{version}} nicht installiert!",
+      "labelGameVersion": "Spielversion",
+      "versionFound": "Version gefunden",
+      "gameVersionDownloadDesc": "Spielversion {{version}} wird heruntergeladen!",
+      "gameVersionTaskName": "Spielversion {{version}}",
+      "gameVersionExtractDesc": "Spielversion {{version}} wird extrahiert!",
+      "installTitle": "Installiere eine neue Version",
+      "labelStables": "Stabile Versionen",
+      "labelRCs": "Freigabekandidaten",
+      "labelPreReleases": "Vorabveröffentlichungen",
+      "listTitle": "Liste der Versionen",
+      "searchForAGameVersion": "Spielversion suchen",
+      "missingFolderOrVersion": "Du hast keinen Ordner ausgewählt oder der Ordner, den du ausgewählt hast, enthält keine Spielversion!",
+      "lookForAVersion": "Version suchen",
+      "versionFolder": "Versionsordner"
+    },
+    "installations": {
+      "noInstallationsFound": "Keine Installation gefunden!",
+      "noInstallationsFoundDesc": "Füge auf der <link />-Seite eine neue Installation hinzu",
+      "noInstallationsFoundDescOnPage": "Mit der <button/>-Schaltfläche eine neue Installation hinzufügen",
+      "deleteInstallation": "Installation entfernen",
+      "areYouSureDelete": "Bist du dir sicher, dass du diese Installation entfernen möchtest?",
+      "deletingNotReversible": "Dieser Deinstallationsvorgang ist nicht rückgängig zu machen! Nach Beendigung werden deine Welten, Daten und andere Informatinonen unwiderbringlich verloren sein.",
+      "noInstallationFound": "Installation nicht gefunden!",
+      "noInstallationSelected": "Keine Installation ausgewählt!",
+      "installationNameMinMaxCharacters": "Der Installationsname muss zwischen {{min}} und {{max}} Zeichen lang sein!",
+      "defaultName": "Meine neue Installation",
+      "folderAlreadyInUse": "Dieser Ordner wird bereits von einer anderen Installation verwendet!",
+      "installationSuccessfullyAdded": "Installation erfolgreich hinzugefügt!",
+      "errorAddingInstallation": "Es ist ein Fehler beim Hinzufügen der Installation aufgetreten!",
+      "addTitle": "Installation hinzufügen",
+      "installationSuccessfullyEdited": "Installation erfolgreich bearbeitet!",
+      "errorEditingInstallation": "Es ist ein Fehler beim Bearbeiten der Installation aufgetreten!",
+      "editTitle": "Installation anpassen",
+      "noInstallationFoundDesc": "Die von dir gewählte Installation existiert nicht!",
+      "listTitle": "Liste der Installationen",
+      "deleteData": "Daten entfernen",
+      "installationSuccessfullyDeleted": "Installation erfolgreich entfernt!",
+      "errorDeletingInstallation": "Es ist ein Fehler beim Löschen der Installation aufgetreten!",
+      "installationFolder": "Installationsordner",
+      "labelStartParams": "Startparameter",
+      "startParams": "Startparameter",
+      "startParamsDesc": "Liste aller verfügbaren Startparameter: <link />",
+      "cantUseDataPath": "Startparameter --dataPath kann nicht genutzt werden, da dieser bereits von VS Launcher genutzt wird. Wenn du einen anderen Ordner möchtest, ändere dies während der Installation.",
+      "startParamsLink": "Vintage Story Wiki"
+    },
+    "mods": {
+      "modsCount": "{{count}} Modifikationen",
+      "modsCount_zero": "{{count}} Modifikationen",
+      "modsCount_one": "{{count}} Modifikation",
+      "modsCount_two": "{{count}} Modifikationen",
+      "modsCount_few": "{{count}} Modifikationen",
+      "modsCount_many": "{{count}} Modifikationen",
+      "modsCount_other": "{{count}} Modifikationen"
+    },
+    "config": {
+      "title": "Einstellungen",
+      "defaultInstallationsFolder": "Installationen:",
+      "folders": "Standard Ordner",
+      "defaultVersionsFolder": "Versionen:"
+    }
+  },
+  "components": {
+    "mainMenu": {
+      "homeTitle": "Startseite",
+      "homeDesc": "Hauptseite",
+      "versionsTitle": "Spielversionen",
+      "versionsDesc": "Spielversionen verwalten",
+      "modsTitle": "Modifikationen",
+      "modsDesc": "Modifikationen verwalten",
+      "newsTitle": "Neuigkeiten",
+      "newsDesc": "VS Launcher Neuigkeiten",
+      "changelogTitle": "Versionshistorie",
+      "changelogDesc": "Vintage Story Versionshistorie",
+      "installationsDesc": "Installationen verwalten",
+      "installationsTitle": "Installationen"
+    },
+    "gameRunningOverlay": {
+      "title": "SPIEL AKTIV",
+      "desc": "Das Spiel läuft im Hintergrund, bitte schließe es, um den VS Launcher benutzen zu können!",
+      "subDesc": "Um Konflikte mit dem Spiel zu vermeiden, ist die Benutzung des VS Launcher während des Spielens nicht möglich."
+    },
+    "tasksMenu": {
+      "downloading": "Herunterladend",
+      "extracting": "Extrahierend",
+      "error": "Während des Vorgangs ist ein Fehler aufgetreten!",
+      "noTasksAvailable": "Es gibt keine anstehenden Aufgaben!"
+    },
+    "loader": {
+      "title": "Willkommen zum VS Launcher!",
+      "desc": "Wir bereiten alles für dich vor!"
+    }
+  },
+  "notifications": {
+    "titles": {
+      "error": "Fehler",
+      "warning": "Warnung",
+      "info": "Information",
+      "success": "Erfolg"
+    },
+    "body": {
+      "folderDoesntExists": "Der zu öffnende Ordner existiert nicht!",
+      "updateAvailable": "Eine Aktualisierung ist verfügbar und wird im Hintergrund heruntergeladen.",
+      "updateDownloaded": "Aktualisierung erfolgreich heruntergeladen. Starte den VS Launcher neu, um diese zu installieren.",
+      "downloading": "Herunterladen begonnen: {{downloadName}}!",
+      "downloaded": "Erfolgreich heruntergeladen: {{downloadName}}!",
+      "downloadError": "Fehler beim Herunterladen: {{downloadName}}!",
+      "extracting": "Extrahierung begonnen: {{extractName}}!",
+      "extracted": "Extrahierung abgeschlossen: {{extractName}}!",
+      "extractError": "Fehler beim Extrahieren: {{extractName}}!",
+      "gameExitedWithErrors": "Vintage Story mit einem Fehler geschlossen!",
+      "errorExecutingGame": "Fehler beim Starten des Spiels!",
+      "missingFields": "Bitte alle Felder ausfüllen!"
+    },
+    "discard": "Benachrichtigungen löschen"
+  }
+}
