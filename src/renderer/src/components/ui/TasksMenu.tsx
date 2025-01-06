@@ -8,7 +8,8 @@ import { useTranslation } from "react-i18next"
 
 const NAME_BY_TYPE = {
   download: "components.tasksMenu.downloading",
-  extract: "components.tasksMenu.extracting"
+  extract: "components.tasksMenu.extracting",
+  compress: "components.tasksMenu.compressing"
 }
 
 const FONT_COLOR_TYPES = {
@@ -20,7 +21,8 @@ const FONT_COLOR_TYPES = {
 
 const ICON_TYPES = {
   download: <PiDownloadFill />,
-  extract: <PiFileZipFill />
+  extract: <PiFileZipFill />,
+  compress: <PiFileZipFill />
 }
 
 function TasksMenu(): JSX.Element {

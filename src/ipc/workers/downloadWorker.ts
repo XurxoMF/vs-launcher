@@ -26,7 +26,7 @@ axios({
     data.on("data", (chunk) => {
       downloadedLength += chunk.length
       const progress = Math.round((downloadedLength / totalLength) * 100)
-      if (progress > lastReportedProgress + 1) {
+      if (progress > lastReportedProgress) {
         lastReportedProgress = progress
         parentPort?.postMessage({
           type: "progress",

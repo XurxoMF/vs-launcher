@@ -33,8 +33,10 @@ const api: BridgeAPI = {
     openPathOnFileExplorer: (path: string): Promise<string> => ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.OPEN_PATH_ON_FILE_EXPLORER, path),
     downloadOnPath: (id: string, url: string, outputPath: string): Promise<string> => ipcRenderer.invoke(IPC_CHANNELS.FILES_MANAGER.DOWNLOAD_ON_PATH, id, url, outputPath),
     extractOnPath: (id: string, filePath: string, outputPath: string): Promise<boolean> => ipcRenderer.invoke(IPC_CHANNELS.FILES_MANAGER.EXTRACT_ON_PATH, id, filePath, outputPath),
+    compressOnPath: (id: string, inputPath: string, outputPath: string): Promise<boolean> => ipcRenderer.invoke(IPC_CHANNELS.FILES_MANAGER.COMPRESS_ON_PATH, id, inputPath, outputPath),
     onDownloadProgress: (callback: ProgressCallback) => ipcRenderer.on(IPC_CHANNELS.FILES_MANAGER.DOWNLOAD_PROGRESS, callback),
     onExtractProgress: (callback: ProgressCallback) => ipcRenderer.on(IPC_CHANNELS.FILES_MANAGER.EXTRACT_PROGRESS, callback),
+    onCompressProgress: (callback: ProgressCallback) => ipcRenderer.on(IPC_CHANNELS.FILES_MANAGER.COMPRESS_PROGRESS, callback),
     changePerms: (paths: string[], perms: number): Promise<boolean> => ipcRenderer.invoke(IPC_CHANNELS.FILES_MANAGER.CHANGE_PERMS, paths, perms),
     lookForAGameVersion: (path: string): Promise<{ exists: boolean; installedGameVersion: string | undefined }> => ipcRenderer.invoke(IPC_CHANNELS.FILES_MANAGER.LOOK_FOR_A_GAME_VERSION, path)
   },

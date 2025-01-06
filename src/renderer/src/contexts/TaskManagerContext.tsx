@@ -8,7 +8,7 @@ export interface TaskType {
   id: string
   name: string
   desc: string
-  type: "download" | "extract"
+  type: "download" | "extract" | "compress"
   progress: number
   status: "pending" | "in-progress" | "completed" | "failed"
 }
@@ -58,6 +58,7 @@ export interface TaskContextType {
   tasks: TaskType[]
   startDownload(name: string, desc: string, url: string, outputPath: string, onFinish: (status: boolean, path: string, error: Error | null) => void): Promise<void>
   startExtract(name: string, desc: string, filePath: string, outputPath: string, onFinish: (status: boolean, error: Error | null) => void): Promise<void>
+  startCompress(name: string, desc: string, inputPath: string, outputPath: string, onFinish: (status: boolean, error: Error | null) => void): Promise<void>
   removeTask(id: string): void
 }
 
@@ -81,6 +82,11 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }): JSX.E
 
       window.api.utils.logMessage("info", `[component] [TaskManager] Adding listener for extraction progress`)
       window.api.pathsManager.onExtractProgress((_event, id, progress) => {
+        tasksDispatch({ type: ACTIONS.UPDATE_TASK, payload: { id, updates: { progress, status: "in-progress" } } })
+      })
+
+      window.api.utils.logMessage("info", `[component] [TaskManager] Adding listener for compress progress`)
+      window.api.pathsManager.onCompressProgress((_event, id, progress) => {
         tasksDispatch({ type: ACTIONS.UPDATE_TASK, payload: { id, updates: { progress, status: "in-progress" } } })
       })
     }
@@ -124,9 +130,7 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }): JSX.E
       addNotification(t("notifications.titles.info"), t("notifications.body.extracting", { extractName: name }), "info")
       const result = await window.api.pathsManager.extractOnPath(id, filePath, outputPath)
 
-      if (!result) {
-        throw new Error("Extraction failed")
-      }
+      if (!result) throw new Error("Extraction failed")
 
       window.api.pathsManager.changePerms([outputPath], 0o755)
 
@@ -144,11 +148,39 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }): JSX.E
     }
   }
 
+  async function startCompress(name: string, desc: string, inputPath: string, outputPath: string, onFinish: (status: boolean, error: Error | null) => void): Promise<void> {
+    const id = uuidv4()
+
+    try {
+      window.api.utils.setPreventAppClose("add", id, "Started compression.")
+      window.api.utils.logMessage("info", `[component] [TaskManager] [${id}] Adding compression of ${inputPath} to ${outputPath}.`)
+      tasksDispatch({ type: ACTIONS.ADD_TASK, payload: { id, name, desc, type: "compress", progress: 0, status: "pending" } })
+
+      window.api.utils.logMessage("info", `[component] [TaskManager] [${id}] Compressing ${inputPath}...`)
+      addNotification(t("notifications.titles.info"), t("notifications.body.compressing", { compressName: name }), "info")
+      const result = await window.api.pathsManager.compressOnPath(id, inputPath, outputPath)
+
+      if (!result) throw new Error("Compression failed")
+
+      window.api.utils.logMessage("info", `[component] [TaskManager] [${id}] Compressed ${inputPath} to ${outputPath}`)
+      tasksDispatch({ type: ACTIONS.UPDATE_TASK, payload: { id, updates: { status: "completed" } } })
+      addNotification(t("notifications.titles.success"), t("notifications.body.compressed", { compressName: name }), "success")
+      onFinish(true, null)
+    } catch (err) {
+      window.api.utils.logMessage("error", `[component] [TaskManager] [${id}] Error compressing ${inputPath}: ${err}`)
+      tasksDispatch({ type: ACTIONS.UPDATE_TASK, payload: { id, updates: { status: "failed" } } })
+      addNotification(t("notifications.titles.error"), t("notifications.body.compressError", { compressName: name }), "error")
+      onFinish(false, new Error(`Error comrpessing ${inputPath}: ${err}`))
+    } finally {
+      window.api.utils.setPreventAppClose("remove", id, "Finished compression.")
+    }
+  }
+
   function removeTask(id: string): void {
     tasksDispatch({ type: ACTIONS.REMOVE_TASK, payload: { id } })
   }
 
-  return <TaskContext.Provider value={{ tasks, startDownload, startExtract, removeTask }}>{children}</TaskContext.Provider>
+  return <TaskContext.Provider value={{ tasks, startDownload, startExtract, startCompress, removeTask }}>{children}</TaskContext.Provider>
 }
 
 export const useTaskContext = (): TaskContextType => {

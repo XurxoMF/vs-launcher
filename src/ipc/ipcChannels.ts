@@ -26,8 +26,10 @@ export const IPC_CHANNELS = {
   FILES_MANAGER: {
     DOWNLOAD_ON_PATH: "download-on-path",
     EXTRACT_ON_PATH: "extract-on-pathn",
+    COMPRESS_ON_PATH: "compress-on-path",
     DOWNLOAD_PROGRESS: "download-progress",
     EXTRACT_PROGRESS: "extract-progress",
+    COMPRESS_PROGRESS: "compress-progress",
     CHANGE_PERMS: "change-perms",
     LOOK_FOR_A_GAME_VERSION: "look-for-a-game-version"
   },

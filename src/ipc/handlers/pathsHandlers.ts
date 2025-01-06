@@ -8,6 +8,7 @@ import { Worker } from "worker_threads"
 import { logMessage } from "@src/utils/logManager"
 import { IPC_CHANNELS } from "@src/ipc/ipcChannels"
 
+import compressWorker from "@src/ipc/workers/compressWorker?modulePath"
 import extractWorker from "@src/ipc/workers/extractWorker?modulePath"
 import changePermsWorker from "@src/ipc/workers/changePermsWorker?modulePath"
 import downloadWorkerPath from "@src/ipc/workers/downloadWorker?modulePath"
@@ -55,6 +56,7 @@ ipcMain.handle(IPC_CHANNELS.FILES_MANAGER.DOWNLOAD_ON_PATH, (event, id, url, out
       if (data.type === "progress") {
         event.sender.send(IPC_CHANNELS.FILES_MANAGER.DOWNLOAD_PROGRESS, id, data.progress)
       } else if (data.type === "finished") {
+        logMessage("info", `[ipcMain] [download-on-path] Finished`)
         resolve(data.path)
       }
     })
@@ -65,6 +67,7 @@ ipcMain.handle(IPC_CHANNELS.FILES_MANAGER.DOWNLOAD_ON_PATH, (event, id, url, out
     })
 
     worker.on("exit", (code) => {
+      logMessage("error", `[ipcMain] [compress-on-path] "Worker stopped with exit code ${code}`)
       if (code !== 0) reject(new Error(`Worker stopped with exit code ${code}`))
     })
   })
@@ -73,13 +76,14 @@ ipcMain.handle(IPC_CHANNELS.FILES_MANAGER.DOWNLOAD_ON_PATH, (event, id, url, out
 ipcMain.handle(IPC_CHANNELS.FILES_MANAGER.EXTRACT_ON_PATH, async (event, id: string, filePath: string, outputPath: string) => {
   return new Promise((resolve, reject) => {
     const worker = new Worker(extractWorker, {
-      workerData: { id, filePath, outputPath }
+      workerData: { filePath, outputPath }
     })
 
     worker.on("message", (message) => {
       if (message.type === "progress") {
         event.sender.send(IPC_CHANNELS.FILES_MANAGER.EXTRACT_PROGRESS, id, message.progress)
       } else if (message.type === "finished") {
+        logMessage("info", `[ipcMain] [extract-on-path] Finished`)
         resolve(true)
       }
     })
@@ -91,6 +95,36 @@ ipcMain.handle(IPC_CHANNELS.FILES_MANAGER.EXTRACT_ON_PATH, async (event, id: str
 
     worker.on("exit", (code) => {
       if (code !== 0) {
+        logMessage("error", `[ipcMain] [compress-on-path] "Worker stopped with exit code ${code}`)
+        reject(new Error(`Worker stopped with exit code ${code}`))
+      }
+    })
+  })
+})
+
+ipcMain.handle(IPC_CHANNELS.FILES_MANAGER.COMPRESS_ON_PATH, async (event, id: string, inputPath: string, outputPath: string) => {
+  return new Promise((resolve, reject) => {
+    const worker = new Worker(compressWorker, {
+      workerData: { inputPath, outputPath }
+    })
+
+    worker.on("message", (message) => {
+      if (message.type === "progress") {
+        event.sender.send(IPC_CHANNELS.FILES_MANAGER.COMPRESS_PROGRESS, id, message.progress)
+      } else if (message.type === "finished") {
+        logMessage("info", `[ipcMain] [compress-on-path] Finished`)
+        resolve(true)
+      }
+    })
+
+    worker.on("error", (error) => {
+      logMessage("error", `[ipcMain] [compress-on-path] Worker error: ${error.message}`)
+      reject(error)
+    })
+
+    worker.on("exit", (code) => {
+      if (code !== 0) {
+        logMessage("error", `[ipcMain] [compress-on-path] Worker stopped with exit code ${code}`)
         reject(new Error(`Worker stopped with exit code ${code}`))
       }
     })

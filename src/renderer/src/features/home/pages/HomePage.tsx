@@ -1,7 +1,13 @@
 import { useTranslation } from "react-i18next"
 
+import { FormButton } from "@renderer/components/ui/FormComponents"
+
+import { useTaskContext } from "@renderer/contexts/TaskManagerContext"
+
 function HomePage(): JSX.Element {
   const { t } = useTranslation()
+
+  const { startCompress } = useTaskContext()
 
   return (
     <div className="relative h-screen bg-image-1 overflow-hidden bg-image-vs bg-center bg-cover">
@@ -18,6 +24,17 @@ function HomePage(): JSX.Element {
           allowFullScreen
           className="max-w-full max-h-full h-1/2 aspect-video rounded-md shadow-md shadow-zinc-900"
         ></iframe>
+
+        {/* For testing purposes only, will be removed */}
+        <FormButton
+          onClick={() => {
+            startCompress("test name", "test description", "/home/xurxomf/.config/VSLGameVersions/1.19.6/assets", "/home/xurxomf/Descargas/test.zip", (status, error) => {
+              if (status) return console.log("Compression finished successfully")
+              return console.log("Compression failed", error)
+            })
+          }}
+          title="Compress test"
+        />
       </div>
     </div>
   )

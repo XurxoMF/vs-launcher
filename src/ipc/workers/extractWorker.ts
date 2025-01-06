@@ -39,7 +39,7 @@ yauzl.open(filePath, { lazyEntries: true }, (err, zipfile) => {
         writeStream.on("finish", () => {
           extractedCount++
           const progress = Math.round((extractedCount / totalFiles) * 100)
-          if (progress > lastReportedProgress + 1) {
+          if (progress > lastReportedProgress) {
             lastReportedProgress = progress
             parentPort?.postMessage({
               type: "progress",

@@ -128,6 +128,7 @@
     "tasksMenu": {
       "downloading": "Downloading",
       "extracting": "Extracting",
+      "compressing": "Compressing",
       "error": "An error has ocurred during the process!",
       "noTasksAvailable": "There are no tasks queued!"
     },
@@ -155,7 +156,10 @@
       "extractError": "Error extracting: {{extractName}}!",
       "gameExitedWithErrors": "Vintage Story exited with errors!",
       "errorExecutingGame": "An error has ocurred while executing the game!",
-      "missingFields": "Please fill all the fields!"
+      "missingFields": "Please fill all the fields!",
+      "compressing": "Starting compression: {{compressName}}!",
+      "compressed": "Finished compression: {{compressName}}!",
+      "compressError": "Error compressing: {{compressName}}!"
     },
     "discard": "Discard notification"
   }
