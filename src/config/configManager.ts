@@ -8,6 +8,7 @@ const defaultConfig: ConfigType = {
   lastUsedInstallation: null,
   defaultInstallationsFolder: join(app.getPath("appData"), "VSLInstallations"),
   defaultVersionsFolder: join(app.getPath("appData"), "VSLGameVersions"),
+  defaultBackupsFolder: join(app.getPath("appData"), "VSLBackups"),
   installations: [],
   gameVersions: []
 }
@@ -18,6 +19,10 @@ const defaultInstallation: InstallationType = {
   path: "",
   version: "",
   startParams: "",
+  backupsLimit: 3,
+  backupsPath: "",
+  backupsAuto: false,
+  backups: [],
   mods: []
 }
 
@@ -79,6 +84,10 @@ function ensureConfigProperties(config: ConfigType): ConfigType {
     path: installation.path ?? defaultInstallation.path,
     version: installation.version ?? defaultInstallation.version,
     startParams: installation.startParams ?? defaultInstallation.startParams,
+    backupsLimit: installation.backupsLimit ?? defaultInstallation.backupsLimit,
+    backupsPath: installation.backupsPath ?? defaultInstallation.backupsPath,
+    backupsAuto: installation.backupsAuto ?? defaultInstallation.backupsAuto,
+    backups: installation.backups ?? defaultInstallation.backups,
     mods: installation.mods ?? defaultInstallation.mods
   }))
 

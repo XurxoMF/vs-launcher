@@ -7,6 +7,7 @@ export enum CONFIG_ACTIONS {
   SET_LAST_USED_INSTALLATION = "SET_LAST_USED_INSTALLATION",
   SET_DEFAULT_INSTALLATIONS_FOLDER = "SET_DEFAULT_INSTALLATIONS_FOLDER",
   SET_DEFAULT_VERSIONS_FOLDER = "SET_DEFAULT_VERSIONS_FOLDER",
+  SET_DEFAULT_BACKUPS_FOLDER = "SET_DEFAULT_BACKUPS_FOLDER",
 
   ADD_INSTALLATION = "ADD_INSTALLATION",
   DELETE_INSTALLATION = "DELETE_INSTALLATION",
@@ -39,6 +40,11 @@ export interface SetDefaultInstllationsFolder {
 
 export interface SetDefaultVersionsFolder {
   type: CONFIG_ACTIONS.SET_DEFAULT_VERSIONS_FOLDER
+  payload: string
+}
+
+export interface SetDefaultBackupsFolder {
+  type: CONFIG_ACTIONS.SET_DEFAULT_BACKUPS_FOLDER
   payload: string
 }
 
@@ -84,6 +90,7 @@ export type ConfigAction =
   | SetLastUsedInstallation
   | SetDefaultInstllationsFolder
   | SetDefaultVersionsFolder
+  | SetDefaultBackupsFolder
   | AddInstallation
   | DeleteInstallation
   | EditInstallation
@@ -103,6 +110,8 @@ const configReducer = (config: ConfigType, action: ConfigAction): ConfigType => 
       return { ...config, defaultInstallationsFolder: action.payload }
     case CONFIG_ACTIONS.SET_DEFAULT_VERSIONS_FOLDER:
       return { ...config, defaultVersionsFolder: action.payload }
+    case CONFIG_ACTIONS.SET_DEFAULT_BACKUPS_FOLDER:
+      return { ...config, defaultBackupsFolder: action.payload }
     case CONFIG_ACTIONS.ADD_INSTALLATION:
       return { ...config, installations: [action.payload, ...config.installations] }
     case CONFIG_ACTIONS.DELETE_INSTALLATION:
@@ -137,6 +146,7 @@ export const initialState: ConfigType = {
   lastUsedInstallation: null,
   defaultInstallationsFolder: "",
   defaultVersionsFolder: "",
+  defaultBackupsFolder: "",
   installations: [],
   gameVersions: []
 }

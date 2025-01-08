@@ -100,9 +100,9 @@
     },
     "config": {
       "title": "Einstellungen",
-      "defaultInstallationsFolder": "Installationen:",
+      "defaultInstallationsFolder": "Installationen",
       "folders": "Standard Ordner",
-      "defaultVersionsFolder": "Versionen:"
+      "defaultVersionsFolder": "Versionen"
     }
   },
   "components": {
@@ -120,11 +120,7 @@
       "installationsDesc": "Installationen verwalten",
       "installationsTitle": "Installationen"
     },
-    "gameRunningOverlay": {
-      "title": "SPIEL AKTIV",
-      "desc": "Das Spiel läuft im Hintergrund, bitte schließe es, um den VS Launcher benutzen zu können!",
-      "subDesc": "Um Konflikte mit dem Spiel zu vermeiden, ist die Benutzung des VS Launcher während des Spielens nicht möglich."
-    },
+    "gameRunningOverlay": {},
     "tasksMenu": {
       "downloading": "Herunterladend",
       "extracting": "Extrahierend",

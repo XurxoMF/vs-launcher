@@ -108,11 +108,7 @@
       "installationsTitle": "安装",
       "installationsDesc": "管理您的游戏安装"
     },
-    "gameRunningOverlay": {
-      "title": "游戏正在运行",
-      "desc": "游戏正在后台运行，请关闭游戏再使用《复古物语》启动器",
-      "subDesc": "为避免与游戏冲突，您无法在游玩游戏运行时使用《复古物语》启动器。"
-    },
+    "gameRunningOverlay": {},
     "tasksMenu": {
       "downloading": "正在下载",
       "extracting": "正在解压",

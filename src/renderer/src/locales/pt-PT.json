@@ -94,8 +94,8 @@
       "modsCount_other": "{{count}} mods"
     },
     "config": {
-      "defaultInstallationsFolder": "Instalações:",
-      "defaultVersionsFolder": "Versões:",
+      "defaultInstallationsFolder": "Instalações",
+      "defaultVersionsFolder": "Versões",
       "title": "Definições",
       "folders": "Pastas predefinidas"
     }
@@ -115,11 +115,7 @@
       "installationsTitle": "Instalações",
       "installationsDesc": "Gerir as suas instalações"
     },
-    "gameRunningOverlay": {
-      "title": "JOGO A EXECUTAR",
-      "desc": "O jogo está a ser executado em segundo plano, por favor, feche-o para usar o VS Launcher!",
-      "subDesc": "Não pode usar o VS Launcher enquanto joga para evitar conflitos com o jogo."
-    },
+    "gameRunningOverlay": {},
     "tasksMenu": {
       "downloading": "A descarregar",
       "extracting": "A extrair",

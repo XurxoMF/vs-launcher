@@ -1,10 +1,6 @@
 {
   "components": {
-    "gameRunningOverlay": {
-      "desc": "¡El juego se está ejecutando en segundo plano, por favor, ciérralo para usar VS Launcher!",
-      "subDesc": "No puedes usar VS Launcher mientras juegas para evitar conflictos con el juego.",
-      "title": "JUEGO EN EJECUCIÓN"
-    },
+    "gameRunningOverlay": {},
     "mainMenu": {
       "changelogDesc": "Changelog de Vintage Story",
       "changelogTitle": "Changelog",
@@ -103,8 +99,8 @@
     },
     "config": {
       "title": "Ajustes",
-      "defaultInstallationsFolder": "Instalaciones:",
-      "defaultVersionsFolder": "Versiones:",
+      "defaultInstallationsFolder": "Instalaciones",
+      "defaultVersionsFolder": "Versiones",
       "folders": "Carpetas predeterminadas"
     }
   },

@@ -9,7 +9,7 @@ import clsx from "clsx"
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
 export function TableWrapper({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
-  return <div className={clsx("bg-zinc-850 rounded shadow shadow-zinc-900", className)}>{children}</div>
+  return <div className={clsx("bg-zinc-850 rounded shadow shadow-zinc-900 select-none", className)}>{children}</div>
 }
 
 /**
@@ -73,7 +73,7 @@ export function TableBodyRow({
   onClick?: () => void
 }): JSX.Element {
   return (
-    <div className={clsx("border-l-4 border-transparent", selected ? "bg-vs/15 border-vs" : "odd:bg-zinc-800", disabled ? "text-zinc-500" : "cursor-pointer", className)} onClick={onClick}>
+    <div className={clsx("border-l-4 border-transparent", selected ? "bg-vs/15 border-vs" : "odd:bg-zinc-800", disabled ? "text-zinc-600" : "cursor-pointer", className)} onClick={onClick}>
       <div className={clsx("flex", !disabled && "duration-100 hover:translate-x-1")}>{children}</div>
     </div>
   )

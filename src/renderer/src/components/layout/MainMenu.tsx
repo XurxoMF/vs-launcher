@@ -86,16 +86,14 @@ function MainMenu(): JSX.Element {
       window.api.utils.setPreventAppClose("add", id, "Started playing Vintage Story.")
 
       const installationToRun = config.installations.find((installation) => installation.id === config.lastUsedInstallation)
-
-      if (!installationToRun) return addNotification(t("notifications.titles.warning"), t("features.installations.noInstallationSelected"), "warning")
+      if (!installationToRun) return addNotification(t("notifications.titles.error"), t("features.installations.noInstallationSelected"), "error")
 
       const gameVersionToRun = config.gameVersions.find((gv) => gv.version === installationToRun.version)
-
       if (!gameVersionToRun || gameVersionToRun._installing)
-        return addNotification(t("notifications.titles.warning"), t("features.versions.versionNotInstalled", { version: installationToRun.version }), "warning")
+        return addNotification(t("notifications.titles.error"), t("features.versions.versionNotInstalled", { version: installationToRun.version }), "error")
+      if (gameVersionToRun._installing) return addNotification(t("notifications.titles.error"), t("features.versions.versionInstalling", { version: installationToRun.version }), "error")
 
       const closeStatus = await window.api.gameManager.executeGame(gameVersionToRun, installationToRun)
-
       if (!closeStatus) return addNotification(t("notifications.titles.error"), t("notifications.body.gameExitedWithErrors"), "error")
     } catch (err) {
       addNotification(t("notifications.titles.error"), t("notifications.body.errorExecutingGame"), "error")
@@ -129,7 +127,7 @@ function MainMenu(): JSX.Element {
 
       <div className="flex flex-col gap-2">
         <InstallationsDropdownMenu />
-        <Button title={t("generic.play")} onClick={PlayHandler} className="w-full h-14 bg-vs rounded">
+        <Button title={t("generic.play")} onClick={PlayHandler} className="w-full h-14 bg-vs rounded shadow-md shadow-zinc-900 hover:shadow-none">
           <p className="text-2xl">{t("generic.play")}</p>
         </Button>
       </div>
@@ -154,14 +152,19 @@ function LinkContent({ icon, text, desc, link, external }: LinkContentProps): JS
   }
 
   return (
-    <div className={clsx("w-full flex items-center gap-2 px-2 py-1 rounded duration-100 group hover:translate-x-1 border-l-4", currentLocation() ? "border-vs bg-vs/15" : "border-transparent")}>
+    <div
+      className={clsx(
+        "w-full flex items-center gap-2 px-2 py-1 rounded duration-100 group hover:translate-x-1 border-l-4 select-none",
+        currentLocation() ? "border-vs bg-vs/15" : "border-transparent"
+      )}
+    >
       <img src={icon} alt={text} className="w-7" />
       <div className="flex flex-col overflow-hidden whitespace-nowrap">
         <div className="font-bold text-sm flex items-center gap-2">
           <p className="overflow-hidden text-ellipsis">{text}</p>
-          {external && <FiExternalLink className="text-zinc-500" />}
+          {external && <FiExternalLink className="text-zinc-600" />}
         </div>
-        <p className="text-zinc-500 text-xs overflow-hidden text-ellipsis">{desc}</p>
+        <p className="text-zinc-600 text-xs overflow-hidden text-ellipsis">{desc}</p>
       </div>
     </div>
   )

@@ -26,7 +26,7 @@ export function ButtonsWrapper({ children, className }: { children: React.ReactN
  */
 export function FormButton({ className, onClick, title }: { className?: string; onClick: () => void; title: string }): JSX.Element {
   return (
-    <Button onClick={onClick} title={title} className={clsx("w-fit h-8 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded", className)}>
+    <Button onClick={onClick} title={title} className={clsx("w-fit h-8 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded select-none", className)}>
       <p className="px-2 py-1">{title}</p>
     </Button>
   )
@@ -43,7 +43,7 @@ export function FormButton({ className, onClick, title }: { className?: string; 
  */
 export function FormLinkButton({ className, to, title }: { className?: string; to: string; title: string }): JSX.Element {
   return (
-    <Link to={to} title={title} className={clsx("w-fit h-8 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded", className)}>
+    <Link to={to} title={title} className={clsx("w-fit h-8 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded select-none", className)}>
       <p className="px-2 py-1">{title}</p>
     </Link>
   )

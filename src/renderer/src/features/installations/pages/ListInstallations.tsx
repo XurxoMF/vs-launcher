@@ -18,7 +18,7 @@ function ListInslallations(): JSX.Element {
 
   return (
     <>
-      <h1 className="text-3xl text-center font-bold">{t("features.installations.listTitle")}</h1>
+      <h1 className="text-3xl text-center font-bold select-none">{t("features.installations.listTitle")}</h1>
 
       <div className="mx-auto max-w-[800px] w-full">
         <ul className="w-full flex flex-col">
@@ -105,7 +105,7 @@ function ListInslallations(): JSX.Element {
                     {t("generic.cancel")}
                   </button>
                   <button
-                    title={t("generic.uninstall")}
+                    title={t("generic.delete")}
                     className="px-2 py-1 bg-red-800 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
                     onClick={async () => {
                       try {
@@ -121,7 +121,7 @@ function ListInslallations(): JSX.Element {
                       }
                     }}
                   >
-                    {t("generic.uninstall")}
+                    {t("generic.delete")}
                   </button>
                 </div>
               </DialogPanel>

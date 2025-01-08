@@ -4,6 +4,7 @@ declare global {
     lastUsedInstallation: string | null
     defaultInstallationsFolder: string
     defaultVersionsFolder: string
+    defaultBackupsFolder: string
   } & Record<string, unknown>
 
   type GameVersionType = {
@@ -17,12 +18,22 @@ declare global {
     filename: string
   } & Record<string, unknown>
 
+  type InstallationBackupType = {
+    id: string
+    date: number
+    path: string
+  } & Record<string, unknown>
+
   type InstallationType = {
     id: string
     name: string
     path: string
     version: string
     startParams: string
+    backupsLimit: number
+    backupsPath: string
+    backupsAuto: boolean
+    backups: InstallationBackupType[]
     mods: ModType[]
   } & Record<string, unknown>
 

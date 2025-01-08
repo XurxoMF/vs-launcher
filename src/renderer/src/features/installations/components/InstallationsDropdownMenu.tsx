@@ -15,7 +15,7 @@ function InstallationsDropdownMenu(): JSX.Element {
   return (
     <div className="w-full bg-zinc-850 rounded text-sm shadow shadow-zinc-900 hover:shadow-none">
       {config.installations.length < 1 ? (
-        <div className="w-full flex flex-col items-center justify-between px-4 py-2 ">
+        <div className="w-full flex flex-col items-center justify-between px-4 py-2 select-none">
           <p className="font-bold">{t("features.installations.noInstallationsFound")}</p>
           <p className="text-zinc-500 text-xs flex gap-1 items-center flex-wrap justify-center">
             <Trans
@@ -42,7 +42,7 @@ function InstallationsDropdownMenu(): JSX.Element {
         >
           {({ open }) => (
             <>
-              <ListboxButton className="w-full flex gap-2 items-center px-2 py-1">
+              <ListboxButton className="w-full flex gap-2 items-center px-2 py-1 select-none">
                 {config.lastUsedInstallation === null || !config.installations.some((installation) => installation.id === config.lastUsedInstallation) ? (
                   <div className="w-full flex items-center justify-between gap-2">
                     <p className="font-bold text-start">{t("features.installations.noInstallationSelected")}</p>
@@ -78,7 +78,7 @@ function InstallationsDropdownMenu(): JSX.Element {
                     animate={{ height: "fit-content" }}
                     exit={{ height: 0 }}
                     anchor="top"
-                    className="w-[var(--button-width)] bg-zinc-850 shadow shadow-zinc-900 -translate-y-1 rounded text-sm"
+                    className="w-[var(--button-width)] bg-zinc-850 shadow shadow-zinc-900 -translate-y-1 rounded text-sm select-none"
                   >
                     <div className="flex flex-col max-h-80">
                       {config.installations.map((current) => (

@@ -1,10 +1,10 @@
-import { Input } from "@headlessui/react"
+import { Input, Switch } from "@headlessui/react"
 import clsx from "clsx"
 
 const INPUT_BASE_STYLES = "h-8 px-2 py-1 rounded-md shadow shadow-zinc-900 hover:shadow-none"
 const INPUT_INVALID_STYLES = "border border-red-800 bg-red-800/10"
 const INPUT_VALID_STYLES = "bg-zinc-850"
-const INPUT_DISABLED_STYLES = "text-zinc-500"
+const INPUT_DISABLED_STYLES = "text-zinc-600"
 
 /**
  * Input with type text and validation for minimum and maximum length.
@@ -142,5 +142,28 @@ export function FormInputNumberNoteditable({ className, value, min, max, placeho
     <div className={clsx(INPUT_BASE_STYLES, (min && value < min) || (max && value > max) ? INPUT_INVALID_STYLES : INPUT_VALID_STYLES, !value && INPUT_DISABLED_STYLES, className)}>
       {value ? value : placeholder ? placeholder : ""}
     </div>
+  )
+}
+
+/**
+ * Toggle input with animation.
+ *
+ * @param {object} props - The component props.
+ * @param {number} props.value - The current value of the input field.
+ * @param {string} [props.placeholder] - Placeholder text to display when the input is empty.
+ * @returns {JSX.Element} A JSX element representing the input field with specified styles and validation.
+ */
+export function FormToggle({ value, onChange }: { className?: string; value: boolean; onChange: (e: boolean) => void }): JSX.Element {
+  return (
+    <Switch
+      checked={value}
+      onChange={onChange}
+      className="group relative flex h-6 w-12 cursor-pointer rounded-full bg-zinc-850 p-1 shadow shadow-zinc-900 hover:shadow-none transition-colors duration-100 ease-in-out focus:outline-none data-[focus]:outline-1 data-[focus]:outline-white data-[checked]:bg-vs"
+    >
+      <span
+        aria-hidden="true"
+        className="pointer-events-none inline-block size-4 translate-x-0 rounded-full bg-white ring-0 shadow-lg transition duration-100 ease-in-out group-data-[checked]:translate-x-6"
+      />
+    </Switch>
   )
 }

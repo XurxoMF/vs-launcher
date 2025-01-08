@@ -25,7 +25,7 @@ export const IPC_CHANNELS = {
   },
   FILES_MANAGER: {
     DOWNLOAD_ON_PATH: "download-on-path",
-    EXTRACT_ON_PATH: "extract-on-pathn",
+    EXTRACT_ON_PATH: "extract-on-path",
     COMPRESS_ON_PATH: "compress-on-path",
     DOWNLOAD_PROGRESS: "download-progress",
     EXTRACT_PROGRESS: "extract-progress",

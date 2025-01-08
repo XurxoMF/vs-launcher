@@ -17,7 +17,7 @@ function ListVersions(): JSX.Element {
 
   return (
     <>
-      <h1 className="text-3xl text-center font-bold">{t("features.versions.listTitle")}</h1>
+      <h1 className="text-3xl text-center font-bold select-none">{t("features.versions.listTitle")}</h1>
 
       <div className="mx-auto max-w-[800px] w-full">
         <ul className="w-full flex flex-col">
@@ -46,7 +46,7 @@ function ListVersions(): JSX.Element {
                   </Button>
                   <Button
                     onClick={async () => {
-                      if (!(await window.api.pathsManager.checkPathExists(gv.path))) return addNotification(t("notifications.titles.warning"), t("notifications.body.folderDoesntExists"), "warning")
+                      if (!(await window.api.pathsManager.checkPathExists(gv.path))) return addNotification(t("notifications.titles.error"), t("notifications.body.folderDoesntExists"), "error")
                       window.api.pathsManager.openPathOnFileExplorer(gv.path)
                     }}
                     title={t("generic.openOnFileExplorer")}

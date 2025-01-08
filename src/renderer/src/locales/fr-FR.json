@@ -108,11 +108,7 @@
       "installationsTitle": "Installations",
       "installationsDesc": "Gérer vos installations"
     },
-    "gameRunningOverlay": {
-      "title": "JEU EN COURS",
-      "desc": "Le jeu est en cours d'exécution en arrière-plan, veuillez le fermer pour utiliser VS Launcher!",
-      "subDesc": "Vous ne pouvez pas utiliser VS Launcher en jouant afin d'éviter tout conflit avec le jeu."
-    },
+    "gameRunningOverlay": {},
     "tasksMenu": {
       "downloading": "Téléchargement",
       "extracting": "Extraction",

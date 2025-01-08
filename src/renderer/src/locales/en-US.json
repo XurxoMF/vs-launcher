@@ -20,7 +20,12 @@
     "version": "Version",
     "releaseDate": "Release Date",
     "type": "Type",
-    "install": "Install"
+    "install": "Install",
+    "backups": "Backups",
+    "basics": "Basics",
+    "advanced": "Advanced",
+    "minMaxAmmount": "Number between {{min}} and {{max}}",
+    "ammount": "Ammount"
   },
   "features": {
     "generic": {
@@ -57,7 +62,10 @@
       "searchForAGameVersion": "Search for a game version",
       "missingFolderOrVersion": "You've no folder selected or there it no game version on the one you've selected!",
       "lookForAVersion": "Look for a version",
-      "versionFound": "Version found"
+      "versionFound": "Version found",
+      "versionInstalling": "Game version X is installing. Please wait for it to finish before playing!",
+      "folderAlreadyInUse": "That folder is already used by another version!",
+      "noVersionsFoundDesc": "Install a new one on the <link /> page!"
     },
     "installations": {
       "noInstallationsFound": "No installations found!",
@@ -87,7 +95,13 @@
       "startParams": "Start params",
       "startParamsDesc": "List of all the available start params: <link />",
       "cantUseDataPath": "Start param --dataPath can't be used as it's used by VS Launcher. If you want another folder change it on the installation.",
-      "startParamsLink": "Vintage Story Wiki"
+      "startParamsLink": "Vintage Story Wiki",
+      "backupsFolderAlreadyInUse": "That backups folder is already used by another installation!",
+      "backupsFolderSameAsFolder": "The backups folder can't be the same as the installation folder!",
+      "backupsFolder": "Backups folder",
+      "backupsLimit": "Backups max ammount",
+      "backupsAuto": "Toggle on to make an automatic backup before playing",
+      "automaticBackups": "Automatic?"
     },
     "mods": {
       "modsCount": "{{count}} mods",
@@ -100,9 +114,10 @@
     },
     "config": {
       "title": "Settings",
-      "defaultInstallationsFolder": "Installations:",
+      "defaultInstallationsFolder": "Installations",
       "folders": "Default folders",
-      "defaultVersionsFolder": "Versions:"
+      "defaultVersionsFolder": "Versions",
+      "defaultBackupsFolder": "Backups"
     }
   },
   "components": {
@@ -120,11 +135,7 @@
       "installationsTitle": "Installations",
       "installationsDesc": "Manage your installations"
     },
-    "gameRunningOverlay": {
-      "title": "GAME RUNNING",
-      "desc": "The game is running in the background, please, close it to use VS Launcher!",
-      "subDesc": "You can't use VS Launcher while playing to prevent any conflicts with the game."
-    },
+    "gameRunningOverlay": {},
     "tasksMenu": {
       "downloading": "Downloading",
       "extracting": "Extracting",
