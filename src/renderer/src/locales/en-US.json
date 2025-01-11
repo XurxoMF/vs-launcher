@@ -27,7 +27,9 @@
     "minMaxAmmount": "Number between {{min}} and {{max}}",
     "ammount": "Ammount",
     "kofi": "Ko-fi",
-    "patreon": "Patreon"
+    "patreon": "Patreon",
+    "backup": "Backup",
+    "edit": "Edit"
   },
   "features": {
     "generic": {

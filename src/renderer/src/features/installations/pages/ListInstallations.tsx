@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import { Button, Description, Dialog, DialogPanel, DialogTitle, Input } from "@headlessui/react"
-import { PiFolderFill, PiPlusCircleFill, PiTrashFill, PiPencilFill } from "react-icons/pi"
+import { PiFolderFill, PiPlusCircleFill, PiTrashFill, PiPencilFill, PiArrowsCounterClockwiseFill } from "react-icons/pi"
 import { useTranslation, Trans } from "react-i18next"
 import { AnimatePresence, motion } from "motion/react"
 
@@ -42,7 +42,20 @@ function ListInslallations(): JSX.Element {
               </div>
 
               <div className="flex gap-2">
-                <Link to={`/installations/edit/${installation.id}`} className="w-7 h-7 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded">
+                <Button
+                  className="w-7 h-7 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
+                  title={t("generic.backup")}
+                  onClick={async () => {
+                    // TODO: Make backup logic
+                  }}
+                >
+                  <PiArrowsCounterClockwiseFill className="text-lg" />
+                </Button>
+                <Link
+                  to={`/installations/edit/${installation.id}`}
+                  title={t("generic.edit")}
+                  className="w-7 h-7 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
+                >
                   <PiPencilFill className="text-lg" />
                 </Link>
                 <Button
