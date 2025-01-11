@@ -38,7 +38,7 @@ export function FormGroupWrapper({ children, className, title }: { children: Rea
   return (
     <div className="w-full flex flex-col gap-1 relative">
       {title && <h2 className="bg-zinc-800 text-zinc-600 absolute -top-3 left-4 px-1 select-none">{title}</h2>}
-      <div className={clsx("w-full flex flex-col gap-4 border border-zinc-700 rounded p-3", title && "pt-5", className)}>{children}</div>
+      <div className={clsx("w-full flex flex-col gap-4 border border-zinc-700 rounded p-3", className)}>{children}</div>
     </div>
   )
 }
