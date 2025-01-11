@@ -58,16 +58,6 @@ function LookForAVersion(): JSX.Element {
         <FormGroupWrapper title={t("generic.basics")}>
           <FromGroup>
             <FormHead>
-              <FormLabel content={t("features.versions.versionFound")} />
-            </FormHead>
-
-            <FormBody>
-              <FormInputTextNotEditable value={versionFound} placeholder={t("features.versions.versionFound")} />
-            </FormBody>
-          </FromGroup>
-
-          <FromGroup>
-            <FormHead>
               <FormLabel content={t("generic.folder")} />
             </FormHead>
 
@@ -93,6 +83,16 @@ function LookForAVersion(): JSX.Element {
                 />
                 <FormInputTextNotEditable value={folder} placeholder={t("generic.folder")} className="w-full" />
               </FormFieldGroup>
+            </FormBody>
+          </FromGroup>
+
+          <FromGroup>
+            <FormHead>
+              <FormLabel content={t("features.versions.versionFound")} />
+            </FormHead>
+
+            <FormBody>
+              <FormInputTextNotEditable value={versionFound} placeholder={t("features.versions.versionFound")} />
             </FormBody>
           </FromGroup>
         </FormGroupWrapper>
