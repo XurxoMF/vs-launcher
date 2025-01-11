@@ -25,7 +25,9 @@
     "basics": "Basics",
     "advanced": "Advanced",
     "minMaxAmmount": "Number between {{min}} and {{max}}",
-    "ammount": "Ammount"
+    "ammount": "Ammount",
+    "kofi": "Ko-fi",
+    "patreon": "Patreon"
   },
   "features": {
     "generic": {

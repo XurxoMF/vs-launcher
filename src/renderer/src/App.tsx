@@ -91,11 +91,13 @@ function AppInfo(): JSX.Element {
   }, [])
 
   return (
-    <div className="w-full absolute z-[100] p-1 px-4 select-none bg-gradient-to-b from-zinc-950/60 to-zinc-950/0 flex justify-between items-center text-xs text-zinc-600">
+    <div className="w-full absolute z-[100] p-1 px-4 select-none bg-gradient-to-b from-zinc-950/60 to-zinc-950/0 flex justify-between items-center text-xs text-zinc-500">
       <div className="flex flex-nowrap gap-1">
-        <MiniLinks to="https://github.com/XurxoMF/vs-launcher/issues" text={t("generic.issues")} />|
-        <MiniLinks to="https://github.com/XurxoMF/vs-launcher/wiki" text={t("generic.guides")} />|
+        <MiniLinks to="https://github.com/XurxoMF/vs-launcher/issues" text={t("generic.issues")} />
+        <MiniLinks to="https://github.com/XurxoMF/vs-launcher/wiki" text={t("generic.guides")} />
         <MiniLinks to="https://github.com/XurxoMF/vs-launcher" text={t("generic.source")} />
+        <MiniLinks to="https://ko-fi.com/xurxomf" text={t("generic.kofi")} />
+        <MiniLinks to="https://patreon.com/XurxoMF" text={t("generic.patreon")} />
       </div>
       <p>VS Launcher - v{version}</p>
     </div>
@@ -104,8 +106,8 @@ function AppInfo(): JSX.Element {
 
 function MiniLinks({ to, text }: { to: string; text: string }): JSX.Element {
   return (
-    <a title={text} onClick={() => window.api.utils.openOnBrowser(to)} className="flex flex-row flex-nowrap items-center gap-1 cursor-pointer">
-      {text} <FiExternalLink />
+    <a title={text} onClick={() => window.api.utils.openOnBrowser(to)} className="flex flex-row flex-nowrap items-center gap-1 cursor-pointer [&:not(:last-child)]:after:content-['|']">
+      {text} <FiExternalLink className="text-[.6rem]" />
     </a>
   )
 }
