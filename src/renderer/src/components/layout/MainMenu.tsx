@@ -11,8 +11,9 @@ import iconMods from "@renderer/assets/icon-moddb.png"
 import iconNews from "@renderer/assets/icon-news.png"
 import iconChangelog from "@renderer/assets/icon-changelog.png"
 
-import { useConfigContext } from "@renderer/contexts/ConfigContext"
+import { useConfigContext, CONFIG_ACTIONS } from "@renderer/contexts/ConfigContext"
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
+import { useTaskContext } from "@renderer/contexts/TaskManagerContext"
 
 import LanguagesMenu from "@renderer/components/ui/LanguagesMenu"
 import InstallationsDropdownMenu from "@renderer/features/installations/components/InstallationsDropdownMenu"
@@ -35,7 +36,8 @@ interface MainMenuAProps {
 
 function MainMenu(): JSX.Element {
   const { t } = useTranslation()
-  const { config } = useConfigContext()
+  const { config, configDispatch } = useConfigContext()
+  const { startCompress } = useTaskContext()
   const { addNotification } = useNotificationsContext()
 
   const LINKS: MainMenuLinkProps[] = [
@@ -92,6 +94,39 @@ function MainMenu(): JSX.Element {
       if (!gameVersionToRun || gameVersionToRun._installing)
         return addNotification(t("notifications.titles.error"), t("features.versions.versionNotInstalled", { version: installationToRun.version }), "error")
       if (gameVersionToRun._installing) return addNotification(t("notifications.titles.error"), t("features.versions.versionInstalling", { version: installationToRun.version }), "error")
+
+      if (installationToRun.backupsAuto && (await window.api.pathsManager.checkPathExists(installationToRun.path)) && installationToRun.backupsPath && installationToRun.backupsLimit > 0) {
+        try {
+          let backupsLength = installationToRun.backups.length
+
+          while (backupsLength > 0 && backupsLength >= installationToRun.backupsLimit) {
+            const backupToDelete = installationToRun.backups[backupsLength - 1]
+            const res = await window.api.pathsManager.deletePath(backupToDelete.path)
+            if (!res) return addNotification(t("notifications.titles.error"), "There was an error deleting old backups!", "error")
+            configDispatch({
+              type: CONFIG_ACTIONS.DELETE_INSTALLATION_BACKUP,
+              payload: { id: installationToRun.id, backupId: backupToDelete.id }
+            })
+            backupsLength--
+            window.api.utils.logMessage("info", `[ListInstallations] [backup] Deleted old backup: ${backupToDelete.path}`)
+          }
+
+          const fileName = `${installationToRun.name.replace(/[^a-zA-Z0-9]/g, "-")}_${new Date().toLocaleString("es").replace(/[^a-zA-Z0-9]/g, "-")}.zip`
+          const backupPath = await window.api.pathsManager.formatPath([config.backupsFolder, "Installations"])
+          const outBackupPath = await window.api.pathsManager.formatPath([backupPath, fileName])
+
+          await startCompress(`${installationToRun.name} backup`, `Backing up installation ${installationToRun.name}`, installationToRun.path, backupPath, fileName, (status) => {
+            if (!status) throw new Error("Error compressing installation!")
+
+            configDispatch({
+              type: CONFIG_ACTIONS.ADD_INSTALLATION_BACKUP,
+              payload: { id: installationToRun.id, backup: { date: Date.now(), id: uuidv4(), path: outBackupPath } }
+            })
+          })
+        } catch (err) {
+          window.api.utils.logMessage("error", `[ListInstallations] [backup] Error making a backup: ${err}`)
+        }
+      }
 
       const closeStatus = await window.api.gameManager.executeGame(gameVersionToRun, installationToRun)
       if (!closeStatus) return addNotification(t("notifications.titles.error"), t("notifications.body.gameExitedWithErrors"), "error")

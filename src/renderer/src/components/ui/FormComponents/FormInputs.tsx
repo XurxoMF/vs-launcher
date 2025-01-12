@@ -2,7 +2,7 @@ import { Input, Switch } from "@headlessui/react"
 import clsx from "clsx"
 
 const INPUT_PLACEHOLDER_STYLES = "text-zinc-600"
-const INPUT_BASE_STYLES = `h-8 px-2 py-1 rounded-md placeholder:${INPUT_PLACEHOLDER_STYLES}`
+const INPUT_BASE_STYLES = `h-8 px-2 py-1 rounded-md placeholder:text-zinc-600`
 const INPUT_INVALID_STYLES = "border border-red-800 bg-red-800/10"
 const INPUT_VALID_STYLES = "bg-zinc-850"
 const INPUT_ENABLED_STYLES = "shadow shadow-zinc-900 hover:shadow-none "

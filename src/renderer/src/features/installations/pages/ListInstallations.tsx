@@ -4,14 +4,17 @@ import { Button, Description, Dialog, DialogPanel, DialogTitle, Input } from "@h
 import { PiFolderFill, PiPlusCircleFill, PiTrashFill, PiPencilFill, PiArrowsCounterClockwiseFill } from "react-icons/pi"
 import { useTranslation, Trans } from "react-i18next"
 import { AnimatePresence, motion } from "motion/react"
+import { v4 as uuidv4 } from "uuid"
 
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/contexts/ConfigContext"
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
+import { useTaskContext } from "@renderer/contexts/TaskManagerContext"
 
 function ListInslallations(): JSX.Element {
   const { t } = useTranslation()
   const { addNotification } = useNotificationsContext()
   const { config, configDispatch } = useConfigContext()
+  const { startCompress } = useTaskContext()
 
   const [installationToDelete, setInstallationToDelete] = useState<InstallationType | null>(null)
   const [deleteData, setDeleData] = useState<boolean>(false)
@@ -46,7 +49,38 @@ function ListInslallations(): JSX.Element {
                   className="w-7 h-7 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
                   title={t("generic.backup")}
                   onClick={async () => {
-                    // TODO: Make backup logic
+                    if ((await window.api.pathsManager.checkPathExists(installation.path)) && installation.backupsPath && installation.backupsLimit > 0) {
+                      try {
+                        let backupsLength = installation.backups.length
+
+                        while (backupsLength > 0 && backupsLength >= installation.backupsLimit) {
+                          const backupToDelete = installation.backups[backupsLength - 1]
+                          const res = await window.api.pathsManager.deletePath(backupToDelete.path)
+                          if (!res) return addNotification(t("notifications.titles.error"), "There was an error deleting old backups!", "error")
+                          configDispatch({
+                            type: CONFIG_ACTIONS.DELETE_INSTALLATION_BACKUP,
+                            payload: { id: installation.id, backupId: backupToDelete.id }
+                          })
+                          backupsLength--
+                          window.api.utils.logMessage("info", `[ListInstallations] [backup] Deleted old backup: ${backupToDelete.path}`)
+                        }
+
+                        const fileName = `${installation.name.replace(/[^a-zA-Z0-9]/g, "-")}_${new Date().toLocaleString("es").replace(/[^a-zA-Z0-9]/g, "-")}.zip`
+                        const backupPath = await window.api.pathsManager.formatPath([config.backupsFolder, "Installations"])
+                        const outBackupPath = await window.api.pathsManager.formatPath([backupPath, fileName])
+
+                        await startCompress(`${installation.name} backup`, `Backing up installation ${installation.name}`, installation.path, backupPath, fileName, (status) => {
+                          if (!status) throw new Error("Error compressing installation!")
+
+                          configDispatch({
+                            type: CONFIG_ACTIONS.ADD_INSTALLATION_BACKUP,
+                            payload: { id: installation.id, backup: { date: Date.now(), id: uuidv4(), path: outBackupPath } }
+                          })
+                        })
+                      } catch (err) {
+                        window.api.utils.logMessage("error", `[ListInstallations] [backup] Error making a backup: ${err}`)
+                      }
+                    }
                   }}
                 >
                   <PiArrowsCounterClockwiseFill className="text-lg" />

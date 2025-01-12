@@ -8,7 +8,7 @@ const defaultConfig: ConfigType = {
   lastUsedInstallation: null,
   defaultInstallationsFolder: join(app.getPath("appData"), "VSLInstallations"),
   defaultVersionsFolder: join(app.getPath("appData"), "VSLGameVersions"),
-  defaultBackupsFolder: join(app.getPath("appData"), "VSLBackups"),
+  backupsFolder: join(app.getPath("appData"), "VSLBackups"),
   installations: [],
   gameVersions: []
 }
@@ -20,7 +20,6 @@ const defaultInstallation: InstallationType = {
   version: "",
   startParams: "",
   backupsLimit: 3,
-  backupsPath: "",
   backupsAuto: false,
   backups: [],
   mods: []
@@ -78,30 +77,30 @@ export async function ensureConfig(): Promise<boolean> {
 }
 
 function ensureConfigProperties(config: ConfigType): ConfigType {
-  const installations = config.installations.map((installation) => ({
+  const installations: InstallationType[] = config.installations.map((installation) => ({
     id: installation.id ?? defaultInstallation.id,
     name: installation.name ?? defaultInstallation.name,
     path: installation.path ?? defaultInstallation.path,
     version: installation.version ?? defaultInstallation.version,
     startParams: installation.startParams ?? defaultInstallation.startParams,
     backupsLimit: installation.backupsLimit ?? defaultInstallation.backupsLimit,
-    backupsPath: installation.backupsPath ?? defaultInstallation.backupsPath,
     backupsAuto: installation.backupsAuto ?? defaultInstallation.backupsAuto,
     backups: installation.backups ?? defaultInstallation.backups,
     mods: installation.mods ?? defaultInstallation.mods
   }))
 
-  const gameVersions = config.gameVersions.map((gameVersion) => ({
+  const gameVersions: GameVersionType[] = config.gameVersions.map((gameVersion) => ({
     version: gameVersion.version ?? defaultGameVersion.version,
     path: gameVersion.path ?? defaultGameVersion.path
   }))
 
-  const fixedConfig = {
+  const fixedConfig: ConfigType = {
     ...config,
     version: !config.version || config.version < defaultConfig.version ? defaultConfig.version : config.version,
     lastUsedInstallation: config.lastUsedInstallation ?? defaultConfig.lastUsedInstallation,
     defaultInstallationsFolder: config.defaultInstallationsFolder ?? defaultConfig.defaultInstallationsFolder,
     defaultVersionsFolder: config.defaultVersionsFolder ?? defaultConfig.defaultVersionsFolder,
+    backupsFolder: config.backupsFolder ?? defaultConfig.backupsFolder,
     installations,
     gameVersions
   }

@@ -73,7 +73,7 @@ function ConfigPage(): JSX.Element {
                   }}
                   title={t("generic.browse")}
                 />
-                <FormInputTextNotEditable value={config.defaultBackupsFolder} className="w-full" />
+                <FormInputTextNotEditable value={config.backupsFolder} className="w-full" />
               </FormFieldGroup>
             </FormBody>
           </FromGroup>

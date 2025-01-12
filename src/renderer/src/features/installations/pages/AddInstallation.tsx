@@ -36,29 +36,21 @@ function AddInslallation(): JSX.Element {
   const [folderByUser, setFolderByUser] = useState<boolean>(false)
   const [version, setVersion] = useState<GameVersionType>(config.gameVersions[0])
   const [startParams, setStartParams] = useState<string>("")
-  const [backupsPath, setBackupsPath] = useState<string>("")
-  const [backupsPathByUser, setBackupsPathByUser] = useState<boolean>(false)
   const [backupsLimit, setBackupsLimit] = useState<number>(3)
   const [backupsAuto, setBackupsAuto] = useState<boolean>(false)
 
   useEffect(() => {
     ;(async (): Promise<void> => {
       if (name && !folderByUser) setFolder(await window.api.pathsManager.formatPath([config.defaultInstallationsFolder, name.replace(/[^a-zA-Z0-9]/g, "-")]))
-      if (name && !backupsPathByUser) setBackupsPath(await window.api.pathsManager.formatPath([config.defaultBackupsFolder, name.replace(/[^a-zA-Z0-9]/g, "-")]))
     })()
   }, [name])
 
   const handleAddInstallation = async (): Promise<void> => {
-    if (!name || !folder || !version || !backupsPath || !backupsLimit || backupsAuto === undefined)
-      return addNotification(t("notifications.titles.error"), t("notifications.body.missingFields"), "error")
+    if (!name || !folder || !version || !backupsLimit || backupsAuto === undefined) return addNotification(t("notifications.titles.error"), t("notifications.body.missingFields"), "error")
 
     if (name.length < 5 || name.length > 50) return addNotification(t("notifications.titles.error"), t("features.installations.installationNameMinMaxCharacters", { min: 5, max: 50 }), "error")
 
     if (config.installations.some((igv) => igv.path === folder)) return addNotification(t("notifications.titles.error"), t("features.installations.folderAlreadyInUse"), "error")
-
-    if (config.installations.some((igv) => igv.backupsPath === backupsPath)) return addNotification(t("notifications.titles.error"), t("features.installations.backupsFolderAlreadyInUse"), "error")
-
-    if (backupsPath === folder) return addNotification(t("notifications.titles.error"), t("features.installations.backupsFolderSameAsFolder"), "error")
 
     if (startParams.includes("--dataPath")) return addNotification(t("notifications.titles.error"), t("features.installations.cantUseDataPath"), "error")
 
@@ -69,7 +61,6 @@ function AddInslallation(): JSX.Element {
         path: folder,
         version: version.version,
         startParams,
-        backupsPath,
         backupsLimit,
         backupsAuto,
         backups: [],
@@ -176,28 +167,6 @@ function AddInslallation(): JSX.Element {
         </FormGroupWrapper>
 
         <FormGroupWrapper title={t("generic.backups")}>
-          <FromGroup>
-            <FormHead>
-              <FormLabel content={t("generic.folder")} />
-            </FormHead>
-
-            <FormBody>
-              <FormFieldGroup alignment="x">
-                <FormButton
-                  onClick={async () => {
-                    const path = await window.api.utils.selectFolderDialog()
-                    if (path && path.length > 0) {
-                      setBackupsPath(path)
-                      setBackupsPathByUser(true)
-                    }
-                  }}
-                  title={t("generic.browse")}
-                />
-                <FormInputText placeholder={t("features.installations.backupsFolder")} value={backupsPath} onChange={(e) => setBackupsPath(e.target.value)} minLength={1} className="w-full" />
-              </FormFieldGroup>
-            </FormBody>
-          </FromGroup>
-
           <FromGroup>
             <FormHead>
               <FormLabel content={t("generic.ammount")} />

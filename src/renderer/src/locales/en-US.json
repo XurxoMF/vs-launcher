@@ -67,7 +67,7 @@
       "missingFolderOrVersion": "You've no folder selected or there it no game version on the one you've selected!",
       "lookForAVersion": "Look for a version",
       "versionFound": "Version found",
-      "versionInstalling": "Game version X is installing. Please wait for it to finish before playing!",
+      "versionInstalling": "Game version {{version}} is installing. Please wait for it to finish before playing!",
       "folderAlreadyInUse": "That folder is already used by another version!",
       "noVersionsFoundDesc": "Install a new one on the <link /> page!"
     },

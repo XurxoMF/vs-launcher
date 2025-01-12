@@ -32,7 +32,7 @@ declare global {
       openPathOnFileExplorer: (path: string) => Promise<string>
       downloadOnPath: (id: string, url: string, outputPath: string) => Promise<string>
       extractOnPath: (id: string, filePath: string, outputPath: string) => Promise<boolean>
-      compressOnPath: (id: string, inputPath: string, outputPath: string) => Promise<boolean>
+      compressOnPath: (id: string, inputPath: string, outputPath: string, outputFileName: string) => Promise<boolean>
       onDownloadProgress: (callback: ProgressCallback) => void
       onExtractProgress: (callback: ProgressCallback) => void
       onCompressProgress: (callback: ProgressCallback) => void

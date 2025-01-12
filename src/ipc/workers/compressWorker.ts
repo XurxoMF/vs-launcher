@@ -3,9 +3,9 @@ import archiver from "archiver"
 import fse from "fs-extra"
 import { join } from "path"
 
-const { inputPath, outputPath } = workerData
+const { inputPath, outputPath, outputFileName } = workerData
 
-const output = fse.createWriteStream(outputPath)
+const output = fse.createWriteStream(join(outputPath, outputFileName))
 const archive = archiver("zip", { zlib: { level: 9 } })
 
 let totalFiles = 0
@@ -26,6 +26,10 @@ function countFiles(dirPath: string): void {
 
 try {
   countFiles(inputPath)
+
+  if (!fse.existsSync(outputPath)) {
+    fse.mkdirSync(outputPath, { recursive: true })
+  }
 
   archive.on("entry", () => {
     processedFiles++

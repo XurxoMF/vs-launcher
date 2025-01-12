@@ -12,6 +12,8 @@ export enum CONFIG_ACTIONS {
   ADD_INSTALLATION = "ADD_INSTALLATION",
   DELETE_INSTALLATION = "DELETE_INSTALLATION",
   EDIT_INSTALLATION = "EDIT_INSTALLATION",
+  ADD_INSTALLATION_BACKUP = "ADD_INSTALLATION_BACKUP",
+  DELETE_INSTALLATION_BACKUP = "DELETE_INSTALLATION_BACKUP",
 
   ADD_GAME_VERSION = "ADD_GAME_VERSION",
   DELETE_GAME_VERSION = "DELETE_GAME_VERSION",
@@ -66,6 +68,22 @@ export interface EditInstallation {
   }
 }
 
+export interface AddInstallationBackup {
+  type: CONFIG_ACTIONS.ADD_INSTALLATION_BACKUP
+  payload: {
+    id: string
+    backup: BackupType
+  }
+}
+
+export interface DeleteInstallationBackup {
+  type: CONFIG_ACTIONS.DELETE_INSTALLATION_BACKUP
+  payload: {
+    id: string
+    backupId: string
+  }
+}
+
 export interface AddGameVersion {
   type: CONFIG_ACTIONS.ADD_GAME_VERSION
   payload: GameVersionType
@@ -94,6 +112,8 @@ export type ConfigAction =
   | AddInstallation
   | DeleteInstallation
   | EditInstallation
+  | AddInstallationBackup
+  | DeleteInstallationBackup
   | AddGameVersion
   | DeleteGameVersion
   | EditGameVersion
@@ -124,6 +144,25 @@ const configReducer = (config: ConfigType, action: ConfigAction): ConfigType => 
         ...config,
         installations: config.installations.map((installation) => (installation.id === action.payload.id ? { ...installation, ...action.payload.updates } : installation))
       }
+    case CONFIG_ACTIONS.ADD_INSTALLATION_BACKUP:
+      return {
+        ...config,
+        installations: config.installations.map((installation) =>
+          installation.id === action.payload.id ? { ...installation, backups: [action.payload.backup, ...installation.backups] } : installation
+        )
+      }
+    case CONFIG_ACTIONS.DELETE_INSTALLATION_BACKUP:
+      return {
+        ...config,
+        installations: config.installations.map((installation) =>
+          installation.id === action.payload.id
+            ? {
+                ...installation,
+                backups: installation.backups.filter((backup) => backup.id !== action.payload.backupId)
+              }
+            : installation
+        )
+      }
     case CONFIG_ACTIONS.ADD_GAME_VERSION:
       return { ...config, gameVersions: [action.payload, ...config.gameVersions] }
     case CONFIG_ACTIONS.DELETE_GAME_VERSION:
@@ -146,7 +185,7 @@ export const initialState: ConfigType = {
   lastUsedInstallation: null,
   defaultInstallationsFolder: "",
   defaultVersionsFolder: "",
-  defaultBackupsFolder: "",
+  backupsFolder: "",
   installations: [],
   gameVersions: []
 }

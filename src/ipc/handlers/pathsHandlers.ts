@@ -102,10 +102,10 @@ ipcMain.handle(IPC_CHANNELS.FILES_MANAGER.EXTRACT_ON_PATH, async (event, id: str
   })
 })
 
-ipcMain.handle(IPC_CHANNELS.FILES_MANAGER.COMPRESS_ON_PATH, async (event, id: string, inputPath: string, outputPath: string) => {
+ipcMain.handle(IPC_CHANNELS.FILES_MANAGER.COMPRESS_ON_PATH, async (event, id: string, inputPath: string, outputPath: string, outputFileName: string) => {
   return new Promise((resolve, reject) => {
     const worker = new Worker(compressWorker, {
-      workerData: { inputPath, outputPath }
+      workerData: { inputPath, outputPath, outputFileName }
     })
 
     worker.on("message", (message) => {
