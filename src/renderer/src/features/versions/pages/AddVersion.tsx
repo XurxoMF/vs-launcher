@@ -64,7 +64,8 @@ function AddVersion(): JSX.Element {
     if (config.gameVersions.some((igv) => igv.version === version.version))
       return addNotification(t("notifications.titles.error"), t("features.versions.versionAlreadyInstalled", { version: version.version }), "error")
 
-    if (config.gameVersions.some((igv) => igv.path === folder)) return addNotification(t("notifications.titles.error"), t("features.versions.folderAlreadyInUse"), "error")
+    if (folder === config.backupsFolder || config.gameVersions.some((gv) => gv.path === folder) || config.installations.some((i) => i.path === folder))
+      return addNotification(t("notifications.titles.error"), t("features.versions.folderAlreadyInUse"), "error")
 
     const os = await window.api.utils.getOs()
     const url = os === "win32" ? version.windows : version.linux

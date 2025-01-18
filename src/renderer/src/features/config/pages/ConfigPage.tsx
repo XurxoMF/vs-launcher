@@ -59,7 +59,7 @@ function ConfigPage(): JSX.Element {
 
           <FromGroup>
             <FormHead>
-              <FormLabel content={t("features.config.defaultBackupsFolder")} />
+              <FormLabel content={t("features.config.backupsFolder")} />
             </FormHead>
 
             <FormBody>

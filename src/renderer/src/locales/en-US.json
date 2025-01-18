@@ -26,10 +26,9 @@
     "advanced": "Advanced",
     "minMaxAmmount": "Number between {{min}} and {{max}}",
     "ammount": "Ammount",
-    "kofi": "Ko-fi",
-    "patreon": "Patreon",
     "backup": "Backup",
-    "edit": "Edit"
+    "edit": "Edit",
+    "donate": "Donations"
   },
   "features": {
     "generic": {
@@ -64,12 +63,15 @@
       "labelPreReleases": "Pre Releases",
       "listTitle": "Versions list",
       "searchForAGameVersion": "Search for a game version",
-      "missingFolderOrVersion": "You've no folder selected or there it no game version on the one you've selected!",
+      "missingFolderOrVersion": "You've no folder selected or there is no game version installed on the one you've selected!",
       "lookForAVersion": "Look for a version",
       "versionFound": "Version found",
       "versionInstalling": "Game version {{version}} is installing. Please wait for it to finish before playing!",
-      "folderAlreadyInUse": "That folder is already used by another version!",
-      "noVersionsFoundDesc": "Install a new one on the <link /> page!"
+      "folderAlreadyInUse": "That folder is already in use!",
+      "noVersionsFoundDesc": "Install a new one on the <link /> page!",
+      "versionDeleting": "That version is been deleted!",
+      "versionPlaying": "You're already playing that version!",
+      "deleteWhilePlaying": "You can't delete a version while you're playing it!"
     },
     "installations": {
       "noInstallationsFound": "No installations found!",
@@ -80,9 +82,9 @@
       "deletingNotReversible": "Deletion is not reversible so, if you check the delete data option, you'll not be able to restore your worlds, data and other info.",
       "noInstallationFound": "Installation not found!",
       "noInstallationSelected": "No installation selected!",
-      "installationNameMinMaxCharacters": "Installation name must be between {{min}} and {{max}} characters!",
+      "installationNameMinMaxCharacters": "Installation name must contain between {{min}} and {{max}} characters!",
       "defaultName": "My New Installation",
-      "folderAlreadyInUse": "That folder is already used by another installation!",
+      "folderAlreadyInUse": "That folder is already in use!",
       "installationSuccessfullyAdded": "Installation added successfully!",
       "errorAddingInstallation": "An error has ocurred while adding installation!",
       "addTitle": "Add a new installation",
@@ -98,14 +100,11 @@
       "labelStartParams": "Start params",
       "startParams": "Start params",
       "startParamsDesc": "List of all the available start params: <link />",
-      "cantUseDataPath": "Start param --dataPath can't be used as it's used by VS Launcher. If you want another folder change it on the installation.",
+      "cantUseDataPath": "Start param --dataPath can't be used as it's used by VS Launcher. If you want to use another folder change it on the installation.",
       "startParamsLink": "Vintage Story Wiki",
-      "backupsFolderAlreadyInUse": "That backups folder is already used by another installation!",
-      "backupsFolderSameAsFolder": "The backups folder can't be the same as the installation folder!",
-      "backupsFolder": "Backups folder",
-      "backupsLimit": "Backups max ammount",
-      "backupsAuto": "Toggle on to make an automatic backup before playing",
-      "automaticBackups": "Automatic?"
+      "gameAlreadyRunning": "Already playing that installation!",
+      "editWhilePlaying": "You can't edit an installation while playing it!",
+      "cantDeleteWhileinUse": "You can't delete this installation while it's in use!"
     },
     "mods": {
       "modsCount": "{{count}} mods",
@@ -121,7 +120,15 @@
       "defaultInstallationsFolder": "Installations",
       "folders": "Default folders",
       "defaultVersionsFolder": "Versions",
-      "defaultBackupsFolder": "Backups"
+      "backupsFolder": "Backups"
+    },
+    "backups": {
+      "errorDeletingOldBackup": "There was an error while deleting an old backup!",
+      "backupInProgress": "There is a backup in progress for the same thing!",
+      "backupWhilePlaying": "You can't make a backup while playing the installation!",
+      "automaticBackups": "Automatic?",
+      "backupsAuto": "Toggle on to make an automatic backup before playing",
+      "backupsLimit": "Backups max ammount"
     }
   },
   "components": {

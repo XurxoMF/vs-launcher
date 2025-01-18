@@ -43,7 +43,7 @@ function LookForAVersion(): JSX.Element {
       addNotification(t("notifications.titles.success"), t("features.versions.versionSuccessfullyAdded", { version: versionFound }), "success")
       navigate("/versions")
     } catch (err) {
-      console.log(err)
+      window.api.utils.logMessage("error", `There was an error while looking for a version: ${err}`)
     } finally {
       setFolder("")
       setVersionFound("")

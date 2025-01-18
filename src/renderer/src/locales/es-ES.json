@@ -19,7 +19,8 @@
       "downloading": "Descargando",
       "error": "¡Ha ocurrido un error durante el proceso!",
       "extracting": "Extrayendo",
-      "noTasksAvailable": "¡No hay tareas en cola!"
+      "noTasksAvailable": "¡No hay tareas en cola!",
+      "compressing": "Comprimiendo"
     },
     "loader": {
       "desc": "¡Estamos preparando todo para ti!",
@@ -48,7 +49,7 @@
       "errorEditingInstallation": "¡Ha ocurrido un error al editar la instalación!",
       "folderAlreadyInUse": "¡Esa carpeta ya está siendo utilizada por otra instalación!",
       "installationNameMinMaxCharacters": "¡El nombre de la instalación debe tener entre {{min}} y {{max}} caracteres!",
-      "installationSuccessfullyAdded": "¡Instalación añadida correctamente!",
+      "installationSuccessfullyAdded": "¡Instalación añadida con éxito!",
       "installationSuccessfullyDeleted": "¡Instalación eliminada con éxito!",
       "installationSuccessfullyEdited": "¡Instalación editada con éxito!",
       "listTitle": "Lista de instalaciones",
@@ -58,7 +59,15 @@
       "noInstallationsFound": "¡No se encontraron instalaciones!",
       "noInstallationsFoundDesc": "Añade una nueva en la página <link />",
       "noInstallationsFoundDescOnPage": "Añade una nueva con el botón <button/>",
-      "installationFolder": "Carpeta de instalación"
+      "installationFolder": "Carpeta de instalación",
+      "cantDeleteWhileinUse": "¡No puedes eliminar esta instalación mientras está en uso!",
+      "cantUseDataPath": "El parámetro de inicio --dataPath no puede usarse ya que VS LAuncher hace uso de el. Si queires usar otra carpeta cámbiala en la instalación.",
+      "editWhilePlaying": "¡No puedes editar una instalación mientras la juegas!",
+      "gameAlreadyRunning": "¡Ya estás jugando esa instalación!",
+      "labelStartParams": "Parámetros de inicio",
+      "startParams": "Parámetros de inicio",
+      "startParamsDesc": "Lista de todos los parámetros de inicio disponibles: <link />",
+      "startParamsLink": "Wiki de Vintage Story"
     },
     "mods": {
       "modsCount": "{{count}} mods",
@@ -95,13 +104,28 @@
       "versionNotInstalled": "¡La versión {{version}} no está instalada!",
       "versionSuccessfullyAdded": "¡Esa versión se agregó con éxito!",
       "versionUninstallationFailed": "¡Ocurrió un error al desinstalar la versión {{version}}!",
-      "versionUninstalledSuccesfully": "¡La versión {{version}} se desinstaló correctamente!"
+      "versionUninstalledSuccesfully": "¡La versión {{version}} se desinstaló correctamente!",
+      "deleteWhilePlaying": "¡No puedes eliminar una versión mientras juegas en ella!",
+      "folderAlreadyInUse": "¡Esa carpeta ya está en uso!",
+      "noVersionsFoundDesc": "¡Instala una nueva en la página <link />!",
+      "versionDeleting": "¡Esa versión está siendo eliminada!",
+      "versionInstalling": "¡La versión {{version}} del juego está siendo instalanda. ¡Por favor, espera a que termine antes de jugar!",
+      "versionPlaying": "¡Ya estás jugando esa versión!"
     },
     "config": {
       "title": "Ajustes",
       "defaultInstallationsFolder": "Instalaciones",
       "defaultVersionsFolder": "Versiones",
-      "folders": "Carpetas predeterminadas"
+      "folders": "Carpetas predeterminadas",
+      "backupsFolder": "Copias de seguridad"
+    },
+    "backups": {
+      "automaticBackups": "Automático?",
+      "backupInProgress": "¡Ya hay una copia de seguridad en progreso para la misma cosa!",
+      "backupWhilePlaying": "¡No puedes hacer una copia de seguridad mientras juegas la instalación!",
+      "backupsAuto": "Actívalo para hacer una copia de seguridad automática antes de jugar",
+      "backupsLimit": "Límite de copias de seguridad",
+      "errorDeletingOldBackup": "¡Ha ocurrido un error al eliminar una copia de seguridad antigua!"
     }
   },
   "generic": {
@@ -125,7 +149,15 @@
     "source": "Fuente",
     "type": "Tipo",
     "uninstall": "Desinstalar",
-    "version": "Versión"
+    "version": "Versión",
+    "advanced": "Avanzado",
+    "ammount": "Cantidad",
+    "backup": "Copia de seguridad",
+    "backups": "Copias de seguridad",
+    "basics": "Básicos",
+    "donate": "Donaciónes",
+    "edit": "Editar",
+    "minMaxAmmount": "Número entre {{min}} y {{max}}"
   },
   "notifications": {
     "body": {
@@ -140,7 +172,10 @@
       "gameExitedWithErrors": "¡Vintage Story se cerró con errores!",
       "missingFields": "¡Por favor completa todos los campos!",
       "updateAvailable": "¡Nueva actualización disponible! Descargando...",
-      "updateDownloaded": "¡Actualización descargada con éxito! Reinicia VS Launcher para actualizar."
+      "updateDownloaded": "¡Actualización descargada con éxito! Reinicia VS Launcher para actualizar.",
+      "compressError": "¡Error al comprimir: {{compressName}}!",
+      "compressed": "¡Compresión terminada: {{compressName}}!",
+      "compressing": "¡Iniciando compresión: {{compressName}}!"
     },
     "discard": "Descartar notificación",
     "titles": {

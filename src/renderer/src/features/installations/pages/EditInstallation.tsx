@@ -39,8 +39,10 @@ function EditInslallation(): JSX.Element {
   const [backupsLimit, setBackupsLimit] = useState<number>(installation?.backupsLimit ?? 0)
   const [backupsAuto, setBackupsAuto] = useState<boolean>(installation?.backupsAuto ?? false)
 
-  const handleAddInstallation = async (): Promise<void> => {
+  const handleEditInstallation = async (): Promise<void> => {
     if (!installation) return addNotification(t("notifications.titles.error"), t("features.installations.noInstallationFound"), "error")
+    if (installation._backuping) return addNotification(t("notifications.titles.error"), t("features.backups.backupInProgress"), "error")
+    if (installation._playing) return addNotification(t("notifications.titles.error"), t("features.installations.editWhilePlaying"), "error")
 
     if (!id || !name || !version || !backupsLimit || backupsAuto === undefined) return addNotification(t("notifications.titles.error"), t("notifications.body.missingFields"), "error")
 
@@ -122,7 +124,7 @@ function EditInslallation(): JSX.Element {
                 <FormBody>
                   <FormFieldGroupWithDescription>
                     <FormInputNumber
-                      placeholder={t("features.installations.backupsLimit")}
+                      placeholder={t("features.backups.backupsLimit")}
                       value={backupsLimit}
                       onChange={(e) => setBackupsLimit(Number(e.target.value))}
                       min={0}
@@ -136,13 +138,13 @@ function EditInslallation(): JSX.Element {
 
               <FromGroup>
                 <FormHead>
-                  <FormLabel content={t("features.installations.automaticBackups")} className="max-h-6" />
+                  <FormLabel content={t("features.backups.automaticBackups")} className="max-h-6" />
                 </FormHead>
 
                 <FormBody>
                   <FormFieldGroupWithDescription alignment="x">
                     <FormToggle value={backupsAuto} onChange={setBackupsAuto} />
-                    <FormFieldDescription content={t("features.installations.backupsAuto")} />
+                    <FormFieldDescription content={t("features.backups.backupsAuto")} />
                   </FormFieldGroupWithDescription>
                 </FormBody>
               </FromGroup>
@@ -180,7 +182,7 @@ function EditInslallation(): JSX.Element {
       </FromWrapper>
 
       <ButtonsWrapper>
-        <FormButton onClick={handleAddInstallation} title={t("generic.save")} />
+        <FormButton onClick={handleEditInstallation} title={t("generic.save")} />
         <FormLinkButton to="/installations" title={t("generic.cancel")} />
       </ButtonsWrapper>
     </>

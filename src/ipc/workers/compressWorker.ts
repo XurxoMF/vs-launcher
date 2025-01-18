@@ -9,7 +9,6 @@ const output = fse.createWriteStream(join(outputPath, outputFileName))
 const archive = archiver("zip", { zlib: { level: 9 } })
 
 let totalFiles = 0
-let processedFiles = 0
 let lastReportedProgress = 0
 
 function countFiles(dirPath: string): void {
@@ -31,10 +30,11 @@ try {
     fse.mkdirSync(outputPath, { recursive: true })
   }
 
-  archive.on("entry", () => {
-    processedFiles++
-    const progress = Math.round((processedFiles / totalFiles) * 100)
+  archive.on("progress", ({ entries }) => {
+    const progress = Math.round((entries.processed / totalFiles) * 100)
     if (progress > lastReportedProgress) {
+      console.log(progress)
+
       lastReportedProgress = progress
       parentPort?.postMessage({
         type: "progress",

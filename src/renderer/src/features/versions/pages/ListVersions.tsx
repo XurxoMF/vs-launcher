@@ -102,11 +102,15 @@ function ListVersions(): JSX.Element {
                     className="px-2 py-1 bg-red-800 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
                     onClick={async () => {
                       try {
+                        if (versionToDelete._playing) return addNotification(t("notifications.titles.error"), t("features.versions.deleteWhilePlaying"), "error")
+
+                        configDispatch({ type: CONFIG_ACTIONS.EDIT_GAME_VERSION, payload: { version: versionToDelete.version, updates: { _deleting: true } } })
                         const deleted = await window.api.pathsManager.deletePath(versionToDelete!.path)
                         if (!deleted) throw new Error("Error deleting fame gersion data")
                         configDispatch({ type: CONFIG_ACTIONS.DELETE_GAME_VERSION, payload: { version: versionToDelete!.version } })
                         addNotification(t("notifications.titles.success"), t("features.versions.versionUninstalledSuccesfully", { version: versionToDelete!.version }), "success")
                       } catch (err) {
+                        configDispatch({ type: CONFIG_ACTIONS.EDIT_GAME_VERSION, payload: { version: versionToDelete.version, updates: { _deleting: false } } })
                         addNotification(t("notifications.titles.error"), t("features.versions.versionUninstallationFailed", { version: versionToDelete!.version }), "error")
                       } finally {
                         setVersionToDelete(null)

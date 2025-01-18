@@ -50,7 +50,8 @@ function AddInslallation(): JSX.Element {
 
     if (name.length < 5 || name.length > 50) return addNotification(t("notifications.titles.error"), t("features.installations.installationNameMinMaxCharacters", { min: 5, max: 50 }), "error")
 
-    if (config.installations.some((igv) => igv.path === folder)) return addNotification(t("notifications.titles.error"), t("features.installations.folderAlreadyInUse"), "error")
+    if (folder === config.backupsFolder || config.installations.some((i) => i.path === folder) || config.gameVersions.some((gv) => gv.path === folder))
+      return addNotification(t("notifications.titles.error"), t("features.installations.folderAlreadyInUse"), "error")
 
     if (startParams.includes("--dataPath")) return addNotification(t("notifications.titles.error"), t("features.installations.cantUseDataPath"), "error")
 
@@ -174,14 +175,7 @@ function AddInslallation(): JSX.Element {
 
             <FormBody>
               <FormFieldGroupWithDescription>
-                <FormInputNumber
-                  placeholder={t("features.installations.backupsLimit")}
-                  value={backupsLimit}
-                  onChange={(e) => setBackupsLimit(Number(e.target.value))}
-                  min={0}
-                  max={10}
-                  className="w-full"
-                />
+                <FormInputNumber placeholder={t("features.backups.backupsLimit")} value={backupsLimit} onChange={(e) => setBackupsLimit(Number(e.target.value))} min={0} max={10} className="w-full" />
                 <FormFieldDescription content={t("generic.minMaxAmmount", { min: 0, max: 10 })} />
               </FormFieldGroupWithDescription>
             </FormBody>
@@ -189,13 +183,13 @@ function AddInslallation(): JSX.Element {
 
           <FromGroup>
             <FormHead>
-              <FormLabel content={t("features.installations.automaticBackups")} className="max-h-6" />
+              <FormLabel content={t("features.backups.automaticBackups")} className="max-h-6" />
             </FormHead>
 
             <FormBody>
               <FormFieldGroupWithDescription alignment="x">
                 <FormToggle value={backupsAuto} onChange={setBackupsAuto} />
-                <FormFieldDescription content={t("features.installations.backupsAuto")} />
+                <FormFieldDescription content={t("features.backups.backupsAuto")} />
               </FormFieldGroupWithDescription>
             </FormBody>
           </FromGroup>
