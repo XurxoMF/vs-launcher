@@ -3,8 +3,14 @@ import fse from "fs-extra"
 import { join } from "path"
 import { logMessage } from "@src/utils/logManager"
 
+/**
+ * VERSIONS LIST
+ * 1.0: 0.0.1 -> 0.0.5
+ * 1.1: 1.0.0
+ * 1.2: 1.1.0
+ */
 const defaultConfig: ConfigType = {
-  version: 1.1,
+  version: 1.2,
   lastUsedInstallation: null,
   defaultInstallationsFolder: join(app.getPath("appData"), "VSLInstallations"),
   defaultVersionsFolder: join(app.getPath("appData"), "VSLGameVersions"),
