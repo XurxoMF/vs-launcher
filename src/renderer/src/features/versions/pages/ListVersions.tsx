@@ -8,6 +8,8 @@ import { AnimatePresence, motion } from "motion/react"
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/contexts/ConfigContext"
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 
+import { ListGroup, ListWrapper, Listitem } from "@renderer/components/ui/List"
+
 function ListVersions(): JSX.Element {
   const { t } = useTranslation()
   const { addNotification } = useNotificationsContext()
@@ -19,8 +21,8 @@ function ListVersions(): JSX.Element {
     <>
       <h1 className="text-3xl text-center font-bold select-none">{t("features.versions.listTitle")}</h1>
 
-      <div className="mx-auto max-w-[800px] w-full">
-        <ul className="w-full flex flex-col">
+      <ListWrapper className="max-w-[800px] w-full">
+        <ListGroup>
           {config.gameVersions.length < 1 && (
             <div className="w-full flex flex-col items-center justify-center gap-2 rounded bg-zinc-850 p-4">
               <p className="text-2xl">{t("features.versions.noVersionsFound")}</p>
@@ -30,7 +32,7 @@ function ListVersions(): JSX.Element {
             </div>
           )}
           {config.gameVersions.map((gv) => (
-            <li key={gv.version} className={`w-full px-2 py-1 hover:pl-3 hover:pr-1 duration-100 odd:bg-zinc-850 rounded cursor-pointer group overflow-hidden`}>
+            <Listitem key={gv.version}>
               <div className="flex gap-2 justify-between items-center">
                 <p>{gv.version}</p>
                 <p className="hidden group-hover:block text-sm text-zinc-500 overflow-hidden text-ellipsis whitespace-nowrap">{gv.path}</p>
@@ -56,10 +58,10 @@ function ListVersions(): JSX.Element {
                   </Button>
                 </div>
               </div>
-            </li>
+            </Listitem>
           ))}
-        </ul>
-      </div>
+        </ListGroup>
+      </ListWrapper>
 
       <div className="flex gap-2 justify-center items-center">
         <Link to="/versions/add" title={t("generic.add")} className="w-7 h-7 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded">

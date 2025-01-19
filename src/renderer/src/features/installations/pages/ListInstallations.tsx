@@ -10,6 +10,8 @@ import { useConfigContext, CONFIG_ACTIONS } from "@renderer/contexts/ConfigConte
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 import { useTaskContext } from "@renderer/contexts/TaskManagerContext"
 
+import { ListGroup, ListWrapper, Listitem } from "@renderer/components/ui/List"
+
 function ListInslallations(): JSX.Element {
   const { t } = useTranslation()
   const { addNotification } = useNotificationsContext()
@@ -69,8 +71,8 @@ function ListInslallations(): JSX.Element {
     <>
       <h1 className="text-3xl text-center font-bold select-none">{t("features.installations.listTitle")}</h1>
 
-      <div className="mx-auto max-w-[800px] w-full">
-        <ul className="w-full flex flex-col">
+      <ListWrapper className="max-w-[800px] w-full">
+        <ListGroup>
           {config.installations.length < 1 && (
             <div className="w-full flex flex-col items-center justify-center gap-2 rounded bg-zinc-850 p-4">
               <p className="text-2xl">{t("features.installations.noInstallationsFound")}</p>
@@ -80,56 +82,61 @@ function ListInslallations(): JSX.Element {
             </div>
           )}
           {config.installations.map((installation) => (
-            <li key={installation.id} className={`w-full px-2 py-1 hover:pl-3 hover:pr-1 duration-100 odd:bg-zinc-850 rounded cursor-pointer flex gap-2 justify-between items-center`}>
-              <div className="flex flex-col gap-1 overflow-hidden">
-                <p>{installation.name}</p>
-                <div className="w-full flex gap-2 items-center text-sm text-zinc-500 whitespace-nowrap">
-                  <p>{installation.version}</p>
-                  <p>{t("features.mods.modsCount", { count: installation.mods.length })}</p>
-                  <p className="overflow-hidden text-ellipsis">{installation.path}</p>
+            <Listitem key={installation.id}>
+              <div className="flex gap-4 justify-between items-center whitespace-nowrap">
+                <div className="flex gap-2 items-center">
+                  <p>{installation.name}</p>
+                  <div className="flex gap-2 items-center text-sm text-zinc-500">
+                    <p>{installation.version}</p>
+                    <p>{t("features.mods.modsCount", { count: installation.mods.length })}</p>
+                  </div>
+                </div>
+
+                <div className="w-full text-sm text-zinc-500 overflow-hidden">
+                  <p className="hidden group-hover:block overflow-hidden text-ellipsis">{installation.path}</p>
+                </div>
+
+                <div className="flex gap-2 justify-end">
+                  <Button
+                    className="w-7 h-7 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
+                    title={t("generic.backup")}
+                    onClick={() => BackupHandler(installation)}
+                  >
+                    <PiArrowsCounterClockwiseFill className="text-lg" />
+                  </Button>
+                  <Link
+                    to={`/installations/edit/${installation.id}`}
+                    title={t("generic.edit")}
+                    className="w-7 h-7 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
+                  >
+                    <PiPencilFill className="text-lg" />
+                  </Link>
+                  <Button
+                    className="w-7 h-7 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
+                    title={t("generic.delete")}
+                    onClick={async () => {
+                      setInstallationToDelete(installation)
+                    }}
+                  >
+                    <PiTrashFill className="text-lg" />
+                  </Button>
+                  <Button
+                    onClick={async () => {
+                      if (!(await window.api.pathsManager.checkPathExists(installation.path)))
+                        return addNotification(t("notifications.titles.error"), t("notifications.body.folderDoesntExists"), "error")
+                      window.api.pathsManager.openPathOnFileExplorer(installation.path)
+                    }}
+                    title={t("generic.openOnFileExplorer")}
+                    className="w-7 h-7 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
+                  >
+                    <PiFolderFill className="text-lg" />
+                  </Button>
                 </div>
               </div>
-
-              <div className="flex gap-2">
-                <Button
-                  className="w-7 h-7 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
-                  title={t("generic.backup")}
-                  onClick={() => BackupHandler(installation)}
-                >
-                  <PiArrowsCounterClockwiseFill className="text-lg" />
-                </Button>
-                <Link
-                  to={`/installations/edit/${installation.id}`}
-                  title={t("generic.edit")}
-                  className="w-7 h-7 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
-                >
-                  <PiPencilFill className="text-lg" />
-                </Link>
-                <Button
-                  className="w-7 h-7 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
-                  title={t("generic.delete")}
-                  onClick={async () => {
-                    setInstallationToDelete(installation)
-                  }}
-                >
-                  <PiTrashFill className="text-lg" />
-                </Button>
-                <Button
-                  onClick={async () => {
-                    if (!(await window.api.pathsManager.checkPathExists(installation.path)))
-                      return addNotification(t("notifications.titles.error"), t("notifications.body.folderDoesntExists"), "error")
-                    window.api.pathsManager.openPathOnFileExplorer(installation.path)
-                  }}
-                  title={t("generic.openOnFileExplorer")}
-                  className="w-7 h-7 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
-                >
-                  <PiFolderFill className="text-lg" />
-                </Button>
-              </div>
-            </li>
+            </Listitem>
           ))}
-        </ul>
-      </div>
+        </ListGroup>
+      </ListWrapper>
 
       <div className="flex gap-2 justify-center items-center">
         <Link to="/installations/add" title={t("generic.add")} className="w-7 h-7 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded">
