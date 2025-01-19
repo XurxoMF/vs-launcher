@@ -179,7 +179,15 @@ function ListInslallations(): JSX.Element {
                         if (installationToDelete._playing || installationToDelete._backuping)
                           return addNotification(t("notifications.titles.error"), t("features.installations.cantDeleteWhileinUse"), "error")
 
-                        if (deleteData && !(await window.api.pathsManager.deletePath(installationToDelete.path))) throw new Error("Error deleting installation data!")
+                        if (deleteData) {
+                          const wasDeleted = await window.api.pathsManager.deletePath(installationToDelete.path)
+                          if (!wasDeleted) throw new Error("Error deleting installation data!")
+
+                          installationToDelete.backups.forEach((backup) => {
+                            const wasBackupDeleted = window.api.pathsManager.deletePath(backup.path)
+                            if (!wasBackupDeleted) throw new Error("Error deleting installation backup data!")
+                          })
+                        }
 
                         configDispatch({ type: CONFIG_ACTIONS.DELETE_INSTALLATION, payload: { id: installationToDelete.id } })
                         addNotification(t("notifications.titles.success"), t("features.installations.installationSuccessfullyDeleted"), "success")
