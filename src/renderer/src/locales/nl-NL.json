@@ -1,0 +1,162 @@
+{
+  "generic": {
+    "delete": "Verwijderen",
+    "uninstall": "De-installeren",
+    "cancel": "Annuleren",
+    "issues": "Problemen",
+    "guides": "Uitleg",
+    "source": "Bron",
+    "play": "Spelen",
+    "openOnFileExplorer": "Open folder in file explorer",
+    "discard": "Weggooien",
+    "minMaxLength": "{{min}} tot {{max}} karakters",
+    "byAnonymous": "Door anonymous",
+    "folder": "Folder",
+    "browse": "Bladeren",
+    "add": "Toevoegen",
+    "goBack": "Ga terug",
+    "save": "Opslaan",
+    "name": "Naam",
+    "version": "Versie",
+    "releaseDate": "Release Datum",
+    "type": "Type",
+    "install": "Installeren"
+  },
+  "features": {
+    "generic": {
+      "notImplemented": "Deze pagina is nog niet klaar!",
+      "notImplementedDesc": "Kom terug bij de volgende versie"
+    },
+    "home": {
+      "title": "Welkom bij VS Launcher",
+      "description": "De onofficiele Vintage Story Launcher met alle opties die je nodig hebt."
+    },
+    "versions": {
+      "uninstallVersion": "de-installeer versie",
+      "noVersionsFound": "Geen versie gevonden",
+      "noVersionsFoundDescOnPage": "Install a new one with the <button/> button",
+      "areYouSureUninstall": "Weet je zeker dat je deze versie wilt verwijderen?",
+      "uninstallingNotReversible": "Verwijderen kan niet ongedaan worden gemaakt, maar je kan deze versie opnieuw downloaden!",
+      "noVersionSelected": "Geen versie geselecteerd",
+      "versionAlreadyInstalled": "Versie {{version}} is al geinstalleerd!",
+      "noVersionFoundOnThatFolder": "Geen versie gevonden in de folder die je hebt geselecteerd!",
+      "versionSuccessfullyAdded": "Die versie is juist toegevoegd!",
+      "versionUninstalledSuccesfully": "Versie {{version}} Met success verwijderd!",
+      "versionUninstallationFailed": "Er is een fout opgetreden bij het verwijderen van de versie {{version}}!",
+      "versionNotInstalled": "Versie {{version}} niet geinstalleerd",
+      "labelGameVersion": "Spel versie",
+      "versionFolder": "Versie folder",
+      "gameVersionDownloadDesc": "Downloading spel versie {{version}}!",
+      "gameVersionTaskName": "game versie {{version}}",
+      "gameVersionExtractDesc": "Spelversie uitpakken {{version}}!",
+      "installTitle": "Installeer een nieuwe versie",
+      "labelStables": "Stables",
+      "labelRCs": "Uitgaven kanidaten",
+      "labelPreReleases": "Pre uitgavens",
+      "listTitle": "Versie lijst",
+      "searchForAGameVersion": "Zoek voor een spel versie",
+      "missingFolderOrVersion": "You've no folder selected or there it no game version on the one you've selected!",
+      "lookForAVersion": "Zoek voor een versie",
+      "versionFound": "Versie gevonden"
+    },
+    "installations": {
+      "noInstallationsFound": "Geen installaties gevonden",
+      "noInstallationsFoundDesc": "Voeg een nieuwe toe op de <link /> pagina",
+      "noInstallationsFoundDescOnPage": "Voeg een nieuwe toe met de <button/> knop",
+      "deleteInstallation": "Verwijder installatie",
+      "areYouSureDelete": "Weet je zeker dat je deze installatie wilt verwijderen?",
+      "deletingNotReversible": "Verwijderen is niet ongedaan te maken. Als u de optie 'Gegevens verwijderen' aanvinkt, kunt u uw werelden, gegevens en andere informatie niet meer herstellen.",
+      "noInstallationFound": "Installatie niet gevonden",
+      "noInstallationSelected": "Geen installatie geselecteerd",
+      "installationNameMinMaxCharacters": "De installatie naam moet binnen {{min}} en {{max}} tekens lang zijn!",
+      "defaultName": "Mijn nieuwe installatie",
+      "folderAlreadyInUse": "Die folder is al in gebruik door een andere installatie",
+      "installationSuccessfullyAdded": "Installatie succesvol toegevoegd",
+      "errorAddingInstallation": "Er is een fout opgetreden bij het toevoegen van de installatie",
+      "addTitle": "Voeg een nieuwe installatie toe",
+      "installationSuccessfullyEdited": "Installatie succesvol bijgewerkt",
+      "errorEditingInstallation": "Er is een fout opgetreden bij het bewerken van de installatie!",
+      "editTitle": "Bewerk installatie",
+      "noInstallationFoundDesc": "De installatie die je hebt geselecteerd bestaat niet!",
+      "listTitle": "Installatie lijst",
+      "deleteData": "Verwijder data",
+      "installationSuccessfullyDeleted": "Installatie succesvol verwijderd",
+      "errorDeletingInstallation": "Er is een fout opgetreden bij het verwijderen van de installatie!",
+      "installationFolder": "Installatie folder",
+      "labelStartParams": "Start params",
+      "startParams": "Start params",
+      "startParamsDesc": "Lijst met alle beschikbare startparameters: <link />",
+      "cantUseDataPath": "Start param --dataPad kan niet worden gebruikt omdat het door VS Launcher wordt gebruikt. Als u een andere map wilt, wijzigt u deze tijdens de installatie.",
+      "startParamsLink": "Vintage Story Wiki"
+    },
+    "mods": {
+      "modsCount": "{{count}} mods",
+      "modsCount_zero": "{{count}} mods",
+      "modsCount_one": "{{count}} mod",
+      "modsCount_two": "{{count}} mods",
+      "modsCount_few": "{{count}} mods",
+      "modsCount_many": "{{count}} mods",
+      "modsCount_other": "{{count}} mods"
+    },
+    "config": {
+      "title": "Instellingen",
+      "defaultInstallationsFolder": "Installaties:",
+      "folders": "Standaardmappen",
+      "defaultVersionsFolder": "Versies:"
+    }
+  },
+  "components": {
+    "mainMenu": {
+      "homeTitle": "Home",
+      "homeDesc": "Hoofdpagina",
+      "versionsTitle": "Versies",
+      "versionsDesc": "Beheer je spel versies",
+      "modsTitle": "Mods",
+      "modsDesc": "Beheer geinstalleerde mods",
+      "newsTitle": "Nieuws",
+      "newsDesc": "VS Launcher nieuws",
+      "changelogTitle": "Wijzigingenlogboek",
+      "changelogDesc": "Wijzigingenlogboek voor Vintage Story",
+      "installationsTitle": "Installaties",
+      "installationsDesc": "Beheer geinstalleerde versies"
+    },
+    "gameRunningOverlay": {},
+    "tasksMenu": {
+      "downloading": "Downloaden",
+      "extracting": "Uitpakken",
+      "compressing": "Comprimeren",
+      "error": "Er is een fout opgetreden tijdens het proces!",
+      "noTasksAvailable": "Er staan ​​geen taken in de wachtrij!"
+    },
+    "loader": {
+      "title": "Welkom bij de VS Launcher",
+      "desc": "We maken alles klaar voor je!"
+    }
+  },
+  "notifications": {
+    "titles": {
+      "error": "Fout",
+      "warning": "Waarschuwing",
+      "info": "Informatie",
+      "success": "Success"
+    },
+    "body": {
+      "folderDoesntExists": "De folder die je probeert te openen bestaat niet!",
+      "updateAvailable": "Nieuwe update beschikbaar! Downloaden...",
+      "updateDownloaded": "Update downloaded succesvol! Herstart VS Launcher om te updaten.",
+      "downloading": "Download starten: {{downloadName}}!",
+      "downloaded": "Downloaden voltooid: {{downloadName}}!",
+      "downloadError": "Fout downloaden: {{downloadName}}!",
+      "extracting": "Uitpakken starten: {{extractName}}!",
+      "extracted": "Uitpakken voltooid: {{extractName}}!",
+      "extractError": "Fout uitpakken: {{extractName}}!",
+      "gameExitedWithErrors": "Vintage Story gesloten met fouten!",
+      "errorExecutingGame": "Er is een fout opgetreden terwijl het spel gestart werd",
+      "missingFields": "Vul alle velden in alsjeblieft",
+      "compressing": "Comprimeren starten: {{compressName}}!",
+      "compressed": "Comprimeren voltooid: {{compressName}}!",
+      "compressError": "Fout bij comprimeren: {{compressName}}!"
+    },
+    "discard": "Notificatie weggooien"
+  }
+}

@@ -20,6 +20,7 @@ import InstallationsLayout from "@renderer/features/installations/pages/Installa
 import ListInslallations from "@renderer/features/installations/pages/ListInstallations"
 import AddInslallation from "@renderer/features/installations/pages/AddInstallation"
 import EditInslallation from "@renderer/features/installations/pages/EditInstallation"
+import RestoreInstallationBackup from "@renderer/features/installations/pages/RestoreInstallationBackup"
 
 import VersionsLayout from "@renderer/features/versions/pages/VersionsLayout"
 import ListVersions from "@renderer/features/versions/pages/ListVersions"
@@ -56,6 +57,7 @@ function App(): JSX.Element {
                     <Route index element={<ListInslallations />} />
                     <Route path="add" element={<AddInslallation />} />
                     <Route path="edit/:id" element={<EditInslallation />} />
+                    <Route path="backups/:id" element={<RestoreInstallationBackup />} />
                   </Route>
                   <Route path="/versions" element={<VersionsLayout />}>
                     <Route index element={<ListVersions />} />

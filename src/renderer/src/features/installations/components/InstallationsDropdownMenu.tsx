@@ -82,8 +82,8 @@ function InstallationsDropdownMenu(): JSX.Element {
                   >
                     <div className="flex flex-col max-h-80">
                       {config.installations.map((current) => (
-                        <ListboxOption key={current.id} value={current.id} className="even:bg-zinc-800 cursor-pointer">
-                          <div key={current.id} className="w-full flex items-center justify-between gap-2 px-2 py-1">
+                        <ListboxOption key={current.id} value={current.id} className="even:bg-zinc-800 cursor-pointer group">
+                          <div key={current.id} className="w-full group-hover:pl-3 duration-100 flex items-center justify-between gap-2 px-2 py-1">
                             <p className="font-bold text-start">{current.name}</p>
                             <div className="shrink-0 text-sm text-zinc-500 flex flex-col items-end justify-center">
                               <p>{current.version}</p>

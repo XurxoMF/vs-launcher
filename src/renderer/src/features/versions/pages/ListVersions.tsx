@@ -33,10 +33,10 @@ function ListVersions(): JSX.Element {
           )}
           {config.gameVersions.map((gv) => (
             <Listitem key={gv.version}>
-              <div className="flex gap-2 justify-between items-center">
+              <div className="flex gap-4 px-2 py-1 justify-between items-center">
                 <p>{gv.version}</p>
                 <p className="hidden group-hover:block text-sm text-zinc-500 overflow-hidden text-ellipsis whitespace-nowrap">{gv.path}</p>
-                <div className="flex gap-2">
+                <div className="flex gap-2 text-lg">
                   <Button
                     className="w-7 h-7 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
                     title={t("generic.delete")}
@@ -44,7 +44,7 @@ function ListVersions(): JSX.Element {
                       setVersionToDelete(gv)
                     }}
                   >
-                    <PiTrashFill className="text-lg" />
+                    <PiTrashFill />
                   </Button>
                   <Button
                     onClick={async () => {
@@ -54,7 +54,7 @@ function ListVersions(): JSX.Element {
                     title={t("generic.openOnFileExplorer")}
                     className="w-7 h-7 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
                   >
-                    <PiFolderFill className="text-lg" />
+                    <PiFolderFill />
                   </Button>
                 </div>
               </div>

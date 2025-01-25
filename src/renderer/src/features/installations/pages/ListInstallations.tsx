@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import { Button, Description, Dialog, DialogPanel, DialogTitle, Input } from "@headlessui/react"
-import { PiFolderFill, PiPlusCircleFill, PiTrashFill, PiPencilFill, PiArrowsCounterClockwiseFill } from "react-icons/pi"
+import { Button, Description, Dialog, DialogPanel, DialogTitle, Input, Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react"
+import { PiFolderFill, PiPlusCircleFill, PiTrashFill, PiPencilFill, PiCaretCircleDoubleDownFill, PiArrowCounterClockwiseFill, PiDotsThreeOutlineVerticalFill } from "react-icons/pi"
 import { useTranslation, Trans } from "react-i18next"
 import { AnimatePresence, motion } from "motion/react"
 import { v4 as uuidv4 } from "uuid"
@@ -83,7 +83,7 @@ function ListInslallations(): JSX.Element {
           )}
           {config.installations.map((installation) => (
             <Listitem key={installation.id}>
-              <div className="flex gap-4 justify-between items-center whitespace-nowrap">
+              <div className="flex gap-4 px-2 py-1 justify-between items-center whitespace-nowrap">
                 <div className="flex gap-2 items-center">
                   <p>{installation.name}</p>
                   <div className="flex gap-2 items-center text-sm text-zinc-500">
@@ -92,45 +92,66 @@ function ListInslallations(): JSX.Element {
                   </div>
                 </div>
 
-                <div className="w-full text-sm text-zinc-500 overflow-hidden">
+                <div className="w-full text-sm text-zinc-500  text-center overflow-hidden">
                   <p className="hidden group-hover:block overflow-hidden text-ellipsis">{installation.path}</p>
                 </div>
 
-                <div className="flex gap-2 justify-end">
+                <div className="flex gap-2 justify-end text-lg">
                   <Button
                     className="w-7 h-7 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
                     title={t("generic.backup")}
                     onClick={() => BackupHandler(installation)}
                   >
-                    <PiArrowsCounterClockwiseFill className="text-lg" />
+                    <PiCaretCircleDoubleDownFill />
                   </Button>
                   <Link
                     to={`/installations/edit/${installation.id}`}
                     title={t("generic.edit")}
                     className="w-7 h-7 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
                   >
-                    <PiPencilFill className="text-lg" />
+                    <PiPencilFill />
                   </Link>
-                  <Button
-                    className="w-7 h-7 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
-                    title={t("generic.delete")}
-                    onClick={async () => {
-                      setInstallationToDelete(installation)
-                    }}
-                  >
-                    <PiTrashFill className="text-lg" />
-                  </Button>
-                  <Button
-                    onClick={async () => {
-                      if (!(await window.api.pathsManager.checkPathExists(installation.path)))
-                        return addNotification(t("notifications.titles.error"), t("notifications.body.folderDoesntExists"), "error")
-                      window.api.pathsManager.openPathOnFileExplorer(installation.path)
-                    }}
-                    title={t("generic.openOnFileExplorer")}
-                    className="w-7 h-7 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
-                  >
-                    <PiFolderFill className="text-lg" />
-                  </Button>
+
+                  <Menu>
+                    <MenuButton className="w-7 h-7 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded">
+                      <PiDotsThreeOutlineVerticalFill />
+                    </MenuButton>
+                    <MenuItems anchor="left" className="flex flex-row-reverse gap-2 p-2">
+                      <MenuItem>
+                        <Link
+                          to={`/installations/backups/${installation.id}`}
+                          className="w-7 h-7 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
+                          title={t("features.backups.restoreBackup")}
+                        >
+                          <PiArrowCounterClockwiseFill />
+                        </Link>
+                      </MenuItem>
+                      <MenuItem>
+                        <Button
+                          className="w-7 h-7 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
+                          title={t("generic.delete")}
+                          onClick={async () => {
+                            setInstallationToDelete(installation)
+                          }}
+                        >
+                          <PiTrashFill />
+                        </Button>
+                      </MenuItem>
+                      <MenuItem>
+                        <Button
+                          onClick={async () => {
+                            if (!(await window.api.pathsManager.checkPathExists(installation.path)))
+                              return addNotification(t("notifications.titles.error"), t("notifications.body.folderDoesntExists"), "error")
+                            window.api.pathsManager.openPathOnFileExplorer(installation.path)
+                          }}
+                          title={t("generic.openOnFileExplorer")}
+                          className="w-7 h-7 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
+                        >
+                          <PiFolderFill />
+                        </Button>
+                      </MenuItem>
+                    </MenuItems>
+                  </Menu>
                 </div>
               </div>
             </Listitem>

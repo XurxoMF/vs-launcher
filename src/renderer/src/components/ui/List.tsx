@@ -35,7 +35,7 @@ export function ListGroup({ children, className }: { children: React.ReactNode; 
  */
 export function Listitem({ children, className, onClick }: { children: React.ReactNode; className?: string; onClick?: () => void }): JSX.Element {
   return (
-    <ul onClick={onClick} className={clsx("w-full px-2 py-1 hover:pl-3 hover:pr-1 duration-100 odd:bg-zinc-850 rounded cursor-pointer group overflow-hidden group", className)}>
+    <ul onClick={onClick} className={clsx("w-full hover:pl-1 duration-100 odd:bg-zinc-850 rounded cursor-pointer group overflow-hidden group", className)}>
       {children}
     </ul>
   )

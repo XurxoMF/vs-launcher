@@ -36,8 +36,8 @@
       "notImplementedDesc": "Come back on the next version and it may be ready!"
     },
     "home": {
-      "title": "Wellcome to VS Launcher",
-      "description": "The unofficial Vintage Story Launcher with all the features you need."
+      "title": "Welcome to VS Launcher",
+      "description": "The unofficial Vintage Story Launcher with (almost) all the features you need."
     },
     "versions": {
       "uninstallVersion": "Uninstall version",
@@ -104,7 +104,8 @@
       "startParamsLink": "Vintage Story Wiki",
       "gameAlreadyRunning": "Already playing that installation!",
       "editWhilePlaying": "You can't edit an installation while playing it!",
-      "cantDeleteWhileinUse": "You can't delete this installation while it's in use!"
+      "cantDeleteWhileinUse": "You can't delete this installation while it's in use!",
+      "restoreBackup": "Restore installation backup"
     },
     "mods": {
       "modsCount": "{{count}} mods",
@@ -128,7 +129,8 @@
       "backupWhilePlaying": "You can't make a backup while playing the installation!",
       "automaticBackups": "Automatic?",
       "backupsAuto": "Toggle on to make an automatic backup before playing",
-      "backupsLimit": "Backups max ammount"
+      "backupsLimit": "Backups max ammount",
+      "restoreBackup": "Restore backup"
     }
   },
   "components": {
@@ -155,7 +157,7 @@
       "noTasksAvailable": "There are no tasks queued!"
     },
     "loader": {
-      "title": "Wellcome to VS Launcher!",
+      "title": "Welcome to VS Launcher!",
       "desc": "We are preparing everything for you!"
     }
   },
