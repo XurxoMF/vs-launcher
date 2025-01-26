@@ -12,12 +12,6 @@ declare global {
     path: string
   } & Record<string, unknown>
 
-  type ModType = {
-    modid: number
-    releaseid: number
-    filename: string
-  } & Record<string, unknown>
-
   type BackupType = {
     id: string
     date: number
@@ -33,7 +27,6 @@ declare global {
     backupsLimit: number
     backupsAuto: boolean
     backups: BackupType[]
-    mods: ModType[]
   } & Record<string, unknown>
 
   type ConfigType = BasicConfigType & {

@@ -28,7 +28,8 @@
     "ammount": "Ammount",
     "backup": "Backup",
     "edit": "Edit",
-    "donate": "Donations"
+    "donate": "Donations",
+    "restore": "Restore"
   },
   "features": {
     "generic": {
@@ -125,12 +126,27 @@
     },
     "backups": {
       "errorDeletingOldBackup": "There was an error while deleting an old backup!",
-      "backupInProgress": "There is a backup in progress for the same thing!",
+      "backupInProgress": "There is a backup already in progress!",
       "backupWhilePlaying": "You can't make a backup while playing the installation!",
       "automaticBackups": "Automatic?",
       "backupsAuto": "Toggle on to make an automatic backup before playing",
       "backupsLimit": "Backups max ammount",
-      "restoreBackup": "Restore backup"
+      "restoreBackup": "Restore backup",
+      "noBackupsFound": "No backups found!",
+      "restoreInProgress": "There's a backup restoration already in progress!",
+      "areYouSureRestoreBackup": "Are you sure you want to restore this backup?",
+      "restoringNotReversible": "Restoring a backup will permanently delete your data and replace it with the backup one!",
+      "noBackupSelected": "No backup selected!",
+      "cmpressTaskName": "{{name}} backup",
+      "compressingBackupDescription": "Backing up {{name}}!",
+      "extractTaskName": "{{name}} backup restoration",
+      "extractingBackupDescription": "Restoring {{name}} backup!",
+      "cantDeleteWhileinUse": "You can't delete this backup while it's in use!",
+      "backupDeletedSuccesfully": "Backup deleted succesfully!",
+      "errorDeletingBackup": "There was an error deleting the backup!",
+      "deleteBackup": "Delete backup",
+      "areYouSureDelete": "Are you sure you want to delete this backup?",
+      "deletingNotReversible": "Deletion is not reversible so you'll not be able to restore your worlds, data and other info using this backup anymore."
     }
   },
   "components": {

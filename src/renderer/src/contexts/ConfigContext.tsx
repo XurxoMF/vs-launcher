@@ -14,6 +14,7 @@ export enum CONFIG_ACTIONS {
   EDIT_INSTALLATION = "EDIT_INSTALLATION",
   ADD_INSTALLATION_BACKUP = "ADD_INSTALLATION_BACKUP",
   DELETE_INSTALLATION_BACKUP = "DELETE_INSTALLATION_BACKUP",
+  EDIT_INSTALLATION_BACKUP = "EDIT_INSTALLATION_BACKUP",
 
   ADD_GAME_VERSION = "ADD_GAME_VERSION",
   DELETE_GAME_VERSION = "DELETE_GAME_VERSION",
@@ -84,6 +85,15 @@ export interface DeleteInstallationBackup {
   }
 }
 
+export interface EditInslallationBackup {
+  type: CONFIG_ACTIONS.EDIT_INSTALLATION_BACKUP
+  payload: {
+    id: string
+    backupId: string
+    updates: Partial<Omit<BackupType, "id">>
+  }
+}
+
 export interface AddGameVersion {
   type: CONFIG_ACTIONS.ADD_GAME_VERSION
   payload: GameVersionType
@@ -114,6 +124,7 @@ export type ConfigAction =
   | EditInstallation
   | AddInstallationBackup
   | DeleteInstallationBackup
+  | EditInslallationBackup
   | AddGameVersion
   | DeleteGameVersion
   | EditGameVersion
@@ -159,6 +170,18 @@ const configReducer = (config: ConfigType, action: ConfigAction): ConfigType => 
             ? {
                 ...installation,
                 backups: installation.backups.filter((backup) => backup.id !== action.payload.backupId)
+              }
+            : installation
+        )
+      }
+    case CONFIG_ACTIONS.EDIT_INSTALLATION_BACKUP:
+      return {
+        ...config,
+        installations: config.installations.map((installation) =>
+          installation.id === action.payload.id
+            ? {
+                ...installation,
+                backups: installation.backups.map((backup) => (backup.id === action.payload.backupId ? { ...backup, ...action.payload.updates } : backup))
               }
             : installation
         )

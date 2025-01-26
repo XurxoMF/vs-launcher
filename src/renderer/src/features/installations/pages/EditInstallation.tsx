@@ -43,6 +43,7 @@ function EditInslallation(): JSX.Element {
     if (!installation) return addNotification(t("notifications.titles.error"), t("features.installations.noInstallationFound"), "error")
     if (installation._backuping) return addNotification(t("notifications.titles.error"), t("features.backups.backupInProgress"), "error")
     if (installation._playing) return addNotification(t("notifications.titles.error"), t("features.installations.editWhilePlaying"), "error")
+    if (installation._restoringBackup) return addNotification(t("notifications.titles.error"), t("features.backups.restoreInProgress"), "error")
 
     if (!id || !name || !version || !backupsLimit || backupsAuto === undefined) return addNotification(t("notifications.titles.error"), t("notifications.body.missingFields"), "error")
 

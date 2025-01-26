@@ -1,6 +1,6 @@
 import { ipcMain, app, shell } from "electron"
 import fse from "fs-extra"
-import { join } from "path"
+import { join, sep } from "path"
 import os from "os"
 import { spawn } from "child_process"
 import { Worker } from "worker_threads"
@@ -33,6 +33,10 @@ ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.FORMAT_PATH, (_event, parts: string[])
   return join(...parts)
 })
 
+ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.REMOVE_FILE_FROM_PATH, (_event, path: string): string => {
+  return path.split(sep).slice(0, -1).join(sep)
+})
+
 ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.CHECK_PATH_EMPTY, (_event, path: string): boolean => {
   if (!fse.existsSync(path)) return true
   return fse.statSync(path).isDirectory() && fse.readdirSync(path).length === 0
@@ -46,18 +50,20 @@ ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.OPEN_PATH_ON_FILE_EXPLORER, async (_ev
   return await shell.openPath(path)
 })
 
-ipcMain.handle(IPC_CHANNELS.FILES_MANAGER.DOWNLOAD_ON_PATH, (event, id, url, outputPath) => {
+ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.DOWNLOAD_ON_PATH, (event, id, url, outputPath) => {
   return new Promise((resolve, reject) => {
     const worker = new Worker(downloadWorkerPath, {
       workerData: { url, outputPath }
     })
 
-    worker.on("message", (data) => {
-      if (data.type === "progress") {
-        event.sender.send(IPC_CHANNELS.FILES_MANAGER.DOWNLOAD_PROGRESS, id, data.progress)
-      } else if (data.type === "finished") {
+    worker.on("message", (message) => {
+      if (message.type === "progress") {
+        event.sender.send(IPC_CHANNELS.PATHS_MANAGER.DOWNLOAD_PROGRESS, id, message.progress)
+      } else if (message.type === "finished") {
         logMessage("info", `[ipcMain] [download-on-path] Finished`)
-        resolve(data.path)
+        resolve(message.path)
+      } else {
+        logMessage("error", `[ipcMain] [download-on-path] Error: ${message.message}`)
       }
     })
 
@@ -73,18 +79,20 @@ ipcMain.handle(IPC_CHANNELS.FILES_MANAGER.DOWNLOAD_ON_PATH, (event, id, url, out
   })
 })
 
-ipcMain.handle(IPC_CHANNELS.FILES_MANAGER.EXTRACT_ON_PATH, async (event, id: string, filePath: string, outputPath: string) => {
+ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.EXTRACT_ON_PATH, async (event, id: string, filePath: string, outputPath: string, deleteZip: boolean) => {
   return new Promise((resolve, reject) => {
     const worker = new Worker(extractWorker, {
-      workerData: { filePath, outputPath }
+      workerData: { filePath, outputPath, deleteZip }
     })
 
     worker.on("message", (message) => {
       if (message.type === "progress") {
-        event.sender.send(IPC_CHANNELS.FILES_MANAGER.EXTRACT_PROGRESS, id, message.progress)
+        event.sender.send(IPC_CHANNELS.PATHS_MANAGER.EXTRACT_PROGRESS, id, message.progress)
       } else if (message.type === "finished") {
         logMessage("info", `[ipcMain] [extract-on-path] Finished`)
         resolve(true)
+      } else {
+        logMessage("error", `[ipcMain] [extract-on-path] Error: ${message.message}`)
       }
     })
 
@@ -102,7 +110,7 @@ ipcMain.handle(IPC_CHANNELS.FILES_MANAGER.EXTRACT_ON_PATH, async (event, id: str
   })
 })
 
-ipcMain.handle(IPC_CHANNELS.FILES_MANAGER.COMPRESS_ON_PATH, async (event, id: string, inputPath: string, outputPath: string, outputFileName: string) => {
+ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.COMPRESS_ON_PATH, async (event, id: string, inputPath: string, outputPath: string, outputFileName: string) => {
   return new Promise((resolve, reject) => {
     const worker = new Worker(compressWorker, {
       workerData: { inputPath, outputPath, outputFileName }
@@ -110,10 +118,12 @@ ipcMain.handle(IPC_CHANNELS.FILES_MANAGER.COMPRESS_ON_PATH, async (event, id: st
 
     worker.on("message", (message) => {
       if (message.type === "progress") {
-        event.sender.send(IPC_CHANNELS.FILES_MANAGER.COMPRESS_PROGRESS, id, message.progress)
+        event.sender.send(IPC_CHANNELS.PATHS_MANAGER.COMPRESS_PROGRESS, id, message.progress)
       } else if (message.type === "finished") {
         logMessage("info", `[ipcMain] [compress-on-path] Finished`)
         resolve(true)
+      } else {
+        logMessage("error", `[ipcMain] [compress-on-path] Error: ${message.message}`)
       }
     })
 
@@ -131,7 +141,7 @@ ipcMain.handle(IPC_CHANNELS.FILES_MANAGER.COMPRESS_ON_PATH, async (event, id: st
   })
 })
 
-ipcMain.handle(IPC_CHANNELS.FILES_MANAGER.CHANGE_PERMS, async (_event, paths: string[], perms: number) => {
+ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.CHANGE_PERMS, async (_event, paths: string[], perms: number) => {
   if (os.platform() === "linux") {
     logMessage("info", `[ipcMain] [change-perms] Linux platform detected`)
 
@@ -161,7 +171,7 @@ ipcMain.handle(IPC_CHANNELS.FILES_MANAGER.CHANGE_PERMS, async (_event, paths: st
   return Promise.reject(true)
 })
 
-ipcMain.handle(IPC_CHANNELS.FILES_MANAGER.LOOK_FOR_A_GAME_VERSION, async (_event, path: string) => {
+ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.LOOK_FOR_A_GAME_VERSION, async (_event, path: string) => {
   logMessage("info", `[component] [look-for-a-game-version] Looking for the game at ${path}`)
 
   const files = fse.readdirSync(path)

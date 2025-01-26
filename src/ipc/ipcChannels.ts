@@ -19,11 +19,10 @@ export const IPC_CHANNELS = {
     GET_CURRENT_USER_DATA_PATH: "get-current-user-data-path",
     DELETE_PATH: "delete-path",
     FORMAT_PATH: "format-path",
+    REMOVE_FILE_FROM_PATH: "remove-file-from-path",
     CHECK_PATH_EMPTY: "check-empty-path",
     CHECK_PATH_EXISTS: "check-path-exists",
-    OPEN_PATH_ON_FILE_EXPLORER: "open-path-on-file-explorer"
-  },
-  FILES_MANAGER: {
+    OPEN_PATH_ON_FILE_EXPLORER: "open-path-on-file-explorer",
     DOWNLOAD_ON_PATH: "download-on-path",
     EXTRACT_ON_PATH: "extract-on-path",
     COMPRESS_ON_PATH: "compress-on-path",

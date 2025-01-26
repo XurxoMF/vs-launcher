@@ -33,7 +33,7 @@
       "notImplementedDesc": "¡Vuelve en la próxima versión y puede que esté lista!"
     },
     "home": {
-      "description": "El Launcher no oficial de Vintage Story con todas las funciones que necesitas.",
+      "description": "El Launcher no oficial de Vintage Story con (casi) todas las funciones que necesitas.",
       "title": "Bienvenid@ a VS Launcher"
     },
     "installations": {
@@ -67,7 +67,8 @@
       "labelStartParams": "Parámetros de inicio",
       "startParams": "Parámetros de inicio",
       "startParamsDesc": "Lista de todos los parámetros de inicio disponibles: <link />",
-      "startParamsLink": "Wiki de Vintage Story"
+      "startParamsLink": "Wiki de Vintage Story",
+      "restoreBackup": "Restaurar copia de seguridad de la instalación"
     },
     "mods": {
       "modsCount": "{{count}} mods",
@@ -125,7 +126,23 @@
       "backupWhilePlaying": "¡No puedes hacer una copia de seguridad mientras juegas la instalación!",
       "backupsAuto": "Actívalo para hacer una copia de seguridad automática antes de jugar",
       "backupsLimit": "Límite de copias de seguridad",
-      "errorDeletingOldBackup": "¡Ha ocurrido un error al eliminar una copia de seguridad antigua!"
+      "errorDeletingOldBackup": "¡Ha ocurrido un error al eliminar una copia de seguridad antigua!",
+      "areYouSureRestoreBackup": "¿Estás seguro de que quieres restaurar esta copia de seguridad?",
+      "cmpressTaskName": "copia de seguridad de {{name}}",
+      "compressingBackupDescription": "¡Haciendo copia de seguridad de {{name}}!",
+      "extractTaskName": "restaurando copia de seguridad de {{name}}",
+      "extractingBackupDescription": "¡Restaurando copia de seguridad de {{name}}!",
+      "noBackupSelected": "¡No hay ninguna copia de seguridad seleccionada!",
+      "noBackupsFound": "¡No se encontró ningúna copia de seguridad!",
+      "restoreBackup": "Restaurar copia de seguridad",
+      "restoreInProgress": "¡Ya hay una restauración de copia de seguridad en progreso!",
+      "restoringNotReversible": "¡Restaurar una copia de seguridad eliminará tus datos permanentemente y los reemplazara con los de la copia de seguridad!",
+      "areYouSureDelete": "¿Estás seguro de que quieres eliminar esta copia de seguridad?",
+      "backupDeletedSuccesfully": "¡Copia de seguridad eliminada con éxito!",
+      "cantDeleteWhileinUse": "¡No puedes eliminar esta copia de seguridad mientras está en uso!",
+      "deleteBackup": "Eliminar copia de seguridad",
+      "deletingNotReversible": "La eliminaión no es reversible por lo que no podrás restaurar tus mundos, datos y otra información usando esta copia de seguridad nunca más.",
+      "errorDeletingBackup": "¡Ha ocurrido un erro eliminando la copia de seguridad!"
     }
   },
   "generic": {
@@ -157,7 +174,8 @@
     "basics": "Básicos",
     "donate": "Donaciónes",
     "edit": "Editar",
-    "minMaxAmmount": "Número entre {{min}} y {{max}}"
+    "minMaxAmmount": "Número entre {{min}} y {{max}}",
+    "restore": "Restaurar"
   },
   "notifications": {
     "body": {

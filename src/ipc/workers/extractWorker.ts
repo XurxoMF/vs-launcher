@@ -3,7 +3,7 @@ import yauzl from "yauzl"
 import fse from "fs-extra"
 import path from "path"
 
-const { filePath, outputPath } = workerData
+const { filePath, outputPath, deleteZip } = workerData
 
 yauzl.open(filePath, { lazyEntries: true }, (err, zipfile) => {
   if (err) {
@@ -50,14 +50,16 @@ yauzl.open(filePath, { lazyEntries: true }, (err, zipfile) => {
           if (extractedCount === totalFiles) {
             zipfile.close()
 
-            fse.unlink(filePath, (err) => {
-              if (err) {
-                parentPort?.postMessage({ type: "error", message: `Error deleting ZIP file: ${err.message}` })
-                return
-              }
+            if (deleteZip) {
+              fse.unlink(filePath, (err) => {
+                if (err) {
+                  parentPort?.postMessage({ type: "error", message: `Error deleting ZIP file: ${err.message}` })
+                  return
+                }
+              })
+            }
 
-              parentPort?.postMessage({ type: "finished" })
-            })
+            parentPort?.postMessage({ type: "finished" })
           } else {
             zipfile.readEntry() // Leer siguiente entrada
           }

@@ -28,18 +28,20 @@ const api: BridgeAPI = {
     getCurrentUserDataPath: (): Promise<string> => ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.GET_CURRENT_USER_DATA_PATH),
     deletePath: (path: string): Promise<boolean> => ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.DELETE_PATH, path),
     formatPath: (parts: string[]): Promise<string> => ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.FORMAT_PATH, parts),
+    removeFileFromPath: (path: string): Promise<string> => ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.REMOVE_FILE_FROM_PATH, path),
     checkPathEmpty: (path: string): Promise<boolean> => ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.CHECK_PATH_EMPTY, path),
     checkPathExists: (path: string): Promise<boolean> => ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.CHECK_PATH_EXISTS, path),
     openPathOnFileExplorer: (path: string): Promise<string> => ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.OPEN_PATH_ON_FILE_EXPLORER, path),
-    downloadOnPath: (id: string, url: string, outputPath: string): Promise<string> => ipcRenderer.invoke(IPC_CHANNELS.FILES_MANAGER.DOWNLOAD_ON_PATH, id, url, outputPath),
-    extractOnPath: (id: string, filePath: string, outputPath: string): Promise<boolean> => ipcRenderer.invoke(IPC_CHANNELS.FILES_MANAGER.EXTRACT_ON_PATH, id, filePath, outputPath),
+    downloadOnPath: (id: string, url: string, outputPath: string): Promise<string> => ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.DOWNLOAD_ON_PATH, id, url, outputPath),
+    extractOnPath: (id: string, filePath: string, outputPath: string, deleteZip: boolean): Promise<boolean> =>
+      ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.EXTRACT_ON_PATH, id, filePath, outputPath, deleteZip),
     compressOnPath: (id: string, inputPath: string, outputPath: string, outputFileName: string): Promise<boolean> =>
-      ipcRenderer.invoke(IPC_CHANNELS.FILES_MANAGER.COMPRESS_ON_PATH, id, inputPath, outputPath, outputFileName),
-    onDownloadProgress: (callback: ProgressCallback) => ipcRenderer.on(IPC_CHANNELS.FILES_MANAGER.DOWNLOAD_PROGRESS, callback),
-    onExtractProgress: (callback: ProgressCallback) => ipcRenderer.on(IPC_CHANNELS.FILES_MANAGER.EXTRACT_PROGRESS, callback),
-    onCompressProgress: (callback: ProgressCallback) => ipcRenderer.on(IPC_CHANNELS.FILES_MANAGER.COMPRESS_PROGRESS, callback),
-    changePerms: (paths: string[], perms: number): Promise<boolean> => ipcRenderer.invoke(IPC_CHANNELS.FILES_MANAGER.CHANGE_PERMS, paths, perms),
-    lookForAGameVersion: (path: string): Promise<{ exists: boolean; installedGameVersion: string | undefined }> => ipcRenderer.invoke(IPC_CHANNELS.FILES_MANAGER.LOOK_FOR_A_GAME_VERSION, path)
+      ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.COMPRESS_ON_PATH, id, inputPath, outputPath, outputFileName),
+    onDownloadProgress: (callback: ProgressCallback) => ipcRenderer.on(IPC_CHANNELS.PATHS_MANAGER.DOWNLOAD_PROGRESS, callback),
+    onExtractProgress: (callback: ProgressCallback) => ipcRenderer.on(IPC_CHANNELS.PATHS_MANAGER.EXTRACT_PROGRESS, callback),
+    onCompressProgress: (callback: ProgressCallback) => ipcRenderer.on(IPC_CHANNELS.PATHS_MANAGER.COMPRESS_PROGRESS, callback),
+    changePerms: (paths: string[], perms: number): Promise<boolean> => ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.CHANGE_PERMS, paths, perms),
+    lookForAGameVersion: (path: string): Promise<{ exists: boolean; installedGameVersion: string | undefined }> => ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.LOOK_FOR_A_GAME_VERSION, path)
   },
   gameManager: {
     executeGame: (version: GameVersionType, installation: InstallationType): Promise<boolean> => ipcRenderer.invoke(IPC_CHANNELS.GAME_MANAGER.EXECUTE_GAME, version, installation)

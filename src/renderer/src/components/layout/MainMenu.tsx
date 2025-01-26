@@ -90,6 +90,7 @@ function MainMenu(): JSX.Element {
       if (!installationToRun) return addNotification(t("notifications.titles.error"), t("features.installations.noInstallationSelected"), "error")
       if (installationToRun._playing) return addNotification(t("notifications.titles.error"), t("features.installations.gameAlreadyRunning"), "error")
       if (installationToRun._backuping) return addNotification(t("notifications.titles.error"), t("features.backups.backupInProgress"), "error")
+      if (installationToRun._restoringBackup) return addNotification(t("notifications.titles.error"), t("features.backups.restoreInProgress"), "error")
 
       const gameVersionToRun = config.gameVersions.find((gv) => gv.version === installationToRun.version)
       if (!gameVersionToRun) return addNotification(t("notifications.titles.error"), t("features.versions.versionNotInstalled", { version: installationToRun.version }), "error")
@@ -118,18 +119,27 @@ function MainMenu(): JSX.Element {
             window.api.utils.logMessage("info", `[MainMenu] [backup] Deleted old backup: ${backupToDelete.path}`)
           }
 
-          const fileName = `${installationToRun.name.replace(/[^a-zA-Z0-9]/g, "-")}_${new Date().toLocaleString("es").replace(/[^a-zA-Z0-9]/g, "-")}.zip`
+          const backupDate = Date.now()
+
+          const fileName = `${installationToRun.name.replace(/[^a-zA-Z0-9]/g, "-")}_${backupDate.toLocaleString("es").replace(/[^a-zA-Z0-9]/g, "-")}.zip`
           const backupPath = await window.api.pathsManager.formatPath([config.backupsFolder, "Installations", installationToRun.name.replace(/[^a-zA-Z0-9]/g, "-")])
           const outBackupPath = await window.api.pathsManager.formatPath([backupPath, fileName])
 
-          await startCompress(`${installationToRun.name} backup`, `Backing up installation ${installationToRun.name}`, installationToRun.path, backupPath, fileName, (status) => {
-            if (!status) throw new Error("Error compressing installation!")
+          await startCompress(
+            t("features.backups.cmpressTaskName", { name: installationToRun.name }),
+            t("features.backups.compressingBackupDescription", { name: installationToRun.name }),
+            installationToRun.path,
+            backupPath,
+            fileName,
+            (status) => {
+              if (!status) throw new Error("Error compressing installation!")
 
-            configDispatch({
-              type: CONFIG_ACTIONS.ADD_INSTALLATION_BACKUP,
-              payload: { id: installationToRun.id, backup: { date: Date.now(), id: uuidv4(), path: outBackupPath } }
-            })
-          })
+              configDispatch({
+                type: CONFIG_ACTIONS.ADD_INSTALLATION_BACKUP,
+                payload: { id: installationToRun.id, backup: { date: backupDate, id: uuidv4(), path: outBackupPath } }
+              })
+            }
+          )
         } catch (err) {
           window.api.utils.logMessage("error", `[MainMenu] [backup] Error making a backup: ${err}`)
         } finally {

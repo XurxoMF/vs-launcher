@@ -60,7 +60,7 @@ function InstallationsDropdownMenu(): JSX.Element {
                             <p className="font-bold text-start">{current.name}</p>
                             <div className="shrink-0 text-sm text-zinc-500 flex flex-col items-end justify-center">
                               <p>{current.version}</p>
-                              <p>{t("features.mods.modsCount", { count: current.mods.length })}</p>
+                              <p>{t("features.mods.modsCount", { count: 0 })}</p>
                             </div>
                           </div>
                         )
@@ -87,7 +87,7 @@ function InstallationsDropdownMenu(): JSX.Element {
                             <p className="font-bold text-start">{current.name}</p>
                             <div className="shrink-0 text-sm text-zinc-500 flex flex-col items-end justify-center">
                               <p>{current.version}</p>
-                              <p>{t("features.mods.modsCount", { count: current.mods.length })}</p>
+                              <p>{t("features.mods.modsCount", { count: 0 })}</p>
                             </div>
                           </div>
                         </ListboxOption>

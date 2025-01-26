@@ -26,12 +26,13 @@ declare global {
     pathsManager: {
       getCurrentUserDataPath: () => Promise<string>
       formatPath: (parts: string[]) => Promise<string>
+      removeFileFromPath(path: string): Promise<string>
       deletePath: (path: string) => Promise<boolean>
       checkPathEmpty: (path: string) => Promise<boolean>
       checkPathExists: (path: string) => Promise<boolean>
       openPathOnFileExplorer: (path: string) => Promise<string>
       downloadOnPath: (id: string, url: string, outputPath: string) => Promise<string>
-      extractOnPath: (id: string, filePath: string, outputPath: string) => Promise<boolean>
+      extractOnPath: (id: string, filePath: string, outputPath: string, deleteZip: boolean) => Promise<boolean>
       compressOnPath: (id: string, inputPath: string, outputPath: string, outputFileName: string) => Promise<boolean>
       onDownloadProgress: (callback: ProgressCallback) => void
       onExtractProgress: (callback: ProgressCallback) => void

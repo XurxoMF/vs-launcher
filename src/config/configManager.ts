@@ -27,8 +27,7 @@ const defaultInstallation: InstallationType = {
   startParams: "",
   backupsLimit: 3,
   backupsAuto: false,
-  backups: [],
-  mods: []
+  backups: []
 }
 
 const defaultGameVersion: GameVersionType = {
@@ -91,8 +90,7 @@ function ensureConfigProperties(config: ConfigType): ConfigType {
     startParams: installation.startParams ?? defaultInstallation.startParams,
     backupsLimit: installation.backupsLimit ?? defaultInstallation.backupsLimit,
     backupsAuto: installation.backupsAuto ?? defaultInstallation.backupsAuto,
-    backups: installation.backups ?? defaultInstallation.backups,
-    mods: installation.mods ?? defaultInstallation.mods
+    backups: installation.backups ?? defaultInstallation.backups
   }))
 
   const gameVersions: GameVersionType[] = config.gameVersions.map((gameVersion) => ({

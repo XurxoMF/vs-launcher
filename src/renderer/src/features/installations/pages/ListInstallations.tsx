@@ -24,6 +24,7 @@ function ListInslallations(): JSX.Element {
   async function BackupHandler(installation: InstallationType): Promise<void> {
     if (installation._backuping) return addNotification(t("notifications.titles.error"), t("features.backups.backupInProgress"), "error")
     if (installation._playing) return addNotification(t("notifications.titles.error"), t("features.backups.backupWhilePlaying"), "error")
+    if (installation._restoringBackup) return addNotification(t("notifications.titles.error"), t("features.backups.restoreInProgress"), "error")
 
     if ((await window.api.pathsManager.checkPathExists(installation.path)) && config.backupsFolder && installation.backupsLimit > 0) {
       const id = uuidv4()
@@ -46,18 +47,27 @@ function ListInslallations(): JSX.Element {
           window.api.utils.logMessage("info", `[ListInstallations] [backup] Deleted old backup: ${backupToDelete.path}`)
         }
 
-        const fileName = `${installation.name.replace(/[^a-zA-Z0-9]/g, "-")}_${new Date().toLocaleString("es").replace(/[^a-zA-Z0-9]/g, "-")}.zip`
+        const backupDate = Date.now()
+
+        const fileName = `${installation.name.replace(/[^a-zA-Z0-9]/g, "-")}_${backupDate.toLocaleString("es").replace(/[^a-zA-Z0-9]/g, "-")}.zip`
         const backupPath = await window.api.pathsManager.formatPath([config.backupsFolder, "Installations", installation.name.replace(/[^a-zA-Z0-9]/g, "-")])
         const outBackupPath = await window.api.pathsManager.formatPath([backupPath, fileName])
 
-        await startCompress(`${installation.name} backup`, `Backing up installation ${installation.name}`, installation.path, backupPath, fileName, (status) => {
-          if (!status) throw new Error("Error compressing installation!")
+        await startCompress(
+          t("features.backups.cmpressTaskName", { name: installation.name }),
+          t("features.backups.compressingBackupDescription", { name: installation.name }),
+          installation.path,
+          backupPath,
+          fileName,
+          (status) => {
+            if (!status) throw new Error("Error compressing installation!")
 
-          configDispatch({
-            type: CONFIG_ACTIONS.ADD_INSTALLATION_BACKUP,
-            payload: { id: installation.id, backup: { date: Date.now(), id: uuidv4(), path: outBackupPath } }
-          })
-        })
+            configDispatch({
+              type: CONFIG_ACTIONS.ADD_INSTALLATION_BACKUP,
+              payload: { id: installation.id, backup: { date: backupDate, id: uuidv4(), path: outBackupPath } }
+            })
+          }
+        )
       } catch (err) {
         window.api.utils.logMessage("error", `[ListInstallations] [backup] Error making a backup: ${err}`)
       } finally {
@@ -88,7 +98,7 @@ function ListInslallations(): JSX.Element {
                   <p>{installation.name}</p>
                   <div className="flex gap-2 items-center text-sm text-zinc-500">
                     <p>{installation.version}</p>
-                    <p>{t("features.mods.modsCount", { count: installation.mods.length })}</p>
+                    <p>{t("features.mods.modsCount", { count: 0 })}</p>
                   </div>
                 </div>
 
@@ -197,7 +207,7 @@ function ListInslallations(): JSX.Element {
                     className="px-2 py-1 bg-red-800 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
                     onClick={async () => {
                       try {
-                        if (installationToDelete._playing || installationToDelete._backuping)
+                        if (installationToDelete._playing || installationToDelete._backuping || installationToDelete._restoringBackup)
                           return addNotification(t("notifications.titles.error"), t("features.installations.cantDeleteWhileinUse"), "error")
 
                         if (deleteData) {

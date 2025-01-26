@@ -92,6 +92,7 @@ function AddVersion(): JSX.Element {
           t("features.versions.gameVersionExtractDesc", { version: newGameVersion.version }),
           path,
           folder,
+          true,
           (status) => {
             if (!status) return configDispatch({ type: CONFIG_ACTIONS.DELETE_GAME_VERSION, payload: { version: newGameVersion.version } })
             configDispatch({ type: CONFIG_ACTIONS.EDIT_GAME_VERSION, payload: { version: newGameVersion.version, updates: { _installing: undefined } } })
