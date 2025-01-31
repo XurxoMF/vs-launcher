@@ -1,6 +1,6 @@
 ---
-description: If you're using Linux follow this guide!
 icon: linux
+description: If you're using Linux follow this guide!
 ---
 
 # Linux
@@ -19,7 +19,7 @@ On that page you'll see all the available versions to download.
 {% step %}
 ### Download the Linux version
 
-On the releases page, the first version is always the last one. There you'll see a table with the different files to download. Just click on the Windows one like on the next image:
+On the releases page, the first version is always the last one. There you'll see a table with the different files to download. Just click on the Linux one like on the next image:
 
 ![](<../../.gitbook/assets/imagen (1).png>)
 {% endstep %}
@@ -114,4 +114,3 @@ sudo sysctl -w vm.max_map_count=262144
 {% hint style="info" %}
 If you find any issue report it on the [GitHub Issue Tracker](https://github.com/XurxoMF/vs-launcher/issues) and if you need help as us on the [GitHub Discussions](https://github.com/XurxoMF/vs-launcher/discussions) or on the [Official Vintage Story Discord Server](https://discord.com/channels/302152934249070593/1314991001571557488).
 {% endhint %}
-

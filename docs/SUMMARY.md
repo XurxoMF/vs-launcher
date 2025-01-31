@@ -14,6 +14,7 @@
   * [📀 Game Client](get-started/usage/game-client/README.md)
     * [Vintage Story is already installed](get-started/usage/game-client/vintage-story-is-already-installed.md)
     * [Install Vintage Story from scratch](get-started/usage/game-client/install-vintage-story-from-scratch.md)
+    * [Update Vintage Story](get-started/usage/game-client/update-vintage-story.md)
     * [Uninstall Vintage Story](get-started/usage/game-client/uninstall-vintage-story.md)
     * [Edit Installations](get-started/usage/game-client/edit-installations.md)
     * [Backups](get-started/usage/game-client/backups.md)
