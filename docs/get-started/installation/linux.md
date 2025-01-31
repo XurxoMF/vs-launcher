@@ -5,8 +5,6 @@ description: If you're using Linux follow this guide!
 
 # Linux
 
-## Linux
-
 VS Launcher works on ANY Linux distro thanks to the AppImage compilation we're using.
 
 Installing it on Linux is as easy as downloading the AppImage and double clicking it.... that's it. Let's get started:
