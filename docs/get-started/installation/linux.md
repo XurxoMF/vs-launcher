@@ -1,6 +1,6 @@
 ---
-description: If you're using Linux follow this guide!
 icon: linux
+description: If you're using Linux follow this guide!
 ---
 
 # Linux
@@ -19,7 +19,7 @@ On that page you'll see all the available versions to download.
 {% step %}
 ### Download the Linux version
 
-On the releases page, the first version is always the latest one. There you'll see a table with the different files to download. Click on the Linux build as shown in the next image:
+On the releases page, the first version is always the latest one. There you'll see a table with the different files to download. Just click on the Linux build as shown in the next image:
 
 ![](<../../.gitbook/assets/imagen (1).png>)
 {% endstep %}
