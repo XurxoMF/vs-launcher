@@ -27,6 +27,13 @@ This page is the Hall of Fame with the name of all the contributors this project
 
 ***
 
+## Documentation
+
+* [**XurxoMF**](https://github.com/XurxoMF)
+* [**asleeves**](https://github.com/asleeves)
+
+***
+
 ## Letter of love!
 
 Thank you very much for joining me and helping me improve VS Launcher during this time.
