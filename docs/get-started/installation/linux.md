@@ -19,7 +19,7 @@ On that page you'll see all the available versions to download.
 {% step %}
 ### Download the Linux version
 
-On the releases page, the first version is always the last one. There you'll see a table with the different files to download. Just click on the Linux one like on the next image:
+On the releases page, the first version is always the latest one. There you'll see a table with the different files to download. Just click on the Linux build as shown in the next image:
 
 ![](<../../.gitbook/assets/imagen (1).png>)
 {% endstep %}
@@ -51,19 +51,25 @@ Double click the VS Launcher AppImage and that's it, ready to use!
 {% endstep %}
 
 {% step %}
-### Install depencies
+### Install Dependencies
 
 VS Launcher does not need any dependecy to work but Vintage Story does so follow the next steps.
 {% endstep %}
 {% endstepper %}
 
-## Install Vinstage Story dpendencies
+# Vintage Story Dependencies
 
-VS Launcher does not need any dependecy to work but Vintage Story does. I wanted to make this process automátically when you run the game but Linux has a lot of distros and I can't personalize it to work on all of them so you'll have to do it manually.
+VS Launcher does not need any dependencies to work, but Vintage Story does. I wanted to make this process automatic upon game launch but Linux has a lot of distros and I can't personalize it to work on all of them so you'll have to do it manually.
 
-Here I'll explain how to do it on Debaian distros like Ubuntu, Linux Mint and so on. If you're using anotherone you'll have to check it on Google, if you know how to do it on other distros you can let me know to update this guide!
+Please follow the instructions for your distribution, or flatpak if applicable.
 
 {% stepper %}
+## Flatpak (Distro-Agnostic)
+
+If you installed Vintage Story using Flatpak you can skip the rest of this guide, as any dependencies will come pre-installed in the sandbox.
+{% endstepper %}
+{% stepper %}
+## Debian, Ubuntu and their derivatives
 {% step %}
 ### Install .NET 7
 
@@ -110,7 +116,26 @@ sudo sysctl -w vm.max_map_count=262144
 ```
 {% endstep %}
 {% endstepper %}
+{% stepper %}
+## Arch and its derivatives
 
+{% step %}
+### AUR installation
+
+If you have access to the Arch User Repository (AUR) you may install Vintage Story and its dependencies with the [vintagestory package](https://aur.archlinux.org/packages/vintagestory).
+For example, using the [yay](https://aur.archlinux.org/packages/yay) AUR helper: ``yay -S vintagestory``
+{% endstep %}
+{% step %}
+
+### Manual installation
+
+If the AUR package is unavaliable or undesired, you may download the Linux tar.gz Archive (full) from the [account section](https://account.vintagestory.at/) on the game's website.
+Unpack the archive, and place the folder in a valid location- typically ``/usr/share/vintagestory``.
+Consider creating a desktop file and/or symlinking the binary to ``/usr/bin/`` for easy access.
+Now install the dependencies from your system's repositories. For Arch, the following command should suffice:
+``sudo pacman -S dotnet-runtime-7.0 glibc openal opengl-driver``
+{% endstep %}
+{% endstepper %}
 {% hint style="info" %}
 If you find any issue report it on the [GitHub Issue Tracker](https://github.com/XurxoMF/vs-launcher/issues) and if you need help as us on the [GitHub Discussions](https://github.com/XurxoMF/vs-launcher/discussions) or on the [Official Vintage Story Discord Server](https://discord.com/channels/302152934249070593/1314991001571557488).
 {% endhint %}
