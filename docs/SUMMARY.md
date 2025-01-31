@@ -20,3 +20,8 @@
 * [🌐 Translation](get-started/translation/README.md)
   * [Option 1](get-started/translation/option-1.md)
   * [Option 2 (recomended)](get-started/translation/option-2-recomended.md)
+
+## IMPORTANT INFO
+
+* [👤 Contributors](important-info/contributors.md)
+* [📝 Roadmap](important-info/roadmap.md)
