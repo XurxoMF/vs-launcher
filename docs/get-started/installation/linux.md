@@ -122,15 +122,16 @@ sudo sysctl -w vm.max_map_count=262144
 {% step %}
 ### AUR installation
 
-If you have access to the Arch User Repository (AUR) you may install Vintage Story and its dependencies with [this package](https://aur.archlinux.org/packages/vintagestory).
+If you have access to the Arch User Repository (AUR) you may install Vintage Story and its dependencies with the [vintagestory package](https://aur.archlinux.org/packages/vintagestory).
 For example, using the [yay](https://aur.archlinux.org/packages/yay) AUR helper: ``yay -S vintagestory``
 {% endstep %}
 {% step %}
 
 ### Manual installation
 
-If the AUR package is unavaliable or undesired, you may download the Linux tar.gz Archive (full) from your [account section](https://account.vintagestory.at/) on the game's website.
-Unpack the archive, and place the folder in a proper location- typically ``/usr/share/vintagestory``.
+If the AUR package is unavaliable or undesired, you may download the Linux tar.gz Archive (full) from the [account section](https://account.vintagestory.at/) on the game's website.
+Unpack the archive, and place the folder in a valid location- typically ``/usr/share/vintagestory``.
+Consider creating a desktop file and/or symlinking the binary to ``/usr/bin/`` for easy access.
 Now install the dependencies from your system's repositories. For Arch, the following command should suffice:
 ``sudo pacman -S dotnet-runtime-7.0 glibc openal opengl-driver``
 {% endstep %}
@@ -138,4 +139,3 @@ Now install the dependencies from your system's repositories. For Arch, the foll
 {% hint style="info" %}
 If you find any issue report it on the [GitHub Issue Tracker](https://github.com/XurxoMF/vs-launcher/issues) and if you need help as us on the [GitHub Discussions](https://github.com/XurxoMF/vs-launcher/discussions) or on the [Official Vintage Story Discord Server](https://discord.com/channels/302152934249070593/1314991001571557488).
 {% endhint %}
-
