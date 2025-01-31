@@ -1,5 +1,5 @@
 ---
-description: Wellcome to the official VS Launcher docs!
+description: Welcome to the official VS Launcher docs!
 ---
 
 # 👋 Welcome
