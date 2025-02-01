@@ -8,7 +8,7 @@ import { Link } from "react-router-dom"
  *
  * @param {object} props - The component props.
  * @param {React.ReactNode} props.children - The content to be wrapped.
- * @param {string} [props.className] - Additional class names for styling.
+ * @param {string} props.className - Additional class names for styling.
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
 export function ButtonsWrapper({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
@@ -19,7 +19,7 @@ export function ButtonsWrapper({ children, className }: { children: React.ReactN
  * Button that fits the content width with h-8.
  *
  * @param {object} props - The component props.
- * @param {string} [props.className] - Additional class names for styling.
+ * @param {string} props.className - Additional class names for styling.
  * @param {() => void} props.onClick - The function to be called when the button is clicked.
  * @param {string} props.title - The title and content of the button.
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
@@ -36,7 +36,7 @@ export function FormButton({ className, onClick, title }: { className?: string; 
  * Link to a page with the same styles as the FormButton.
  *
  * @param {object} props - The component props.
- * @param {string} [props.className] - Additional class names for styling.
+ * @param {string} props.className - Additional class names for styling.
  * @param {string} props.to - Route to the page.
  * @param {string} props.title - The title and content of the button.
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.

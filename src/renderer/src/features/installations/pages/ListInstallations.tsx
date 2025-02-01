@@ -4,11 +4,11 @@ import { Button, Description, Dialog, DialogPanel, DialogTitle, Input, Menu, Men
 import { PiFolderFill, PiPlusCircleFill, PiTrashFill, PiPencilFill, PiCaretCircleDoubleDownFill, PiArrowCounterClockwiseFill, PiDotsThreeOutlineVerticalFill } from "react-icons/pi"
 import { useTranslation, Trans } from "react-i18next"
 import { AnimatePresence, motion } from "motion/react"
-import { v4 as uuidv4 } from "uuid"
 
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/contexts/ConfigContext"
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
-import { useTaskContext } from "@renderer/contexts/TaskManagerContext"
+
+import { useMakeInstallationBackup } from "@renderer/features/installations/hooks/useMakeInstallationBackup"
 
 import { ListGroup, ListWrapper, Listitem } from "@renderer/components/ui/List"
 
@@ -16,66 +16,11 @@ function ListInslallations(): JSX.Element {
   const { t } = useTranslation()
   const { addNotification } = useNotificationsContext()
   const { config, configDispatch } = useConfigContext()
-  const { startCompress } = useTaskContext()
+
+  const makeInstallationBackup = useMakeInstallationBackup()
 
   const [installationToDelete, setInstallationToDelete] = useState<InstallationType | null>(null)
   const [deleteData, setDeleData] = useState<boolean>(false)
-
-  async function BackupHandler(installation: InstallationType): Promise<void> {
-    if (installation._backuping) return addNotification(t("notifications.titles.error"), t("features.backups.backupInProgress"), "error")
-    if (installation._playing) return addNotification(t("notifications.titles.error"), t("features.backups.backupWhilePlaying"), "error")
-    if (installation._restoringBackup) return addNotification(t("notifications.titles.error"), t("features.backups.restoreInProgress"), "error")
-
-    if ((await window.api.pathsManager.checkPathExists(installation.path)) && config.backupsFolder && installation.backupsLimit > 0) {
-      const id = uuidv4()
-      window.api.utils.setPreventAppClose("add", id, "Making and installation backup.")
-
-      configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id: installation.id, updates: { _backuping: true } } })
-
-      try {
-        let backupsLength = installation.backups.length
-
-        while (backupsLength > 0 && backupsLength >= installation.backupsLimit) {
-          const backupToDelete = installation.backups[backupsLength - 1]
-          const res = await window.api.pathsManager.deletePath(backupToDelete.path)
-          if (!res) return addNotification(t("notifications.titles.error"), t("features.backups.errorDeletingOldBackup"), "error")
-          configDispatch({
-            type: CONFIG_ACTIONS.DELETE_INSTALLATION_BACKUP,
-            payload: { id: installation.id, backupId: backupToDelete.id }
-          })
-          backupsLength--
-          window.api.utils.logMessage("info", `[ListInstallations] [backup] Deleted old backup: ${backupToDelete.path}`)
-        }
-
-        const backupDate = Date.now()
-
-        const fileName = `${installation.name.replace(/[^a-zA-Z0-9]/g, "-")}_${backupDate.toLocaleString("es").replace(/[^a-zA-Z0-9]/g, "-")}.zip`
-        const backupPath = await window.api.pathsManager.formatPath([config.backupsFolder, "Installations", installation.name.replace(/[^a-zA-Z0-9]/g, "-")])
-        const outBackupPath = await window.api.pathsManager.formatPath([backupPath, fileName])
-
-        await startCompress(
-          t("features.backups.cmpressTaskName", { name: installation.name }),
-          t("features.backups.compressingBackupDescription", { name: installation.name }),
-          installation.path,
-          backupPath,
-          fileName,
-          (status) => {
-            if (!status) throw new Error("Error compressing installation!")
-
-            configDispatch({
-              type: CONFIG_ACTIONS.ADD_INSTALLATION_BACKUP,
-              payload: { id: installation.id, backup: { date: backupDate, id: uuidv4(), path: outBackupPath } }
-            })
-          }
-        )
-      } catch (err) {
-        window.api.utils.logMessage("error", `[ListInstallations] [backup] Error making a backup: ${err}`)
-      } finally {
-        window.api.utils.setPreventAppClose("remove", id, "Finished installation backup.")
-        configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id: installation.id, updates: { _backuping: false } } })
-      }
-    }
-  }
 
   return (
     <>
@@ -110,7 +55,7 @@ function ListInslallations(): JSX.Element {
                   <Button
                     className="w-7 h-7 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
                     title={t("generic.backup")}
-                    onClick={() => BackupHandler(installation)}
+                    onClick={() => makeInstallationBackup(installation.id)}
                   >
                     <PiCaretCircleDoubleDownFill />
                   </Button>

@@ -99,7 +99,6 @@ function ensureConfigProperties(config: ConfigType): ConfigType {
   }))
 
   const fixedConfig: ConfigType = {
-    ...config,
     version: !config.version || config.version < defaultConfig.version ? defaultConfig.version : config.version,
     lastUsedInstallation: config.lastUsedInstallation ?? defaultConfig.lastUsedInstallation,
     defaultInstallationsFolder: config.defaultInstallationsFolder ?? defaultConfig.defaultInstallationsFolder,

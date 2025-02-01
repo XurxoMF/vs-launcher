@@ -146,7 +146,8 @@
       "errorDeletingBackup": "There was an error deleting the backup!",
       "deleteBackup": "Delete backup",
       "areYouSureDelete": "Are you sure you want to delete this backup?",
-      "deletingNotReversible": "Deletion is not reversible so you'll not be able to restore your worlds, data and other info using this backup anymore."
+      "deletingNotReversible": "Deletion is not reversible so you'll not be able to restore your worlds, data and other info using this backup anymore.",
+      "errorMakingBackup": "There was an error making a backup!"
     }
   },
   "components": {

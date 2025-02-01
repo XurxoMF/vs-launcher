@@ -142,7 +142,8 @@
       "cantDeleteWhileinUse": "¡No puedes eliminar esta copia de seguridad mientras está en uso!",
       "deleteBackup": "Eliminar copia de seguridad",
       "deletingNotReversible": "La eliminaión no es reversible por lo que no podrás restaurar tus mundos, datos y otra información usando esta copia de seguridad nunca más.",
-      "errorDeletingBackup": "¡Ha ocurrido un erro eliminando la copia de seguridad!"
+      "errorDeletingBackup": "¡Ha ocurrido un erro eliminando la copia de seguridad!",
+      "errorMakingBackup": "¡Ha ocurrido un error mientras se hacía una copia de seguridad!"
     }
   },
   "generic": {

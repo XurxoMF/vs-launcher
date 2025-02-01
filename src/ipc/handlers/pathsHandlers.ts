@@ -73,8 +73,10 @@ ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.DOWNLOAD_ON_PATH, (event, id, url, out
     })
 
     worker.on("exit", (code) => {
-      logMessage("error", `[ipcMain] [compress-on-path] "Worker stopped with exit code ${code}`)
-      if (code !== 0) reject(new Error(`Worker stopped with exit code ${code}`))
+      if (code !== 0) {
+        logMessage("error", `[ipcMain] [download-on-path] "Worker stopped with exit code ${code}`)
+        reject(new Error(`Worker stopped with exit code ${code}`))
+      }
     })
   })
 })
@@ -103,7 +105,7 @@ ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.EXTRACT_ON_PATH, async (event, id: str
 
     worker.on("exit", (code) => {
       if (code !== 0) {
-        logMessage("error", `[ipcMain] [compress-on-path] "Worker stopped with exit code ${code}`)
+        logMessage("error", `[ipcMain] [extract-on-path] "Worker stopped with exit code ${code}`)
         reject(new Error(`Worker stopped with exit code ${code}`))
       }
     })

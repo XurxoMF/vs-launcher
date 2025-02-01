@@ -1,5 +1,5 @@
-import { useState } from "react"
-import { useParams, useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { useParams, useNavigate, Link } from "react-router-dom"
 import { useTranslation, Trans } from "react-i18next"
 
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
@@ -31,13 +31,25 @@ function EditInslallation(): JSX.Element {
 
   const { id } = useParams()
 
-  const installation = config.installations.find((igv) => igv.id === id)
+  const [installation, setInstallation] = useState<InstallationType | undefined>(config.installations.find((igv) => igv.id === id))
 
-  const [name, setName] = useState<string>(installation?.name ?? "")
-  const [version, setVersion] = useState<GameVersionType>(config.gameVersions.find((gv) => gv.version === installation?.version) ?? config.gameVersions[0])
-  const [startParams, setStartParams] = useState<string>(installation?.startParams ?? "")
-  const [backupsLimit, setBackupsLimit] = useState<number>(installation?.backupsLimit ?? 0)
-  const [backupsAuto, setBackupsAuto] = useState<boolean>(installation?.backupsAuto ?? false)
+  useEffect(() => {
+    setInstallation(config.installations.find((igv) => igv.id === id))
+  }, [id])
+
+  const [name, setName] = useState<string>("")
+  const [version, setVersion] = useState<GameVersionType>(config.gameVersions[0])
+  const [startParams, setStartParams] = useState<string>("")
+  const [backupsLimit, setBackupsLimit] = useState<number>(0)
+  const [backupsAuto, setBackupsAuto] = useState<boolean>(false)
+
+  useEffect(() => {
+    setName(installation?.name ?? "")
+    setVersion(config.gameVersions.find((gv) => gv.version === installation?.version) ?? config.gameVersions[0])
+    setStartParams(installation?.startParams ?? "")
+    setBackupsLimit(installation?.backupsLimit ?? 0)
+    setBackupsAuto(installation?.backupsAuto ?? false)
+  }, [installation])
 
   const handleEditInstallation = async (): Promise<void> => {
     if (!installation) return addNotification(t("notifications.titles.error"), t("features.installations.noInstallationFound"), "error")
@@ -101,8 +113,20 @@ function EditInslallation(): JSX.Element {
 
                     <TableBody className="overflow-hidden">
                       {config.gameVersions.length < 1 && (
-                        <div className="w-full p-1 flex items-center justify-center">
+                        <div className="w-full p-1 flex flex-col items-center justify-center">
                           <p>{t("features.versions.noVersionsFound")}</p>
+                          <p className="text-zinc-500 text-sm flex gap-1 items-center flex-wrap justify-center">
+                            <Trans
+                              i18nKey="features.versions.noVersionsFoundDesc"
+                              components={{
+                                link: (
+                                  <Link to="/versions" className="text-vs">
+                                    {t("components.mainMenu.versionsTitle")}
+                                  </Link>
+                                )
+                              }}
+                            />
+                          </p>
                         </div>
                       )}
                       {config.gameVersions.map((gv) => (
