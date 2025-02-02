@@ -11,7 +11,7 @@ import iconMods from "@renderer/assets/icon-moddb.png"
 import iconNews from "@renderer/assets/icon-news.png"
 import iconChangelog from "@renderer/assets/icon-changelog.png"
 
-import { useConfigContext, CONFIG_ACTIONS } from "@renderer/contexts/ConfigContext"
+import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 
 import { useMakeInstallationBackup } from "@renderer/features/installations/hooks/useMakeInstallationBackup"

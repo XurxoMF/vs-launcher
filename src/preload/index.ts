@@ -24,6 +24,10 @@ const api: BridgeAPI = {
     getConfig: (): Promise<ConfigType> => ipcRenderer.invoke(IPC_CHANNELS.CONFIG_MANAGER.GET_CONFIG),
     saveConfig: (configJson: ConfigType): Promise<boolean> => ipcRenderer.invoke(IPC_CHANNELS.CONFIG_MANAGER.SAVE_CONFIG, configJson)
   },
+  modsManager: {
+    countMods: (path: string): Promise<{ status: boolean; count: number }> => ipcRenderer.invoke(IPC_CHANNELS.MODS_MANAGER.COUNT_MODS, path),
+    getInstalledMods: (path: string): Promise<InstalledModType[]> => ipcRenderer.invoke(IPC_CHANNELS.MODS_MANAGER.GET_INSTALLED_MODS, path)
+  },
   pathsManager: {
     getCurrentUserDataPath: (): Promise<string> => ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.GET_CURRENT_USER_DATA_PATH),
     deletePath: (path: string): Promise<boolean> => ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.DELETE_PATH, path),

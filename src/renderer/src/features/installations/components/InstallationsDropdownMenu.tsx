@@ -1,11 +1,11 @@
 import { useTranslation, Trans } from "react-i18next"
 import { PiCaretUpBold } from "react-icons/pi"
 import { AnimatePresence, motion } from "motion/react"
+import { Link } from "react-router-dom"
 
-import { useConfigContext, CONFIG_ACTIONS } from "@renderer/contexts/ConfigContext"
+import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
 
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from "@headlessui/react"
-import { Link } from "react-router-dom"
 
 function InstallationsDropdownMenu(): JSX.Element {
   const { t } = useTranslation()
@@ -60,7 +60,7 @@ function InstallationsDropdownMenu(): JSX.Element {
                             <p className="font-bold text-start">{current.name}</p>
                             <div className="shrink-0 text-sm text-zinc-500 flex flex-col items-end justify-center">
                               <p>{current.version}</p>
-                              <p>{t("features.mods.modsCount", { count: 0 })}</p>
+                              <p>{t("features.mods.modsCount", { count: current._modsCount as number })}</p>
                             </div>
                           </div>
                         )
@@ -87,7 +87,7 @@ function InstallationsDropdownMenu(): JSX.Element {
                             <p className="font-bold text-start">{current.name}</p>
                             <div className="shrink-0 text-sm text-zinc-500 flex flex-col items-end justify-center">
                               <p>{current.version}</p>
-                              <p>{t("features.mods.modsCount", { count: 0 })}</p>
+                              <p>{t("features.mods.modsCount", { count: current._modsCount as number })}</p>
                             </div>
                           </div>
                         </ListboxOption>

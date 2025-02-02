@@ -34,6 +34,13 @@ declare global {
     gameVersions: GameVersionType[]
   } & Record<string, unknown>
 
+  type InstalledModType = {
+    id: string
+    name: string
+    version: string
+    path: string
+  }
+
   type DownloadableGameVersionType = {
     version: string
     type: "stable" | "rc" | "pre"

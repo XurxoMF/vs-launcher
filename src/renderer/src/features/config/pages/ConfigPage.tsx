@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next"
 
-import { useConfigContext, CONFIG_ACTIONS } from "@renderer/contexts/ConfigContext"
+import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
 
 import { FormBody, FormFieldGroup, FormHead, FormLabel, FromGroup, FromWrapper, FormGroupWrapper, FormButton, FormInputTextNotEditable } from "@renderer/components/ui/FormComponents"
 

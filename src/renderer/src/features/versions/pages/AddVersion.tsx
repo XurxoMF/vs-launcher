@@ -6,7 +6,7 @@ import axios from "axios"
 import { FiLoader } from "react-icons/fi"
 
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
-import { CONFIG_ACTIONS, useConfigContext } from "@renderer/contexts/ConfigContext"
+import { CONFIG_ACTIONS, useConfigContext } from "@renderer/features/config/contexts/ConfigContext"
 import { useTaskContext } from "@renderer/contexts/TaskManagerContext"
 
 import {

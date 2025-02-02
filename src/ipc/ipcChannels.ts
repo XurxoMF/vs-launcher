@@ -15,6 +15,10 @@ export const IPC_CHANNELS = {
     GET_CONFIG: "get-config",
     SAVE_CONFIG: "save-config"
   },
+  MODS_MANAGER: {
+    COUNT_MODS: "count-mods",
+    GET_INSTALLED_MODS: "get-installed-mods"
+  },
   PATHS_MANAGER: {
     GET_CURRENT_USER_DATA_PATH: "get-current-user-data-path",
     DELETE_PATH: "delete-path",

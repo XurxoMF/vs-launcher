@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next"
 import { AnimatePresence, motion } from "motion/react"
 import "./i18n"
 
-import { ConfigProvider } from "@renderer/contexts/ConfigContext"
+import { ConfigProvider } from "@renderer/features/config/contexts/ConfigContext"
 import { NotificationsProvider } from "@renderer/contexts/NotificationsContext"
 import { TaskProvider } from "@renderer/contexts/TaskManagerContext"
 

@@ -3,7 +3,7 @@ import { useParams, useNavigate, Link } from "react-router-dom"
 import { useTranslation, Trans } from "react-i18next"
 
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
-import { useConfigContext, CONFIG_ACTIONS } from "@renderer/contexts/ConfigContext"
+import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
 
 import {
   FormBody,

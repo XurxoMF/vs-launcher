@@ -6,7 +6,7 @@ import { PiArrowCounterClockwiseFill, PiFolderFill, PiTrashFill } from "react-ic
 import { AnimatePresence, motion } from "motion/react"
 import { v4 as uuidv4 } from "uuid"
 
-import { useConfigContext, CONFIG_ACTIONS } from "@renderer/contexts/ConfigContext"
+import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 import { useTaskContext } from "@renderer/contexts/TaskManagerContext"
 

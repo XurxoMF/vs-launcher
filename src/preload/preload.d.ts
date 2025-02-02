@@ -23,6 +23,10 @@ declare global {
       getConfig: () => Promise<ConfigType>
       saveConfig: (configJson: ConfigType) => Promise<boolean>
     }
+    modsManager: {
+      countMods: (path: string) => Promise<{ status: boolean; count: number }>
+      getInstalledMods: (path: string) => Promise<InstalledModType[]>
+    }
     pathsManager: {
       getCurrentUserDataPath: () => Promise<string>
       formatPath: (parts: string[]) => Promise<string>

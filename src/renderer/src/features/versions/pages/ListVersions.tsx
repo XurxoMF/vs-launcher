@@ -5,7 +5,7 @@ import { PiFolderFill, PiPlusCircleFill, PiTrashFill, PiMagnifyingGlassFill } fr
 import { useTranslation, Trans } from "react-i18next"
 import { AnimatePresence, motion } from "motion/react"
 
-import { useConfigContext, CONFIG_ACTIONS } from "@renderer/contexts/ConfigContext"
+import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 
 import { ListGroup, ListWrapper, Listitem } from "@renderer/components/ui/List"

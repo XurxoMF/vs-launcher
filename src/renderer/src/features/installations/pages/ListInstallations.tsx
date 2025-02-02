@@ -5,7 +5,7 @@ import { PiFolderFill, PiPlusCircleFill, PiTrashFill, PiPencilFill, PiCaretCircl
 import { useTranslation, Trans } from "react-i18next"
 import { AnimatePresence, motion } from "motion/react"
 
-import { useConfigContext, CONFIG_ACTIONS } from "@renderer/contexts/ConfigContext"
+import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 
 import { useMakeInstallationBackup } from "@renderer/features/installations/hooks/useMakeInstallationBackup"
@@ -43,7 +43,7 @@ function ListInslallations(): JSX.Element {
                   <p>{installation.name}</p>
                   <div className="flex gap-2 items-center text-sm text-zinc-500">
                     <p>{installation.version}</p>
-                    <p>{t("features.mods.modsCount", { count: 0 })}</p>
+                    <p>{t("features.mods.modsCount", { count: installation._modsCount as number })}</p>
                   </div>
                 </div>
 
