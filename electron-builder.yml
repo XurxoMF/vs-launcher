@@ -34,7 +34,7 @@ linux:
     - AppImage
     - flatpak
     - deb
-  maintainer: xurxomf.xyz
+  maintainer: XurxoMF
   category: Game
   icon: resources/icon.icns
 appImage:
