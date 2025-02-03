@@ -20,7 +20,16 @@
     "version": "Versão",
     "releaseDate": "Data de lançamento",
     "type": "Tipo",
-    "install": "Instalar"
+    "install": "Instalar",
+    "backups": "Backups",
+    "basics": "Básico",
+    "advanced": "Avançado",
+    "minMaxAmmount": "Número entre {{min}} e {{max}}",
+    "ammount": "Quantidade",
+    "backup": "Backup",
+    "edit": "Editar",
+    "donate": "Doar",
+    "restore": "Restaurar"
   },
   "features": {
     "generic": {
@@ -57,7 +66,13 @@
       "searchForAGameVersion": "Procurar por uma versão do jogo",
       "missingFolderOrVersion": "Não tem pasta selecionada ou não existe uma versão do jogo na pasta que selecionou!",
       "lookForAVersion": "Procurar por uma versão",
-      "versionFound": "Versão encontrada"
+      "versionFound": "Versão encontrada",
+      "versionInstalling": "A instalar a versão {{version}}. Por favor aguarde a conclusão antes de começar a jogar!",
+      "folderAlreadyInUse": "Essa pasta já está a ser utilizada!",
+      "noVersionsFoundDesc": "Instale uma nova na página <link />!",
+      "versionDeleting": "Essa versão está a ser eliminada!",
+      "versionPlaying": "Já está a jogar com essa versão!",
+      "deleteWhilePlaying": "Não pode eliminar essa versão enquanto estiver a jogar!"
     },
     "installations": {
       "noInstallationsFound": "Nenhuma instalação encontrada!",
@@ -82,7 +97,16 @@
       "deleteData": "Apagar dados",
       "installationSuccessfullyDeleted": "Instalação apagada com sucesso!",
       "errorDeletingInstallation": "Ocorreu um erro ao apagar a instalação!",
-      "installationFolder": "Pasta de instalação"
+      "installationFolder": "Pasta de instalação",
+      "labelStartParams": "Argumentos de início",
+      "startParams": "Argumentos de início",
+      "startParamsDesc": "Lista de todos os argumentos de ínicio disponíveis: <link />",
+      "cantUseDataPath": "O argumento --dataPath não pode ser usado pois já é usado pelo VS Launcher. Se quizer usar outra pasta, altere-a na instalação.",
+      "startParamsLink": "Vintage Story Wiki",
+      "gameAlreadyRunning": "Já está a jogar com essa instalação",
+      "editWhilePlaying": "Não é possível editar a instalação enquanto estiver a jogar!",
+      "cantDeleteWhileinUse": "Não pode eliminar a instalação enquanto estiver a ser utilizado!",
+      "restoreBackup": "Restaurar backup da instalação"
     },
     "mods": {
       "modsCount": "{{count}} mods",
@@ -97,7 +121,33 @@
       "defaultInstallationsFolder": "Instalações",
       "defaultVersionsFolder": "Versões",
       "title": "Definições",
-      "folders": "Pastas predefinidas"
+      "folders": "Pastas predefinidas",
+      "backupsFolder": "Backups"
+    },
+    "backups": {
+      "errorDeletingOldBackup": "Ocorreu um erro ao eliminar o backup antigo!",
+      "backupInProgress": "Já existe um backup em progresso!",
+      "backupWhilePlaying": "Não pode fazer um backup enquanto estiver a jogar a instalação!",
+      "automaticBackups": "Automático?",
+      "backupsAuto": "Ative para fazer um backup automático antes de jogar",
+      "backupsLimit": "Quantidade máxima de backups",
+      "restoreBackup": "Restaurar backup",
+      "noBackupsFound": "Nenhum backup encontrado!",
+      "restoreInProgress": "Já existe uma restauração de backup em progresso!",
+      "areYouSureRestoreBackup": "Tem a certeza de que deseja restaurar este backup?",
+      "restoringNotReversible": "Restaurar um backup apagará permanentemente os seus dados e substituirá pelos do backup!",
+      "noBackupSelected": "Nenhum backup selecionado!",
+      "cmpressTaskName": "Backup de {{name}}",
+      "compressingBackupDescription": "A fazer backup de {{name}}!",
+      "extractTaskName": "Restauração do backup de {{name}}",
+      "extractingBackupDescription": "A restaurar o backup de {{name}}!",
+      "cantDeleteWhileinUse": "Não pode eliminar este backup enquanto estiver a ser utilizado!",
+      "backupDeletedSuccesfully": "Backup eliminado com sucesso!",
+      "errorDeletingBackup": "Ocorreu um erro ao eliminar o backup!",
+      "deleteBackup": "Eliminar backup",
+      "areYouSureDelete": "Tem a certeza de que deseja eliminar este backup?",
+      "deletingNotReversible": "A eliminação não é reversível, pelo que não será possível restaurar os seus mundos, dados e outras informações usando este backup.",
+      "errorMakingBackup": "Ocorreu um erro ao fazer o backup!"
     }
   },
   "components": {
@@ -119,6 +169,7 @@
     "tasksMenu": {
       "downloading": "A descarregar",
       "extracting": "A extrair",
+      "compressing": "A comprimir",
       "error": "Ocorreu um erro durante o processo!",
       "noTasksAvailable": "Não há tarefas na fila!"
     },
@@ -146,7 +197,10 @@
       "extractError": "Erro na extração: {{extractName}}!",
       "gameExitedWithErrors": "Vintage Story parou com erros!",
       "errorExecutingGame": "Ocorreu um erro ao executar o jogo!",
-      "missingFields": "Por favor, preencha todos os campos!"
+      "missingFields": "Por favor, preencha todos os campos!",
+      "compressing": "A iniciar compressão: {{compressName}}!",
+      "compressed": "Compressão concluída: {{compressName}}!",
+      "compressError": "Erro a comprimir: {{compressName}}!"
     },
     "discard": "Descartar notificação"
   }
