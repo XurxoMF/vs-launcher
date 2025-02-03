@@ -1,4 +1,4 @@
-appId: xyz.xurzxomf.vslauncher
+appId: xyz.xurxomf.vslauncher
 productName: VS Launcher
 directories:
   buildResources: build
@@ -30,11 +30,23 @@ mac:
 dmg:
   artifactName: ${name}-${version}.${ext}
 linux:
-  target: AppImage
+  target:
+    - AppImage
+    - flatpak
+    - deb
   maintainer: xurxomf.xyz
   category: Game
-  icon: resources/icon.png
+  icon: resources/icon.icns
 appImage:
+  artifactName: ${name}-${version}.${ext}
+flatpak:
+  artifactName: ${name}-${version}.${ext}
+  runtime: org.freedesktop.Platform
+  runtimeVersion: "23.08"
+  sdk: org.freedesktop.Sdk
+  base: org.electronjs.Electron2.BaseApp
+  baseVersion: "23.08"
+deb:
   artifactName: ${name}-${version}.${ext}
 npmRebuild: false
 publish:

@@ -1,8 +1,7 @@
 import { Input, Switch } from "@headlessui/react"
 import clsx from "clsx"
 
-const INPUT_PLACEHOLDER_STYLES = "text-zinc-600"
-const INPUT_BASE_STYLES = `h-8 px-2 py-1 rounded-md placeholder:text-zinc-600`
+const INPUT_BASE_STYLES = `h-8 px-2 py-1 rounded-md placeholder:text-zinc-600 overflow-hidden`
 const INPUT_INVALID_STYLES = "border border-red-800 bg-red-800/10"
 const INPUT_VALID_STYLES = "bg-zinc-850"
 const INPUT_ENABLED_STYLES = "shadow shadow-zinc-900 hover:shadow-none "
@@ -81,17 +80,20 @@ export function FormInputTextNotEditable({
   disabled?: boolean
 }): JSX.Element {
   return (
-    <div
+    <Input
+      type="text"
       className={clsx(
         INPUT_BASE_STYLES,
         (minLength && value.length < minLength) || (maxLength && value.length > maxLength) ? INPUT_INVALID_STYLES : INPUT_VALID_STYLES,
         disabled ? INPUT_DISABLED_STYLES : INPUT_ENABLED_STYLES,
-        !value && INPUT_PLACEHOLDER_STYLES,
         className
       )}
-    >
-      {value ? value : placeholder ? placeholder : ""}
-    </div>
+      value={value}
+      placeholder={placeholder}
+      minLength={minLength}
+      maxLength={maxLength}
+      readOnly
+    />
   )
 }
 
@@ -166,17 +168,15 @@ export function FormInputNumberNoteditable({
   disabled?: boolean
 }): JSX.Element {
   return (
-    <div
-      className={clsx(
-        INPUT_BASE_STYLES,
-        (min && value < min) || (max && value > max) ? INPUT_INVALID_STYLES : INPUT_VALID_STYLES,
-        disabled ? INPUT_DISABLED_STYLES : INPUT_ENABLED_STYLES,
-        !value && INPUT_PLACEHOLDER_STYLES,
-        className
-      )}
-    >
-      {value ? value : placeholder ? placeholder : ""}
-    </div>
+    <Input
+      type="number"
+      className={clsx(INPUT_BASE_STYLES, (min && value < min) || (max && value > max) ? INPUT_INVALID_STYLES : INPUT_VALID_STYLES, disabled ? INPUT_DISABLED_STYLES : INPUT_ENABLED_STYLES, className)}
+      value={value}
+      placeholder={placeholder}
+      min={min}
+      max={max}
+      readOnly
+    />
   )
 }
 
