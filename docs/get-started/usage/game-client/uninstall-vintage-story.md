@@ -1,8 +1,8 @@
 ---
+icon: trash-can
 description: >-
   If you want to uninstall some of your installed Versions or remove some of
   your Installations check out this guide.
-icon: trash-can
 ---
 
 # Uninstall Vintage Story
@@ -11,7 +11,9 @@ icon: trash-can
 
 Uninstalling a **Version** is as easy as clicking a button. Just check this video:
 
-> YouTube limited the upload videos so I'll add it tomorrow.
+{% embed url="https://www.youtube.com/watch?v=4csDX6S6GeE" %}
+Uninstall a Version | VS Launcher Guides
+{% endembed %}
 
 ***
 

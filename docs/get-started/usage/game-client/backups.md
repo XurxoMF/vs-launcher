@@ -1,6 +1,6 @@
 ---
-description: If you want to make some backups of your Installations just follow this guide.
 icon: rotate-left
+description: If you want to make some backups of your Installations just follow this guide.
 ---
 
 # Backups
@@ -35,7 +35,9 @@ If something broke on that **Installation** you can restore a backup going to th
 
 There you'll be able to delete backups and restore them by clicking the restore backup button.
 
-VÍDEO
+{% embed url="https://www.youtube.com/watch?v=SXkb-yfur9Q" %}
+Restore Installation Backups | VS Launcher Guides
+{% endembed %}
 
 ## Deleting Backups
 

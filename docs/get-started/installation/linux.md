@@ -22,6 +22,16 @@ On that page you'll see all the available versions to download.
 On the releases page, the first version is always the latest one. There you'll see a table with the different files to download. Just click on the Linux build as shown in the next image:
 
 <div align="left"><img src="../../.gitbook/assets/imagen (1).png" alt=""></div>
+
+{% hint style="info" %}
+If you want you can use the `DEB` or `Flatpak` options but remember that those option have no automatic updates.
+
+If you use any of this option just install it with double click or `flatpak install vs-launcher-X.X.X.flatpak` and then skip steps 3, 4 and 5. Just open it like any other app.
+{% endhint %}
+
+{% hint style="info" %}
+`Flatpak` will have automatic updates using Flathub bot for now on it'll need manual updates when a new version is released.
+{% endhint %}
 {% endstep %}
 
 {% step %}
@@ -128,6 +138,50 @@ sudo pacman -S dotnet-runtime-7.0 glibc openal opengl-driver mono
 ```
 {% endstep %}
 {% endstepper %}
+
+***
+
+## Migrating from AppImage to Flatpak
+
+**AppImage** and **DEB** options will use `/home/username/.config` as folder to store configs, game versions, installations... but Flatpak will use `/home/username/.var/app/xyz.xurxomf.vslauncher/config` for this so, if you were using **AppImage** or **DEB** builds of VS Launcher before and you install the **Flatpak** one you'll loose all your configs.
+
+To restore the config you've to move the config file to the new location manually.
+
+{% stepper %}
+{% step %}
+### Find the old config file
+
+This one will be at `/home/username/.config/VSLauncher/config.json` and copy it or move it to a save location.
+{% endstep %}
+
+{% step %}
+### Open the Flatpak installed VS Launcher
+
+Open the VS Launcher copy you've installed using Flatpak and wait one or two seconds for it to generate the config file.
+{% endstep %}
+
+{% step %}
+### Go to the new config file location
+
+This one should be at `/home/username/.var/app/xyz.xurxomf.vslauncher/config/VSLauncher/config.json` . If it's not there go to the setting page on VS Launcher and you'll have the 3 default folders. Just copy one of them as seen on the next video and open it.
+{% endstep %}
+
+{% step %}
+### Replace the config.json with the old one.
+
+Just paste or move the old config file to the new location.
+{% endstep %}
+
+{% step %}
+### Restart VS Launcher
+
+Close and open VS Launcher and magic, all your installations and versions are back!
+{% endstep %}
+{% endstepper %}
+
+{% embed url="https://www.youtube.com/watch?v=5NerBys57t4" %}
+Migrate to Flatpak | VS Launcher Guides
+{% endembed %}
 
 ***
 
