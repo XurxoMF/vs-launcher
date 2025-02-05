@@ -10,6 +10,7 @@ import csCZ from "@renderer/locales/cs-CZ.json"
 import deDE from "@renderer/locales/de-DE.json"
 import ptPT from "@renderer/locales/pt-PT.json"
 import nlNL from "@renderer/locales/nl-NL.json"
+import plPL from "@renderer/locales/pl-PL.json"
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -21,7 +22,8 @@ i18n.use(initReactI18next).init({
     "cs-CZ": { translation: csCZ, name: "Čeština", credits: "by DejFidOFF" },
     "de-DE": { translation: deDE, name: "Deutsch", credits: "by Brady_The" },
     "pt-PT": { translation: ptPT, name: "Português", credits: "by Bruno Cabrita" },
-    "nl-NL": { translation: nlNL, name: "Dutch (Netherlands)", credits: "by Dennisjeee" }
+    "nl-NL": { translation: nlNL, name: "Dutch (Netherlands)", credits: "by Dennisjeee" },
+    "pl-PL": { translation: plPL, name: "Polski", credits: "by Runo Hawk" }
   },
   lng: "en-US",
   fallbackLng: "en-US"
