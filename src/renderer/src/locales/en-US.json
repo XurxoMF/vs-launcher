@@ -115,7 +115,9 @@
       "modsCount_two": "{{count}} mods",
       "modsCount_few": "{{count}} mods",
       "modsCount_many": "{{count}} mods",
-      "modsCount_other": "{{count}} mods"
+      "modsCount_other": "{{count}} mods",
+      "listTitle": "Mods list",
+      "modTitle": "Mod info"
     },
     "config": {
       "title": "Settings",

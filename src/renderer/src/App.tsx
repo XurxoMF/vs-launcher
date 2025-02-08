@@ -29,6 +29,7 @@ import LookForAVersion from "@renderer/features/versions/pages/LookForAVersion"
 
 import ModsLayout from "@renderer/features/mods/pages/ModsLayout"
 import ListMods from "@renderer/features/mods/pages/ListMods"
+import ModInfo from "./features/mods/pages/ModInfo"
 
 import ConfigPage from "@renderer/features/config/pages/ConfigPage"
 
@@ -66,6 +67,7 @@ function App(): JSX.Element {
                   </Route>
                   <Route path="/mods" element={<ModsLayout />}>
                     <Route index element={<ListMods />} />
+                    <Route path=":modid" element={<ModInfo />} />
                   </Route>
                   <Route path="/config" element={<ConfigPage />} />
                 </Routes>
