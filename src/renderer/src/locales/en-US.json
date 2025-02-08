@@ -29,7 +29,19 @@
     "backup": "Backup",
     "edit": "Edit",
     "donate": "Donations",
-    "restore": "Restore"
+    "restore": "Restore",
+    "text": "Text",
+    "author": "Author",
+    "everyone": "Everyone",
+    "versions": "Versions",
+    "clearFilter": "Clear filters",
+    "order": "Order",
+    "trending": "Trending",
+    "downloads": "Downloads",
+    "comments": "Comments",
+    "updated": "Updated",
+    "created": "Created",
+    "follows": "Follows"
   },
   "features": {
     "generic": {
@@ -117,7 +129,9 @@
       "modsCount_many": "{{count}} mods",
       "modsCount_other": "{{count}} mods",
       "listTitle": "Mods list",
-      "modTitle": "Mod info"
+      "modTitle": "Mod info",
+      "searching": "Searching mods...",
+      "noMatchingFilters": "There are no mods that match your filters!"
     },
     "config": {
       "title": "Settings",

@@ -77,7 +77,11 @@
       "modsCount_one": "{{count}} mod",
       "modsCount_other": "{{count}} mods",
       "modsCount_two": "{{count}} mods",
-      "modsCount_zero": "{{count}} mods"
+      "modsCount_zero": "{{count}} mods",
+      "listTitle": "Lista de mods",
+      "modTitle": "Info del mod",
+      "noMatchingFilters": "¡No hay mods que coincidan con tus filtros!",
+      "searching": "Buscando mods..."
     },
     "versions": {
       "areYouSureUninstall": "¿Estás seguro de que quieres desinstalar esta versión?",
@@ -176,7 +180,19 @@
     "donate": "Donaciónes",
     "edit": "Editar",
     "minMaxAmmount": "Número entre {{min}} y {{max}}",
-    "restore": "Restaurar"
+    "restore": "Restaurar",
+    "author": "Autor",
+    "clearFilter": "Limpiar filtros",
+    "comments": "Comentarios",
+    "created": "Creación",
+    "downloads": "Descargas",
+    "everyone": "Todos",
+    "follows": "Seguidores",
+    "order": "Ordenar",
+    "text": "Texto",
+    "trending": "Tendencia",
+    "updated": "Actualización",
+    "versions": "Versiones"
   },
   "notifications": {
     "body": {

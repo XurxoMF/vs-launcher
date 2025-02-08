@@ -2,6 +2,7 @@ import { useTranslation, Trans } from "react-i18next"
 import { PiCaretUpBold } from "react-icons/pi"
 import { AnimatePresence, motion } from "motion/react"
 import { Link } from "react-router-dom"
+import clsx from "clsx"
 
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
 
@@ -67,7 +68,7 @@ function InstallationsDropdownMenu(): JSX.Element {
                     )}
                   </>
                 )}
-                <PiCaretUpBold className="text-sm text-zinc-500 shrink-0 data-[open]:rotate-180" />
+                <PiCaretUpBold className={clsx(open && "rotate-180", "text-sm text-zinc-500 shrink-0")} />
               </ListboxButton>
               <AnimatePresence>
                 {open && (
