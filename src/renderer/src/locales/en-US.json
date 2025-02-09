@@ -41,7 +41,8 @@
     "comments": "Comments",
     "updated": "Updated",
     "created": "Created",
-    "follows": "Follows"
+    "follows": "Follows",
+    "actions": "Actions"
   },
   "features": {
     "generic": {
@@ -118,7 +119,8 @@
       "gameAlreadyRunning": "Already playing that installation!",
       "editWhilePlaying": "You can't edit an installation while playing it!",
       "cantDeleteWhileinUse": "You can't delete this installation while it's in use!",
-      "restoreBackup": "Restore installation backup"
+      "restoreBackup": "Restore installation backup",
+      "installOnInstallation": "Install on Installation"
     },
     "mods": {
       "modsCount": "{{count}} mods",
@@ -129,9 +131,12 @@
       "modsCount_many": "{{count}} mods",
       "modsCount_other": "{{count}} mods",
       "listTitle": "Mods list",
-      "modTitle": "Mod info",
       "searching": "Searching mods...",
-      "noMatchingFilters": "There are no mods that match your filters!"
+      "noMatchingFilters": "There are no mods that match your filters!",
+      "installMod": "Install mod",
+      "modTaskName": "{{name}} mod {{version}} on {{installation}}",
+      "modDownloadDesc": "Downloading {{name}} mod {{version}} on {{installation}}!",
+      "installationPopupDesc": "List of versions of the {{modName}} mod"
     },
     "config": {
       "title": "Settings",
@@ -141,7 +146,6 @@
       "backupsFolder": "Backups"
     },
     "backups": {
-      "errorDeletingOldBackup": "There was an error while deleting an old backup!",
       "backupInProgress": "There is a backup already in progress!",
       "backupWhilePlaying": "You can't make a backup while playing the installation!",
       "automaticBackups": "Automatic?",
@@ -164,6 +168,9 @@
       "areYouSureDelete": "Are you sure you want to delete this backup?",
       "deletingNotReversible": "Deletion is not reversible so you'll not be able to restore your worlds, data and other info using this backup anymore.",
       "errorMakingBackup": "There was an error making a backup!"
+    },
+    "servers": {
+      "installOnServer": "Install on server"
     }
   },
   "components": {

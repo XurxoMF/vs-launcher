@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react"
 import axios from "axios"
 import { useTranslation } from "react-i18next"
-import { Link } from "react-router-dom"
 import {
   PiDownloadFill,
   PiStarFill,
@@ -13,7 +12,9 @@ import {
   PiUploadFill,
   PiCheckBold,
   PiArrowDownBold,
-  PiFireFill
+  PiFireFill,
+  PiUserBold
+  // PiNetworkFill
 } from "react-icons/pi"
 import { FiLoader } from "react-icons/fi"
 import { AnimatePresence, motion } from "motion/react"
@@ -23,6 +24,10 @@ import {
   ComboboxInput,
   ComboboxOption,
   ComboboxOptions,
+  Description,
+  Dialog,
+  DialogPanel,
+  DialogTitle,
   Listbox,
   ListboxButton,
   ListboxOption,
@@ -34,10 +39,21 @@ import {
 } from "@headlessui/react"
 import clsx from "clsx"
 
+import { useConfigContext } from "@renderer/features/config/contexts/ConfigContext"
+import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
+import { useTaskContext } from "@renderer/contexts/TaskManagerContext"
+
+import { useCountMods } from "@renderer/features/config/hooks/useCountMods"
+
 import { FormInputText } from "@renderer/components/ui/FormComponents"
+import { TableBody, TableBodyRow, TableCell, TableHead, TableHeadRow, TableWrapper } from "@renderer/components/ui/Table"
 
 function ListMods(): JSX.Element {
   const { t } = useTranslation()
+  const { config } = useConfigContext()
+  const { addNotification } = useNotificationsContext()
+  const { startDownload } = useTaskContext()
+  const countMods = useCountMods()
 
   const [modsList, setModsList] = useState([])
   const [authorsList, setAuthorsList] = useState([])
@@ -55,7 +71,20 @@ function ListMods(): JSX.Element {
 
   const [searching, setSearching] = useState(true)
 
+  const [modToInstall, setModToInstall] = useState<{ name: string; modid: string } | undefined>(undefined)
+  const [modVersions, setModVersions] = useState<{ releaseid: string; mainfile: string; downloads: string; tags: string[]; modidstr: string; modversion: string; created: string }[]>([])
+
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const scrollRef = useRef<HTMLDivElement | null>(null)
+
+  const ORDER_BY = [
+    { key: "trendingpoints", value: t("generic.trending"), icon: <PiFireFill /> },
+    { key: "downloads", value: t("generic.downloads"), icon: <PiDownloadFill /> },
+    { key: "comments", value: t("generic.comments"), icon: <PiChatCenteredDotsFill /> },
+    { key: "lastreleased", value: t("generic.updated"), icon: <PiUploadFill /> },
+    { key: "asset.created", value: t("generic.created"), icon: <PiCalendarBlankFill /> },
+    { key: "follows", value: t("generic.follows"), icon: <PiStarFill /> }
+  ]
 
   useEffect(() => {
     queryAuthors()
@@ -63,25 +92,23 @@ function ListMods(): JSX.Element {
   }, [])
 
   useEffect(() => {
-    const container = document.getElementById("modlist-scroll")
-
     const handleScroll = (): void => {
-      if (!container) return
-      const { scrollTop, clientHeight, scrollHeight } = container
+      if (!scrollRef.current) return
+      const { scrollTop, clientHeight, scrollHeight } = scrollRef.current
       if (scrollTop + clientHeight >= scrollHeight - 10) setVisibleMods((prev) => prev + 20)
     }
 
     const checkLoadMore = (): void => {
-      if (container && container.scrollHeight <= container.clientHeight) setVisibleMods((prev) => prev + 20)
+      if (scrollRef.current && scrollRef.current.scrollHeight <= scrollRef.current.clientHeight) setVisibleMods((prev) => prev + 20)
     }
 
-    if (container) {
-      container.addEventListener("scroll", handleScroll)
+    if (scrollRef.current) {
+      scrollRef.current.addEventListener("scroll", handleScroll)
       checkLoadMore()
     }
 
     return (): void => {
-      if (container) container.removeEventListener("scroll", handleScroll)
+      if (scrollRef.current) scrollRef.current.removeEventListener("scroll", handleScroll)
     }
   }, [])
 
@@ -99,6 +126,11 @@ function ListMods(): JSX.Element {
       if (timeoutRef.current) clearTimeout(timeoutRef.current)
     }
   }, [textFilter, authorFilter, versionsFilter, orderBy, orderByOrder])
+
+  useEffect(() => {
+    if (!modToInstall) return
+    queryMod()
+  }, [modToInstall])
 
   async function queryAuthors(): Promise<void> {
     try {
@@ -132,7 +164,16 @@ function ListMods(): JSX.Element {
       setSearching(false)
       setModsList(res.data["mods"])
     } catch (err) {
-      window.api.utils.logMessage("error", `[component] [ListMods] Error fetching mod: ${err}`)
+      window.api.utils.logMessage("error", `[component] [ListMods] Error fetching mods: ${err}`)
+    }
+  }
+
+  async function queryMod(): Promise<void> {
+    try {
+      const res = await axios(`/moddbapi/mod/${modToInstall?.modid}`)
+      setModVersions(res.data["mod"]["releases"])
+    } catch (err) {
+      window.api.utils.logMessage("error", `[component] [ListMods] Error fetching mod versions: ${err}`)
     }
   }
 
@@ -159,245 +200,283 @@ function ListMods(): JSX.Element {
         })
 
   return (
-    <>
-      <h1 className="text-3xl text-center font-bold select-none">{t("features.mods.listTitle")}</h1>
+    <div ref={scrollRef} className="w-full h-full pt-6 overflow-y-scroll">
+      <div className="w-full min-h-full flex flex-col justify-center gap-6 p-4">
+        <h1 className="text-3xl text-center font-bold select-none">{t("features.mods.listTitle")}</h1>
 
-      <div className="w-full h-full flex justify-center gap-4 flex-wrap select-none">
-        <>
-          <div className="w-full px-8 pb-4 flex gap-2 justify-center">
-            <div className="flex gap-4">
-              <FormInputText placeholder={t("generic.text")} value={textFilter} onChange={(e) => setTextFilter(e.target.value)} className="w-40" />
-            </div>
-
-            <Combobox value={authorFilter} onChange={(value) => setAuthorFilter(value || { userid: "", name: "" })} onClose={() => setAuthorsQuery("")}>
-              {({ open }) => (
-                <>
-                  <div className="w-40 h-8 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-between gap-2 rounded overflow-hidden select-none">
-                    <ComboboxInput
-                      placeholder={t("generic.author")}
-                      displayValue={() => authorFilter?.name || ""}
-                      onChange={(event) => setAuthorsQuery(event.target.value)}
-                      className="w-full px-2 py-1 placeholder:text-zinc-600 bg-transparent "
-                    />
-                    <ComboboxButton className="w-8">
-                      <PiCaretDownBold className={clsx(open && "rotate-180", "text-sm text-zinc-500 shrink-0")} />
-                    </ComboboxButton>
-                  </div>
-
-                  <AnimatePresence>
-                    {open && (
-                      <ComboboxOptions
-                        static
-                        as={motion.div}
-                        initial={{ height: 0 }}
-                        animate={{ height: "auto" }}
-                        exit={{ height: 0 }}
-                        anchor="bottom start"
-                        className="w-40 bg-zinc-850 shadow shadow-zinc-900 mt-2 rounded select-none"
-                      >
-                        <div className="flex flex-col max-h-40">
-                          <>
-                            <ComboboxOption value={undefined} className="hover:pl-1 duration-100 odd:bg-zinc-850 even:bg-zinc-800">
-                              <p className="px-2 py-1 whitespace-nowrap overflow-hidden text-ellipsis text-sm">- {t("generic.everyone")}-</p>
-                            </ComboboxOption>
-                            {filteredAuthors.slice(0, 20).map((author) => (
-                              <ComboboxOption key={author["userid"]} value={author} className="hover:pl-1 duration-100 odd:bg-zinc-850 even:bg-zinc-800">
-                                <p className="px-2 py-1 whitespace-nowrap overflow-hidden text-ellipsis text-sm">{author["name"]}</p>
-                              </ComboboxOption>
-                            ))}
-                          </>
-                        </div>
-                      </ComboboxOptions>
-                    )}
-                  </AnimatePresence>
-                </>
-              )}
-            </Combobox>
-
-            <Listbox value={versionsFilter} onChange={setVersionsFilter} multiple>
-              {({ open }) => (
-                <>
-                  <ListboxButton className="w-40 h-8 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-between gap-2 rounded overflow-hidden select-none">
-                    <span className={clsx("w-full px-2 py-1 text-start overflow-hidden whitespace-nowrap text-ellipsis", versionsFilter.length < 1 && "text-zinc-600")}>
-                      {versionsFilter.length < 1 ? t("generic.versions") : versionsFilter.map((version) => version.name).join(", ")}
-                    </span>
-                    <PiCaretDownBold className={clsx(open && "rotate-180", "w-8 text-sm text-zinc-500 shrink-0")} />
-                  </ListboxButton>
-                  <AnimatePresence>
-                    {open && (
-                      <ListboxOptions
-                        static
-                        as={motion.div}
-                        initial={{ height: 0 }}
-                        animate={{ height: "auto" }}
-                        exit={{ height: 0 }}
-                        anchor="bottom"
-                        className="w-[var(--button-width)] bg-zinc-850 shadow shadow-zinc-900 mt-2 rounded select-none"
-                      >
-                        <div className="flex flex-col max-h-40">
-                          {gameVersionsList.map((version) => (
-                            <ListboxOption key={version.tagid} value={version} className="hover:pl-1 duration-100 odd:bg-zinc-850 even:bg-zinc-800">
-                              <div className="px-2 py-1 flex gap-1 items-center">
-                                <p className="whitespace-nowrap overflow-hidden text-ellipsis text-sm">{version.name}</p>
-                                {versionsFilter.includes(version) && <PiCheckBold className="text-sm text-zinc-500" />}
-                              </div>
-                            </ListboxOption>
-                          ))}
-                        </div>
-                      </ListboxOptions>
-                    )}
-                  </AnimatePresence>
-                </>
-              )}
-            </Listbox>
-
-            <button
-              title={t("generic.clearFilter")}
-              onClick={() => clearFilters()}
-              className="w-8 h-8 shrink-0 text-lg bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded select-none"
-            >
-              <PiEraserFill />
-            </button>
-
-            <Menu>
-              {({ open }) => (
-                <>
-                  <MenuButton title={t("generic.order")} className="w-8 h-8 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center text-lg rounded select-none">
-                    <PiArrowsDownUpFill />
-                  </MenuButton>
-                  <AnimatePresence>
-                    {open && (
-                      <MenuItems static anchor="bottom" className={clsx("w-40 flex flex-col rounded mt-2 bg-zinc-800 overflow-hidden text-sm", open ? "opacity-100" : "opacity-0")}>
-                        <MenuItem>
-                          <button
-                            onClick={() => changeOrder("trendingpoints")}
-                            className="px-2 py-1 rounded hover:pl-3 duration-100 odd:bg-zinc-850 even:bg-zinc-800 flex gap-2 items-center justify-between"
-                          >
-                            <span className="flex gap-1 items-center">
-                              <PiFireFill />
-                              {t("generic.trending")}
-                            </span>
-                            {orderBy === "trendingpoints" && (orderByOrder === "desc" ? <PiArrowDownBold /> : <PiArrowDownBold className="rotate-180" />)}
-                          </button>
-                        </MenuItem>
-                        <MenuItem>
-                          <button
-                            onClick={() => changeOrder("downloads")}
-                            className="px-2 py-1 rounded hover:pl-3 duration-100 odd:bg-zinc-850 even:bg-zinc-800 flex gap-2 items-center justify-between"
-                          >
-                            <span className="flex gap-1 items-center">
-                              <PiDownloadFill />
-                              {t("generic.downloads")}
-                            </span>
-                            {orderBy === "downloads" && (orderByOrder === "desc" ? <PiArrowDownBold /> : <PiArrowDownBold className="rotate-180" />)}
-                          </button>
-                        </MenuItem>
-                        <MenuItem>
-                          <button
-                            onClick={() => changeOrder("comments")}
-                            className="px-2 py-1 rounded hover:pl-3 duration-100 odd:bg-zinc-850 even:bg-zinc-800 flex gap-2 items-center justify-between"
-                          >
-                            <span className="flex gap-1 items-center">
-                              <PiChatCenteredDotsFill />
-                              {t("generic.comments")}
-                            </span>
-                            {orderBy === "comments" && (orderByOrder === "desc" ? <PiArrowDownBold /> : <PiArrowDownBold className="rotate-180" />)}
-                          </button>
-                        </MenuItem>
-                        <MenuItem>
-                          <button
-                            onClick={() => changeOrder("lastreleased")}
-                            className="px-2 py-1 rounded hover:pl-3 duration-100 odd:bg-zinc-850 even:bg-zinc-800 flex gap-2 items-center justify-between"
-                          >
-                            <span className="flex gap-1 items-center">
-                              <PiUploadFill />
-                              {t("generic.updated")}
-                            </span>
-                            {orderBy === "lastreleased" && (orderByOrder === "desc" ? <PiArrowDownBold /> : <PiArrowDownBold className="rotate-180" />)}
-                          </button>
-                        </MenuItem>
-                        <MenuItem>
-                          <button
-                            onClick={() => changeOrder("asset.created")}
-                            className="px-2 py-1 rounded hover:pl-3 duration-100 odd:bg-zinc-850 even:bg-zinc-800 flex gap-2 items-center justify-between"
-                          >
-                            <span className="flex gap-1 items-center">
-                              <PiCalendarBlankFill />
-                              {t("generic.created")}
-                            </span>
-                            {orderBy === "asset.created" && (orderByOrder === "desc" ? <PiArrowDownBold /> : <PiArrowDownBold className="rotate-180" />)}
-                          </button>
-                        </MenuItem>
-                        <MenuItem>
-                          <button onClick={() => changeOrder("follows")} className="px-2 py-1 rounded hover:pl-3 duration-100 odd:bg-zinc-850 even:bg-zinc-800 flex gap-2 items-center justify-between">
-                            <span className="flex gap-1 items-center">
-                              <PiStarFill />
-                              {t("generic.follows")}
-                            </span>
-                            {orderBy === "follows" && (orderByOrder === "desc" ? <PiArrowDownBold /> : <PiArrowDownBold className="rotate-180" />)}
-                          </button>
-                        </MenuItem>
-                      </MenuItems>
-                    )}
-                  </AnimatePresence>
-                </>
-              )}
-            </Menu>
-
-            {searching && (
-              <div className="w-8 h-8 flex items-center justify-center">
-                <FiLoader className="animate-spin text-lg text-zinc-500" />
+        <div className="w-full h-full flex justify-center gap-4 flex-wrap select-none">
+          <>
+            <div className="w-full px-8 pb-4 flex gap-2 justify-center">
+              <div className="flex gap-4">
+                <FormInputText placeholder={t("generic.text")} value={textFilter} onChange={(e) => setTextFilter(e.target.value)} className="w-40" />
               </div>
-            )}
-          </div>
 
-          {modsList.length < 1 ? (
-            <div className="flex flex-col justify-center items-center gap-4">
-              <p className="text-zinc-500">{searching ? t("features.mods.searching") : t("features.mods.noMatchingFilters")}</p>
+              <Combobox value={authorFilter} onChange={(value) => setAuthorFilter(value || { userid: "", name: "" })} onClose={() => setAuthorsQuery("")}>
+                {({ open }) => (
+                  <>
+                    <div className="w-40 h-8 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-between gap-2 rounded overflow-hidden select-none">
+                      <ComboboxInput
+                        placeholder={t("generic.author")}
+                        displayValue={() => authorFilter?.name || ""}
+                        onChange={(event) => setAuthorsQuery(event.target.value)}
+                        className="w-full px-2 py-1 placeholder:text-zinc-600 bg-transparent "
+                      />
+                      <ComboboxButton className="w-8">
+                        <PiCaretDownBold className={clsx(open && "rotate-180", "text-sm text-zinc-500 shrink-0")} />
+                      </ComboboxButton>
+                    </div>
+
+                    <AnimatePresence>
+                      {open && (
+                        <ComboboxOptions
+                          static
+                          as={motion.div}
+                          initial={{ height: 0 }}
+                          animate={{ height: "auto" }}
+                          exit={{ height: 0 }}
+                          anchor="bottom start"
+                          className="w-40 bg-zinc-850 shadow shadow-zinc-900 mt-2 rounded select-none"
+                        >
+                          <div className="flex flex-col max-h-40">
+                            <>
+                              <ComboboxOption value={undefined} className="hover:pl-1 duration-100 odd:bg-zinc-850 even:bg-zinc-800">
+                                <p className="px-2 py-1 whitespace-nowrap overflow-hidden text-ellipsis text-sm">- {t("generic.everyone")}-</p>
+                              </ComboboxOption>
+                              {filteredAuthors.slice(0, 20).map((author) => (
+                                <ComboboxOption key={author["userid"]} value={author} className="hover:pl-1 duration-100 odd:bg-zinc-850 even:bg-zinc-800">
+                                  <p className="px-2 py-1 whitespace-nowrap overflow-hidden text-ellipsis text-sm">{author["name"]}</p>
+                                </ComboboxOption>
+                              ))}
+                            </>
+                          </div>
+                        </ComboboxOptions>
+                      )}
+                    </AnimatePresence>
+                  </>
+                )}
+              </Combobox>
+
+              <Listbox value={versionsFilter} onChange={setVersionsFilter} multiple>
+                {({ open }) => (
+                  <>
+                    <ListboxButton className="w-40 h-8 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-between gap-2 rounded overflow-hidden select-none">
+                      <span className={clsx("w-full px-2 py-1 text-start overflow-hidden whitespace-nowrap text-ellipsis", versionsFilter.length < 1 && "text-zinc-600")}>
+                        {versionsFilter.length < 1 ? t("generic.versions") : versionsFilter.map((version) => version.name).join(", ")}
+                      </span>
+                      <PiCaretDownBold className={clsx(open && "rotate-180", "w-8 text-sm text-zinc-500 shrink-0")} />
+                    </ListboxButton>
+                    <AnimatePresence>
+                      {open && (
+                        <ListboxOptions
+                          static
+                          as={motion.div}
+                          initial={{ height: 0 }}
+                          animate={{ height: "auto" }}
+                          exit={{ height: 0 }}
+                          anchor="bottom"
+                          className="w-[var(--button-width)] bg-zinc-850 shadow shadow-zinc-900 mt-2 rounded select-none"
+                        >
+                          <div className="flex flex-col max-h-40">
+                            {gameVersionsList.map((version) => (
+                              <ListboxOption key={version.tagid} value={version} className="hover:pl-1 duration-100 odd:bg-zinc-850 even:bg-zinc-800">
+                                <div className="px-2 py-1 flex gap-1 items-center">
+                                  <p className="whitespace-nowrap overflow-hidden text-ellipsis text-sm">{version.name}</p>
+                                  {versionsFilter.includes(version) && <PiCheckBold className="text-sm text-zinc-500" />}
+                                </div>
+                              </ListboxOption>
+                            ))}
+                          </div>
+                        </ListboxOptions>
+                      )}
+                    </AnimatePresence>
+                  </>
+                )}
+              </Listbox>
+
+              <button
+                title={t("generic.clearFilter")}
+                onClick={() => clearFilters()}
+                className="w-8 h-8 shrink-0 text-lg bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded select-none"
+              >
+                <PiEraserFill />
+              </button>
+
+              <Menu>
+                {({ open }) => (
+                  <>
+                    <MenuButton title={t("generic.order")} className="w-8 h-8 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center text-lg rounded select-none">
+                      <PiArrowsDownUpFill />
+                    </MenuButton>
+                    <AnimatePresence>
+                      {open && (
+                        <MenuItems static anchor="bottom" className={clsx("w-40 flex flex-col rounded mt-2 bg-zinc-800 overflow-hidden text-sm", open ? "opacity-100" : "opacity-0")}>
+                          {ORDER_BY.map((ob) => (
+                            <MenuItem key={ob.key}>
+                              <button
+                                onClick={() => changeOrder(ob.key)}
+                                className="px-2 py-1 rounded hover:pl-3 duration-100 odd:bg-zinc-850 even:bg-zinc-800 flex gap-2 items-center justify-between"
+                              >
+                                <span className="flex gap-1 items-center">
+                                  {ob.icon}
+                                  {ob.value}
+                                </span>
+                                {orderBy === ob.key && (orderByOrder === "desc" ? <PiArrowDownBold /> : <PiArrowDownBold className="rotate-180" />)}
+                              </button>
+                            </MenuItem>
+                          ))}
+                        </MenuItems>
+                      )}
+                    </AnimatePresence>
+                  </>
+                )}
+              </Menu>
+
+              {searching && (
+                <div className="w-8 h-8 flex items-center justify-center">
+                  <FiLoader className="animate-spin text-lg text-zinc-500" />
+                </div>
+              )}
             </div>
-          ) : (
-            <>
-              {modsList.slice(0, visibleMods).map((mod) => (
-                <div key={mod["modid"]} className="group w-60 h-48 relative">
-                  <Link
-                    to={`/mods/${mod["modid"]}`}
-                    className="w-full h-full flex flex-col rounded bg-zinc-800 shadow shadow-zinc-900 group-hover:shadow-lg group-hover:shadow-zinc-900 absolute group-hover:h-64 group-hover:-translate-y-4 z-0 group-hover:z-20 duration-100 overflow-hidden"
-                  >
-                    <img
-                      src={mod["logo"] ? `/moddbfiles/${mod["logo"]}` : "/moddbfiles/web/img/mod-default.png"}
-                      alt={mod["name"]}
-                      className="h-32 aspect-video object-cover object-center bg-zinc-850 rounded"
-                    />
-                    <div className="w-full h-16 group-hover:h-32 duration-100 px-2 py-1">
-                      <div className="w-full h-full text-center relative flex flex-col gap-1">
-                        <p className="shrink-0 overflow-hidden whitespace-nowrap text-ellipsis">{mod["name"]}</p>
 
-                        <p className="text-sm text-zinc-500 line-clamp-3 opacity-0 group-hover:opacity-100 duration-100 delay-0 group-hover:delay-100">{mod["summary"]}</p>
+            {modsList.length < 1 ? (
+              <div className="flex flex-col justify-center items-center gap-4">
+                <p className="text-zinc-500">{searching ? t("features.mods.searching") : t("features.mods.noMatchingFilters")}</p>
+              </div>
+            ) : (
+              <>
+                {modsList.slice(0, visibleMods).map((mod) => (
+                  <div key={mod["modid"]} className="group w-60 h-48 relative">
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault()
+                        setModToInstall({ modid: mod["modid"], name: mod["name"] })
+                      }}
+                      className="w-full h-full flex flex-col rounded bg-zinc-800 shadow shadow-zinc-900 group-hover:shadow-lg group-hover:shadow-zinc-900 absolute group-hover:w-64 group-hover:h-72 group-hover:-translate-y-4 group-hover:-translate-x-2 z-0 group-hover:z-20 duration-100 overflow-hidden"
+                    >
+                      <img
+                        src={mod["logo"] ? `/moddbfiles/${mod["logo"]}` : "/moddbfiles/web/img/mod-default.png"}
+                        alt={mod["name"]}
+                        className="w-full h-32 aspect-video object-cover object-center bg-zinc-850 rounded"
+                      />
+                      <div className="w-full h-16 group-hover:h-40 duration-100 px-2 py-1">
+                        <div className="w-full h-full text-center relative flex flex-col gap-2">
+                          <p className="shrink-0 overflow-hidden whitespace-nowrap text-ellipsis">{mod["name"]}</p>
 
-                        <div className="w-full text-sm text-zinc-500 flex gap-2 justify-around absolute bottom-0">
-                          <p className="flex items-center gap-1">
-                            <PiDownloadFill />
-                            <span>{mod["downloads"]}</span>
+                          <p className="w-full text-sm overflow-hidden whitespace-nowrap text-ellipsis flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 duration-100 delay-0 group-hover:delay-100">
+                            <PiUserBold />
+                            <span>{mod["author"]}</span>
                           </p>
-                          <p className="flex items-center gap-1">
-                            <PiStarFill />
-                            <span>{mod["follows"]}</span>
-                          </p>
-                          <p className="flex items-center gap-1">
-                            <PiChatCenteredDotsFill />
-                            <span>{mod["comments"]}</span>
-                          </p>
+
+                          <p className="text-sm text-zinc-500 line-clamp-3 opacity-0 group-hover:opacity-100 duration-100 delay-0 group-hover:delay-100">{mod["summary"]}</p>
+
+                          <div className="w-full text-sm text-zinc-500 flex gap-2 justify-around absolute bottom-0">
+                            <p className="flex items-center gap-1">
+                              <PiDownloadFill />
+                              <span>{mod["downloads"]}</span>
+                            </p>
+                            <p className="flex items-center gap-1">
+                              <PiStarFill />
+                              <span>{mod["follows"]}</span>
+                            </p>
+                            <p className="flex items-center gap-1">
+                              <PiChatCenteredDotsFill />
+                              <span>{mod["comments"]}</span>
+                            </p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </Link>
-                </div>
-              ))}
-            </>
+                    </button>
+                  </div>
+                ))}
+              </>
+            )}
+          </>
+        </div>
+
+        <AnimatePresence>
+          {modToInstall && (
+            <Dialog
+              static
+              open={modToInstall !== undefined}
+              onClose={() => {
+                setModToInstall(undefined)
+                setModVersions([])
+              }}
+              className="w-full h-full absolute top-0 left-0 z-[200] flex justify-center items-center backdrop-blur-sm"
+            >
+              <motion.div initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0 }}>
+                <DialogPanel className="w-[800px] flex flex-col gap-2 text-center bg-zinc-850 rounded p-8">
+                  <DialogTitle className="text-2xl font-bold">{t("features.mods.installMod")}</DialogTitle>
+                  <Description className="w-full flex flex-col gap-2 text-zinc-500">{t("features.mods.installationPopupDesc", { modName: modToInstall.name })}</Description>
+                  <TableWrapper className="max-h-[300px] overflow-y-scroll text-center">
+                    <TableHead>
+                      <TableHeadRow>
+                        <TableCell className="w-2/12">{t("generic.version")}</TableCell>
+                        <TableCell className="w-2/12">{t("generic.releaseDate")}</TableCell>
+                        <TableCell className="w-7/12">{t("generic.versions")}</TableCell>
+                        <TableCell className="w-1/12">{t("generic.actions")}</TableCell>
+                      </TableHeadRow>
+                    </TableHead>
+
+                    <TableBody className="overflow-x-hidden">
+                      {modVersions.length === 0 && (
+                        <TableBodyRow>
+                          <TableCell className="w-full h-24 flex items-center justify-center">
+                            <FiLoader className="animate-spin text-3xl text-zinc-500" />
+                          </TableCell>
+                        </TableBodyRow>
+                      )}
+                      {modVersions.map((mv) => (
+                        <TableBodyRow key={mv.releaseid}>
+                          <TableCell className="w-2/12">{mv.modversion}</TableCell>
+                          <TableCell className="w-2/12">{new Date(mv.created).toLocaleDateString("es")}</TableCell>
+                          <TableCell className="w-7/12 overflow-hidden whitespace-nowrap text-ellipsis">
+                            <input type="text" value={mv.tags.join(", ")} readOnly className="w-full bg-transparent outline-none text-center" />
+                          </TableCell>
+                          <TableCell className="w-1/12 flex gap-2 items-center justify-center">
+                            {/* <button className="w-7 h-7 bg-green-700 rounded flex items-center justify-center" title={t("features.servers.installOnServer")}>
+                                <PiNetworkFill />
+                              </button> */}
+                            <button
+                              onClick={async (e) => {
+                                e.preventDefault()
+                                e.stopPropagation()
+
+                                const installation = config.installations.find((i) => i.id === config.lastUsedInstallation)
+
+                                if (!installation) return addNotification(t("notifications.titles.error"), t("features.installations.noInstallationSelected"), "error")
+
+                                const installPath = await window.api.pathsManager.formatPath([installation.path, "Mods"])
+
+                                startDownload(
+                                  t("features.mods.modTaskName", { name: modToInstall.name, version: `v${mv.modversion}`, installation: installation.name }),
+                                  t("features.mods.modDownloadDesc", { name: modToInstall.name, version: `v${mv.modversion}`, installation: installation.name }),
+                                  `https://mods.vintagestory.at/${mv.mainfile}`,
+                                  installPath,
+                                  (status, path, error) => {
+                                    if (!status) return window.api.utils.logMessage("error", `[component] [ListMods] Error downloading mod: ${error}`)
+                                    window.api.utils.logMessage("info", `[component] [ListMods] Downloaded mod ${mv.mainfile} on ${path}`)
+                                    countMods()
+                                  }
+                                )
+                              }}
+                              className="w-7 h-7 bg-green-700 rounded flex items-center justify-center"
+                              title={t("features.installations.installOnInstallation")}
+                            >
+                              <PiDownloadFill />
+                            </button>
+                          </TableCell>
+                        </TableBodyRow>
+                      ))}
+                    </TableBody>
+                  </TableWrapper>
+                </DialogPanel>
+              </motion.div>
+            </Dialog>
           )}
-        </>
+        </AnimatePresence>
       </div>
-    </>
+    </div>
   )
 }
 

@@ -79,7 +79,6 @@
       "modsCount_two": "{{count}} mods",
       "modsCount_zero": "{{count}} mods",
       "listTitle": "Lista de mods",
-      "modTitle": "Info del mod",
       "noMatchingFilters": "¡No hay mods que coincidan con tus filtros!",
       "searching": "Buscando mods..."
     },
@@ -130,7 +129,6 @@
       "backupWhilePlaying": "¡No puedes hacer una copia de seguridad mientras juegas la instalación!",
       "backupsAuto": "Actívalo para hacer una copia de seguridad automática antes de jugar",
       "backupsLimit": "Límite de copias de seguridad",
-      "errorDeletingOldBackup": "¡Ha ocurrido un error al eliminar una copia de seguridad antigua!",
       "areYouSureRestoreBackup": "¿Estás seguro de que quieres restaurar esta copia de seguridad?",
       "cmpressTaskName": "copia de seguridad de {{name}}",
       "compressingBackupDescription": "¡Haciendo copia de seguridad de {{name}}!",
