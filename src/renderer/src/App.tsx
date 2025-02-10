@@ -95,6 +95,7 @@ function AppInfo(): JSX.Element {
         <MiniLinks to="https://github.com/XurxoMF/vs-launcher/issues" text={t("generic.issues")} />
         <MiniLinks to="https://vsldocs.xurxomf.xyz/" text={t("generic.guides")} />
         <MiniLinks to="https://github.com/XurxoMF/vs-launcher" text={t("generic.source")} />
+        <MiniLinks to="https://discord.gg/RtWpYBRRUz" text="Discord" />
         <MiniLinks to="https://ko-fi.com/xurxomf" text={t("generic.donate")} />
       </div>
       <p>VS Launcher - v{version}</p>
