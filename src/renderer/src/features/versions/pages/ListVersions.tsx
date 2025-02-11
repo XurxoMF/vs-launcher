@@ -88,8 +88,8 @@ function ListVersions(): JSX.Element {
               <DialogPanel className="flex flex-col gap-4 text-center bg-zinc-850 rounded p-8 max-w-[600px]">
                 <DialogTitle className="text-2xl font-bold">{t("features.versions.uninstallVersion")}</DialogTitle>
                 <Description className="flex flex-col gap-2">
-                  <p>{t("features.versions.areYouSureUninstall")}</p>
-                  <p className="text-zinc-500">{t("features.versions.uninstallingNotReversible")}</p>
+                  <span>{t("features.versions.areYouSureUninstall")}</span>
+                  <span className="text-zinc-500">{t("features.versions.uninstallingNotReversible")}</span>
                 </Description>
                 <div className="flex gap-4 items-center justify-center">
                   <button

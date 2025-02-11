@@ -35,10 +35,16 @@ declare global {
   } & Record<string, unknown>
 
   type InstalledModType = {
-    id: string
     name: string
+    modid: string
     version: string
     path: string
+    _image?: string
+    description?: string
+    side?: string
+    authors?: string[]
+    contributors?: string[]
+    type?: string
   }
 
   type DownloadableGameVersionType = {

@@ -42,7 +42,9 @@
     "updated": "Updated",
     "created": "Created",
     "follows": "Follows",
-    "actions": "Actions"
+    "actions": "Actions",
+    "authors": "Authors",
+    "contributors": "Contributors"
   },
   "features": {
     "generic": {
@@ -109,7 +111,7 @@
       "listTitle": "Installations list",
       "deleteData": "Delete data",
       "installationSuccessfullyDeleted": "Installation deleted succesfully!",
-      "errorDeletingInstallation": "An error has ocurred while deleting installation!",
+      "errorDeletingInstallation": "An error has ocurred deleting the installation!",
       "installationFolder": "Installation folder",
       "labelStartParams": "Start params",
       "startParams": "Start params",
@@ -136,7 +138,17 @@
       "installMod": "Install mod",
       "modTaskName": "{{name}} mod {{version}} on {{installation}}",
       "modDownloadDesc": "Downloading {{name}} mod {{version}} on {{installation}}!",
-      "installationPopupDesc": "List of versions of the {{modName}} mod"
+      "installationPopupDesc": "List of versions of the {{modName}} mod",
+      "manageMods": "Manage mods",
+      "noModsInstalled": "You've no mods installed here! You can install some on the <link /> page!",
+      "noModsFound": "No mods found!",
+      "cantDeleteWhileinUse": "You can't delete a mod while it's in use!",
+      "modSuccessfullyDeleted": "Mod deleted succesfully!",
+      "noModFound": "Mod not found!",
+      "errorDeletingMod": "An error has ocurred deleting the mod!",
+      "deleteMod": "Delete mod",
+      "areYouSureDelete": "Are you sure you want to delete this mod?",
+      "deletingNotReversible": "Deletion is not reversible so you'll not be able to restore the mods but you can always download it again!"
     },
     "config": {
       "title": "Settings",

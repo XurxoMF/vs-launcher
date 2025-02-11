@@ -43,7 +43,7 @@ import { useConfigContext } from "@renderer/features/config/contexts/ConfigConte
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 import { useTaskContext } from "@renderer/contexts/TaskManagerContext"
 
-import { useCountMods } from "@renderer/features/config/hooks/useCountMods"
+import { useCountMods } from "@renderer/features/mods/hooks/useCountMods"
 
 import { FormInputText } from "@renderer/components/ui/FormComponents"
 import { TableBody, TableBodyRow, TableCell, TableHead, TableHeadRow, TableWrapper } from "@renderer/components/ui/Table"
@@ -459,6 +459,9 @@ function ListMods(): JSX.Element {
                                     countMods()
                                   }
                                 )
+
+                                setModToInstall(undefined)
+                                setModVersions([])
                               }}
                               className="w-7 h-7 bg-green-700 rounded flex items-center justify-center"
                               title={t("features.installations.installOnInstallation")}

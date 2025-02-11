@@ -65,7 +65,8 @@ function AddInslallation(): JSX.Element {
         backupsLimit,
         backupsAuto,
         backups: [],
-        mods: []
+        mods: [],
+        _modsCount: 0
       }
 
       configDispatch({ type: CONFIG_ACTIONS.ADD_INSTALLATION, payload: newInstallation })

@@ -1,8 +1,9 @@
-import { app, shell, BrowserWindow } from "electron"
+import { app, shell, BrowserWindow, protocol, net } from "electron"
 import { join } from "path"
 import { electronApp, optimizer, is } from "@electron-toolkit/utils"
 import { autoUpdater } from "electron-updater"
 import log from "electron-log"
+import { pathToFileURL } from "url"
 
 const customUserDataPath = join(app.getPath("appData"), "VSLauncher")
 app.setPath("userData", customUserDataPath)
@@ -69,6 +70,14 @@ function createWindow(): void {
 // This method will be called when Electron has finished initialization and is ready to create browser windows. Some APIs can only be used after this event occurs.
 app.whenReady().then(async () => {
   logMessage("info", "[main] Electron ready")
+
+  // Handler for mod icons
+  protocol.handle("cachemodimg", (req) => {
+    const srcPath = join(app.getPath("userData"), "Cache", "Images")
+    const reqURL = new URL(req.url)
+    const fileToPathURL = pathToFileURL(join(srcPath, reqURL.pathname)).toString()
+    return net.fetch(fileToPathURL)
+  })
 
   await ensureConfig()
 

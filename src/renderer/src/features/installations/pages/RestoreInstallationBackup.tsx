@@ -144,8 +144,8 @@ function RestoreInstallationBackup(): JSX.Element {
               <DialogPanel className="flex flex-col gap-4 text-center bg-zinc-850 rounded p-8 max-w-[600px]">
                 <DialogTitle className="text-2xl font-bold">{t("features.backups.restoreBackup")}</DialogTitle>
                 <Description className="flex flex-col gap-2">
-                  <p>{t("features.backups.areYouSureRestoreBackup")}</p>
-                  <p className="text-zinc-500">{t("features.backups.restoringNotReversible")}</p>
+                  <span>{t("features.backups.areYouSureRestoreBackup")}</span>
+                  <span className="text-zinc-500">{t("features.backups.restoringNotReversible")}</span>
                 </Description>
                 <div className="flex gap-4 items-center justify-center">
                   <button
@@ -181,8 +181,8 @@ function RestoreInstallationBackup(): JSX.Element {
               <DialogPanel className="flex flex-col gap-4 text-center bg-zinc-850 rounded p-8 max-w-[600px]">
                 <DialogTitle className="text-2xl font-bold">{t("features.backups.deleteBackup")}</DialogTitle>
                 <Description className="flex flex-col gap-2">
-                  <p>{t("features.backups.areYouSureDelete")}</p>
-                  <p className="text-zinc-500">{t("features.backups.deletingNotReversible")}</p>
+                  <span>{t("features.backups.areYouSureDelete")}</span>
+                  <span className="text-zinc-500">{t("features.backups.deletingNotReversible")}</span>
                 </Description>
                 <div className="flex gap-4 items-center justify-center">
                   <button
