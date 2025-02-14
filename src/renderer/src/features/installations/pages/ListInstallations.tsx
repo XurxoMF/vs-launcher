@@ -139,62 +139,64 @@ function ListInslallations(): JSX.Element {
         {installationToDelete !== null && (
           <Dialog
             static
+            as={motion.div}
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0 }}
             open={installationToDelete !== null}
             onClose={() => setInstallationToDelete(null)}
             className="w-full h-full absolute top-0 left-0 z-[200] flex justify-center items-center backdrop-blur-sm"
           >
-            <motion.div initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0 }}>
-              <DialogPanel className="flex flex-col gap-4 text-center bg-zinc-850 rounded p-8 max-w-[600px]">
-                <DialogTitle className="text-2xl font-bold">{t("features.installations.deleteInstallation")}</DialogTitle>
-                <Description className="flex flex-col gap-2">
-                  <span>{t("features.installations.areYouSureDelete")}</span>
-                  <span className="text-zinc-500">{t("features.installations.deletingNotReversible")}</span>
-                </Description>
-                <div className="flex gap-2 items-center justify-center">
-                  <Input id="delete-data" type="checkbox" checked={deleteData} onChange={(e) => setDeleData(e.target.checked)} />
-                  <label htmlFor="delete-data">{t("features.installations.deleteData")}</label>
-                </div>
-                <div className="flex gap-4 items-center justify-center">
-                  <button
-                    title={t("generic.cancel")}
-                    className="px-2 py-1 bg-zinc-800 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
-                    onClick={() => setInstallationToDelete(null)}
-                  >
-                    {t("generic.cancel")}
-                  </button>
-                  <button
-                    title={t("generic.delete")}
-                    className="px-2 py-1 bg-red-800 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
-                    onClick={async () => {
-                      try {
-                        if (installationToDelete._playing || installationToDelete._backuping || installationToDelete._restoringBackup)
-                          return addNotification(t("notifications.titles.error"), t("features.installations.cantDeleteWhileinUse"), "error")
+            <DialogPanel className="flex flex-col gap-4 text-center bg-zinc-850 rounded p-8 max-w-[600px]">
+              <DialogTitle className="text-2xl font-bold">{t("features.installations.deleteInstallation")}</DialogTitle>
+              <Description className="flex flex-col gap-2">
+                <span>{t("features.installations.areYouSureDelete")}</span>
+                <span className="text-zinc-500">{t("features.installations.deletingNotReversible")}</span>
+              </Description>
+              <div className="flex gap-2 items-center justify-center">
+                <Input id="delete-data" type="checkbox" checked={deleteData} onChange={(e) => setDeleData(e.target.checked)} />
+                <label htmlFor="delete-data">{t("features.installations.deleteData")}</label>
+              </div>
+              <div className="flex gap-4 items-center justify-center">
+                <button
+                  title={t("generic.cancel")}
+                  className="px-2 py-1 bg-zinc-800 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
+                  onClick={() => setInstallationToDelete(null)}
+                >
+                  {t("generic.cancel")}
+                </button>
+                <button
+                  title={t("generic.delete")}
+                  className="px-2 py-1 bg-red-800 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
+                  onClick={async () => {
+                    try {
+                      if (installationToDelete._playing || installationToDelete._backuping || installationToDelete._restoringBackup)
+                        return addNotification(t("notifications.titles.error"), t("features.installations.cantDeleteWhileinUse"), "error")
 
-                        if (deleteData) {
-                          const wasDeleted = await window.api.pathsManager.deletePath(installationToDelete.path)
-                          if (!wasDeleted) throw new Error("Error deleting installation data!")
+                      if (deleteData) {
+                        const wasDeleted = await window.api.pathsManager.deletePath(installationToDelete.path)
+                        if (!wasDeleted) throw new Error("Error deleting installation data!")
 
-                          installationToDelete.backups.forEach((backup) => {
-                            const wasBackupDeleted = window.api.pathsManager.deletePath(backup.path)
-                            if (!wasBackupDeleted) throw new Error("Error deleting installation backup data!")
-                          })
-                        }
-
-                        configDispatch({ type: CONFIG_ACTIONS.DELETE_INSTALLATION, payload: { id: installationToDelete.id } })
-                        addNotification(t("notifications.titles.success"), t("features.installations.installationSuccessfullyDeleted"), "success")
-                      } catch (err) {
-                        addNotification(t("notifications.titles.error"), t("features.installations.errorDeletingInstallation"), "error")
-                      } finally {
-                        setInstallationToDelete(null)
-                        setDeleData(false)
+                        installationToDelete.backups.forEach((backup) => {
+                          const wasBackupDeleted = window.api.pathsManager.deletePath(backup.path)
+                          if (!wasBackupDeleted) throw new Error("Error deleting installation backup data!")
+                        })
                       }
-                    }}
-                  >
-                    {t("generic.delete")}
-                  </button>
-                </div>
-              </DialogPanel>
-            </motion.div>
+
+                      configDispatch({ type: CONFIG_ACTIONS.DELETE_INSTALLATION, payload: { id: installationToDelete.id } })
+                      addNotification(t("notifications.titles.success"), t("features.installations.installationSuccessfullyDeleted"), "success")
+                    } catch (err) {
+                      addNotification(t("notifications.titles.error"), t("features.installations.errorDeletingInstallation"), "error")
+                    } finally {
+                      setInstallationToDelete(null)
+                      setDeleData(false)
+                    }
+                  }}
+                >
+                  {t("generic.delete")}
+                </button>
+              </div>
+            </DialogPanel>
           </Dialog>
         )}
       </AnimatePresence>

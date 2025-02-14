@@ -80,50 +80,52 @@ function ListVersions(): JSX.Element {
         {versionToDelete !== null && (
           <Dialog
             static
+            as={motion.div}
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0 }}
             open={versionToDelete !== null}
             onClose={() => setVersionToDelete(null)}
             className="w-full h-full absolute top-0 left-0 z-[200] flex justify-center items-center backdrop-blur-sm"
           >
-            <motion.div initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0 }}>
-              <DialogPanel className="flex flex-col gap-4 text-center bg-zinc-850 rounded p-8 max-w-[600px]">
-                <DialogTitle className="text-2xl font-bold">{t("features.versions.uninstallVersion")}</DialogTitle>
-                <Description className="flex flex-col gap-2">
-                  <span>{t("features.versions.areYouSureUninstall")}</span>
-                  <span className="text-zinc-500">{t("features.versions.uninstallingNotReversible")}</span>
-                </Description>
-                <div className="flex gap-4 items-center justify-center">
-                  <button
-                    title={t("generic.cancel")}
-                    className="px-2 py-1 bg-zinc-800 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
-                    onClick={() => setVersionToDelete(null)}
-                  >
-                    {t("generic.cancel")}
-                  </button>
-                  <button
-                    title={t("generic.uninstall")}
-                    className="px-2 py-1 bg-red-800 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
-                    onClick={async () => {
-                      try {
-                        if (versionToDelete._playing) return addNotification(t("notifications.titles.error"), t("features.versions.deleteWhilePlaying"), "error")
+            <DialogPanel className="flex flex-col gap-4 text-center bg-zinc-850 rounded p-8 max-w-[600px]">
+              <DialogTitle className="text-2xl font-bold">{t("features.versions.uninstallVersion")}</DialogTitle>
+              <Description className="flex flex-col gap-2">
+                <span>{t("features.versions.areYouSureUninstall")}</span>
+                <span className="text-zinc-500">{t("features.versions.uninstallingNotReversible")}</span>
+              </Description>
+              <div className="flex gap-4 items-center justify-center">
+                <button
+                  title={t("generic.cancel")}
+                  className="px-2 py-1 bg-zinc-800 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
+                  onClick={() => setVersionToDelete(null)}
+                >
+                  {t("generic.cancel")}
+                </button>
+                <button
+                  title={t("generic.uninstall")}
+                  className="px-2 py-1 bg-red-800 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
+                  onClick={async () => {
+                    try {
+                      if (versionToDelete._playing) return addNotification(t("notifications.titles.error"), t("features.versions.deleteWhilePlaying"), "error")
 
-                        configDispatch({ type: CONFIG_ACTIONS.EDIT_GAME_VERSION, payload: { version: versionToDelete.version, updates: { _deleting: true } } })
-                        const deleted = await window.api.pathsManager.deletePath(versionToDelete!.path)
-                        if (!deleted) throw new Error("Error deleting fame gersion data")
-                        configDispatch({ type: CONFIG_ACTIONS.DELETE_GAME_VERSION, payload: { version: versionToDelete!.version } })
-                        addNotification(t("notifications.titles.success"), t("features.versions.versionUninstalledSuccesfully", { version: versionToDelete!.version }), "success")
-                      } catch (err) {
-                        configDispatch({ type: CONFIG_ACTIONS.EDIT_GAME_VERSION, payload: { version: versionToDelete.version, updates: { _deleting: false } } })
-                        addNotification(t("notifications.titles.error"), t("features.versions.versionUninstallationFailed", { version: versionToDelete!.version }), "error")
-                      } finally {
-                        setVersionToDelete(null)
-                      }
-                    }}
-                  >
-                    {t("generic.uninstall")}
-                  </button>
-                </div>
-              </DialogPanel>
-            </motion.div>
+                      configDispatch({ type: CONFIG_ACTIONS.EDIT_GAME_VERSION, payload: { version: versionToDelete.version, updates: { _deleting: true } } })
+                      const deleted = await window.api.pathsManager.deletePath(versionToDelete!.path)
+                      if (!deleted) throw new Error("Error deleting fame gersion data")
+                      configDispatch({ type: CONFIG_ACTIONS.DELETE_GAME_VERSION, payload: { version: versionToDelete!.version } })
+                      addNotification(t("notifications.titles.success"), t("features.versions.versionUninstalledSuccesfully", { version: versionToDelete!.version }), "success")
+                    } catch (err) {
+                      configDispatch({ type: CONFIG_ACTIONS.EDIT_GAME_VERSION, payload: { version: versionToDelete.version, updates: { _deleting: false } } })
+                      addNotification(t("notifications.titles.error"), t("features.versions.versionUninstallationFailed", { version: versionToDelete!.version }), "error")
+                    } finally {
+                      setVersionToDelete(null)
+                    }
+                  }}
+                >
+                  {t("generic.uninstall")}
+                </button>
+              </div>
+            </DialogPanel>
           </Dialog>
         )}
       </AnimatePresence>

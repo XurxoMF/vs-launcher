@@ -111,53 +111,60 @@ function ListMods(): JSX.Element {
 
       <AnimatePresence>
         {modToDelete !== null && (
-          <Dialog static open={modToDelete !== null} onClose={() => setModToDelete(null)} className="w-full h-full absolute top-0 left-0 z-[200] flex justify-center items-center backdrop-blur-sm">
-            <motion.div initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0 }}>
-              <DialogPanel className="flex flex-col gap-4 text-center bg-zinc-850 rounded p-8 max-w-[600px]">
-                <DialogTitle className="text-2xl font-bold">{t("features.mods.deleteMod")}</DialogTitle>
-                <Description className="flex flex-col gap-2">
-                  <span>{t("features.mods.areYouSureDelete")}</span>
-                  <span className="text-zinc-500">{t("features.mods.deletingNotReversible")}</span>
-                </Description>
-                <div className="flex gap-4 items-center justify-center">
-                  <button
-                    title={t("generic.cancel")}
-                    className="px-2 py-1 bg-zinc-800 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
-                    onClick={() => setModToDelete(null)}
-                  >
-                    {t("generic.cancel")}
-                  </button>
-                  <button
-                    title={t("generic.delete")}
-                    className="px-2 py-1 bg-red-800 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
-                    onClick={async () => {
-                      try {
-                        const installation = config.installations.find((i) => i.id === id)
+          <Dialog
+            static
+            as={motion.div}
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0 }}
+            open={modToDelete !== null}
+            onClose={() => setModToDelete(null)}
+            className="w-full h-full absolute top-0 left-0 z-[200] flex justify-center items-center backdrop-blur-sm"
+          >
+            <DialogPanel className="flex flex-col gap-4 text-center bg-zinc-850 rounded p-8 max-w-[600px]">
+              <DialogTitle className="text-2xl font-bold">{t("features.mods.deleteMod")}</DialogTitle>
+              <Description className="flex flex-col gap-2">
+                <span>{t("features.mods.areYouSureDelete")}</span>
+                <span className="text-zinc-500">{t("features.mods.deletingNotReversible")}</span>
+              </Description>
+              <div className="flex gap-4 items-center justify-center">
+                <button
+                  title={t("generic.cancel")}
+                  className="px-2 py-1 bg-zinc-800 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
+                  onClick={() => setModToDelete(null)}
+                >
+                  {t("generic.cancel")}
+                </button>
+                <button
+                  title={t("generic.delete")}
+                  className="px-2 py-1 bg-red-800 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
+                  onClick={async () => {
+                    try {
+                      const installation = config.installations.find((i) => i.id === id)
 
-                        if (!installation) return addNotification(t("notifications.titles.error"), t("features.installations.noInstallationFound"), "error")
+                      if (!installation) return addNotification(t("notifications.titles.error"), t("features.installations.noInstallationFound"), "error")
 
-                        if (installation._playing || installation._backuping || installation._restoringBackup)
-                          return addNotification(t("notifications.titles.error"), t("features.mods.cantDeleteWhileinUse"), "error")
+                      if (installation._playing || installation._backuping || installation._restoringBackup)
+                        return addNotification(t("notifications.titles.error"), t("features.mods.cantDeleteWhileinUse"), "error")
 
-                        const deleted = await window.api.pathsManager.deletePath(modToDelete.path)
-                        if (!deleted) throw "There was an error deleting the mod!"
+                      const deleted = await window.api.pathsManager.deletePath(modToDelete.path)
+                      if (!deleted) throw "There was an error deleting the mod!"
 
-                        setInstalledMods(await getMods())
-                        countMods()
+                      setInstalledMods(await getMods())
+                      countMods()
 
-                        addNotification(t("notifications.titles.success"), t("features.mods.modSuccessfullyDeleted"), "success")
-                      } catch (err) {
-                        addNotification(t("notifications.titles.error"), t("features.mods.errorDeletingMod"), "error")
-                      } finally {
-                        setModToDelete(null)
-                      }
-                    }}
-                  >
-                    {t("generic.delete")}
-                  </button>
-                </div>
-              </DialogPanel>
-            </motion.div>
+                      addNotification(t("notifications.titles.success"), t("features.mods.modSuccessfullyDeleted"), "success")
+                    } catch (err) {
+                      addNotification(t("notifications.titles.error"), t("features.mods.errorDeletingMod"), "error")
+                    } finally {
+                      setModToDelete(null)
+                    }
+                  }}
+                >
+                  {t("generic.delete")}
+                </button>
+              </div>
+            </DialogPanel>
           </Dialog>
         )}
       </AnimatePresence>

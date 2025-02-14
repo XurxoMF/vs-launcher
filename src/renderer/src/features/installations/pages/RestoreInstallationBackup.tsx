@@ -136,35 +136,33 @@ function RestoreInstallationBackup(): JSX.Element {
         {backupToRestore !== null && (
           <Dialog
             static
+            as={motion.div}
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0 }}
             open={backupToRestore !== null}
             onClose={() => setBackupToRestore(null)}
             className="w-full h-full absolute top-0 left-0 z-[200] flex justify-center items-center backdrop-blur-sm"
           >
-            <motion.div initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0 }}>
-              <DialogPanel className="flex flex-col gap-4 text-center bg-zinc-850 rounded p-8 max-w-[600px]">
-                <DialogTitle className="text-2xl font-bold">{t("features.backups.restoreBackup")}</DialogTitle>
-                <Description className="flex flex-col gap-2">
-                  <span>{t("features.backups.areYouSureRestoreBackup")}</span>
-                  <span className="text-zinc-500">{t("features.backups.restoringNotReversible")}</span>
-                </Description>
-                <div className="flex gap-4 items-center justify-center">
-                  <button
-                    title={t("generic.cancel")}
-                    className="px-2 py-1 bg-zinc-800 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
-                    onClick={() => setBackupToRestore(null)}
-                  >
-                    {t("generic.cancel")}
-                  </button>
-                  <button
-                    title={t("generic.restore")}
-                    className="px-2 py-1 bg-red-800 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
-                    onClick={RestoreBackupHandler}
-                  >
-                    {t("generic.restore")}
-                  </button>
-                </div>
-              </DialogPanel>
-            </motion.div>
+            <DialogPanel className="flex flex-col gap-4 text-center bg-zinc-850 rounded p-8 max-w-[600px]">
+              <DialogTitle className="text-2xl font-bold">{t("features.backups.restoreBackup")}</DialogTitle>
+              <Description className="flex flex-col gap-2">
+                <span>{t("features.backups.areYouSureRestoreBackup")}</span>
+                <span className="text-zinc-500">{t("features.backups.restoringNotReversible")}</span>
+              </Description>
+              <div className="flex gap-4 items-center justify-center">
+                <button
+                  title={t("generic.cancel")}
+                  className="px-2 py-1 bg-zinc-800 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
+                  onClick={() => setBackupToRestore(null)}
+                >
+                  {t("generic.cancel")}
+                </button>
+                <button title={t("generic.restore")} className="px-2 py-1 bg-red-800 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded" onClick={RestoreBackupHandler}>
+                  {t("generic.restore")}
+                </button>
+              </div>
+            </DialogPanel>
           </Dialog>
         )}
       </AnimatePresence>
@@ -173,51 +171,53 @@ function RestoreInstallationBackup(): JSX.Element {
         {backupToDelete !== null && (
           <Dialog
             static
+            as={motion.div}
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0 }}
             open={backupToDelete !== null}
             onClose={() => setBackupToDelete(null)}
             className="w-full h-full absolute top-0 left-0 z-[200] flex justify-center items-center backdrop-blur-sm"
           >
-            <motion.div initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0 }}>
-              <DialogPanel className="flex flex-col gap-4 text-center bg-zinc-850 rounded p-8 max-w-[600px]">
-                <DialogTitle className="text-2xl font-bold">{t("features.backups.deleteBackup")}</DialogTitle>
-                <Description className="flex flex-col gap-2">
-                  <span>{t("features.backups.areYouSureDelete")}</span>
-                  <span className="text-zinc-500">{t("features.backups.deletingNotReversible")}</span>
-                </Description>
-                <div className="flex gap-4 items-center justify-center">
-                  <button
-                    title={t("generic.cancel")}
-                    className="px-2 py-1 bg-zinc-800 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
-                    onClick={() => setBackupToDelete(null)}
-                  >
-                    {t("generic.cancel")}
-                  </button>
-                  <button
-                    title={t("generic.delete")}
-                    className="px-2 py-1 bg-red-800 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
-                    onClick={async () => {
-                      try {
-                        if (!installation) return addNotification(t("notifications.titles.error"), t("features.installations.noInstallationFound"), "error")
+            <DialogPanel className="flex flex-col gap-4 text-center bg-zinc-850 rounded p-8 max-w-[600px]">
+              <DialogTitle className="text-2xl font-bold">{t("features.backups.deleteBackup")}</DialogTitle>
+              <Description className="flex flex-col gap-2">
+                <span>{t("features.backups.areYouSureDelete")}</span>
+                <span className="text-zinc-500">{t("features.backups.deletingNotReversible")}</span>
+              </Description>
+              <div className="flex gap-4 items-center justify-center">
+                <button
+                  title={t("generic.cancel")}
+                  className="px-2 py-1 bg-zinc-800 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
+                  onClick={() => setBackupToDelete(null)}
+                >
+                  {t("generic.cancel")}
+                </button>
+                <button
+                  title={t("generic.delete")}
+                  className="px-2 py-1 bg-red-800 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
+                  onClick={async () => {
+                    try {
+                      if (!installation) return addNotification(t("notifications.titles.error"), t("features.installations.noInstallationFound"), "error")
 
-                        if (backupToDelete._restoring || backupToDelete._deleting) return addNotification(t("notifications.titles.error"), t("features.backups.cantDeleteWhileinUse"), "error")
+                      if (backupToDelete._restoring || backupToDelete._deleting) return addNotification(t("notifications.titles.error"), t("features.backups.cantDeleteWhileinUse"), "error")
 
-                        const deleted = await window.api.pathsManager.deletePath(backupToDelete.path)
-                        if (!deleted) throw new Error("There was an error deleting backup file.")
+                      const deleted = await window.api.pathsManager.deletePath(backupToDelete.path)
+                      if (!deleted) throw new Error("There was an error deleting backup file.")
 
-                        configDispatch({ type: CONFIG_ACTIONS.DELETE_INSTALLATION_BACKUP, payload: { id: installation!.id, backupId: backupToDelete.id } })
-                        addNotification(t("notifications.titles.success"), t("features.backups.backupDeletedSuccesfully"), "success")
-                      } catch (err) {
-                        addNotification(t("notifications.titles.error"), t("features.backups.errorDeletingBackup"), "error")
-                      } finally {
-                        setBackupToDelete(null)
-                      }
-                    }}
-                  >
-                    {t("generic.delete")}
-                  </button>
-                </div>
-              </DialogPanel>
-            </motion.div>
+                      configDispatch({ type: CONFIG_ACTIONS.DELETE_INSTALLATION_BACKUP, payload: { id: installation!.id, backupId: backupToDelete.id } })
+                      addNotification(t("notifications.titles.success"), t("features.backups.backupDeletedSuccesfully"), "success")
+                    } catch (err) {
+                      addNotification(t("notifications.titles.error"), t("features.backups.errorDeletingBackup"), "error")
+                    } finally {
+                      setBackupToDelete(null)
+                    }
+                  }}
+                >
+                  {t("generic.delete")}
+                </button>
+              </div>
+            </DialogPanel>
           </Dialog>
         )}
       </AnimatePresence>

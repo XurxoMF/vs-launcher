@@ -397,6 +397,10 @@ function ListMods(): JSX.Element {
           {modToInstall && (
             <Dialog
               static
+              as={motion.div}
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0 }}
               open={modToInstall !== undefined}
               onClose={() => {
                 setModToInstall(undefined)
@@ -404,77 +408,75 @@ function ListMods(): JSX.Element {
               }}
               className="w-full h-full absolute top-0 left-0 z-[200] flex justify-center items-center backdrop-blur-sm"
             >
-              <motion.div initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0 }}>
-                <DialogPanel className="w-[800px] flex flex-col gap-2 text-center bg-zinc-850 rounded p-8">
-                  <DialogTitle className="text-2xl font-bold">{t("features.mods.installMod")}</DialogTitle>
-                  <Description className="w-full flex flex-col gap-2 text-zinc-500">{t("features.mods.installationPopupDesc", { modName: modToInstall.name })}</Description>
-                  <TableWrapper className="max-h-[300px] overflow-y-scroll text-center">
-                    <TableHead>
-                      <TableHeadRow>
-                        <TableCell className="w-2/12">{t("generic.version")}</TableCell>
-                        <TableCell className="w-2/12">{t("generic.releaseDate")}</TableCell>
-                        <TableCell className="w-7/12">{t("generic.versions")}</TableCell>
-                        <TableCell className="w-1/12">{t("generic.actions")}</TableCell>
-                      </TableHeadRow>
-                    </TableHead>
+              <DialogPanel className="w-[800px] flex flex-col gap-2 text-center bg-zinc-850 rounded p-8">
+                <DialogTitle className="text-2xl font-bold">{t("features.mods.installMod")}</DialogTitle>
+                <Description className="w-full flex flex-col gap-2 text-zinc-500">{t("features.mods.installationPopupDesc", { modName: modToInstall.name })}</Description>
+                <TableWrapper className="max-h-[300px] overflow-y-scroll text-center">
+                  <TableHead>
+                    <TableHeadRow>
+                      <TableCell className="w-2/12">{t("generic.version")}</TableCell>
+                      <TableCell className="w-2/12">{t("generic.releaseDate")}</TableCell>
+                      <TableCell className="w-7/12">{t("generic.versions")}</TableCell>
+                      <TableCell className="w-1/12">{t("generic.actions")}</TableCell>
+                    </TableHeadRow>
+                  </TableHead>
 
-                    <TableBody className="overflow-x-hidden">
-                      {modVersions.length === 0 && (
-                        <TableBodyRow>
-                          <TableCell className="w-full h-24 flex items-center justify-center">
-                            <FiLoader className="animate-spin text-3xl text-zinc-500" />
-                          </TableCell>
-                        </TableBodyRow>
-                      )}
-                      {modVersions.map((mv) => (
-                        <TableBodyRow key={mv.releaseid}>
-                          <TableCell className="w-2/12">{mv.modversion}</TableCell>
-                          <TableCell className="w-2/12">{new Date(mv.created).toLocaleDateString("es")}</TableCell>
-                          <TableCell className="w-7/12 overflow-hidden whitespace-nowrap text-ellipsis">
-                            <input type="text" value={mv.tags.join(", ")} readOnly className="w-full bg-transparent outline-none text-center" />
-                          </TableCell>
-                          <TableCell className="w-1/12 flex gap-2 items-center justify-center">
-                            {/* <button className="w-7 h-7 bg-green-700 rounded flex items-center justify-center" title={t("features.servers.installOnServer")}>
+                  <TableBody className="overflow-x-hidden">
+                    {modVersions.length === 0 && (
+                      <TableBodyRow>
+                        <TableCell className="w-full h-24 flex items-center justify-center">
+                          <FiLoader className="animate-spin text-3xl text-zinc-500" />
+                        </TableCell>
+                      </TableBodyRow>
+                    )}
+                    {modVersions.map((mv) => (
+                      <TableBodyRow key={mv.releaseid}>
+                        <TableCell className="w-2/12">{mv.modversion}</TableCell>
+                        <TableCell className="w-2/12">{new Date(mv.created).toLocaleDateString("es")}</TableCell>
+                        <TableCell className="w-7/12 overflow-hidden whitespace-nowrap text-ellipsis">
+                          <input type="text" value={mv.tags.join(", ")} readOnly className="w-full bg-transparent outline-none text-center" />
+                        </TableCell>
+                        <TableCell className="w-1/12 flex gap-2 items-center justify-center">
+                          {/* <button className="w-7 h-7 bg-green-700 rounded flex items-center justify-center" title={t("features.servers.installOnServer")}>
                                 <PiNetworkFill />
                               </button> */}
-                            <button
-                              onClick={async (e) => {
-                                e.preventDefault()
-                                e.stopPropagation()
+                          <button
+                            onClick={async (e) => {
+                              e.preventDefault()
+                              e.stopPropagation()
 
-                                const installation = config.installations.find((i) => i.id === config.lastUsedInstallation)
+                              const installation = config.installations.find((i) => i.id === config.lastUsedInstallation)
 
-                                if (!installation) return addNotification(t("notifications.titles.error"), t("features.installations.noInstallationSelected"), "error")
+                              if (!installation) return addNotification(t("notifications.titles.error"), t("features.installations.noInstallationSelected"), "error")
 
-                                const installPath = await window.api.pathsManager.formatPath([installation.path, "Mods"])
+                              const installPath = await window.api.pathsManager.formatPath([installation.path, "Mods"])
 
-                                startDownload(
-                                  t("features.mods.modTaskName", { name: modToInstall.name, version: `v${mv.modversion}`, installation: installation.name }),
-                                  t("features.mods.modDownloadDesc", { name: modToInstall.name, version: `v${mv.modversion}`, installation: installation.name }),
-                                  `https://mods.vintagestory.at/${mv.mainfile}`,
-                                  installPath,
-                                  (status, path, error) => {
-                                    if (!status) return window.api.utils.logMessage("error", `[component] [ListMods] Error downloading mod: ${error}`)
-                                    window.api.utils.logMessage("info", `[component] [ListMods] Downloaded mod ${mv.mainfile} on ${path}`)
-                                    countMods()
-                                  }
-                                )
+                              startDownload(
+                                t("features.mods.modTaskName", { name: modToInstall.name, version: `v${mv.modversion}`, installation: installation.name }),
+                                t("features.mods.modDownloadDesc", { name: modToInstall.name, version: `v${mv.modversion}`, installation: installation.name }),
+                                `https://mods.vintagestory.at/${mv.mainfile}`,
+                                installPath,
+                                (status, path, error) => {
+                                  if (!status) return window.api.utils.logMessage("error", `[component] [ListMods] Error downloading mod: ${error}`)
+                                  window.api.utils.logMessage("info", `[component] [ListMods] Downloaded mod ${mv.mainfile} on ${path}`)
+                                  countMods()
+                                }
+                              )
 
-                                setModToInstall(undefined)
-                                setModVersions([])
-                              }}
-                              className="w-7 h-7 bg-green-700 rounded flex items-center justify-center"
-                              title={t("features.installations.installOnInstallation")}
-                            >
-                              <PiDownloadFill />
-                            </button>
-                          </TableCell>
-                        </TableBodyRow>
-                      ))}
-                    </TableBody>
-                  </TableWrapper>
-                </DialogPanel>
-              </motion.div>
+                              setModToInstall(undefined)
+                              setModVersions([])
+                            }}
+                            className="w-7 h-7 bg-green-700 rounded flex items-center justify-center"
+                            title={t("features.installations.installOnInstallation")}
+                          >
+                            <PiDownloadFill />
+                          </button>
+                        </TableCell>
+                      </TableBodyRow>
+                    ))}
+                  </TableBody>
+                </TableWrapper>
+              </DialogPanel>
             </Dialog>
           )}
         </AnimatePresence>
