@@ -1,3 +1,14 @@
+/*
+! IMPORTANT NOTES
+
+I've made this page in just a few hours. It's not optimiced at all and it'll need a rewrite when I have time.
+
+If you're reading this, don't get examples from this page please xD
+
+Just check out the nested ternary operators on the install/update buttons... for the sake of god,
+what am I doing just to release this update!? This makes no sense xD
+*/
+
 import { useState, useEffect, useRef } from "react"
 import axios from "axios"
 import { useTranslation } from "react-i18next"
@@ -13,7 +24,8 @@ import {
   PiCheckBold,
   PiArrowDownBold,
   PiFireFill,
-  PiUserBold
+  PiUserBold,
+  PiArrowClockwiseFill
   // PiNetworkFill
 } from "react-icons/pi"
 import { FiLoader } from "react-icons/fi"
@@ -71,8 +83,10 @@ function ListMods(): JSX.Element {
 
   const [searching, setSearching] = useState(true)
 
-  const [modToInstall, setModToInstall] = useState<{ name: string; modid: string } | undefined>(undefined)
-  const [modVersions, setModVersions] = useState<{ releaseid: string; mainfile: string; downloads: string; tags: string[]; modidstr: string; modversion: string; created: string }[]>([])
+  const [modToInstall, setModToInstall] = useState<{ name: string; modid: string } | null>(null)
+  const [modVersions, setModVersions] = useState<DownloadableModVersion[]>([])
+
+  const [installationMods, setInstallationMods] = useState<InstalledModType[]>([])
 
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
   const scrollRef = useRef<HTMLDivElement | null>(null)
@@ -129,8 +143,21 @@ function ListMods(): JSX.Element {
 
   useEffect(() => {
     if (!modToInstall) return
-    queryMod()
+    queryModVersions()
   }, [modToInstall])
+
+  useEffect(() => {
+    ;(async (): Promise<void> => {
+      const mods = await getMods()
+      setInstallationMods(mods)
+    })()
+  }, [config.lastUsedInstallation])
+
+  async function getMods(): Promise<InstalledModType[]> {
+    const path = await window.api.pathsManager.formatPath([config.installations.find((i) => i.id === config.lastUsedInstallation)!.path, "Mods"])
+    const mods = await window.api.modsManager.getInstalledMods(path)
+    return mods
+  }
 
   async function queryAuthors(): Promise<void> {
     try {
@@ -168,7 +195,7 @@ function ListMods(): JSX.Element {
     }
   }
 
-  async function queryMod(): Promise<void> {
+  async function queryModVersions(): Promise<void> {
     try {
       const res = await axios(`/moddbapi/mod/${modToInstall?.modid}`)
       setModVersions(res.data["mod"]["releases"])
@@ -403,7 +430,7 @@ function ListMods(): JSX.Element {
               exit={{ opacity: 0, scale: 0 }}
               open={modToInstall !== undefined}
               onClose={() => {
-                setModToInstall(undefined)
+                setModToInstall(null)
                 setModVersions([])
               }}
               className="w-full h-full absolute top-0 left-0 z-[200] flex justify-center items-center backdrop-blur-sm"
@@ -430,17 +457,15 @@ function ListMods(): JSX.Element {
                       </TableBodyRow>
                     )}
                     {modVersions.map((mv) => (
-                      <TableBodyRow key={mv.releaseid}>
+                      <TableBodyRow key={mv.releaseid} disabled={installationMods.find((im) => mv.modidstr === im.modid)?.version === mv.modversion}>
                         <TableCell className="w-2/12">{mv.modversion}</TableCell>
                         <TableCell className="w-2/12">{new Date(mv.created).toLocaleDateString("es")}</TableCell>
                         <TableCell className="w-7/12 overflow-hidden whitespace-nowrap text-ellipsis">
                           <input type="text" value={mv.tags.join(", ")} readOnly className="w-full bg-transparent outline-none text-center" />
                         </TableCell>
                         <TableCell className="w-1/12 flex gap-2 items-center justify-center">
-                          {/* <button className="w-7 h-7 bg-green-700 rounded flex items-center justify-center" title={t("features.servers.installOnServer")}>
-                                <PiNetworkFill />
-                              </button> */}
                           <button
+                            disabled={installationMods.find((im) => mv.modidstr === im.modid)?.version === mv.modversion}
                             onClick={async (e) => {
                               e.preventDefault()
                               e.stopPropagation()
@@ -451,25 +476,45 @@ function ListMods(): JSX.Element {
 
                               const installPath = await window.api.pathsManager.formatPath([installation.path, "Mods"])
 
+                              const oldMod = installationMods.find((im) => mv.modidstr === im.modid)
+                              if (oldMod) await window.api.pathsManager.deletePath(oldMod.path)
+
                               startDownload(
                                 t("features.mods.modTaskName", { name: modToInstall.name, version: `v${mv.modversion}`, installation: installation.name }),
                                 t("features.mods.modDownloadDesc", { name: modToInstall.name, version: `v${mv.modversion}`, installation: installation.name }),
                                 `https://mods.vintagestory.at/${mv.mainfile}`,
                                 installPath,
-                                (status, path, error) => {
+                                async (status, path, error) => {
                                   if (!status) return window.api.utils.logMessage("error", `[component] [ListMods] Error downloading mod: ${error}`)
                                   window.api.utils.logMessage("info", `[component] [ListMods] Downloaded mod ${mv.mainfile} on ${path}`)
                                   countMods()
+                                  setInstallationMods(await getMods())
                                 }
                               )
 
-                              setModToInstall(undefined)
+                              setModToInstall(null)
                               setModVersions([])
                             }}
-                            className="w-7 h-7 bg-green-700 rounded flex items-center justify-center"
-                            title={t("features.installations.installOnInstallation")}
+                            className={clsx(
+                              "w-7 h-7 rounded flex items-center justify-center",
+                              config.installations.some((i) => i.id === config.lastUsedInstallation) &&
+                                mv.tags.includes(`v${config.installations.find((i) => i.id === config.lastUsedInstallation)!.version}`)
+                                ? "bg-green-700"
+                                : mv.tags.some((mvt) =>
+                                      mvt.startsWith(
+                                        `v${config.installations
+                                          .find((i) => i.id === config.lastUsedInstallation)!
+                                          .version.split(".")
+                                          .slice(0, 2)
+                                          .join(".")}`
+                                      )
+                                    )
+                                  ? "bg-yellow-600"
+                                  : "bg-red-700"
+                            )}
+                            title={installationMods.some((im) => mv.modidstr === im.modid) ? t("features.installations.updateOnInstallation") : t("features.installations.installOnInstallation")}
                           >
-                            <PiDownloadFill />
+                            {installationMods.some((im) => mv.modidstr === im.modid) ? <PiArrowClockwiseFill /> : <PiDownloadFill />}
                           </button>
                         </TableCell>
                       </TableBodyRow>

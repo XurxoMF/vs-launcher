@@ -45,7 +45,17 @@ declare global {
     authors?: string[]
     contributors?: string[]
     type?: string
-  }
+  } & Record<string, unknown>
+
+  type DownloadableModVersion = {
+    releaseid: string
+    mainfile: string
+    downloads: string
+    tags: string[]
+    modidstr: string
+    modversion: string
+    created: string
+  } & Record<string, unknown>
 
   type DownloadableGameVersionType = {
     version: string

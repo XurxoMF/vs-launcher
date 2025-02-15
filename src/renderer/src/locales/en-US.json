@@ -44,7 +44,8 @@
     "follows": "Follows",
     "actions": "Actions",
     "authors": "Authors",
-    "contributors": "Contributors"
+    "contributors": "Contributors",
+    "update": "Update"
   },
   "features": {
     "generic": {
@@ -122,7 +123,8 @@
       "editWhilePlaying": "You can't edit an installation while playing it!",
       "cantDeleteWhileinUse": "You can't delete this installation while it's in use!",
       "restoreBackup": "Restore installation backup",
-      "installOnInstallation": "Install on Installation"
+      "installOnInstallation": "Install on Installation",
+      "updateOnInstallation": "Update on Installation"
     },
     "mods": {
       "modsCount": "{{count}} mods",
@@ -148,7 +150,9 @@
       "errorDeletingMod": "An error has ocurred deleting the mod!",
       "deleteMod": "Delete mod",
       "areYouSureDelete": "Are you sure you want to delete this mod?",
-      "deletingNotReversible": "Deletion is not reversible so you'll not be able to restore the mods but you can always download it again!"
+      "deletingNotReversible": "Deletion is not reversible so you'll not be able to restore the mods but you can always download it again!",
+      "noVersionsFound": "No versions of that mod were found!",
+      "updateMod": "Update mod"
     },
     "config": {
       "title": "Settings",
