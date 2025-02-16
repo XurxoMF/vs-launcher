@@ -65,7 +65,8 @@ function AddInslallation(): JSX.Element {
         backupsLimit,
         backupsAuto,
         backups: [],
-        mods: []
+        mods: [],
+        _modsCount: 0
       }
 
       configDispatch({ type: CONFIG_ACTIONS.ADD_INSTALLATION, payload: newInstallation })
@@ -170,7 +171,7 @@ function AddInslallation(): JSX.Element {
         <FormGroupWrapper title={t("generic.backups")}>
           <FromGroup>
             <FormHead>
-              <FormLabel content={t("generic.ammount")} />
+              <FormLabel content={t("generic.amount")} />
             </FormHead>
 
             <FormBody>

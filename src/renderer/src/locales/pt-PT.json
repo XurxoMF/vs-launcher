@@ -25,11 +25,11 @@
     "basics": "Básico",
     "advanced": "Avançado",
     "minMaxAmmount": "Número entre {{min}} e {{max}}",
-    "ammount": "Quantidade",
     "backup": "Backup",
     "edit": "Editar",
     "donate": "Doar",
-    "restore": "Restaurar"
+    "restore": "Restaurar",
+    "amount": "Quantidade"
   },
   "features": {
     "generic": {
@@ -125,7 +125,6 @@
       "backupsFolder": "Backups"
     },
     "backups": {
-      "errorDeletingOldBackup": "Ocorreu um erro ao eliminar o backup antigo!",
       "backupInProgress": "Já existe um backup em progresso!",
       "backupWhilePlaying": "Não pode fazer um backup enquanto estiver a jogar a instalação!",
       "automaticBackups": "Automático?",

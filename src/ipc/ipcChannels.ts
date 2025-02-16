@@ -38,5 +38,8 @@ export const IPC_CHANNELS = {
   },
   GAME_MANAGER: {
     EXECUTE_GAME: "execute-game"
+  },
+  NET_MANAGER: {
+    QUERY_URL: "query-url"
   }
 }

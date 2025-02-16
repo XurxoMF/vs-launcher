@@ -21,13 +21,13 @@ import ListInslallations from "@renderer/features/installations/pages/ListInstal
 import AddInslallation from "@renderer/features/installations/pages/AddInstallation"
 import EditInslallation from "@renderer/features/installations/pages/EditInstallation"
 import RestoreInstallationBackup from "@renderer/features/installations/pages/RestoreInstallationBackup"
+import ManageInstallationMods from "@renderer/features/installations/pages/ManageMods"
 
 import VersionsLayout from "@renderer/features/versions/pages/VersionsLayout"
 import ListVersions from "@renderer/features/versions/pages/ListVersions"
 import AddVersion from "@renderer/features/versions/pages/AddVersion"
 import LookForAVersion from "@renderer/features/versions/pages/LookForAVersion"
 
-import ModsLayout from "@renderer/features/mods/pages/ModsLayout"
 import ListMods from "@renderer/features/mods/pages/ListMods"
 
 import ConfigPage from "@renderer/features/config/pages/ConfigPage"
@@ -58,15 +58,14 @@ function App(): JSX.Element {
                     <Route path="add" element={<AddInslallation />} />
                     <Route path="edit/:id" element={<EditInslallation />} />
                     <Route path="backups/:id" element={<RestoreInstallationBackup />} />
+                    <Route path="mods/:id" element={<ManageInstallationMods />} />
                   </Route>
                   <Route path="/versions" element={<VersionsLayout />}>
                     <Route index element={<ListVersions />} />
                     <Route path="add" element={<AddVersion />} />
                     <Route path="look-for-a-version" element={<LookForAVersion />} />
                   </Route>
-                  <Route path="/mods" element={<ModsLayout />}>
-                    <Route index element={<ListMods />} />
-                  </Route>
+                  <Route path="/mods" element={<ListMods />} />
                   <Route path="/config" element={<ConfigPage />} />
                 </Routes>
               </main>
@@ -98,6 +97,7 @@ function AppInfo(): JSX.Element {
         <MiniLinks to="https://github.com/XurxoMF/vs-launcher/issues" text={t("generic.issues")} />
         <MiniLinks to="https://vsldocs.xurxomf.xyz/" text={t("generic.guides")} />
         <MiniLinks to="https://github.com/XurxoMF/vs-launcher" text={t("generic.source")} />
+        <MiniLinks to="https://discord.gg/RtWpYBRRUz" text="Discord" />
         <MiniLinks to="https://ko-fi.com/xurxomf" text={t("generic.donate")} />
       </div>
       <p>VS Launcher - v{version}</p>

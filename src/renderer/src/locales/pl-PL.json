@@ -42,7 +42,6 @@
       "deleteBackup": "Usuń kopię zapasową",
       "deletingNotReversible": "Usunięcie kopii zapasowej jest procesem NIEODWRACALNYM! Wszystkie dane świata i informacje z tej kopii przepadną.",
       "errorDeletingBackup": "W trakcie usuwania kopii zapasowej wystąpił błąd!",
-      "errorDeletingOldBackup": "W trakcie usuwania starej kopii zapasowej wystąpił błąd!",
       "errorMakingBackup": "Podczas tworzenia kopii zapasowej wystąpił błąd!",
       "extractTaskName": "Przywracanie kopii {{name}}",
       "extractingBackupDescription": "Trwa przywracanie kopii zapasowej {{name}}",
@@ -148,7 +147,6 @@
   "generic": {
     "add": "Dodaj",
     "advanced": "Zaawansowane",
-    "ammount": "Ilość",
     "backup": "Kopia zapasowa",
     "backups": "Kopie zapasowe",
     "basics": "Podstawy",
@@ -175,7 +173,8 @@
     "source": "Źródło",
     "type": "Typ",
     "uninstall": "Odinstaluj",
-    "version": "Wersja"
+    "version": "Wersja",
+    "amount": "Ilość"
   },
   "notifications": {
     "body": {

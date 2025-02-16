@@ -25,11 +25,27 @@
     "basics": "Basics",
     "advanced": "Advanced",
     "minMaxAmmount": "Number between {{min}} and {{max}}",
-    "ammount": "Ammount",
     "backup": "Backup",
     "edit": "Edit",
     "donate": "Donations",
-    "restore": "Restore"
+    "restore": "Restore",
+    "text": "Text",
+    "author": "Author",
+    "everyone": "Everyone",
+    "versions": "Versions",
+    "clearFilter": "Clear filters",
+    "order": "Order",
+    "trending": "Trending",
+    "downloads": "Downloads",
+    "comments": "Comments",
+    "updated": "Updated",
+    "created": "Created",
+    "follows": "Follows",
+    "actions": "Actions",
+    "authors": "Authors",
+    "contributors": "Contributors",
+    "update": "Update",
+    "amount": "Amount"
   },
   "features": {
     "generic": {
@@ -96,7 +112,7 @@
       "listTitle": "Installations list",
       "deleteData": "Delete data",
       "installationSuccessfullyDeleted": "Installation deleted succesfully!",
-      "errorDeletingInstallation": "An error has ocurred while deleting installation!",
+      "errorDeletingInstallation": "An error has ocurred deleting the installation!",
       "installationFolder": "Installation folder",
       "labelStartParams": "Start params",
       "startParams": "Start params",
@@ -106,7 +122,9 @@
       "gameAlreadyRunning": "Already playing that installation!",
       "editWhilePlaying": "You can't edit an installation while playing it!",
       "cantDeleteWhileinUse": "You can't delete this installation while it's in use!",
-      "restoreBackup": "Restore installation backup"
+      "restoreBackup": "Restore installation backup",
+      "installOnInstallation": "Install on Installation",
+      "updateOnInstallation": "Update on Installation"
     },
     "mods": {
       "modsCount": "{{count}} mods",
@@ -115,7 +133,26 @@
       "modsCount_two": "{{count}} mods",
       "modsCount_few": "{{count}} mods",
       "modsCount_many": "{{count}} mods",
-      "modsCount_other": "{{count}} mods"
+      "modsCount_other": "{{count}} mods",
+      "listTitle": "Mods list",
+      "searching": "Searching mods...",
+      "noMatchingFilters": "There are no mods that match your filters!",
+      "installMod": "Install mod",
+      "modTaskName": "{{name}} mod {{version}} on {{installation}}",
+      "modDownloadDesc": "Downloading {{name}} mod {{version}} on {{installation}}!",
+      "installationPopupDesc": "List of versions of the {{modName}} mod",
+      "manageMods": "Manage mods",
+      "noModsInstalled": "You've no mods installed here! You can install some on the <link /> page!",
+      "noModsFound": "No mods found!",
+      "cantDeleteWhileinUse": "You can't delete a mod while it's in use!",
+      "modSuccessfullyDeleted": "Mod deleted succesfully!",
+      "noModFound": "Mod not found!",
+      "errorDeletingMod": "An error has ocurred deleting the mod!",
+      "deleteMod": "Delete mod",
+      "areYouSureDelete": "Are you sure you want to delete this mod?",
+      "deletingNotReversible": "Deletion is not reversible so you'll not be able to restore the mods but you can always download it again!",
+      "noVersionsFound": "No versions of that mod were found!",
+      "updateMod": "Update mod"
     },
     "config": {
       "title": "Settings",
@@ -125,7 +162,6 @@
       "backupsFolder": "Backups"
     },
     "backups": {
-      "errorDeletingOldBackup": "There was an error while deleting an old backup!",
       "backupInProgress": "There is a backup already in progress!",
       "backupWhilePlaying": "You can't make a backup while playing the installation!",
       "automaticBackups": "Automatic?",
@@ -148,6 +184,9 @@
       "areYouSureDelete": "Are you sure you want to delete this backup?",
       "deletingNotReversible": "Deletion is not reversible so you'll not be able to restore your worlds, data and other info using this backup anymore.",
       "errorMakingBackup": "There was an error making a backup!"
+    },
+    "servers": {
+      "installOnServer": "Install on server"
     }
   },
   "components": {

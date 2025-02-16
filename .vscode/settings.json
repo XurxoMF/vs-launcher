@@ -12,5 +12,13 @@
     "src/renderer/src/locales"
   ],
   "i18n-ally.keystyle": "nested",
-  "i18n-ally.sourceLanguage": "en-US"
+  "i18n-ally.sourceLanguage": "en-US",
+  "i18n-ally.keysInUse": [
+    "notifications.titles.warning",
+    "components.tasksMenu.downloading",
+    "components.tasksMenu.extracting",
+    "features.generic.notImplemented",
+    "features.generic.notImplementedDesc",
+    "components.tasksMenu.compressing"
+  ]
 }

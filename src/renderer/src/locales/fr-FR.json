@@ -20,7 +20,8 @@
     "version": "Version",
     "releaseDate": "Date de sortie",
     "type": "Type",
-    "install": "Installer"
+    "install": "Installer",
+    "text": ""
   },
   "features": {
     "generic": {
