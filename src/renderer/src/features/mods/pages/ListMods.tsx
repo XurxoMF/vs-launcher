@@ -26,7 +26,6 @@ import {
   PiFireFill,
   PiUserBold,
   PiArrowClockwiseFill
-  // PiNetworkFill
 } from "react-icons/pi"
 import { FiLoader } from "react-icons/fi"
 import { AnimatePresence, motion } from "motion/react"
@@ -67,10 +66,10 @@ function ListMods(): JSX.Element {
   const { startDownload } = useTaskContext()
   const countMods = useCountMods()
 
-  const [modsList, setModsList] = useState([])
-  const [authorsList, setAuthorsList] = useState([])
+  const [modsList, setModsList] = useState<DownloadableModOnList[]>([])
+  const [authorsList, setAuthorsList] = useState<DownloadableModAuthor[]>([])
   const [authorsQuery, setAuthorsQuery] = useState("")
-  const [gameVersionsList, setGameVersionsList] = useState<{ tagid: string; name: string; color: string }[]>([])
+  const [gameVersionsList, setGameVersionsList] = useState<DownloadableModGameVersion[]>([])
 
   const [visibleMods, setVisibleMods] = useState(20)
 
@@ -381,7 +380,7 @@ function ListMods(): JSX.Element {
                       className="w-full h-full flex flex-col rounded bg-zinc-800 shadow shadow-zinc-900 group-hover:shadow-lg group-hover:shadow-zinc-900 absolute group-hover:w-64 group-hover:h-72 group-hover:-translate-y-4 group-hover:-translate-x-2 z-0 group-hover:z-20 duration-100 overflow-hidden"
                     >
                       <img
-                        src={mod["logo"] ? `/moddbfiles/${mod["logo"]}` : "/moddbfiles/web/img/mod-default.png"}
+                        src={mod["logo"] ? `${mod["logo"]}` : "/moddbfiles/web/img/mod-default.png"}
                         alt={mod["name"]}
                         className="w-full h-32 aspect-video object-cover object-center bg-zinc-850 rounded"
                       />
@@ -482,7 +481,7 @@ function ListMods(): JSX.Element {
                               startDownload(
                                 t("features.mods.modTaskName", { name: modToInstall.name, version: `v${mv.modversion}`, installation: installation.name }),
                                 t("features.mods.modDownloadDesc", { name: modToInstall.name, version: `v${mv.modversion}`, installation: installation.name }),
-                                `https://mods.vintagestory.at/${mv.mainfile}`,
+                                `https://mods.vintagestory.at/download/${mv.fileid}/${mv.filename}`,
                                 installPath,
                                 async (status, path, error) => {
                                   if (!status) return window.api.utils.logMessage("error", `[component] [ListMods] Error downloading mod: ${error}`)
