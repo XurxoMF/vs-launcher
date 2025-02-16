@@ -23,6 +23,12 @@ On the releases page, the first version is always the latest one. There you'll s
 
 <div align="left"><img src="../../.gitbook/assets/imagen (1).png" alt=""></div>
 
+{% hint style="warning" %}
+`Flatpak` option is NOT packaged with .NET so if you're using an immutable distro Vintage Story will not work!
+
+I'm trying to add .NET to the `.flatpak` but idk if I'll be able to.
+{% endhint %}
+
 {% hint style="info" %}
 If you want you can use the `DEB` or `Flatpak` options but remember that those option have no automatic updates.
 
