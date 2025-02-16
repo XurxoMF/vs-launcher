@@ -171,7 +171,7 @@ function AddInslallation(): JSX.Element {
         <FormGroupWrapper title={t("generic.backups")}>
           <FromGroup>
             <FormHead>
-              <FormLabel content={t("generic.ammount")} />
+              <FormLabel content={t("generic.amount")} />
             </FormHead>
 
             <FormBody>

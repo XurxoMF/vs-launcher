@@ -25,7 +25,6 @@
     "basics": "Basics",
     "advanced": "Advanced",
     "minMaxAmmount": "Number between {{min}} and {{max}}",
-    "ammount": "Ammount",
     "backup": "Backup",
     "edit": "Edit",
     "donate": "Donations",
@@ -45,7 +44,8 @@
     "actions": "Actions",
     "authors": "Authors",
     "contributors": "Contributors",
-    "update": "Update"
+    "update": "Update",
+    "amount": "Amount"
   },
   "features": {
     "generic": {

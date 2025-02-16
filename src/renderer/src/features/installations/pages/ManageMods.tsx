@@ -15,7 +15,6 @@ import { Trans, useTranslation } from "react-i18next"
 import { Button, Description, Dialog, DialogPanel, DialogTitle } from "@headlessui/react"
 import { PiArrowClockwiseFill, PiTrashFill } from "react-icons/pi"
 import { AnimatePresence, motion } from "motion/react"
-import axios from "axios"
 import clsx from "clsx"
 
 import { useConfigContext } from "@renderer/features/config/contexts/ConfigContext"
@@ -69,8 +68,9 @@ function ListMods(): JSX.Element {
 
   async function queryModVersions(modid: string): Promise<DownloadableModVersion[] | undefined> {
     try {
-      const res = await axios(`/moddbapi/mod/${modid}`)
-      return res.data["mod"]["releases"]
+      const res = await window.api.netManager.queryURL(`https://mods.vintagestory.at/api/mod/${modid}`)
+      const data = await JSON.parse(res)
+      return data["mod"]["releases"]
     } catch (err) {
       window.api.utils.logMessage("error", `[component] [ListMods] Error fetching mod versions: ${err}`)
       return

@@ -68,7 +68,9 @@
       "startParams": "Parámetros de inicio",
       "startParamsDesc": "Lista de todos los parámetros de inicio disponibles: <link />",
       "startParamsLink": "Wiki de Vintage Story",
-      "restoreBackup": "Restaurar copia de seguridad de la instalación"
+      "restoreBackup": "Restaurar copia de seguridad de la instalación",
+      "installOnInstallation": "Instalar en la Instalación",
+      "updateOnInstallation": "Actualizar en la Instalación"
     },
     "mods": {
       "modsCount": "{{count}} mods",
@@ -80,7 +82,23 @@
       "modsCount_zero": "{{count}} mods",
       "listTitle": "Lista de mods",
       "noMatchingFilters": "¡No hay mods que coincidan con tus filtros!",
-      "searching": "Buscando mods..."
+      "searching": "Buscando mods...",
+      "areYouSureDelete": "¿Estás seguro de que quieres eliminar este mod?",
+      "cantDeleteWhileinUse": "¡No puedes eliminar un mod mientras está en uso!",
+      "deleteMod": "Eliminar mod",
+      "deletingNotReversible": "¡La eliminación no es reversible, por lo que no podrás restaurar los mods, pero siempre puedes descargarlos nuevamente!",
+      "errorDeletingMod": "¡Ha ocurrido un error al eliminar el mod!",
+      "installMod": "Instalar mod",
+      "installationPopupDesc": "Lista de versiones del mod {{modname}}",
+      "manageMods": "Administrar mods",
+      "modDownloadDesc": "Descargando el mod {{name}} {{version}} en {{installation}}!",
+      "modSuccessfullyDeleted": "¡Mod eliminado con éxito!",
+      "modTaskName": "mod {{name}} {{version}} en {{installation}}",
+      "noModFound": "¡Mod no encontrado!",
+      "noModsFound": "¡No se encontraron mods!",
+      "noModsInstalled": "¡No tienes mods instalados aquí! ¡Puedes instalar algunos en la página <link />!",
+      "noVersionsFound": "¡No se encontraron versiones de ese mod!",
+      "updateMod": "Actualizar mod"
     },
     "versions": {
       "areYouSureUninstall": "¿Estás seguro de que quieres desinstalar esta versión?",
@@ -144,8 +162,11 @@
       "cantDeleteWhileinUse": "¡No puedes eliminar esta copia de seguridad mientras está en uso!",
       "deleteBackup": "Eliminar copia de seguridad",
       "deletingNotReversible": "La eliminaión no es reversible por lo que no podrás restaurar tus mundos, datos y otra información usando esta copia de seguridad nunca más.",
-      "errorDeletingBackup": "¡Ha ocurrido un erro eliminando la copia de seguridad!",
+      "errorDeletingBackup": "¡Ha ocurrido un error eliminando la copia de seguridad!",
       "errorMakingBackup": "¡Ha ocurrido un error mientras se hacía una copia de seguridad!"
+    },
+    "servers": {
+      "installOnServer": "Instalar en el servidor"
     }
   },
   "generic": {
@@ -171,7 +192,6 @@
     "uninstall": "Desinstalar",
     "version": "Versión",
     "advanced": "Avanzado",
-    "ammount": "Cantidad",
     "backup": "Hacer copia de seguridad",
     "backups": "Copias de seguridad",
     "basics": "Básicos",
@@ -190,7 +210,12 @@
     "text": "Texto",
     "trending": "Tendencia",
     "updated": "Actualización",
-    "versions": "Versiones"
+    "versions": "Versiones",
+    "amount": "Cantidad",
+    "actions": "Acciones",
+    "authors": "Autores",
+    "contributors": "Colaboradores",
+    "update": "Actualizar"
   },
   "notifications": {
     "body": {

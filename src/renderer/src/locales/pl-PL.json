@@ -147,7 +147,6 @@
   "generic": {
     "add": "Dodaj",
     "advanced": "Zaawansowane",
-    "ammount": "Ilość",
     "backup": "Kopia zapasowa",
     "backups": "Kopie zapasowe",
     "basics": "Podstawy",
@@ -174,7 +173,8 @@
     "source": "Źródło",
     "type": "Typ",
     "uninstall": "Odinstaluj",
-    "version": "Wersja"
+    "version": "Wersja",
+    "amount": "Ilość"
   },
   "notifications": {
     "body": {

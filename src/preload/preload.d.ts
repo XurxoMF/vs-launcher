@@ -47,6 +47,9 @@ declare global {
     gameManager: {
       executeGame: (version: GameVersionType, installation: InstallationType) => Promise<boolean>
     }
+    netManager: {
+      queryURL: (url: string) => Promise<string>
+    }
   }
 
   interface Window {

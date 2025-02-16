@@ -10,7 +10,6 @@ what am I doing just to release this update!? This makes no sense xD
 */
 
 import { useState, useEffect, useRef } from "react"
-import axios from "axios"
 import { useTranslation } from "react-i18next"
 import {
   PiDownloadFill,
@@ -160,8 +159,9 @@ function ListMods(): JSX.Element {
 
   async function queryAuthors(): Promise<void> {
     try {
-      const res = await axios("/moddbapi/authors")
-      setAuthorsList(res.data["authors"])
+      const res = await window.api.netManager.queryURL("https://mods.vintagestory.at/api/authors")
+      const data = await JSON.parse(res)
+      setAuthorsList(data["authors"])
     } catch (err) {
       window.api.utils.logMessage("error", `[component] [ListMods] Error fetching authors: ${err}`)
     }
@@ -169,8 +169,9 @@ function ListMods(): JSX.Element {
 
   async function queryGameVersions(): Promise<void> {
     try {
-      const res = await axios("/moddbapi/gameversions")
-      setGameVersionsList(res.data["gameversions"])
+      const res = await window.api.netManager.queryURL("https://mods.vintagestory.at/api/gameversions")
+      const data = await JSON.parse(res)
+      setGameVersionsList(data["gameversions"])
     } catch (err) {
       window.api.utils.logMessage("error", `[component] [ListMods] Error fetching game versions: ${err}`)
     }
@@ -180,15 +181,18 @@ function ListMods(): JSX.Element {
     try {
       setSearching(true)
 
-      let filters = `?`
-      if (textFilter.length > 1) filters += `&text=${textFilter}`
-      if (authorFilter.name.length > 1) filters += `&author=${authorFilter.userid}`
-      if (versionsFilter.length > 0) filters += versionsFilter.map((version) => `&gameversions[]=${version.tagid}`).join("")
-      filters += `&orderby=${orderBy}&orderdirection=${orderByOrder}`
+      const filters: string[] = []
 
-      const res = await axios(`/moddbapi/mods${filters}`)
+      if (textFilter.length > 1) filters.push(`text=${textFilter}`)
+      if (authorFilter.name.length > 1) filters.push(`author=${authorFilter.userid}`)
+      if (versionsFilter.length > 0) versionsFilter.map((version) => filters.push(`gameversions[]=${version.tagid}`))
+      filters.push(`orderby=${orderBy}`)
+      filters.push(`orderdirection=${orderByOrder}`)
+
+      const res = await window.api.netManager.queryURL(`https://mods.vintagestory.at/api/mods${filters.length > 0 && `?${filters.join("&")}`}`)
+      const data = await JSON.parse(res)
       setSearching(false)
-      setModsList(res.data["mods"])
+      setModsList(data["mods"])
     } catch (err) {
       window.api.utils.logMessage("error", `[component] [ListMods] Error fetching mods: ${err}`)
     }
@@ -196,8 +200,9 @@ function ListMods(): JSX.Element {
 
   async function queryModVersions(): Promise<void> {
     try {
-      const res = await axios(`/moddbapi/mod/${modToInstall?.modid}`)
-      setModVersions(res.data["mod"]["releases"])
+      const res = await window.api.netManager.queryURL(`https://mods.vintagestory.at/api/mod/${modToInstall?.modid}`)
+      const data = await JSON.parse(res)
+      setModVersions(data["mod"]["releases"])
     } catch (err) {
       window.api.utils.logMessage("error", `[component] [ListMods] Error fetching mod versions: ${err}`)
     }
@@ -380,7 +385,7 @@ function ListMods(): JSX.Element {
                       className="w-full h-full flex flex-col rounded bg-zinc-800 shadow shadow-zinc-900 group-hover:shadow-lg group-hover:shadow-zinc-900 absolute group-hover:w-64 group-hover:h-72 group-hover:-translate-y-4 group-hover:-translate-x-2 z-0 group-hover:z-20 duration-100 overflow-hidden"
                     >
                       <img
-                        src={mod["logo"] ? `${mod["logo"]}` : "/moddbfiles/web/img/mod-default.png"}
+                        src={mod["logo"] ? `${mod["logo"]}` : "https://mods.vintagestory.at/web/img/mod-default.png"}
                         alt={mod["name"]}
                         className="w-full h-32 aspect-video object-cover object-center bg-zinc-850 rounded"
                       />

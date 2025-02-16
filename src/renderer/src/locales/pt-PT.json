@@ -25,11 +25,11 @@
     "basics": "Básico",
     "advanced": "Avançado",
     "minMaxAmmount": "Número entre {{min}} e {{max}}",
-    "ammount": "Quantidade",
     "backup": "Backup",
     "edit": "Editar",
     "donate": "Doar",
-    "restore": "Restaurar"
+    "restore": "Restaurar",
+    "amount": "Quantidade"
   },
   "features": {
     "generic": {
