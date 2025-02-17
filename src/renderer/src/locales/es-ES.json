@@ -89,7 +89,7 @@
       "deletingNotReversible": "¡La eliminación no es reversible, por lo que no podrás restaurar los mods, pero siempre puedes descargarlos nuevamente!",
       "errorDeletingMod": "¡Ha ocurrido un error al eliminar el mod!",
       "installMod": "Instalar mod",
-      "installationPopupDesc": "Lista de versiones del mod {{modname}}",
+      "installationPopupDesc": "Lista de versiones del mod {{modName}}",
       "manageMods": "Administrar mods",
       "modDownloadDesc": "Descargando el mod {{name}} {{version}} en {{installation}}!",
       "modSuccessfullyDeleted": "¡Mod eliminado con éxito!",

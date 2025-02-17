@@ -215,9 +215,9 @@ function ListMods(): JSX.Element {
                 <TableHead>
                   <TableHeadRow>
                     <TableCell className="w-2/12">{t("generic.version")}</TableCell>
-                    <TableCell className="w-2/12">{t("generic.releaseDate")}</TableCell>
-                    <TableCell className="w-7/12">{t("generic.versions")}</TableCell>
-                    <TableCell className="w-1/12">{t("generic.actions")}</TableCell>
+                    <TableCell className="w-3/12">{t("generic.releaseDate")}</TableCell>
+                    <TableCell className="w-5/12">{t("generic.versions")}</TableCell>
+                    <TableCell className="w-2/12">{t("generic.actions")}</TableCell>
                   </TableHeadRow>
                 </TableHead>
 
@@ -225,11 +225,11 @@ function ListMods(): JSX.Element {
                   {modToUpdate._versions?.map((version) => (
                     <TableBodyRow key={version.releaseid} disabled={version.modversion === modToUpdate.version}>
                       <TableCell className="w-2/12">{version.modversion}</TableCell>
-                      <TableCell className="w-2/12">{new Date(version.created).toLocaleDateString("es")}</TableCell>
-                      <TableCell className="w-7/12 overflow-hidden whitespace-nowrap text-ellipsis">
+                      <TableCell className="w-3/12">{new Date(version.created).toLocaleDateString("es")}</TableCell>
+                      <TableCell className="w-5/12 overflow-hidden whitespace-nowrap text-ellipsis">
                         <input type="text" value={version.tags.join(", ")} readOnly className="w-full bg-transparent outline-none text-center" />
                       </TableCell>
-                      <TableCell className="w-1/12 flex gap-2 items-center justify-center">
+                      <TableCell className="w-2/12 flex gap-2 items-center justify-center">
                         <button
                           disabled={version.modversion === modToUpdate.version}
                           onClick={async (e) => {

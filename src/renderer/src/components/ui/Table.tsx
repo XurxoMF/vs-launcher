@@ -88,5 +88,5 @@ export function TableBodyRow({
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
 export function TableCell({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
-  return <div className={clsx("shrink-0 p-1", className)}>{children}</div>
+  return <div className={clsx("shrink-0 p-1 overflow-hidden", className)}>{children}</div>
 }

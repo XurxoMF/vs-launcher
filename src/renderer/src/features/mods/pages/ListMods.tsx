@@ -460,9 +460,9 @@ function ListMods(): JSX.Element {
                   <TableHead>
                     <TableHeadRow>
                       <TableCell className="w-2/12">{t("generic.version")}</TableCell>
-                      <TableCell className="w-2/12">{t("generic.releaseDate")}</TableCell>
-                      <TableCell className="w-7/12">{t("generic.versions")}</TableCell>
-                      <TableCell className="w-1/12">{t("generic.actions")}</TableCell>
+                      <TableCell className="w-3/12">{t("generic.releaseDate")}</TableCell>
+                      <TableCell className="w-5/12">{t("generic.versions")}</TableCell>
+                      <TableCell className="w-2/12">{t("generic.actions")}</TableCell>
                     </TableHeadRow>
                   </TableHead>
 
@@ -477,11 +477,11 @@ function ListMods(): JSX.Element {
                     {modVersions.map((mv) => (
                       <TableBodyRow key={mv.releaseid} disabled={installationMods.find((im) => mv.modidstr === im.modid)?.version === mv.modversion}>
                         <TableCell className="w-2/12">{mv.modversion}</TableCell>
-                        <TableCell className="w-2/12">{new Date(mv.created).toLocaleDateString("es")}</TableCell>
-                        <TableCell className="w-7/12 overflow-hidden whitespace-nowrap text-ellipsis">
+                        <TableCell className="w-3/12">{new Date(mv.created).toLocaleDateString("es")}</TableCell>
+                        <TableCell className="w-5/12 overflow-hidden whitespace-nowrap text-ellipsis">
                           <input type="text" value={mv.tags.join(", ")} readOnly className="w-full bg-transparent outline-none text-center" />
                         </TableCell>
-                        <TableCell className="w-1/12 flex gap-2 items-center justify-center">
+                        <TableCell className="w-2/12 flex gap-2 items-center justify-center">
                           <button
                             disabled={installationMods.find((im) => mv.modidstr === im.modid)?.version === mv.modversion}
                             onClick={async (e) => {
