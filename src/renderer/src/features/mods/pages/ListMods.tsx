@@ -502,6 +502,7 @@ function ListMods(): JSX.Element {
                                 t("features.mods.modDownloadDesc", { name: modToInstall.name, version: `v${mv.modversion}`, installation: installation.name }),
                                 mv.mainfile,
                                 installPath,
+                                `${mv.modidstr}-${mv.modversion}`,
                                 async (status, path, error) => {
                                   if (!status) return window.api.utils.logMessage("error", `[component] [ListMods] Error downloading mod: ${error}`)
                                   window.api.utils.logMessage("info", `[component] [ListMods] Downloaded mod ${mv.mainfile} on ${path}`)

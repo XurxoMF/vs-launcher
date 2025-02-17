@@ -63,6 +63,8 @@ function ListMods(): JSX.Element {
         }
       })
     )
+    console.log(mods)
+
     return mods
   }
 
@@ -249,6 +251,7 @@ function ListMods(): JSX.Element {
                               t("features.mods.modDownloadDesc", { name: modToUpdate.name, version: `v${version.modversion}`, installation: installation.name }),
                               version.mainfile,
                               installPath,
+                              `${version.modidstr}-${version.modversion}`,
                               async (status, path, error) => {
                                 if (!status) return window.api.utils.logMessage("error", `[component] [ManageMods(installations)] Error downloading mod: ${error}`)
                                 window.api.utils.logMessage("info", `[component] [ManageMods(installations)] Downloaded mod ${version.mainfile} on ${path}`)

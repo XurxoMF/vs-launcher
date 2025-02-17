@@ -50,10 +50,10 @@ ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.OPEN_PATH_ON_FILE_EXPLORER, async (_ev
   return await shell.openPath(path)
 })
 
-ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.DOWNLOAD_ON_PATH, (event, id, url, outputPath) => {
+ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.DOWNLOAD_ON_PATH, (event, id, url, outputPath, fileName) => {
   return new Promise((resolve, reject) => {
     const worker = new Worker(downloadWorkerPath, {
-      workerData: { url, outputPath }
+      workerData: { url, outputPath, fileName }
     })
 
     worker.on("message", (message) => {
@@ -63,7 +63,7 @@ ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.DOWNLOAD_ON_PATH, (event, id, url, out
         logMessage("info", `[ipcMain] [download-on-path] Finished`)
         resolve(message.path)
       } else {
-        logMessage("error", `[ipcMain] [download-on-path] Error: ${message.message}`)
+        logMessage("error", `[ipcMain] [download-on-path] Error: ${JSON.stringify(message.error)}`)
       }
     })
 
@@ -94,7 +94,7 @@ ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.EXTRACT_ON_PATH, async (event, id: str
         logMessage("info", `[ipcMain] [extract-on-path] Finished`)
         resolve(true)
       } else {
-        logMessage("error", `[ipcMain] [extract-on-path] Error: ${message.message}`)
+        logMessage("error", `[ipcMain] [extract-on-path] Error: ${JSON.stringify(message)}`)
       }
     })
 
@@ -125,7 +125,7 @@ ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.COMPRESS_ON_PATH, async (event, id: st
         logMessage("info", `[ipcMain] [compress-on-path] Finished`)
         resolve(true)
       } else {
-        logMessage("error", `[ipcMain] [compress-on-path] Error: ${message.message}`)
+        logMessage("error", `[ipcMain] [compress-on-path] Error: ${JSON.stringify(message)}`)
       }
     })
 

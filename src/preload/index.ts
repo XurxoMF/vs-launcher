@@ -36,7 +36,7 @@ const api: BridgeAPI = {
     checkPathEmpty: (path: string): Promise<boolean> => ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.CHECK_PATH_EMPTY, path),
     checkPathExists: (path: string): Promise<boolean> => ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.CHECK_PATH_EXISTS, path),
     openPathOnFileExplorer: (path: string): Promise<string> => ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.OPEN_PATH_ON_FILE_EXPLORER, path),
-    downloadOnPath: (id: string, url: string, outputPath: string): Promise<string> => ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.DOWNLOAD_ON_PATH, id, url, outputPath),
+    downloadOnPath: (id: string, url: string, outputPath: string, fileName: string): Promise<string> => ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.DOWNLOAD_ON_PATH, id, url, outputPath, fileName),
     extractOnPath: (id: string, filePath: string, outputPath: string, deleteZip: boolean): Promise<boolean> =>
       ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.EXTRACT_ON_PATH, id, filePath, outputPath, deleteZip),
     compressOnPath: (id: string, inputPath: string, outputPath: string, outputFileName: string): Promise<boolean> =>

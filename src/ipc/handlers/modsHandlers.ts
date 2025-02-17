@@ -42,6 +42,7 @@ async function getModsInfo(path: string): Promise<InstalledModType[]> {
       return new Promise<void>((resolve, reject) => {
         yauzl.open(zipPath, { lazyEntries: true }, (err, zip) => {
           if (err) {
+            zip.close()
             if (err?.message.includes("End of central directory record signature not found.")) return resolve()
             return reject(err)
           }
@@ -51,7 +52,10 @@ async function getModsInfo(path: string): Promise<InstalledModType[]> {
           zip.on("entry", (entry) => {
             if (entry.fileName === "modinfo.json") {
               zip.openReadStream(entry, (err, stream) => {
-                if (err) return reject(err)
+                if (err) {
+                  zip.close()
+                  return reject(err)
+                }
 
                 let data = ""
                 stream.on("data", (chunk) => (data += chunk))
@@ -78,9 +82,12 @@ async function getModsInfo(path: string): Promise<InstalledModType[]> {
                     } else {
                       logMessage("error", `[ipcMain] [get-installed-mods] [getModsInfo] A mod could not be loaded: ${json}`)
                     }
+
                     resolve()
                   } catch (parseErr) {
                     reject(parseErr)
+                  } finally {
+                    zip.close()
                   }
                 })
               })
@@ -90,6 +97,7 @@ async function getModsInfo(path: string): Promise<InstalledModType[]> {
           })
 
           zip.once("end", () => {
+            zip.close()
             resolve()
           })
         })
@@ -109,14 +117,21 @@ async function addImagesToMods(modsInfo: InstalledModType[]): Promise<InstalledM
     mods.map(async (iMod) => {
       await new Promise<void>((resolve, reject) => {
         yauzl.open(iMod.path, { lazyEntries: true }, (err, zip) => {
-          if (err) return reject(err)
+          if (err) {
+            zip.close()
+            if (err?.message.includes("End of central directory record signature not found.")) return resolve()
+            return reject(err)
+          }
 
           zip.readEntry()
 
           zip.on("entry", (entry) => {
             if (entry.fileName === "modicon.png") {
               zip.openReadStream(entry, (err, stream) => {
-                if (err) return reject(err)
+                if (err) {
+                  zip.close()
+                  return reject(err)
+                }
 
                 const chunks: Buffer[] = []
                 stream.on("data", (chunk) => chunks.push(chunk))
@@ -137,6 +152,7 @@ async function addImagesToMods(modsInfo: InstalledModType[]): Promise<InstalledM
                   } catch (imageErr) {
                     return reject(imageErr)
                   } finally {
+                    zip.close()
                     resolve()
                   }
                 })
@@ -147,6 +163,7 @@ async function addImagesToMods(modsInfo: InstalledModType[]): Promise<InstalledM
           })
 
           zip.once("end", () => {
+            zip.close()
             resolve()
           })
         })

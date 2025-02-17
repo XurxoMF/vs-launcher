@@ -56,7 +56,7 @@ export const initialState: TaskType[] = []
 
 export interface TaskContextType {
   tasks: TaskType[]
-  startDownload(name: string, desc: string, url: string, outputPath: string, onFinish: (status: boolean, path: string, error: Error | null) => void): Promise<void>
+  startDownload(name: string, desc: string, url: string, outputPath: string, fileName: string, onFinish: (status: boolean, path: string, error: Error | null) => void): Promise<void>
   startExtract(name: string, desc: string, filePath: string, outputPath: string, deleteZip: boolean, onFinish: (status: boolean, error: Error | null) => void): Promise<void>
   startCompress(name: string, desc: string, inputPath: string, outputPath: string, backupName: string, onFinish: (status: boolean, error: Error | null) => void): Promise<void>
   removeTask(id: string): void
@@ -95,7 +95,7 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }): JSX.E
     }
   }, [])
 
-  async function startDownload(name: string, desc: string, url: string, outputPath: string, onFinish: (status: boolean, path: string, error: Error | null) => void): Promise<void> {
+  async function startDownload(name: string, desc: string, url: string, outputPath: string, fileName: string, onFinish: (status: boolean, path: string, error: Error | null) => void): Promise<void> {
     const id = uuidv4()
 
     try {
@@ -105,7 +105,7 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }): JSX.E
 
       window.api.utils.logMessage("info", `[component] [TaskManager] [${id}] Downloading ${url}...`)
       addNotification(t("notifications.titles.info"), t("notifications.body.downloading", { downloadName: name }), "info")
-      const downloadedFile = await window.api.pathsManager.downloadOnPath(id, url, outputPath)
+      const downloadedFile = await window.api.pathsManager.downloadOnPath(id, url, outputPath, fileName)
 
       window.api.utils.logMessage("info", `[component] [TaskManager] [${id}] Downloaded ${url} to ${downloadedFile}`)
       addNotification(t("notifications.titles.success"), t("notifications.body.downloaded", { downloadName: name }), "success")

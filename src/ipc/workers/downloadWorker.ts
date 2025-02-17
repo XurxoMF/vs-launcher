@@ -3,9 +3,9 @@ import axios from "axios"
 import fse from "fs-extra"
 import { join } from "path"
 
-const { url, outputPath } = workerData
+const { url, outputPath, fileName } = workerData
 
-const pathToDownload = join(outputPath, url.split("/").pop() ?? "")
+const pathToDownload = join(outputPath, `${fileName}.zip`)
 
 axios({
   url,

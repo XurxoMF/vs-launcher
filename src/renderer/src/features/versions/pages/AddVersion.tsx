@@ -71,7 +71,7 @@ function AddVersion(): JSX.Element {
     const url = os === "win32" ? version.windows : version.linux
 
     const newGameVersion: GameVersionType = {
-      version: version!.version,
+      version: version.version,
       path: folder,
       _installing: true
     }
@@ -84,6 +84,7 @@ function AddVersion(): JSX.Element {
       t("features.versions.gameVersionDownloadDesc", { version: newGameVersion.version }),
       url,
       folder,
+      version.version,
       (status, path) => {
         if (!status) return configDispatch({ type: CONFIG_ACTIONS.DELETE_GAME_VERSION, payload: { version: newGameVersion.version } })
 

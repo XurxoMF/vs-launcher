@@ -23,11 +23,36 @@ yauzl.open(filePath, { lazyEntries: true }, (err, zipfile) => {
     if (/\/$/.test(entry.fileName)) {
       fse.ensureDirSync(fullPath)
       extractedCount++
-      zipfile.readEntry() // Leer siguiente entrada
+      const progress = Math.round((extractedCount / totalFiles) * 100)
+      if (progress > lastReportedProgress) {
+        lastReportedProgress = progress
+        parentPort?.postMessage({
+          type: "progress",
+          progress
+        })
+      }
+
+      if (extractedCount === totalFiles) {
+        zipfile.close()
+
+        if (deleteZip) {
+          fse.unlink(filePath, (err) => {
+            if (err) {
+              parentPort?.postMessage({ type: "error", message: `Error deleting ZIP file: ${err.message}` })
+              return
+            }
+          })
+        }
+
+        parentPort?.postMessage({ type: "finished" })
+      } else {
+        zipfile.readEntry() // Leer siguiente entrada
+      }
     } else {
       zipfile.openReadStream(entry, (err, readStream) => {
         if (err) {
           parentPort?.postMessage({ type: "error", message: `Error opening file ${entry.fileName}: ${err.message}` })
+          zipfile.readEntry()
           return
         }
 
@@ -35,6 +60,11 @@ yauzl.open(filePath, { lazyEntries: true }, (err, zipfile) => {
         const writeStream = fse.createWriteStream(fullPath)
 
         readStream.pipe(writeStream)
+
+        writeStream.on("error", (err) => {
+          parentPort?.postMessage({ type: "error", message: `Error writing file ${entry.fileName}: ${err.message}` })
+          zipfile.readEntry()
+        })
 
         writeStream.on("finish", () => {
           extractedCount++
