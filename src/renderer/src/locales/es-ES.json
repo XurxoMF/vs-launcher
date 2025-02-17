@@ -98,7 +98,8 @@
       "noModsFound": "¡No se encontraron mods!",
       "noModsInstalled": "¡No tienes mods instalados aquí! ¡Puedes instalar algunos en la página <link />!",
       "noVersionsFound": "¡No se encontraron versiones de ese mod!",
-      "updateMod": "Actualizar mod"
+      "updateMod": "Actualizar mod",
+      "openOnTheModDB": "¡Abrir en la ModDB!"
     },
     "versions": {
       "areYouSureUninstall": "¿Estás seguro de que quieres desinstalar esta versión?",

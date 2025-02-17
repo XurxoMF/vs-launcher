@@ -376,42 +376,56 @@ function ListMods(): JSX.Element {
             ) : (
               <>
                 {modsList.slice(0, visibleMods).map((mod) => (
-                  <div key={mod["modid"]} className="group w-60 h-48 relative">
+                  <div key={mod.modid} className="group w-60 h-48 relative">
                     <button
                       onClick={(e) => {
                         e.preventDefault()
-                        setModToInstall({ modid: mod["modid"], name: mod["name"] })
+                        setModToInstall({ modid: mod.modid, name: mod.name })
                       }}
                       className="w-full h-full flex flex-col rounded bg-zinc-800 shadow shadow-zinc-900 group-hover:shadow-lg group-hover:shadow-zinc-900 absolute group-hover:w-64 group-hover:h-72 group-hover:-translate-y-4 group-hover:-translate-x-2 z-0 group-hover:z-20 duration-100 overflow-hidden"
                     >
-                      <img
-                        src={mod["logo"] ? `${mod["logo"]}` : "https://mods.vintagestory.at/web/img/mod-default.png"}
-                        alt={mod["name"]}
-                        className="w-full h-32 aspect-video object-cover object-center bg-zinc-850 rounded"
-                      />
+                      <div className="w-full relative">
+                        <img
+                          src={mod.logo ? `${mod.logo}` : "https://mods.vintagestory.at/web/img/mod-default.png"}
+                          alt={mod.name}
+                          className="w-full h-32 aspect-video object-cover object-center bg-zinc-850 rounded "
+                        />
+                        <motion.span
+                          initial={{ opacity: 0 }}
+                          whileHover={{ opacity: 1 }}
+                          onClick={(e) => {
+                            e.preventDefault()
+                            e.stopPropagation()
+                            window.api.utils.openOnBrowser(`https://mods.vintagestory.at/show/mod/${mod.assetid}`)
+                          }}
+                          className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-zinc-900/75"
+                        >
+                          {t("features.mods.openOnTheModDB")}
+                        </motion.span>
+                      </div>
                       <div className="w-full h-16 group-hover:h-40 duration-100 px-2 py-1">
                         <div className="w-full h-full text-center relative flex flex-col gap-2">
-                          <p className="shrink-0 overflow-hidden whitespace-nowrap text-ellipsis">{mod["name"]}</p>
+                          <p className="shrink-0 overflow-hidden whitespace-nowrap text-ellipsis">{mod.name}</p>
 
                           <p className="w-full text-sm overflow-hidden whitespace-nowrap text-ellipsis flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 duration-100 delay-0 group-hover:delay-100">
                             <PiUserBold />
-                            <span>{mod["author"]}</span>
+                            <span>{mod.author}</span>
                           </p>
 
-                          <p className="text-sm text-zinc-500 line-clamp-3 opacity-0 group-hover:opacity-100 duration-100 delay-0 group-hover:delay-100">{mod["summary"]}</p>
+                          <p className="text-sm text-zinc-500 line-clamp-3 opacity-0 group-hover:opacity-100 duration-100 delay-0 group-hover:delay-100">{mod.summary}</p>
 
                           <div className="w-full text-sm text-zinc-500 flex gap-2 justify-around absolute bottom-0">
                             <p className="flex items-center gap-1">
                               <PiDownloadFill />
-                              <span>{mod["downloads"]}</span>
+                              <span>{mod.downloads}</span>
                             </p>
                             <p className="flex items-center gap-1">
                               <PiStarFill />
-                              <span>{mod["follows"]}</span>
+                              <span>{mod.follows}</span>
                             </p>
                             <p className="flex items-center gap-1">
                               <PiChatCenteredDotsFill />
-                              <span>{mod["comments"]}</span>
+                              <span>{mod.comments}</span>
                             </p>
                           </div>
                         </div>
@@ -486,7 +500,7 @@ function ListMods(): JSX.Element {
                               startDownload(
                                 t("features.mods.modTaskName", { name: modToInstall.name, version: `v${mv.modversion}`, installation: installation.name }),
                                 t("features.mods.modDownloadDesc", { name: modToInstall.name, version: `v${mv.modversion}`, installation: installation.name }),
-                                `https://mods.vintagestory.at/download/${mv.fileid}/${mv.filename}`,
+                                mv.mainfile,
                                 installPath,
                                 async (status, path, error) => {
                                   if (!status) return window.api.utils.logMessage("error", `[component] [ListMods] Error downloading mod: ${error}`)

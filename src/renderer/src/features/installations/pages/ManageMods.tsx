@@ -247,7 +247,7 @@ function ListMods(): JSX.Element {
                             startDownload(
                               t("features.mods.modTaskName", { name: modToUpdate.name, version: `v${version.modversion}`, installation: installation.name }),
                               t("features.mods.modDownloadDesc", { name: modToUpdate.name, version: `v${version.modversion}`, installation: installation.name }),
-                              `https://mods.vintagestory.at/download/${version.fileid}/${version.filename}`,
+                              version.mainfile,
                               installPath,
                               async (status, path, error) => {
                                 if (!status) return window.api.utils.logMessage("error", `[component] [ManageMods(installations)] Error downloading mod: ${error}`)
