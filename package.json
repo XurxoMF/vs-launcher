@@ -1,6 +1,6 @@
 {
   "name": "vs-launcher",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Unofficial Vintage Story Launcher for... Vintage Story :)",
   "main": "./out/main/index.js",
   "author": "XurxoMF",

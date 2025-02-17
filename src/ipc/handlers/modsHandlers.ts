@@ -42,8 +42,18 @@ async function getModsInfo(path: string): Promise<InstalledModType[]> {
       return new Promise<void>((resolve, reject) => {
         yauzl.open(zipPath, { lazyEntries: true }, (err, zip) => {
           if (err) {
-            zip.close()
+            logMessage("error", `[ipcMain] [get-installed-mods] [getModsInfo] There was an error opening ${zipPath}: ${err.message}`)
+
+            const mod: InstalledModType = {
+              name: file,
+              modid: "",
+              version: "0.0.0",
+              path: zipPath
+            }
+            mods.push(mod)
+
             if (err?.message.includes("End of central directory record signature not found.")) return resolve()
+            if (err.message.includes("Invalid comment length")) return resolve()
             return reject(err)
           }
 
@@ -67,7 +77,7 @@ async function getModsInfo(path: string): Promise<InstalledModType[]> {
                     // and if I don't do this it'll break everything related to mods...
                     const mod: InstalledModType = {
                       name: json["name"] || json["Name"],
-                      modid: json["modid"] || json["Modid"] || json["ModID"] || json["modID"],
+                      modid: json["modid"] || json["Modid"] || json["ModID"] || json["modID"] || json["modId"],
                       version: json["version"] || json["Version"],
                       path: zipPath,
                       description: json["description"] || json["Description"],
@@ -80,7 +90,14 @@ async function getModsInfo(path: string): Promise<InstalledModType[]> {
                     if (mod.modid && mod.version && mod.name && mod.path) {
                       mods.push(mod)
                     } else {
-                      logMessage("error", `[ipcMain] [get-installed-mods] [getModsInfo] A mod could not be loaded: ${json}`)
+                      logMessage("error", `[ipcMain] [get-installed-mods] [getModsInfo] A mod could not be fully loaded: ${JSON.stringify(json)}`)
+                      const mod: InstalledModType = {
+                        name: file,
+                        modid: "",
+                        version: "0.0.0",
+                        path: zipPath
+                      }
+                      mods.push(mod)
                     }
 
                     resolve()
@@ -118,8 +135,9 @@ async function addImagesToMods(modsInfo: InstalledModType[]): Promise<InstalledM
       await new Promise<void>((resolve, reject) => {
         yauzl.open(iMod.path, { lazyEntries: true }, (err, zip) => {
           if (err) {
-            zip.close()
+            logMessage("warn", `[ipcMain] [get-installed-mods] [addImagesToMods] There was an error opening ${iMod.path}: ${err.message}`)
             if (err?.message.includes("End of central directory record signature not found.")) return resolve()
+            if (err.message.includes("Invalid comment length")) return resolve()
             return reject(err)
           }
 
