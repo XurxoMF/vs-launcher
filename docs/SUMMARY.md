@@ -18,6 +18,7 @@
     * [Uninstall Vintage Story](get-started/usage/game-client/uninstall-vintage-story.md)
     * [Edit Installations](get-started/usage/game-client/edit-installations.md)
     * [Backups](get-started/usage/game-client/backups.md)
+    * [Mods](get-started/usage/game-client/mods.md)
 * [🌐 Translation](get-started/translation/README.md)
   * [Option 1](get-started/translation/option-1.md)
   * [Option 2 (recomended)](get-started/translation/option-2-recomended.md)
