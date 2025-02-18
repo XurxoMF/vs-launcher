@@ -80,7 +80,7 @@ function ListMods(): JSX.Element {
       const data = await JSON.parse(res)
       return data["mod"]["releases"]
     } catch (err) {
-      window.api.utils.logMessage("error", `[component] [ListMods] Error fetching mod versions: ${err}`)
+      window.api.utils.logMessage("error", `[component] [ManageMods] Error fetching ${modid} mod versions: ${err}`)
       return
     }
   }

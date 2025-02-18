@@ -220,7 +220,7 @@ function ListMods(): JSX.Element {
       const data = await JSON.parse(res)
       setModVersions(data["mod"]["releases"])
     } catch (err) {
-      window.api.utils.logMessage("error", `[component] [ListMods] Error fetching mod versions: ${err}`)
+      window.api.utils.logMessage("error", `[component] [ListMods] Error fetching ${modToInstall} mod versions: ${err}`)
     }
   }
 
