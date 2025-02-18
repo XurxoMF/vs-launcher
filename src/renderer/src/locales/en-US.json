@@ -154,10 +154,11 @@
       "noVersionsFound": "No versions of that mod were found!",
       "updateMod": "Update mod",
       "openOnTheModDB": "Open on the ModDB!",
-      "someModsCouldNotBeParsed": "Some of the installed mods could not be parsed! Go to the Manage Mods page to see the mods with errors!",
+      "someModsCouldNotBeParsed": "Some of the installed mods could not be parsed! Go to the Manage Mods page of the Installation you've selected to see the mods with errors!",
       "listWithErrorsTitle": "Mods with errors",
-      "modsWithErrorsDescription": "The next mods have some errors so VS Launcher can not identify them!",
-      "modsWithErrorsDescriptionReport": "Please, report this incident on the <issues /> page or <discord /> server!"
+      "modsWithErrorsDescription": "The next mods have some errors and VS Launcher can not identify them!",
+      "modsWithErrorsDescriptionReport": "Please, report this incident on the <issues /> page or on our <discord /> server!",
+      "manageTitle": "Manage Mods"
     },
     "config": {
       "title": "Settings",

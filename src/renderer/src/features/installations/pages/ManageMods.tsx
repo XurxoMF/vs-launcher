@@ -87,7 +87,7 @@ function ListMods(): JSX.Element {
 
   return (
     <>
-      <h1 className="text-3xl text-center font-bold select-none">{t("features.mods.listTitle")}</h1>
+      <h1 className="text-3xl text-center font-bold select-none">{t("features.mods.manageTitle")}</h1>
 
       {insatlledModsWithErrors.length > 0 && (
         <div className="w-full flex flex-col gap-2">
@@ -166,8 +166,8 @@ function ListMods(): JSX.Element {
             <>
               {gettingMods ? (
                 <div className="w-full flex items-center justify-center">
-                  <div className="w-8 h-8 flex items-center justify-center">
-                    <FiLoader className="animate-spin text-lg text-zinc-500" />
+                  <div className="w-full h-full flex items-center justify-center">
+                    <FiLoader className="animate-spin text-4xl text-zinc-500" />
                   </div>
                 </div>
               ) : (
