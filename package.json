@@ -1,6 +1,6 @@
 {
   "name": "vs-launcher",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Unofficial Vintage Story Launcher for... Vintage Story :)",
   "main": "./out/main/index.js",
   "author": "XurxoMF",
@@ -32,6 +32,7 @@
     "electron-updater": "^6.1.7",
     "fs-extra": "^11.2.0",
     "i18next": "^24.0.5",
+    "json5": "^2.2.3",
     "motion": "^11.13.1",
     "postcss": "^8.4.49",
     "react-i18next": "^15.1.4",

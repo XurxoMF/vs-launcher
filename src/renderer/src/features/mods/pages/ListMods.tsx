@@ -144,17 +144,33 @@ function ListMods(): JSX.Element {
     queryModVersions()
   }, [modToInstall])
 
+  const firstTimeGettingModsListMods = useRef(true)
   useEffect(() => {
+    if (!firstTimeGettingModsListMods.current) return
+    firstTimeGettingModsListMods.current = false
     ;(async (): Promise<void> => {
       const mods = await getMods()
       setInstallationMods(mods)
     })()
+  }, [])
+
+  const prevConfigLastUsedInstallation = useRef(config.lastUsedInstallation)
+  useEffect(() => {
+    if (config.lastUsedInstallation !== prevConfigLastUsedInstallation.current) {
+      ;(async (): Promise<void> => {
+        const mods = await getMods()
+        setInstallationMods(mods)
+      })()
+    }
+
+    prevConfigLastUsedInstallation.current = config.lastUsedInstallation
   }, [config.lastUsedInstallation])
 
   async function getMods(): Promise<InstalledModType[]> {
     const path = await window.api.pathsManager.formatPath([config.installations.find((i) => i.id === config.lastUsedInstallation)!.path, "Mods"])
     const mods = await window.api.modsManager.getInstalledMods(path)
-    return mods
+    if (mods.errors.length > 0) addNotification(t("notifications.titles.warning"), t("features.mods.someModsCouldNotBeParsed"), "warning")
+    return mods.mods
   }
 
   async function queryAuthors(): Promise<void> {
@@ -388,20 +404,20 @@ function ListMods(): JSX.Element {
                         <img
                           src={mod.logo ? `${mod.logo}` : "https://mods.vintagestory.at/web/img/mod-default.png"}
                           alt={mod.name}
-                          className="w-full h-32 aspect-video object-cover object-center bg-zinc-850 rounded "
+                          className="group w-full h-32 aspect-video object-cover object-center bg-zinc-850 rounded "
                         />
-                        <motion.span
-                          initial={{ opacity: 0 }}
-                          whileHover={{ opacity: 1 }}
-                          onClick={(e) => {
-                            e.preventDefault()
-                            e.stopPropagation()
-                            window.api.utils.openOnBrowser(`https://mods.vintagestory.at/show/mod/${mod.assetid}`)
-                          }}
-                          className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-zinc-900/75"
-                        >
-                          {t("features.mods.openOnTheModDB")}
-                        </motion.span>
+                        <div className="opacity-0 group-hover:opacity-100 duration-200 absolute top-0 left-0 w-full h-full flex items-center justify-center bg-zinc-900/50">
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault()
+                              e.stopPropagation()
+                              window.api.utils.openOnBrowser(`https://mods.vintagestory.at/show/mod/${mod.assetid}`)
+                            }}
+                            className="px-2 py-1 rounded bg-zinc-900 shadow shadow-zinc-900 hover:shadow-none text-sm"
+                          >
+                            {t("features.mods.openOnTheModDB")}
+                          </button>
+                        </div>
                       </div>
                       <div className="w-full h-16 group-hover:h-40 duration-100 px-2 py-1">
                         <div className="w-full h-full text-center relative flex flex-col gap-2">

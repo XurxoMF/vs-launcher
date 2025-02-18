@@ -25,7 +25,7 @@ declare global {
     }
     modsManager: {
       countMods: (path: string) => Promise<{ status: boolean; count: number }>
-      getInstalledMods: (path: string) => Promise<InstalledModType[]>
+      getInstalledMods: (path: string) => Promise<{ mods: InstalledModType[]; errors: ErrorInstalledModType[] }>
     }
     pathsManager: {
       getCurrentUserDataPath: () => Promise<string>

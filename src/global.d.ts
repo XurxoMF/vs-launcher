@@ -48,6 +48,8 @@ declare global {
     _versions?: DownloadableModVersion[]
   } & Record<string, unknown>
 
+  type ErrorInstalledModType = { zipname: string; path: string } & Record<string, unknown>
+
   type DownloadableModOnList = {
     modid: string
     assetid: string

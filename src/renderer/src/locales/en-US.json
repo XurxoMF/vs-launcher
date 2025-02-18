@@ -153,7 +153,11 @@
       "deletingNotReversible": "Deletion is not reversible so you'll not be able to restore the mods but you can always download it again!",
       "noVersionsFound": "No versions of that mod were found!",
       "updateMod": "Update mod",
-      "openOnTheModDB": "Open on the ModDB!"
+      "openOnTheModDB": "Open on the ModDB!",
+      "someModsCouldNotBeParsed": "Some of the installed mods could not be parsed! Go to the Manage Mods page to see the mods with errors!",
+      "listWithErrorsTitle": "Mods with errors",
+      "modsWithErrorsDescription": "The next mods have some errors so VS Launcher can not identify them!",
+      "modsWithErrorsDescriptionReport": "Please, report this incident on the <issues /> page or <discord /> server!"
     },
     "config": {
       "title": "Settings",

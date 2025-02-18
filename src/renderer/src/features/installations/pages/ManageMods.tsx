@@ -14,6 +14,7 @@ import { Link, useParams } from "react-router-dom"
 import { Trans, useTranslation } from "react-i18next"
 import { Button, Description, Dialog, DialogPanel, DialogTitle } from "@headlessui/react"
 import { PiArrowClockwiseFill, PiTrashFill } from "react-icons/pi"
+import { FiLoader } from "react-icons/fi"
 import { AnimatePresence, motion } from "motion/react"
 import clsx from "clsx"
 
@@ -36,24 +37,28 @@ function ListMods(): JSX.Element {
   const { id } = useParams()
 
   const [installedMods, setInstalledMods] = useState<InstalledModType[]>([])
-  const [modToDelete, setModToDelete] = useState<InstalledModType | null>(null)
+  const [insatlledModsWithErrors, setInstalledModsWithErrors] = useState<ErrorInstalledModType[]>([])
+  const [modToDelete, setModToDelete] = useState<InstalledModType | ErrorInstalledModType | null>(null)
   const [modToUpdate, setModToUpdate] = useState<InstalledModType | null>(null)
+
+  const [gettingMods, setGettingMods] = useState<boolean>(false)
 
   const firstTimeGettingInstallationModsInstallationModsManager = useRef(true)
   useEffect(() => {
     if (!firstTimeGettingInstallationModsInstallationModsManager.current) return
     firstTimeGettingInstallationModsInstallationModsManager.current = false
     ;(async (): Promise<void> => {
-      const mods = await getMods()
-      setInstalledMods(mods)
+      await getMods()
     })()
   }, [])
 
-  async function getMods(): Promise<InstalledModType[]> {
+  async function getMods(): Promise<void> {
+    setGettingMods(true)
     const path = await window.api.pathsManager.formatPath([config.installations.find((i) => i.id === id)!.path, "Mods"])
     const mods = await window.api.modsManager.getInstalledMods(path)
+
     await Promise.all(
-      mods.map(async (mod) => {
+      mods.mods.map(async (mod) => {
         try {
           const versions = await queryModVersions(mod.modid)
           mod._versions = versions
@@ -63,9 +68,10 @@ function ListMods(): JSX.Element {
         }
       })
     )
-    console.log(mods)
 
-    return mods
+    setInstalledMods(mods.mods)
+    setInstalledModsWithErrors(mods.errors)
+    setGettingMods(false)
   }
 
   async function queryModVersions(modid: string): Promise<DownloadableModVersion[] | undefined> {
@@ -79,63 +85,109 @@ function ListMods(): JSX.Element {
     }
   }
 
-  // function checkUpdatable(iMod: InstalledModType): boolean {
-  //   const imv = installedModsVersions.find((imv) => imv.modid === iMod.modid)
-  //   if (!imv) return false
-
-  //   const versions = imv.versions
-  //   if (!versions) return false
-
-  //   return versions.some((version) => {
-  //     const tags = version.tags
-  //     if (!tags) return false
-
-  //     return tags.some((tag) => {
-  //       const tv = tag.replace(/^v/, "")
-  //       if (/^v?\d+\.\d+\.\d+(-(?:rc|pre)\.\d+)?$/.test(tv)) return false
-  //       const tvp = tv.split(/[.-]/)
-
-  //       const mv = iMod.version
-  //       if (/^v?\d+\.\d+\.\d+(-(?:rc|pre)\.\d+)?$/.test(mv)) return false
-  //       const mvp = mv.split(/[.-]/)
-
-  //       if (Number(tvp[0]) > Number(mvp[0])) {
-  //         return true
-  //       } else {
-  //         // TODO: Finish checks
-  //         return true
-  //       }
-  //     })
-  //   })
-  // }
-
-  // tag
-  //   .replace(/^v/, "")
-  //   .split(".")
-  //   .some((subv, i) => subv === iMod.version.slice(1, iMod.version.length).split(".")[i])
-
   return (
     <>
       <h1 className="text-3xl text-center font-bold select-none">{t("features.mods.listTitle")}</h1>
 
+      {insatlledModsWithErrors.length > 0 && (
+        <div className="w-full flex flex-col gap-2">
+          <h2 className="text-2xl text-center font-bold select-none">{t("features.mods.listWithErrorsTitle")}</h2>
+
+          <p className="text-zinc-500 text-center select-none">{t("features.mods.modsWithErrorsDescription")}</p>
+          <p className="text-zinc-500 text-center select-none">
+            <Trans
+              i18nKey="features.mods.modsWithErrorsDescriptionReport"
+              components={{
+                issues: (
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault()
+                      e.stopPropagation()
+                      window.api.utils.openOnBrowser("https://github.com/XurxoMF/vs-launcher/issues")
+                    }}
+                    className="text-vs"
+                  >
+                    {t("generic.issues")}
+                  </button>
+                ),
+                discord: (
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault()
+                      e.stopPropagation()
+                      window.api.utils.openOnBrowser("https://discord.gg/RtWpYBRRUz")
+                    }}
+                    className="text-vs"
+                  >
+                    Discord
+                  </button>
+                )
+              }}
+            />
+          </p>
+
+          <ListWrapper className="max-w-[800px] w-full">
+            <ListGroup>
+              {insatlledModsWithErrors.map((iModE) => (
+                <Listitem key={iModE.zipname}>
+                  <div className="flex gap-4 p-2 justify-between items-center whitespace-nowrap">
+                    <div className="shrink-0">
+                      <div className="w-16 h-16 bg-zinc-900 rounded shadow shadow-zinc-900" />
+                    </div>
+
+                    <div className="w-full flex flex-col gap-1 justify-center overflow-hidden">
+                      <div className="flex gap-2 items-center">
+                        <p>{iModE.zipname}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-2 justify-end text-lg">
+                      <Button
+                        className="w-7 h-7 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
+                        title={t("generic.delete")}
+                        onClick={async () => {
+                          setModToDelete(iModE)
+                        }}
+                      >
+                        <PiTrashFill />
+                      </Button>
+                    </div>
+                  </div>
+                </Listitem>
+              ))}
+            </ListGroup>
+          </ListWrapper>
+        </div>
+      )}
+
       <ListWrapper className="max-w-[800px] w-full">
         <ListGroup>
           {installedMods.length < 1 && (
-            <div className="w-full flex flex-col items-center justify-center gap-2 rounded bg-zinc-850 p-4">
-              <p className="text-2xl">{t("features.mods.noModsFound")}</p>
-              <p className="w-full flex gap-1 items-center justify-center">
-                <Trans
-                  i18nKey="features.mods.noModsInstalled"
-                  components={{
-                    link: (
-                      <Link to="/mods" className="text-vs">
-                        {t("components.mainMenu.modsTitle")}
-                      </Link>
-                    )
-                  }}
-                />
-              </p>
-            </div>
+            <>
+              {gettingMods ? (
+                <div className="w-full flex items-center justify-center">
+                  <div className="w-8 h-8 flex items-center justify-center">
+                    <FiLoader className="animate-spin text-lg text-zinc-500" />
+                  </div>
+                </div>
+              ) : (
+                <div className="w-full flex flex-col items-center justify-center gap-2 rounded bg-zinc-850 p-4">
+                  <p className="text-2xl">{t("features.mods.noModsFound")}</p>
+                  <p className="w-full flex gap-1 items-center justify-center">
+                    <Trans
+                      i18nKey="features.mods.noModsInstalled"
+                      components={{
+                        link: (
+                          <Link to="/mods" className="text-vs">
+                            {t("components.mainMenu.modsTitle")}
+                          </Link>
+                        )
+                      }}
+                    />
+                  </p>
+                </div>
+              )}
+            </>
           )}
           {installedMods.map((iMod) => (
             <Listitem key={iMod.modid}>
@@ -238,7 +290,7 @@ function ListMods(): JSX.Element {
                             e.preventDefault()
                             e.stopPropagation()
 
-                            const installation = config.installations.find((i) => i.id === config.lastUsedInstallation)
+                            const installation = config.installations.find((i) => i.id === id)
 
                             if (!installation) return addNotification(t("notifications.titles.error"), t("features.installations.noInstallationSelected"), "error")
 
@@ -255,8 +307,8 @@ function ListMods(): JSX.Element {
                               async (status, path, error) => {
                                 if (!status) return window.api.utils.logMessage("error", `[component] [ManageMods(installations)] Error downloading mod: ${error}`)
                                 window.api.utils.logMessage("info", `[component] [ManageMods(installations)] Downloaded mod ${version.mainfile} on ${path}`)
+                                await getMods()
                                 countMods()
-                                setInstalledMods(await getMods())
                               }
                             )
 
@@ -334,7 +386,7 @@ function ListMods(): JSX.Element {
                       const deleted = await window.api.pathsManager.deletePath(modToDelete.path)
                       if (!deleted) throw "There was an error deleting the mod!"
 
-                      setInstalledMods(await getMods())
+                      await getMods()
                       countMods()
 
                       addNotification(t("notifications.titles.success"), t("features.mods.modSuccessfullyDeleted"), "success")
