@@ -64,6 +64,7 @@ async function getModsInfo(path: string): Promise<{ mods: InstalledModType[]; er
                 if (err) {
                   logMessage("error", `[ipcMain] [get-installed-mods] [getModsInfo] Error reading stream for ${file}: ${err}`)
                   errors.push({ zipname: file, path: zipPath })
+                  zip.close()
                   return resolve()
                 }
 
@@ -95,6 +96,7 @@ async function getModsInfo(path: string): Promise<{ mods: InstalledModType[]; er
                     logMessage("error", `[ipcMain] [get-installed-mods] [getModsInfo] Error parsing JSON for ${file}: ${err}`)
                     errors.push({ zipname: file, path: zipPath })
                   } finally {
+                    zip.close()
                     resolve()
                   }
                 })
@@ -112,6 +114,7 @@ async function getModsInfo(path: string): Promise<{ mods: InstalledModType[]; er
           zip.on("error", (err) => {
             logMessage("error", `[ipcMain] [get-installed-mods] [getModsInfo] Zip error for ${file}: ${err}`)
             errors.push({ zipname: file, path: zipPath })
+            zip.close()
             resolve()
           })
         })
@@ -173,6 +176,7 @@ async function addImagesToMods(modsInfo: InstalledModType[]): Promise<InstalledM
                   } catch (imageErr) {
                     logMessage("error", `[ipcMain] [get-installed-mods] [addImagesToMods] Error saving the image of the ${iMod.path} mod: ${imageErr}`)
                   } finally {
+                    zip.close()
                     resolve()
                   }
                 })
@@ -189,6 +193,7 @@ async function addImagesToMods(modsInfo: InstalledModType[]): Promise<InstalledM
 
           zip.on("error", (err) => {
             logMessage("error", `[ipcMain] [get-installed-mods] [addImagesToMods] Zip error for ${iMod.path}: ${err}`)
+            zip.close()
             resolve()
           })
         })
