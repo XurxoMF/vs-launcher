@@ -16,7 +16,6 @@
     "add": "Ajouter",
     "goBack": "Retour",
     "save": "Enregistrer",
-    "name": "Nom",
     "version": "Version",
     "releaseDate": "Date de sortie",
     "type": "Type",
@@ -35,7 +34,6 @@
     "versions": {
       "uninstallVersion": "Désinstaller la version",
       "noVersionsFound": "Aucune version trouvée!",
-      "noVersionsFoundDescOnPage": "Installez-en une nouvelle avec le bouton <button/>",
       "areYouSureUninstall": "Êtes-vous sûr de vouloir désinstaller cette version ?",
       "uninstallingNotReversible": "La désinstallation est irréversible, mais vous pouvez télécharger à nouveau la même version!",
       "noVersionSelected": "Aucune version sélectionnée!",
@@ -54,7 +52,6 @@
       "labelStables": "Versions stables",
       "labelRCs": "Candidats à la sortie",
       "labelPreReleases": "Préversions",
-      "listTitle": "Liste des versions",
       "searchForAGameVersion": "Rechercher une version du jeu",
       "missingFolderOrVersion": "Aucun dossier sélectionné ou aucune version trouvée dans le dossier sélectionné!",
       "lookForAVersion": "Rechercher une version",
@@ -63,7 +60,6 @@
     "installations": {
       "noInstallationsFound": "Aucune installation trouvée!",
       "noInstallationsFoundDesc": "Ajoutez-en une nouvelle sur la page <link />",
-      "noInstallationsFoundDescOnPage": "Ajoutez-en une nouvelle avec le bouton <button/>",
       "deleteInstallation": "Supprimer l'installation",
       "areYouSureDelete": "Êtes-vous sûr de vouloir supprimer cette installation ?",
       "deletingNotReversible": "La suppression est irréversible, donc si vous cochez l'option de suppression des données, vous ne pourrez pas restaurer vos mondes, données et autres informations.",
@@ -79,7 +75,6 @@
       "errorEditingInstallation": "Une erreur est survenue lors de la modification de l'installation!",
       "editTitle": "Modifier l'installation",
       "noInstallationFoundDesc": "L'installation sélectionnée n'existe pas!",
-      "listTitle": "Liste des installations",
       "deleteData": "Supprimer les données",
       "installationSuccessfullyDeleted": "Installation supprimée avec succès!",
       "errorDeletingInstallation": "Une erreur est survenue lors de la suppression de l'installation!"

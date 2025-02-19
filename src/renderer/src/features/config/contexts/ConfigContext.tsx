@@ -142,7 +142,7 @@ const configReducer = (config: ConfigType, action: ConfigAction): ConfigType => 
     case CONFIG_ACTIONS.SET_DEFAULT_VERSIONS_FOLDER:
       return { ...config, defaultVersionsFolder: action.payload }
     case CONFIG_ACTIONS.SET_DEFAULT_BACKUPS_FOLDER:
-      return { ...config, defaultBackupsFolder: action.payload }
+      return { ...config, backupsFolder: action.payload }
     case CONFIG_ACTIONS.ADD_INSTALLATION:
       return { ...config, installations: [action.payload, ...config.installations] }
     case CONFIG_ACTIONS.DELETE_INSTALLATION:

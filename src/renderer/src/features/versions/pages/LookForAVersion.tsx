@@ -17,6 +17,7 @@ import {
   FormFieldGroup,
   FormGroupWrapper
 } from "@renderer/components/ui/FormComponents"
+import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
 
 function LookForAVersion(): JSX.Element {
   const { t } = useTranslation()
@@ -29,10 +30,9 @@ function LookForAVersion(): JSX.Element {
 
   const handleAddVersion = async (): Promise<void> => {
     try {
-      if (!folder || !versionFound) return addNotification(t("notifications.titles.error"), t("features.versions.missingFolderOrVersion"), "error")
+      if (!folder || !versionFound) return addNotification(t("features.versions.missingFolderOrVersion"), "error")
 
-      if (config.gameVersions.some((gv) => gv.version === versionFound))
-        return addNotification(t("notifications.titles.error"), t("features.versions.versionAlreadyInstalled", { version: versionFound }), "error")
+      if (config.gameVersions.some((gv) => gv.version === versionFound)) return addNotification(t("features.versions.versionAlreadyInstalled", { version: versionFound }), "error")
 
       const newGameVersion: GameVersionType = {
         version: versionFound,
@@ -40,7 +40,7 @@ function LookForAVersion(): JSX.Element {
       }
 
       configDispatch({ type: CONFIG_ACTIONS.ADD_GAME_VERSION, payload: newGameVersion })
-      addNotification(t("notifications.titles.success"), t("features.versions.versionSuccessfullyAdded", { version: versionFound }), "success")
+      addNotification(t("features.versions.versionSuccessfullyAdded", { version: versionFound }), "success")
       navigate("/versions")
     } catch (err) {
       window.api.utils.logMessage("error", `[LookForAVersion] There was an error while looking for a version: ${err}`)
@@ -51,58 +51,60 @@ function LookForAVersion(): JSX.Element {
   }
 
   return (
-    <>
-      <h1 className="text-3xl text-center font-bold select-none">{t("features.versions.lookForAVersion")}</h1>
+    <ScrollableContainer>
+      <div className="min-h-full flex flex-col items-center justify-center">
+        <h1 className="text-3xl text-center font-bold">{t("features.versions.lookForAVersion")}</h1>
 
-      <FromWrapper className="max-w-[800px] w-full">
-        <FormGroupWrapper title={t("generic.basics")}>
-          <FromGroup>
-            <FormHead>
-              <FormLabel content={t("generic.folder")} />
-            </FormHead>
+        <FromWrapper className="max-w-[800px] w-full">
+          <FormGroupWrapper>
+            <FromGroup>
+              <FormHead>
+                <FormLabel content={t("generic.folder")} />
+              </FormHead>
 
-            <FormBody>
-              <FormFieldGroup alignment="x">
-                <FormButton
-                  onClick={async () => {
-                    const path = await window.api.utils.selectFolderDialog()
-                    if (path && path.length > 0) {
-                      const res = await window.api.pathsManager.lookForAGameVersion(path)
+              <FormBody>
+                <FormFieldGroup alignment="x">
+                  <FormButton
+                    onClick={async () => {
+                      const path = await window.api.utils.selectFolderDialog()
+                      if (path && path.length > 0) {
+                        const res = await window.api.pathsManager.lookForAGameVersion(path)
 
-                      if (!res.exists) {
-                        setFolder("")
-                        setVersionFound("")
-                        return addNotification(t("notifications.titles.error"), t("features.versions.noVersionFoundOnThatFolder"), "error")
+                        if (!res.exists) {
+                          setFolder("")
+                          setVersionFound("")
+                          return addNotification(t("features.versions.noVersionFoundOnThatFolder"), "error")
+                        }
+
+                        setFolder(path)
+                        setVersionFound(res.installedGameVersion as string)
                       }
+                    }}
+                    title={t("generic.browse")}
+                  />
+                  <FormInputTextNotEditable value={folder} placeholder={t("generic.folder")} className="w-full" />
+                </FormFieldGroup>
+              </FormBody>
+            </FromGroup>
 
-                      setFolder(path)
-                      setVersionFound(res.installedGameVersion as string)
-                    }
-                  }}
-                  title={t("generic.browse")}
-                />
-                <FormInputTextNotEditable value={folder} placeholder={t("generic.folder")} className="w-full" />
-              </FormFieldGroup>
-            </FormBody>
-          </FromGroup>
+            <FromGroup>
+              <FormHead>
+                <FormLabel content={t("features.versions.versionFound")} />
+              </FormHead>
 
-          <FromGroup>
-            <FormHead>
-              <FormLabel content={t("features.versions.versionFound")} />
-            </FormHead>
+              <FormBody>
+                <FormInputTextNotEditable value={versionFound} placeholder={t("features.versions.versionFound")} />
+              </FormBody>
+            </FromGroup>
+          </FormGroupWrapper>
+        </FromWrapper>
 
-            <FormBody>
-              <FormInputTextNotEditable value={versionFound} placeholder={t("features.versions.versionFound")} />
-            </FormBody>
-          </FromGroup>
-        </FormGroupWrapper>
-      </FromWrapper>
-
-      <ButtonsWrapper>
-        <FormButton onClick={handleAddVersion} title={t("generic.add")} />
-        <FormLinkButton to="/versions" title={t("generic.cancel")} />
-      </ButtonsWrapper>
-    </>
+        <ButtonsWrapper>
+          <FormButton onClick={handleAddVersion} title={t("generic.add")} />
+          <FormLinkButton to="/versions" title={t("generic.cancel")} />
+        </ButtonsWrapper>
+      </div>
+    </ScrollableContainer>
   )
 }
 

@@ -33,16 +33,16 @@ function LanguagesMenu(): JSX.Element {
     <Listbox value={selectedLanguage} onChange={handleLanguageChange}>
       {({ open }) => (
         <>
-          <ListboxButton className="bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none w-full h-7 flex items-center justify-between gap-2 rounded overflow-hidden select-none">
+          <ListboxButton className="bg-zinc-850 shadow shadow-zinc-950 hover:shadow-none w-full h-7 flex items-center justify-between gap-2 rounded overflow-hidden">
             {languages
               .filter((lang) => lang.code === selectedLanguage)
               .map((lang) => (
                 <div key={lang.code} className="flex gap-2 px-2 py-1 items-center overflow-hidden">
                   <p className="whitespace-nowrap font-bold text-sm">{lang.name}</p>
-                  <p className="whitespace-nowrap text-ellipsis overflow-hidden text-zinc-600 text-xs">{lang.credits}</p>
+                  <p className="whitespace-nowrap text-ellipsis overflow-hidden text-zinc-500 text-xs">{lang.credits}</p>
                 </div>
               ))}
-            <PiCaretDownBold className={clsx(open && "rotate-180", "text-sm text-zinc-500 shrink-0 mr-2")} />
+            <PiCaretDownBold className={clsx(open && "rotate-180", "text-sm text-zinc-400 shrink-0 mr-2")} />
           </ListboxButton>
           <AnimatePresence>
             {open && (
@@ -53,14 +53,14 @@ function LanguagesMenu(): JSX.Element {
                 animate={{ height: "auto" }}
                 exit={{ height: 0 }}
                 anchor="bottom"
-                className="w-[var(--button-width)] bg-zinc-850 shadow shadow-zinc-900 translate-y-1 rounded select-none"
+                className="w-[var(--button-width)] bg-zinc-850 shadow shadow-zinc-950 translate-y-1 rounded"
               >
                 <div className="flex flex-col max-h-40">
                   {languages.map((lang) => (
                     <ListboxOption key={lang.code} value={lang.code} className="hover:pl-1 duration-100 odd:bg-zinc-850 even:bg-zinc-800">
                       <div className="flex gap-2 h-7 px-2 py-1 items-center overflow-hidden" title={`${lang.name} - ${lang.credits}`}>
                         <p className="whitespace-nowrap font-bold text-sm">{lang.name}</p>
-                        <p className="text-zinc-600 text-xs whitespace-nowrap text-ellipsis overflow-hidden">{lang.credits}</p>
+                        <p className="text-zinc-500 text-xs whitespace-nowrap text-ellipsis overflow-hidden">{lang.credits}</p>
                       </div>
                     </ListboxOption>
                   ))}

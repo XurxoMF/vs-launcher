@@ -1,11 +1,11 @@
 import { Input, Switch } from "@headlessui/react"
 import clsx from "clsx"
 
-const INPUT_BASE_STYLES = `h-8 px-2 py-1 rounded-md placeholder:text-zinc-600 overflow-hidden`
-const INPUT_INVALID_STYLES = "border border-red-800 bg-red-800/10"
-const INPUT_VALID_STYLES = "bg-zinc-850"
-const INPUT_ENABLED_STYLES = "shadow shadow-zinc-900 hover:shadow-none "
-const INPUT_DISABLED_STYLES = "text-zinc-600"
+const INPUT_BASE_STYLES = `h-8 px-2 py-1 rounded-md placeholder:text-zinc-500 overflow-hidden outline-none`
+const INPUT_INVALID_STYLES = "border border-red-800 bg-red-800/20"
+const INPUT_VALID_STYLES = "bg-zinc-950/50"
+const INPUT_ENABLED_STYLES = "shadow shadow-zinc-950 hover:shadow-none"
+const INPUT_DISABLED_STYLES = "text-zinc-500"
 
 /**
  * Input with type text and validation for minimum and maximum length.
@@ -193,11 +193,11 @@ export function FormToggle({ value, onChange }: { className?: string; value: boo
     <Switch
       checked={value}
       onChange={onChange}
-      className="group relative flex h-6 w-12 cursor-pointer rounded-full bg-zinc-850 p-1 shadow shadow-zinc-900 hover:shadow-none transition-colors duration-100 ease-in-out focus:outline-none data-[focus]:outline-1 data-[focus]:outline-white data-[checked]:bg-vs"
+      className="group relative flex h-6 w-12 cursor-pointer rounded-full bg-zinc-950/50 p-1 shadow shadow-zinc-950 hover:shadow-none transition-colors duration-100 ease-in-out focus:outline-none data-[focus]:outline-1 data-[focus]:outline-white data-[checked]:bg-vs"
     >
       <span
         aria-hidden="true"
-        className="pointer-events-none inline-block size-4 translate-x-0 rounded-full bg-white ring-0 shadow-lg transition duration-100 ease-in-out group-data-[checked]:translate-x-6"
+        className="pointer-events-none inline-block size-4 translate-x-0 rounded-full bg-zinc-500 group-data-[checked]:bg-zinc-200 ring-0 shadow-lg transition duration-100 ease-in-out group-data-[checked]:translate-x-6"
       />
     </Switch>
   )

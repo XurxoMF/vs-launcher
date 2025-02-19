@@ -16,7 +16,6 @@
     "add": "Toevoegen",
     "goBack": "Ga terug",
     "save": "Opslaan",
-    "name": "Naam",
     "version": "Versie",
     "releaseDate": "Release Datum",
     "type": "Type",
@@ -34,7 +33,6 @@
     "versions": {
       "uninstallVersion": "de-installeer versie",
       "noVersionsFound": "Geen versie gevonden",
-      "noVersionsFoundDescOnPage": "Install a new one with the <button/> button",
       "areYouSureUninstall": "Weet je zeker dat je deze versie wilt verwijderen?",
       "uninstallingNotReversible": "Verwijderen kan niet ongedaan worden gemaakt, maar je kan deze versie opnieuw downloaden!",
       "noVersionSelected": "Geen versie geselecteerd",
@@ -53,7 +51,6 @@
       "labelStables": "Stables",
       "labelRCs": "Uitgaven kanidaten",
       "labelPreReleases": "Pre uitgavens",
-      "listTitle": "Versie lijst",
       "searchForAGameVersion": "Zoek voor een spel versie",
       "missingFolderOrVersion": "You've no folder selected or there it no game version on the one you've selected!",
       "lookForAVersion": "Zoek voor een versie",
@@ -62,7 +59,6 @@
     "installations": {
       "noInstallationsFound": "Geen installaties gevonden",
       "noInstallationsFoundDesc": "Voeg een nieuwe toe op de <link /> pagina",
-      "noInstallationsFoundDescOnPage": "Voeg een nieuwe toe met de <button/> knop",
       "deleteInstallation": "Verwijder installatie",
       "areYouSureDelete": "Weet je zeker dat je deze installatie wilt verwijderen?",
       "deletingNotReversible": "Verwijderen is niet ongedaan te maken. Als u de optie 'Gegevens verwijderen' aanvinkt, kunt u uw werelden, gegevens en andere informatie niet meer herstellen.",
@@ -78,7 +74,6 @@
       "errorEditingInstallation": "Er is een fout opgetreden bij het bewerken van de installatie!",
       "editTitle": "Bewerk installatie",
       "noInstallationFoundDesc": "De installatie die je hebt geselecteerd bestaat niet!",
-      "listTitle": "Installatie lijst",
       "deleteData": "Verwijder data",
       "installationSuccessfullyDeleted": "Installatie succesvol verwijderd",
       "errorDeletingInstallation": "Er is een fout opgetreden bij het verwijderen van de installatie!",
@@ -101,7 +96,6 @@
     "config": {
       "title": "Instellingen",
       "defaultInstallationsFolder": "Installaties:",
-      "folders": "Standaardmappen",
       "defaultVersionsFolder": "Versies:"
     }
   },

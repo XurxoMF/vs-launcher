@@ -45,7 +45,7 @@ declare global {
     authors?: string[]
     contributors?: string[]
     type?: string
-    _versions?: DownloadableModVersion[]
+    _mod?: DownloadableMod
   } & Record<string, unknown>
 
   type ErrorInstalledModType = { zipname: string; path: string } & Record<string, unknown>

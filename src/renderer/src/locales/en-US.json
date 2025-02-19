@@ -16,14 +16,10 @@
     "add": "Add",
     "goBack": "Go back",
     "save": "Save",
-    "name": "Name",
     "version": "Version",
     "releaseDate": "Release Date",
     "type": "Type",
     "install": "Install",
-    "backups": "Backups",
-    "basics": "Basics",
-    "advanced": "Advanced",
     "minMaxAmmount": "Number between {{min}} and {{max}}",
     "backup": "Backup",
     "edit": "Edit",
@@ -45,7 +41,7 @@
     "authors": "Authors",
     "contributors": "Contributors",
     "update": "Update",
-    "amount": "Amount"
+    "reload": "Reload"
   },
   "features": {
     "generic": {
@@ -59,7 +55,6 @@
     "versions": {
       "uninstallVersion": "Uninstall version",
       "noVersionsFound": "No versions found!",
-      "noVersionsFoundDescOnPage": "Install a new one with the <button/> button",
       "areYouSureUninstall": "Are you sure you want to uninstall this version?",
       "uninstallingNotReversible": "Uninstalling is not reversible but you can download the same version again!",
       "noVersionSelected": "No version selected!",
@@ -78,8 +73,7 @@
       "labelStables": "Stables",
       "labelRCs": "Release Candidates",
       "labelPreReleases": "Pre Releases",
-      "listTitle": "Versions list",
-      "searchForAGameVersion": "Search for a game version",
+      "searchForAGameVersion": "Add an already installed Version",
       "missingFolderOrVersion": "You've no folder selected or there is no game version installed on the one you've selected!",
       "lookForAVersion": "Look for a version",
       "versionFound": "Version found",
@@ -88,12 +82,12 @@
       "noVersionsFoundDesc": "Install a new one on the <link /> page!",
       "versionDeleting": "That version is been deleted!",
       "versionPlaying": "You're already playing that version!",
-      "deleteWhilePlaying": "You can't delete a version while you're playing it!"
+      "deleteWhilePlaying": "You can't delete a version while you're playing it!",
+      "installNewVersion": "Install a new Version"
     },
     "installations": {
       "noInstallationsFound": "No installations found!",
       "noInstallationsFoundDesc": "Add a new one on the <link /> page",
-      "noInstallationsFoundDescOnPage": "Add a new one with the <button/> button",
       "deleteInstallation": "Delete installation",
       "areYouSureDelete": "Are you sure you want to delete this installation?",
       "deletingNotReversible": "Deletion is not reversible so, if you check the delete data option, you'll not be able to restore your worlds, data and other info.",
@@ -109,7 +103,6 @@
       "errorEditingInstallation": "An error has ocurred while editing installation!",
       "editTitle": "Edit installation",
       "noInstallationFoundDesc": "The installation you've selected does not exists!",
-      "listTitle": "Installations list",
       "deleteData": "Delete data",
       "installationSuccessfullyDeleted": "Installation deleted succesfully!",
       "errorDeletingInstallation": "An error has ocurred deleting the installation!",
@@ -124,7 +117,10 @@
       "cantDeleteWhileinUse": "You can't delete this installation while it's in use!",
       "restoreBackup": "Restore installation backup",
       "installOnInstallation": "Install on Installation",
-      "updateOnInstallation": "Update on Installation"
+      "updateOnInstallation": "Update on Installation",
+      "name": "Installation name",
+      "dataFolder": "Data folder",
+      "addNewInstallation": "Add a new Installation"
     },
     "mods": {
       "modsCount": "{{count}} mods",
@@ -146,7 +142,6 @@
       "noModsFound": "No mods found!",
       "cantDeleteWhileinUse": "You can't delete a mod while it's in use!",
       "modSuccessfullyDeleted": "Mod deleted succesfully!",
-      "noModFound": "Mod not found!",
       "errorDeletingMod": "An error has ocurred deleting the mod!",
       "deleteMod": "Delete mod",
       "areYouSureDelete": "Are you sure you want to delete this mod?",
@@ -158,19 +153,20 @@
       "listWithErrorsTitle": "Mods with errors",
       "modsWithErrorsDescription": "The next mods have some errors and VS Launcher can not identify them!",
       "modsWithErrorsDescriptionReport": "Please, report this incident on the <issues /> page or on our <discord /> server!",
-      "manageTitle": "Manage Mods"
+      "manageTitle": "Manage Mods",
+      "noModSelected": "No mod selected!",
+      "noVersionSelected": "No mod version selected!"
     },
     "config": {
       "title": "Settings",
-      "defaultInstallationsFolder": "Installations",
-      "folders": "Default folders",
-      "defaultVersionsFolder": "Versions",
-      "backupsFolder": "Backups"
+      "defaultInstallationsFolder": "Installations folder",
+      "defaultVersionsFolder": "Versions folder",
+      "backupsFolder": "Backups folder"
     },
     "backups": {
       "backupInProgress": "There is a backup already in progress!",
       "backupWhilePlaying": "You can't make a backup while playing the installation!",
-      "automaticBackups": "Automatic?",
+      "automaticBackups": "Automatic backups",
       "backupsAuto": "Toggle on to make an automatic backup before playing",
       "backupsLimit": "Backups max ammount",
       "restoreBackup": "Restore backup",
@@ -189,11 +185,11 @@
       "deleteBackup": "Delete backup",
       "areYouSureDelete": "Are you sure you want to delete this backup?",
       "deletingNotReversible": "Deletion is not reversible so you'll not be able to restore your worlds, data and other info using this backup anymore.",
-      "errorMakingBackup": "There was an error making a backup!"
+      "errorMakingBackup": "There was an error making a backup!",
+      "backupsAmount": "Backups limit",
+      "folderDoesntExists": "This Installation has no data, please, play on it at least one time to generate the base data!"
     },
-    "servers": {
-      "installOnServer": "Install on server"
-    }
+    "servers": {}
   },
   "components": {
     "mainMenu": {

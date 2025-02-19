@@ -34,10 +34,6 @@ import {
   ComboboxInput,
   ComboboxOption,
   ComboboxOptions,
-  Description,
-  Dialog,
-  DialogPanel,
-  DialogTitle,
   Listbox,
   ListboxButton,
   ListboxOption,
@@ -45,25 +41,27 @@ import {
   Menu,
   MenuButton,
   MenuItem,
-  MenuItems
+  MenuItems,
+  Button
 } from "@headlessui/react"
 import clsx from "clsx"
 
 import { useConfigContext } from "@renderer/features/config/contexts/ConfigContext"
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
-import { useTaskContext } from "@renderer/contexts/TaskManagerContext"
 
-import { useCountMods } from "@renderer/features/mods/hooks/useCountMods"
+import { useInstallMod } from "../hooks/useInstallMod"
 
 import { FormInputText } from "@renderer/components/ui/FormComponents"
 import { TableBody, TableBodyRow, TableCell, TableHead, TableHeadRow, TableWrapper } from "@renderer/components/ui/Table"
+import ControllsPanel from "@renderer/components/ui/ControllsPanel"
+import PopupDialogPanel from "@renderer/components/ui/PopupDialogPanel"
 
 function ListMods(): JSX.Element {
   const { t } = useTranslation()
   const { config } = useConfigContext()
   const { addNotification } = useNotificationsContext()
-  const { startDownload } = useTaskContext()
-  const countMods = useCountMods()
+
+  const installMod = useInstallMod()
 
   const [modsList, setModsList] = useState<DownloadableModOnList[]>([])
   const [authorsList, setAuthorsList] = useState<DownloadableModAuthor[]>([])
@@ -81,8 +79,8 @@ function ListMods(): JSX.Element {
 
   const [searching, setSearching] = useState(true)
 
-  const [modToInstall, setModToInstall] = useState<{ name: string; modid: string } | null>(null)
-  const [modVersions, setModVersions] = useState<DownloadableModVersion[]>([])
+  const [modToInstall, setModToInstall] = useState<string | null>(null)
+  const [downloadableModToInstall, setDownloadableModToInstall] = useState<DownloadableMod | null>(null)
 
   const [installationMods, setInstallationMods] = useState<InstalledModType[]>([])
 
@@ -141,7 +139,7 @@ function ListMods(): JSX.Element {
 
   useEffect(() => {
     if (!modToInstall) return
-    queryModVersions()
+    queryMod()
   }, [modToInstall])
 
   const firstTimeGettingModsListMods = useRef(true)
@@ -169,7 +167,7 @@ function ListMods(): JSX.Element {
   async function getMods(): Promise<InstalledModType[]> {
     const path = await window.api.pathsManager.formatPath([config.installations.find((i) => i.id === config.lastUsedInstallation)!.path, "Mods"])
     const mods = await window.api.modsManager.getInstalledMods(path)
-    if (mods.errors.length > 0) addNotification(t("notifications.titles.warning"), t("features.mods.someModsCouldNotBeParsed"), "warning")
+    if (mods.errors.length > 0) addNotification(t("features.mods.someModsCouldNotBeParsed"), "warning")
     return mods.mods
   }
 
@@ -214,11 +212,11 @@ function ListMods(): JSX.Element {
     }
   }
 
-  async function queryModVersions(): Promise<void> {
+  async function queryMod(): Promise<void> {
     try {
-      const res = await window.api.netManager.queryURL(`https://mods.vintagestory.at/api/mod/${modToInstall?.modid}`)
+      const res = await window.api.netManager.queryURL(`https://mods.vintagestory.at/api/mod/${modToInstall}`)
       const data = await JSON.parse(res)
-      setModVersions(data["mod"]["releases"])
+      setDownloadableModToInstall(data["mod"])
     } catch (err) {
       window.api.utils.logMessage("error", `[component] [ListMods] Error fetching ${modToInstall} mod versions: ${err}`)
     }
@@ -249,9 +247,11 @@ function ListMods(): JSX.Element {
   return (
     <div ref={scrollRef} className="w-full h-full pt-6 overflow-y-scroll">
       <div className="w-full min-h-full flex flex-col justify-center gap-6 p-4">
-        <h1 className="text-3xl text-center font-bold select-none">{t("features.mods.listTitle")}</h1>
+        <ControllsPanel goBackTo="/installations" />
 
-        <div className="w-full h-full flex justify-center gap-4 flex-wrap select-none">
+        <h1 className="text-3xl text-center font-bold">{t("features.mods.listTitle")}</h1>
+
+        <div className="w-full h-full flex justify-center gap-4 flex-wrap">
           <>
             <div className="w-full px-8 pb-4 flex gap-2 justify-center">
               <div className="flex gap-4">
@@ -261,15 +261,15 @@ function ListMods(): JSX.Element {
               <Combobox value={authorFilter} onChange={(value) => setAuthorFilter(value || { userid: "", name: "" })} onClose={() => setAuthorsQuery("")}>
                 {({ open }) => (
                   <>
-                    <div className="w-40 h-8 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-between gap-2 rounded overflow-hidden select-none">
+                    <div className="w-40 h-8 bg-zinc-850 shadow shadow-zinc-950 hover:shadow-none flex items-center justify-between gap-2 rounded overflow-hidden">
                       <ComboboxInput
                         placeholder={t("generic.author")}
                         displayValue={() => authorFilter?.name || ""}
                         onChange={(event) => setAuthorsQuery(event.target.value)}
-                        className="w-full px-2 py-1 placeholder:text-zinc-600 bg-transparent "
+                        className="w-full px-2 py-1 placeholder:text-zinc-500 bg-transparent "
                       />
                       <ComboboxButton className="w-8">
-                        <PiCaretDownBold className={clsx(open && "rotate-180", "text-sm text-zinc-500 shrink-0")} />
+                        <PiCaretDownBold className={clsx(open && "rotate-180", "text-sm text-zinc-400 shrink-0")} />
                       </ComboboxButton>
                     </div>
 
@@ -282,7 +282,7 @@ function ListMods(): JSX.Element {
                           animate={{ height: "auto" }}
                           exit={{ height: 0 }}
                           anchor="bottom start"
-                          className="w-40 bg-zinc-850 shadow shadow-zinc-900 mt-2 rounded select-none"
+                          className="w-40 bg-zinc-850 shadow shadow-zinc-950 mt-2 rounded"
                         >
                           <div className="flex flex-col max-h-40">
                             <>
@@ -306,11 +306,11 @@ function ListMods(): JSX.Element {
               <Listbox value={versionsFilter} onChange={setVersionsFilter} multiple>
                 {({ open }) => (
                   <>
-                    <ListboxButton className="w-40 h-8 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-between gap-2 rounded overflow-hidden select-none">
-                      <span className={clsx("w-full px-2 py-1 text-start overflow-hidden whitespace-nowrap text-ellipsis", versionsFilter.length < 1 && "text-zinc-600")}>
+                    <ListboxButton className="w-40 h-8 bg-zinc-850 shadow shadow-zinc-950 hover:shadow-none flex items-center justify-between gap-2 rounded overflow-hidden">
+                      <span className={clsx("w-full px-2 py-1 text-start overflow-hidden whitespace-nowrap text-ellipsis", versionsFilter.length < 1 && "text-zinc-500")}>
                         {versionsFilter.length < 1 ? t("generic.versions") : versionsFilter.map((version) => version.name).join(", ")}
                       </span>
-                      <PiCaretDownBold className={clsx(open && "rotate-180", "w-8 text-sm text-zinc-500 shrink-0")} />
+                      <PiCaretDownBold className={clsx(open && "rotate-180", "w-8 text-sm text-zinc-400 shrink-0")} />
                     </ListboxButton>
                     <AnimatePresence>
                       {open && (
@@ -321,14 +321,14 @@ function ListMods(): JSX.Element {
                           animate={{ height: "auto" }}
                           exit={{ height: 0 }}
                           anchor="bottom"
-                          className="w-[var(--button-width)] bg-zinc-850 shadow shadow-zinc-900 mt-2 rounded select-none"
+                          className="w-[var(--button-width)] bg-zinc-850 shadow shadow-zinc-950 mt-2 rounded"
                         >
                           <div className="flex flex-col max-h-40">
                             {gameVersionsList.map((version) => (
                               <ListboxOption key={version.tagid} value={version} className="hover:pl-1 duration-100 odd:bg-zinc-850 even:bg-zinc-800">
                                 <div className="px-2 py-1 flex gap-1 items-center">
                                   <p className="whitespace-nowrap overflow-hidden text-ellipsis text-sm">{version.name}</p>
-                                  {versionsFilter.includes(version) && <PiCheckBold className="text-sm text-zinc-500" />}
+                                  {versionsFilter.includes(version) && <PiCheckBold className="text-sm text-zinc-400" />}
                                 </div>
                               </ListboxOption>
                             ))}
@@ -340,18 +340,18 @@ function ListMods(): JSX.Element {
                 )}
               </Listbox>
 
-              <button
+              <Button
                 title={t("generic.clearFilter")}
                 onClick={() => clearFilters()}
-                className="w-8 h-8 shrink-0 text-lg bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded select-none"
+                className="w-8 h-8 shrink-0 text-lg bg-zinc-850 shadow shadow-zinc-950 hover:shadow-none flex items-center justify-center rounded"
               >
                 <PiEraserFill />
-              </button>
+              </Button>
 
               <Menu>
                 {({ open }) => (
                   <>
-                    <MenuButton title={t("generic.order")} className="w-8 h-8 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center text-lg rounded select-none">
+                    <MenuButton title={t("generic.order")} className="w-8 h-8 bg-zinc-850 shadow shadow-zinc-950 hover:shadow-none flex items-center justify-center text-lg rounded">
                       <PiArrowsDownUpFill />
                     </MenuButton>
                     <AnimatePresence>
@@ -359,7 +359,7 @@ function ListMods(): JSX.Element {
                         <MenuItems static anchor="bottom" className={clsx("w-40 flex flex-col rounded mt-2 bg-zinc-800 overflow-hidden text-sm", open ? "opacity-100" : "opacity-0")}>
                           {ORDER_BY.map((ob) => (
                             <MenuItem key={ob.key}>
-                              <button
+                              <Button
                                 onClick={() => changeOrder(ob.key)}
                                 className="px-2 py-1 rounded hover:pl-3 duration-100 odd:bg-zinc-850 even:bg-zinc-800 flex gap-2 items-center justify-between"
                               >
@@ -368,7 +368,7 @@ function ListMods(): JSX.Element {
                                   {ob.value}
                                 </span>
                                 {orderBy === ob.key && (orderByOrder === "desc" ? <PiArrowDownBold /> : <PiArrowDownBold className="rotate-180" />)}
-                              </button>
+                              </Button>
                             </MenuItem>
                           ))}
                         </MenuItems>
@@ -380,25 +380,26 @@ function ListMods(): JSX.Element {
 
               {searching && (
                 <div className="w-8 h-8 flex items-center justify-center">
-                  <FiLoader className="animate-spin text-lg text-zinc-500" />
+                  <FiLoader className="animate-spin text-lg text-zinc-400" />
                 </div>
               )}
             </div>
 
             {modsList.length < 1 ? (
               <div className="flex flex-col justify-center items-center gap-4">
-                <p className="text-zinc-500">{searching ? t("features.mods.searching") : t("features.mods.noMatchingFilters")}</p>
+                <p className="text-zinc-400">{searching ? t("features.mods.searching") : t("features.mods.noMatchingFilters")}</p>
               </div>
             ) : (
               <>
                 {modsList.slice(0, visibleMods).map((mod) => (
                   <div key={mod.modid} className="group w-60 h-48 relative">
-                    <button
+                    <Button
                       onClick={(e) => {
                         e.preventDefault()
-                        setModToInstall({ modid: mod.modid, name: mod.name })
+                        if (!config.installations.some((i) => i.id === config.lastUsedInstallation)) return addNotification(t("features.installations.noInstallationSelected"), "error")
+                        setModToInstall(mod.modid)
                       }}
-                      className="w-full h-full flex flex-col rounded bg-zinc-800 shadow shadow-zinc-900 group-hover:shadow-lg group-hover:shadow-zinc-900 absolute group-hover:w-64 group-hover:h-72 group-hover:-translate-y-4 group-hover:-translate-x-2 z-0 group-hover:z-20 duration-100 overflow-hidden"
+                      className="w-full h-full flex flex-col rounded bg-zinc-800 shadow shadow-zinc-950 group-hover:shadow-lg group-hover:shadow-zinc-950 absolute group-hover:w-64 group-hover:h-72 group-hover:-translate-y-4 group-hover:-translate-x-2 z-0 group-hover:z-20 duration-100 overflow-hidden"
                     >
                       <div className="w-full relative">
                         <img
@@ -407,16 +408,16 @@ function ListMods(): JSX.Element {
                           className="group w-full h-32 aspect-video object-cover object-center bg-zinc-850 rounded "
                         />
                         <div className="opacity-0 group-hover:opacity-100 duration-200 absolute top-0 left-0 w-full h-full flex items-center justify-center bg-zinc-900/50">
-                          <button
+                          <Button
                             onClick={(e) => {
                               e.preventDefault()
                               e.stopPropagation()
                               window.api.utils.openOnBrowser(`https://mods.vintagestory.at/show/mod/${mod.assetid}`)
                             }}
-                            className="px-2 py-1 rounded bg-zinc-900 shadow shadow-zinc-900 hover:shadow-none text-sm"
+                            className="px-2 py-1 rounded bg-zinc-900 shadow shadow-zinc-950 hover:shadow-none text-sm"
                           >
                             {t("features.mods.openOnTheModDB")}
-                          </button>
+                          </Button>
                         </div>
                       </div>
                       <div className="w-full h-16 group-hover:h-40 duration-100 px-2 py-1">
@@ -428,9 +429,9 @@ function ListMods(): JSX.Element {
                             <span>{mod.author}</span>
                           </p>
 
-                          <p className="text-sm text-zinc-500 line-clamp-3 opacity-0 group-hover:opacity-100 duration-100 delay-0 group-hover:delay-100">{mod.summary}</p>
+                          <p className="text-sm text-zinc-400 line-clamp-3 opacity-0 group-hover:opacity-100 duration-100 delay-0 group-hover:delay-100">{mod.summary}</p>
 
-                          <div className="w-full text-sm text-zinc-500 flex gap-2 justify-around absolute bottom-0">
+                          <div className="w-full text-sm text-zinc-400 flex gap-2 justify-around absolute bottom-0">
                             <p className="flex items-center gap-1">
                               <PiDownloadFill />
                               <span>{mod.downloads}</span>
@@ -446,7 +447,7 @@ function ListMods(): JSX.Element {
                           </div>
                         </div>
                       </div>
-                    </button>
+                    </Button>
                   </div>
                 ))}
               </>
@@ -454,112 +455,83 @@ function ListMods(): JSX.Element {
           </>
         </div>
 
-        <AnimatePresence>
-          {modToInstall && (
-            <Dialog
-              static
-              as={motion.div}
-              initial={{ opacity: 0, scale: 0 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0 }}
-              open={modToInstall !== undefined}
-              onClose={() => {
-                setModToInstall(null)
-                setModVersions([])
-              }}
-              className="w-full h-full absolute top-0 left-0 z-[200] flex justify-center items-center backdrop-blur-sm"
-            >
-              <DialogPanel className="w-[800px] flex flex-col gap-2 text-center bg-zinc-850 rounded p-8">
-                <DialogTitle className="text-2xl font-bold">{t("features.mods.installMod")}</DialogTitle>
-                <Description className="w-full flex flex-col gap-2 text-zinc-500">{t("features.mods.installationPopupDesc", { modName: modToInstall.name })}</Description>
-                <TableWrapper className="max-h-[300px] overflow-y-scroll text-center">
-                  <TableHead>
-                    <TableHeadRow>
-                      <TableCell className="w-2/12">{t("generic.version")}</TableCell>
-                      <TableCell className="w-3/12">{t("generic.releaseDate")}</TableCell>
-                      <TableCell className="w-5/12">{t("generic.versions")}</TableCell>
-                      <TableCell className="w-2/12">{t("generic.actions")}</TableCell>
-                    </TableHeadRow>
-                  </TableHead>
+        <PopupDialogPanel
+          title={t("features.mods.installMod")}
+          isOpen={modToInstall !== null}
+          close={() => {
+            setModToInstall(null)
+            setDownloadableModToInstall(null)
+          }}
+          maxWidth={false}
+        >
+          <>
+            <p>{t("features.mods.installationPopupDesc", { modName: downloadableModToInstall?.name })}</p>
+            <TableWrapper className="w-[800px]">
+              <TableHead>
+                <TableHeadRow>
+                  <TableCell className="w-2/12">{t("generic.version")}</TableCell>
+                  <TableCell className="w-3/12">{t("generic.releaseDate")}</TableCell>
+                  <TableCell className="w-5/12">{t("generic.versions")}</TableCell>
+                  <TableCell className="w-2/12">{t("generic.actions")}</TableCell>
+                </TableHeadRow>
+              </TableHead>
 
-                  <TableBody className="overflow-x-hidden">
-                    {modVersions.length === 0 && (
-                      <TableBodyRow>
-                        <TableCell className="w-full h-24 flex items-center justify-center">
-                          <FiLoader className="animate-spin text-3xl text-zinc-500" />
-                        </TableCell>
-                      </TableBodyRow>
-                    )}
-                    {modVersions.map((mv) => (
-                      <TableBodyRow key={mv.releaseid} disabled={installationMods.find((im) => mv.modidstr === im.modid)?.version === mv.modversion}>
-                        <TableCell className="w-2/12">{mv.modversion}</TableCell>
-                        <TableCell className="w-3/12">{new Date(mv.created).toLocaleDateString("es")}</TableCell>
-                        <TableCell className="w-5/12 overflow-hidden whitespace-nowrap text-ellipsis">
-                          <input type="text" value={mv.tags.join(", ")} readOnly className="w-full bg-transparent outline-none text-center" />
-                        </TableCell>
-                        <TableCell className="w-2/12 flex gap-2 items-center justify-center">
-                          <button
-                            disabled={installationMods.find((im) => mv.modidstr === im.modid)?.version === mv.modversion}
-                            onClick={async (e) => {
-                              e.preventDefault()
-                              e.stopPropagation()
-
-                              const installation = config.installations.find((i) => i.id === config.lastUsedInstallation)
-
-                              if (!installation) return addNotification(t("notifications.titles.error"), t("features.installations.noInstallationSelected"), "error")
-
-                              const installPath = await window.api.pathsManager.formatPath([installation.path, "Mods"])
-
-                              const oldMod = installationMods.find((im) => mv.modidstr === im.modid)
-                              if (oldMod) await window.api.pathsManager.deletePath(oldMod.path)
-
-                              startDownload(
-                                t("features.mods.modTaskName", { name: modToInstall.name, version: `v${mv.modversion}`, installation: installation.name }),
-                                t("features.mods.modDownloadDesc", { name: modToInstall.name, version: `v${mv.modversion}`, installation: installation.name }),
-                                mv.mainfile,
-                                installPath,
-                                `${mv.modidstr}-${mv.modversion}`,
-                                async (status, path, error) => {
-                                  if (!status) return window.api.utils.logMessage("error", `[component] [ListMods] Error downloading mod: ${error}`)
-                                  window.api.utils.logMessage("info", `[component] [ListMods] Downloaded mod ${mv.mainfile} on ${path}`)
-                                  countMods()
-                                  setInstallationMods(await getMods())
-                                }
-                              )
-
-                              setModToInstall(null)
-                              setModVersions([])
-                            }}
-                            className={clsx(
-                              "w-7 h-7 rounded flex items-center justify-center",
-                              config.installations.some((i) => i.id === config.lastUsedInstallation) &&
-                                mv.tags.includes(`v${config.installations.find((i) => i.id === config.lastUsedInstallation)!.version}`)
-                                ? "bg-green-700"
-                                : mv.tags.some((mvt) =>
-                                      mvt.startsWith(
-                                        `v${config.installations
-                                          .find((i) => i.id === config.lastUsedInstallation)!
-                                          .version.split(".")
-                                          .slice(0, 2)
-                                          .join(".")}`
-                                      )
-                                    )
-                                  ? "bg-yellow-600"
-                                  : "bg-red-700"
-                            )}
-                            title={installationMods.some((im) => mv.modidstr === im.modid) ? t("features.installations.updateOnInstallation") : t("features.installations.installOnInstallation")}
-                          >
-                            {installationMods.some((im) => mv.modidstr === im.modid) ? <PiArrowClockwiseFill /> : <PiDownloadFill />}
-                          </button>
-                        </TableCell>
-                      </TableBodyRow>
-                    ))}
-                  </TableBody>
-                </TableWrapper>
-              </DialogPanel>
-            </Dialog>
-          )}
-        </AnimatePresence>
+              <TableBody className="max-h-[300px]">
+                {!downloadableModToInstall && (
+                  <TableBodyRow>
+                    <TableCell className="w-full h-24 flex items-center justify-center">
+                      <FiLoader className="animate-spin text-3xl text-zinc-400" />
+                    </TableCell>
+                  </TableBodyRow>
+                )}
+                {downloadableModToInstall?.releases.map((release) => (
+                  <TableBodyRow key={release.releaseid} disabled={installationMods.find((im) => release.modidstr === im.modid)?.version === release.modversion}>
+                    <TableCell className="w-2/12">{release.modversion}</TableCell>
+                    <TableCell className="w-3/12">{new Date(release.created).toLocaleDateString("es")}</TableCell>
+                    <TableCell className="w-5/12 overflow-hidden whitespace-nowrap text-ellipsis">
+                      <input type="text" value={release.tags.join(", ")} readOnly className="w-full bg-transparent outline-none text-center" />
+                    </TableCell>
+                    <TableCell className="w-2/12 flex gap-2 items-center justify-center">
+                      <Button
+                        disabled={installationMods.find((im) => release.modidstr === im.modid)?.version === release.modversion}
+                        onClick={() => {
+                          installMod(
+                            config.installations.find((i) => i.id === config.lastUsedInstallation),
+                            downloadableModToInstall || undefined,
+                            release,
+                            undefined
+                          )
+                          setModToInstall(null)
+                          setDownloadableModToInstall(null)
+                        }}
+                        className={clsx(
+                          "w-7 h-7 rounded flex items-center justify-center",
+                          config.installations.some((i) => i.id === config.lastUsedInstallation) &&
+                            release.tags.includes(`v${config.installations.find((i) => i.id === config.lastUsedInstallation)!.version}`)
+                            ? "bg-green-700"
+                            : release.tags.some((mvt) =>
+                                  mvt.startsWith(
+                                    `v${config.installations
+                                      .find((i) => i.id === config.lastUsedInstallation)!
+                                      .version.split(".")
+                                      .slice(0, 2)
+                                      .join(".")}`
+                                  )
+                                )
+                              ? "bg-yellow-600"
+                              : "bg-red-700"
+                        )}
+                        title={installationMods.some((im) => release.modidstr === im.modid) ? t("features.installations.updateOnInstallation") : t("features.installations.installOnInstallation")}
+                      >
+                        {installationMods.some((im) => release.modidstr === im.modid) ? <PiArrowClockwiseFill /> : <PiDownloadFill />}
+                      </Button>
+                    </TableCell>
+                  </TableBodyRow>
+                ))}
+              </TableBody>
+            </TableWrapper>
+          </>
+        </PopupDialogPanel>
       </div>
     </div>
   )

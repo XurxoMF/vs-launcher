@@ -21,21 +21,22 @@ export function useMakeInstallationBackup(): (installationId: string) => Promise
     const installation = config.installations.find((i) => i.id === installationId)
 
     if (!installation) {
-      addNotification(t("notifications.titles.error"), t("features.installations.noInstallationFound"), "error")
+      addNotification(t("features.installations.noInstallationFound"), "error")
       return false
     }
 
     if (installation._backuping) {
-      addNotification(t("notifications.titles.error"), t("features.backups.backupInProgress"), "error")
+      addNotification(t("features.backups.backupInProgress"), "error")
       return false
     }
 
     if (installation._playing) {
-      addNotification(t("notifications.titles.error"), t("features.backups.backupWhilePlaying"), "error")
+      addNotification(t("features.backups.backupWhilePlaying"), "error")
       return false
     }
+
     if (installation._restoringBackup) {
-      addNotification(t("notifications.titles.error"), t("features.backups.restoreInProgress"), "error")
+      addNotification(t("features.backups.restoreInProgress"), "error")
       return false
     }
 
@@ -83,7 +84,7 @@ export function useMakeInstallationBackup(): (installationId: string) => Promise
         )
       } catch (err) {
         window.api.utils.logMessage("error", `[ListInstallations] [backup] Error making a backup: ${err}`)
-        addNotification(t("notifications.titles.error"), t("features.backups.errorMakingBackup"), "error")
+        addNotification(t("features.backups.errorMakingBackup"), "error")
         return false
       } finally {
         window.api.utils.setPreventAppClose("remove", id, "Finished installation backup.")

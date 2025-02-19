@@ -55,7 +55,6 @@
       "backupsFolder": "Kopie zapasowe",
       "defaultInstallationsFolder": "Instancje",
       "defaultVersionsFolder": "Wersje Gry",
-      "folders": "Foldery domyślne",
       "title": "Ustawienia"
     },
     "generic": {
@@ -88,13 +87,11 @@
       "installationSuccessfullyDeleted": "Instancja usunięta pomyślnie!",
       "installationSuccessfullyEdited": "Instancja edytowana pomyślnie!",
       "labelStartParams": "Parametry startowe",
-      "listTitle": "Lista instancji",
       "noInstallationFound": "Instancja nie została znaleziona!",
       "noInstallationFoundDesc": "Wybrana instancja nie istnieje!",
       "noInstallationSelected": "Nie wybrano instancji!",
       "noInstallationsFound": "Nie znaleziono żadnej instancji!",
       "noInstallationsFoundDesc": "Dodaj nowy na stronie <link />",
-      "noInstallationsFoundDescOnPage": "Dodaj nowy za pomocą <button/> przycisku",
       "restoreBackup": "Przywróć kopię zapasową instancji",
       "startParams": "Parametry startowe",
       "startParamsDesc": "Lista wszystkich dostępnych parametrów startowych: <link />",
@@ -121,14 +118,12 @@
       "labelPreReleases": "Wersje Testowe",
       "labelRCs": "Kandydaci na wersję stabilną",
       "labelStables": "Wydania stabilne",
-      "listTitle": "Lista wersji",
       "lookForAVersion": "Wyszukaj wersji",
       "missingFolderOrVersion": "Nie wybrano żadnego folderu lub w wybranym folderze nie zainstalowano żadnej wersji gry!",
       "noVersionFoundOnThatFolder": "Nie znaleziono wersji w wybranym folderze!",
       "noVersionSelected": "Nie wybrano żadnej wersji!",
       "noVersionsFound": "Nie znaleziono żadnej wersji!",
       "noVersionsFoundDesc": "Zainstaluj nowy na <link /> stronie!",
-      "noVersionsFoundDescOnPage": "Zainstaluj nowy za pomocą <button/> przycisku.",
       "searchForAGameVersion": "Wyszukaj wersję gry",
       "uninstallVersion": "Odinstaluj wersję",
       "uninstallingNotReversible": "Odinstalowanie jest NIEODWRACALNE, ale można ponownie pobrać tę samą wersję!",
@@ -146,10 +141,7 @@
   },
   "generic": {
     "add": "Dodaj",
-    "advanced": "Zaawansowane",
     "backup": "Kopia zapasowa",
-    "backups": "Kopie zapasowe",
-    "basics": "Podstawy",
     "browse": "Przeglądaj",
     "byAnonymous": "anonimowo",
     "cancel": "Anuluj",
@@ -164,7 +156,6 @@
     "issues": "Problemy",
     "minMaxAmmount": "Liczba pomiędzy {{min}} i {{max}}.",
     "minMaxLength": "{{min}} do {{max}} znaków",
-    "name": "Nazwa",
     "openOnFileExplorer": "Otwórz folder w eksploratorze plików",
     "play": "Graj",
     "releaseDate": "Data wydania",
@@ -173,8 +164,7 @@
     "source": "Źródło",
     "type": "Typ",
     "uninstall": "Odinstaluj",
-    "version": "Wersja",
-    "amount": "Ilość"
+    "version": "Wersja"
   },
   "notifications": {
     "body": {

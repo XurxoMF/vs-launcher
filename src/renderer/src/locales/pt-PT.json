@@ -16,20 +16,15 @@
     "add": "Adicionar",
     "goBack": "Voltar",
     "save": "Guardar",
-    "name": "Nome",
     "version": "Versão",
     "releaseDate": "Data de lançamento",
     "type": "Tipo",
     "install": "Instalar",
-    "backups": "Backups",
-    "basics": "Básico",
-    "advanced": "Avançado",
     "minMaxAmmount": "Número entre {{min}} e {{max}}",
     "backup": "Backup",
     "edit": "Editar",
     "donate": "Doar",
-    "restore": "Restaurar",
-    "amount": "Quantidade"
+    "restore": "Restaurar"
   },
   "features": {
     "generic": {
@@ -43,7 +38,6 @@
     "versions": {
       "uninstallVersion": "Desinstalar versão",
       "noVersionsFound": "Nenhuma versão encontrada!",
-      "noVersionsFoundDescOnPage": "Instale uma nova com o botão <button/>",
       "areYouSureUninstall": "Tem a certeza de que deseja desinstalar esta versão?",
       "uninstallingNotReversible": "A desinstalação não é reversível, mas pode descarregar a mesma versão novamente!",
       "noVersionSelected": "Nenhuma versão selecionada!",
@@ -62,7 +56,6 @@
       "labelStables": "Estáveis",
       "labelRCs": "Candidatos a lançamento",
       "labelPreReleases": "Pré-lançamentos",
-      "listTitle": "Lista de versões",
       "searchForAGameVersion": "Procurar por uma versão do jogo",
       "missingFolderOrVersion": "Não tem pasta selecionada ou não existe uma versão do jogo na pasta que selecionou!",
       "lookForAVersion": "Procurar por uma versão",
@@ -77,7 +70,6 @@
     "installations": {
       "noInstallationsFound": "Nenhuma instalação encontrada!",
       "noInstallationsFoundDesc": "Adicione uma nova na página <link />",
-      "noInstallationsFoundDescOnPage": "Adicione uma nova com o botão <button/>",
       "deleteInstallation": "Apagar instalação",
       "areYouSureDelete": "Tem a certeza de que deseja apagar esta instalação?",
       "deletingNotReversible": "A eliminação não é reversível, por isso, se marcar a opção de apagar os dados, não poderá restaurar os seus mundos, dados e outras informações.",
@@ -93,7 +85,6 @@
       "errorEditingInstallation": "Ocorreu um erro ao editar a instalação!",
       "editTitle": "Editar instalação",
       "noInstallationFoundDesc": "A instalação que selecionou não existe!",
-      "listTitle": "Lista de instalações",
       "deleteData": "Apagar dados",
       "installationSuccessfullyDeleted": "Instalação apagada com sucesso!",
       "errorDeletingInstallation": "Ocorreu um erro ao apagar a instalação!",
@@ -121,7 +112,6 @@
       "defaultInstallationsFolder": "Instalações",
       "defaultVersionsFolder": "Versões",
       "title": "Definições",
-      "folders": "Pastas predefinidas",
       "backupsFolder": "Backups"
     },
     "backups": {

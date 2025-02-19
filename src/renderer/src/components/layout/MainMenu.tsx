@@ -4,6 +4,7 @@ import { Link, useLocation } from "react-router-dom"
 import { Button } from "@headlessui/react"
 import { PiGearFill } from "react-icons/pi"
 import { v4 as uuidv4 } from "uuid"
+import clsx from "clsx"
 
 import icon from "@renderer/assets/icon.png"
 import iconVersions from "@renderer/assets/icon-versions.png"
@@ -19,7 +20,6 @@ import { useMakeInstallationBackup } from "@renderer/features/installations/hook
 import LanguagesMenu from "@renderer/components/ui/LanguagesMenu"
 import InstallationsDropdownMenu from "@renderer/features/installations/components/InstallationsDropdownMenu"
 import TasksMenu from "@renderer/components/ui/TasksMenu"
-import clsx from "clsx"
 
 interface MainMenuLinkProps {
   icon: string
@@ -90,14 +90,14 @@ function MainMenu(): JSX.Element {
 
     try {
       const installationToRun = config.installations.find((installation) => installation.id === config.lastUsedInstallation)
-      if (!installationToRun) return addNotification(t("notifications.titles.error"), t("features.installations.noInstallationSelected"), "error")
-      if (installationToRun._playing) return addNotification(t("notifications.titles.error"), t("features.installations.gameAlreadyRunning"), "error")
+      if (!installationToRun) return addNotification(t("features.installations.noInstallationSelected"), "error")
+      if (installationToRun._playing) return addNotification(t("features.installations.gameAlreadyRunning"), "error")
 
       const gameVersionToRun = config.gameVersions.find((gv) => gv.version === installationToRun.version)
-      if (!gameVersionToRun) return addNotification(t("notifications.titles.error"), t("features.versions.versionNotInstalled", { version: installationToRun.version }), "error")
-      if (gameVersionToRun._installing) return addNotification(t("notifications.titles.error"), t("features.versions.versionInstalling", { version: installationToRun.version }), "error")
-      if (gameVersionToRun._deleting) return addNotification(t("notifications.titles.error"), t("features.versions.versionDeleting", { version: installationToRun.version }), "error")
-      if (gameVersionToRun._playing) return addNotification(t("notifications.titles.error"), t("features.versions.versionPlaying", { version: installationToRun.version }), "error")
+      if (!gameVersionToRun) return addNotification(t("features.versions.versionNotInstalled", { version: installationToRun.version }), "error")
+      if (gameVersionToRun._installing) return addNotification(t("features.versions.versionInstalling", { version: installationToRun.version }), "error")
+      if (gameVersionToRun._deleting) return addNotification(t("features.versions.versionDeleting", { version: installationToRun.version }), "error")
+      if (gameVersionToRun._playing) return addNotification(t("features.versions.versionPlaying", { version: installationToRun.version }), "error")
 
       configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id: installationToRun.id, updates: { _playing: true } } })
       configDispatch({ type: CONFIG_ACTIONS.EDIT_GAME_VERSION, payload: { version: gameVersionToRun.version, updates: { _playing: true } } })
@@ -110,18 +110,18 @@ function MainMenu(): JSX.Element {
       const closeStatus = await window.api.gameManager.executeGame(gameVersionToRun, installationToRun)
       configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id: installationToRun.id, updates: { _playing: false } } })
       configDispatch({ type: CONFIG_ACTIONS.EDIT_GAME_VERSION, payload: { version: gameVersionToRun.version, updates: { _playing: false } } })
-      if (!closeStatus) return addNotification(t("notifications.titles.error"), t("notifications.body.gameExitedWithErrors"), "error")
+      if (!closeStatus) return addNotification(t("notifications.body.gameExitedWithErrors"), "error")
     } catch (err) {
-      addNotification(t("notifications.titles.error"), t("notifications.body.errorExecutingGame"), "error")
+      addNotification(t("notifications.body.errorExecutingGame"), "error")
     } finally {
       window.api.utils.setPreventAppClose("remove", id, "Finished playing vintage Story.")
     }
   }
 
   return (
-    <header className="z-99 w-[280px] flex flex-col gap-4 p-2 shadow-[0_0_5px_2px] shadow-zinc-900">
+    <header className="z-[500] w-[280px] flex flex-col gap-4 p-2 bg-zinc-950/50 shadow shadow-zinc-950">
       <div className="flex h-7 shrink-0 gap-2">
-        <Link to="/config" title={t("features.config.title")} className="shrink-0 w-7 h-7 bg-zinc-850 rounded flex items-center justify-center shadow shadow-zinc-900 hover:shadow-none">
+        <Link to="/config" title={t("features.config.title")} className="shrink-0 w-7 h-7 bg-zinc-850 rounded flex items-center justify-center shadow shadow-zinc-950 hover:shadow-none">
           <PiGearFill />
         </Link>
         <TasksMenu />
@@ -143,7 +143,7 @@ function MainMenu(): JSX.Element {
 
       <div className="flex flex-col gap-2">
         <InstallationsDropdownMenu />
-        <Button title={t("generic.play")} onClick={PlayHandler} className="w-full h-14 bg-vs rounded shadow-md shadow-zinc-900 hover:shadow-none">
+        <Button title={t("generic.play")} onClick={PlayHandler} className="w-full h-14 bg-vs rounded shadow-md shadow-zinc-950 hover:shadow-none">
           <p className="text-2xl">{t("generic.play")}</p>
         </Button>
       </div>
@@ -168,19 +168,14 @@ function LinkContent({ icon, text, desc, link, external }: LinkContentProps): JS
   }
 
   return (
-    <div
-      className={clsx(
-        "w-full flex items-center gap-2 px-2 py-1 rounded duration-100 group hover:translate-x-1 border-l-4 select-none",
-        currentLocation() ? "border-vs bg-vs/15" : "border-transparent"
-      )}
-    >
+    <div className={clsx("w-full flex items-center gap-2 px-2 py-1 rounded duration-100 group hover:pl-3 border-l-4", currentLocation() ? "border-vs bg-vs/15" : "border-transparent")}>
       <img src={icon} alt={text} className="w-7" />
       <div className="flex flex-col overflow-hidden whitespace-nowrap">
         <div className="font-bold text-sm flex items-center gap-2">
           <p className="overflow-hidden text-ellipsis">{text}</p>
-          {external && <FiExternalLink className="text-zinc-600" />}
+          {external && <FiExternalLink className="text-zinc-500" />}
         </div>
-        <p className="text-zinc-600 text-xs overflow-hidden text-ellipsis">{desc}</p>
+        <p className="text-zinc-500 text-xs overflow-hidden text-ellipsis">{desc}</p>
       </div>
     </div>
   )

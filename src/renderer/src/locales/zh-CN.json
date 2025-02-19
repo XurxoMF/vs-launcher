@@ -16,7 +16,6 @@
     "add": "添加",
     "goBack": "返回",
     "save": "保持",
-    "name": "名称",
     "version": "版本",
     "releaseDate": "发布日期",
     "type": "类型",
@@ -34,7 +33,6 @@
     "versions": {
       "uninstallVersion": "卸载版本",
       "noVersionsFound": "未找到任何版本！",
-      "noVersionsFoundDescOnPage": "使用 <button/> 按钮安装一个新版本",
       "areYouSureUninstall": "您确定要卸载该版本吗？",
       "uninstallingNotReversible": "卸载过程不可逆，但是您随时可以再次下载该版本。",
       "noVersionSelected": "未检测到任何版本!",
@@ -53,7 +51,6 @@
       "labelStables": "稳定版本",
       "labelRCs": "RC版本",
       "labelPreReleases": "预发布版本",
-      "listTitle": "版本列表",
       "searchForAGameVersion": "查找游戏版本",
       "missingFolderOrVersion": "您未选择任何文件夹或您选择的文件夹中没有任何游戏版本！",
       "lookForAVersion": "查找一个版本",
@@ -62,7 +59,6 @@
     "installations": {
       "noInstallationsFound": "为找到任何安装！",
       "noInstallationsFoundDesc": "在 <link /> 页面安装一个新游戏版本",
-      "noInstallationsFoundDescOnPage": "使用 <button/> 按钮安装一个新游戏版本",
       "deleteInstallation": "删除安装",
       "areYouSureDelete": "您确定要删除该安装吗？",
       "deletingNotReversible": "删除过程不可逆， 如果您勾选删除数据选项，您将不能恢复您的游戏存档、数据以及其他信息。",
@@ -78,7 +74,6 @@
       "errorEditingInstallation": "在编辑安装时出现错误！",
       "editTitle": "编辑安装",
       "noInstallationFoundDesc": "您选择的安装不存在！",
-      "listTitle": "安装列表",
       "deleteData": "删除数据",
       "installationSuccessfullyDeleted": "安装删除成功！",
       "errorDeletingInstallation": "在删除安装时出现错误！"

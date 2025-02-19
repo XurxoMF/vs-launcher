@@ -9,7 +9,7 @@ import clsx from "clsx"
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
 export function FromWrapper({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
-  return <div className={clsx("mx-auto flex flex-col gap-8 items-start justify-center", className)}>{children}</div>
+  return <div className={clsx("mx-auto flex flex-col gap-4 items-start justify-center", className)}>{children}</div>
 }
 
 /**
@@ -34,11 +34,10 @@ export function FromGroup({ children, className, alignment = "x" }: { children: 
  * @param {string} [props.title] - The title of the FormGroupWrapper.
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
-export function FormGroupWrapper({ children, className, title }: { children: React.ReactNode; className?: string; title?: string }): JSX.Element {
+export function FormGroupWrapper({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
   return (
-    <div className="w-full flex flex-col gap-1 relative">
-      {title && <h2 className="bg-zinc-800 text-zinc-600 absolute -top-3 left-4 px-1 select-none">{title}</h2>}
-      <div className={clsx("w-full flex flex-col gap-4 border border-zinc-700 rounded p-3", className)}>{children}</div>
+    <div className={clsx("w-full flex flex-col p-4 gap-4 relative rounded-md", className)}>
+      <>{children}</>
     </div>
   )
 }
@@ -76,7 +75,7 @@ export function FormBody({ children, className }: { children: React.ReactNode; c
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
 export function FormLabel({ className, content }: { className?: string; content: JSX.Element | string }): JSX.Element {
-  return <div className={clsx("h-8 flex gap-1 items-center flex-wrap justify-end text-right select-none", className)}>{content}</div>
+  return <div className={clsx("h-8 flex gap-1 items-center flex-wrap justify-end text-right", className)}>{content}</div>
 }
 
 /**
@@ -118,5 +117,5 @@ export function FormFieldGroupWithDescription({ children, className, alignment =
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
 export function FormFieldDescription({ className, content }: { className?: string; content: JSX.Element | string }): JSX.Element {
-  return <p className={clsx("flex gap-1 items-center flex-wrap justify-start text-xs text-zinc-600 pl-1 select-none", className)}>{content}</p>
+  return <p className={clsx("flex gap-1 items-center flex-wrap justify-start text-xs text-zinc-500 pl-1", className)}>{content}</p>
 }

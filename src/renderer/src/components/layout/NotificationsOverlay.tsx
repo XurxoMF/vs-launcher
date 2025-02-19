@@ -1,6 +1,8 @@
 import { motion, AnimatePresence } from "motion/react"
 import { PiInfoFill, PiWarningFill, PiCheckCircleFill, PiProhibitInsetFill, PiXBold } from "react-icons/pi"
 import { useTranslation } from "react-i18next"
+import { Button } from "@headlessui/react"
+
 import clsx from "clsx"
 
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
@@ -31,7 +33,7 @@ function NotificationsOverlay(): JSX.Element {
   const { notifications, removeNotification } = useNotificationsContext()
 
   return (
-    <div className="w-[300px] h-fit absolute flex flex-col items-end top-0 right-0 z-[800] p-2 gap-2 select-none">
+    <div className="w-[300px] h-fit absolute flex flex-col items-end top-0 right-0 z-[800] p-2 gap-2">
       <AnimatePresence>
         {notifications.map(({ id, title, body, type, options }) => (
           <motion.div
@@ -50,11 +52,11 @@ function NotificationsOverlay(): JSX.Element {
               <span className={clsx("text-xl p-2 rounded-full border", BORDER_COLOR_TYPES[type], FONT_COLOR_TYPES[type])}>{ICON_TYPES[type]}</span>
               <div className="flex flex-col items-start justify-center">
                 <p className="font-bold text-sm">{title}</p>
-                <p className="text-xs text-zinc-500">{body}</p>
+                <p className="text-xs text-zinc-400">{body}</p>
               </div>
             </div>
-            <button
-              className="p-1 text-zinc-500"
+            <Button
+              className="p-1 text-zinc-400"
               title={t("notifications.discard")}
               onClick={(e) => {
                 e.preventDefault()
@@ -63,7 +65,7 @@ function NotificationsOverlay(): JSX.Element {
               }}
             >
               <PiXBold />
-            </button>
+            </Button>
           </motion.div>
         ))}
       </AnimatePresence>

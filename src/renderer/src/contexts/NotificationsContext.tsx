@@ -17,7 +17,7 @@ export interface NotificationType {
 
 interface NotificationsContextType {
   notifications: NotificationType[]
-  addNotification: (title: string, body: string, type: NotificationTypes, options?: { duration?: number; onClick?: () => void }) => void
+  addNotification: (body: string, type: NotificationTypes, options?: { duration?: number; onClick?: () => void }) => void
   removeNotification: (id: string) => void
 }
 
@@ -35,19 +35,26 @@ const NotificationsProvider = ({ children }: { children: React.ReactNode }): JSX
       firstExecutedNotificationsContext.current = false
 
       window.api.appUpdater.onUpdateAvailable(() => {
-        addNotification(t("notifications.titles.info"), t("notifications.body.updateAvailable"), "info")
+        addNotification(t("notifications.body.updateAvailable"), "info")
       })
 
       window.api.appUpdater.onUpdateDownloaded(() => {
-        addNotification(t("notifications.titles.info"), t("notifications.body.updateDownloaded"), "success")
+        addNotification(t("notifications.body.updateDownloaded"), "success")
       })
     }
   }, [])
 
-  const addNotification = (title: string, body: string, type: NotificationTypes, options?: { duration?: number; onClick?: () => void }): void => {
+  const addNotification = (body: string, type: NotificationTypes, options?: { duration?: number; onClick?: () => void }): void => {
     const id = uuidv4()
     const duration = options?.duration || 6000
     const onClick = options?.onClick
+
+    const title =
+      (type === "error" && t("notifications.titles.error")) ||
+      (type === "warning" && t("notifications.titles.warning")) ||
+      (type === "info" && t("notifications.titles.info")) ||
+      (type === "success" && t("notifications.titles.success")) ||
+      t("notifications.titles.info")
 
     setNotifications((prev) => [...prev, { id, title, body, type, options: { duration, onClick } }])
 

@@ -1,4 +1,4 @@
-import { Button } from "@headlessui/react"
+import { Button as HButton } from "@headlessui/react"
 import clsx from "clsx"
 import { Link } from "react-router-dom"
 
@@ -26,9 +26,9 @@ export function ButtonsWrapper({ children, className }: { children: React.ReactN
  */
 export function FormButton({ className, onClick, title }: { className?: string; onClick: () => void; title: string }): JSX.Element {
   return (
-    <Button onClick={onClick} title={title} className={clsx("w-fit h-8 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded select-none", className)}>
-      <p className="px-2 py-1">{title}</p>
-    </Button>
+    <HButton onClick={onClick} title={title} className={clsx("w-fit h-8 bg-zinc-950/50 shadow shadow-zinc-950 hover:shadow-none flex items-center justify-center rounded px-2 py-1", className)}>
+      {title}
+    </HButton>
   )
 }
 
@@ -43,8 +43,8 @@ export function FormButton({ className, onClick, title }: { className?: string; 
  */
 export function FormLinkButton({ className, to, title }: { className?: string; to: string; title: string }): JSX.Element {
   return (
-    <Link to={to} title={title} className={clsx("w-fit h-8 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded select-none", className)}>
-      <p className="px-2 py-1">{title}</p>
+    <Link to={to} title={title} className={clsx("w-fit h-8 bg-zinc-950/50 shadow shadow-zinc-950 hover:shadow-none flex items-center justify-center rounded px-2 py-1", className)}>
+      {title}
     </Link>
   )
 }

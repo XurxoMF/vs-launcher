@@ -16,7 +16,6 @@
     "add": "Hinzufügen",
     "goBack": "Zurückgehen",
     "save": "Speichern",
-    "name": "Name",
     "version": "Version",
     "releaseDate": "Erscheinungsdatum",
     "type": "Typ",
@@ -34,7 +33,6 @@
     "versions": {
       "uninstallVersion": "Version deinstallieren",
       "noVersionsFound": "Keine Version gefunden!",
-      "noVersionsFoundDescOnPage": "Mit der <button/>-Schaltfläche eine neue Version installieren",
       "areYouSureUninstall": "Bist du sicher, dass du diese Version deinstallieren willst?",
       "uninstallingNotReversible": "Die Deinstallation kann nicht rückgängig gemacht werden, aber du kannst die gleiche Version erneut herunterladen!",
       "noVersionSelected": "Keine Version ausgewählt!",
@@ -53,7 +51,6 @@
       "labelStables": "Stabile Versionen",
       "labelRCs": "Freigabekandidaten",
       "labelPreReleases": "Vorabveröffentlichungen",
-      "listTitle": "Liste der Versionen",
       "searchForAGameVersion": "Spielversion suchen",
       "missingFolderOrVersion": "Du hast keinen Ordner ausgewählt oder der Ordner, den du ausgewählt hast, enthält keine Spielversion!",
       "lookForAVersion": "Version suchen",
@@ -62,7 +59,6 @@
     "installations": {
       "noInstallationsFound": "Keine Installation gefunden!",
       "noInstallationsFoundDesc": "Füge auf der <link />-Seite eine neue Installation hinzu",
-      "noInstallationsFoundDescOnPage": "Mit der <button/>-Schaltfläche eine neue Installation hinzufügen",
       "deleteInstallation": "Installation entfernen",
       "areYouSureDelete": "Bist du dir sicher, dass du diese Installation entfernen möchtest?",
       "deletingNotReversible": "Dieser Deinstallationsvorgang ist nicht rückgängig zu machen! Nach Beendigung werden deine Welten, Daten und andere Informatinonen unwiderbringlich verloren sein.",
@@ -78,7 +74,6 @@
       "errorEditingInstallation": "Es ist ein Fehler beim Bearbeiten der Installation aufgetreten!",
       "editTitle": "Installation anpassen",
       "noInstallationFoundDesc": "Die von dir gewählte Installation existiert nicht!",
-      "listTitle": "Liste der Installationen",
       "deleteData": "Daten entfernen",
       "installationSuccessfullyDeleted": "Installation erfolgreich entfernt!",
       "errorDeletingInstallation": "Es ist ein Fehler beim Löschen der Installation aufgetreten!",
@@ -101,7 +96,6 @@
     "config": {
       "title": "Einstellungen",
       "defaultInstallationsFolder": "Installationen",
-      "folders": "Standard Ordner",
       "defaultVersionsFolder": "Versionen"
     }
   },

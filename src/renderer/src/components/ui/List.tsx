@@ -21,7 +21,7 @@ export function ListWrapper({ children, className }: { children: React.ReactNode
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
 export function ListGroup({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
-  return <ul className={clsx("w-full flex flex-col", className)}>{children}</ul>
+  return <ul className={clsx("w-full flex flex-col gap-2", className)}>{children}</ul>
 }
 
 /**
@@ -35,7 +35,7 @@ export function ListGroup({ children, className }: { children: React.ReactNode; 
  */
 export function Listitem({ children, className, onClick }: { children: React.ReactNode; className?: string; onClick?: () => void }): JSX.Element {
   return (
-    <ul onClick={onClick} className={clsx("w-full hover:pl-1 duration-100 odd:bg-zinc-850 rounded cursor-pointer group overflow-hidden group", className)}>
+    <ul onClick={onClick} className={clsx("w-full rounded bg-zinc-950/50 hover:bg-vs/25 duration-200 cursor-pointer group overflow-hidden group shadow shadow-zinc-950 hover:shadow-none", className)}>
       {children}
     </ul>
   )

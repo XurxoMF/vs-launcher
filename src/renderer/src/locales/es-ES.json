@@ -52,13 +52,11 @@
       "installationSuccessfullyAdded": "¡Instalación añadida con éxito!",
       "installationSuccessfullyDeleted": "¡Instalación eliminada con éxito!",
       "installationSuccessfullyEdited": "¡Instalación editada con éxito!",
-      "listTitle": "Lista de instalaciones",
       "noInstallationFound": "¡Instalación no encontrada!",
       "noInstallationFoundDesc": "¡La instalación que has seleccionado no existe!",
       "noInstallationSelected": "¡No se seleccionó ninguna instalación!",
       "noInstallationsFound": "¡No se encontraron instalaciones!",
       "noInstallationsFoundDesc": "Añade una nueva en la página <link />",
-      "noInstallationsFoundDescOnPage": "Añade una nueva con el botón <button/>",
       "installationFolder": "Carpeta de instalación",
       "cantDeleteWhileinUse": "¡No puedes eliminar esta instalación mientras está en uso!",
       "cantUseDataPath": "El parámetro de inicio --dataPath no puede usarse ya que VS LAuncher hace uso de el. Si queires usar otra carpeta cámbiala en la instalación.",
@@ -94,7 +92,6 @@
       "modDownloadDesc": "Descargando el mod {{name}} {{version}} en {{installation}}!",
       "modSuccessfullyDeleted": "¡Mod eliminado con éxito!",
       "modTaskName": "mod {{name}} {{version}} en {{installation}}",
-      "noModFound": "¡Mod no encontrado!",
       "noModsFound": "¡No se encontraron mods!",
       "noModsInstalled": "¡No tienes mods instalados aquí! ¡Puedes instalar algunos en la página <link />!",
       "noVersionsFound": "¡No se encontraron versiones de ese mod!",
@@ -116,13 +113,11 @@
       "labelPreReleases": "Prelanzamientos",
       "labelRCs": "Candidatas a estables",
       "labelStables": "Estables",
-      "listTitle": "Lista de versiones",
       "lookForAVersion": "Busca una versión",
       "missingFolderOrVersion": "¡No has seleccionado ninguna carpeta o no hay ninguna versión del juego en la que has seleccionado!",
       "noVersionFoundOnThatFolder": "¡No se encontró ninguna versión en la carpeta que has seleccionado!",
       "noVersionSelected": "¡No se seleccionó ninguna versión!",
       "noVersionsFound": "¡No se encontraron versiones!",
-      "noVersionsFoundDescOnPage": "Instala una nueva con el botón <button/>",
       "searchForAGameVersion": "Busca una versión del juego",
       "uninstallVersion": "Desinstalar versión",
       "uninstallingNotReversible": "¡La desinstalación no es reversible pero puedes descargar la misma versión nuevamente!",
@@ -144,7 +139,6 @@
       "title": "Ajustes",
       "defaultInstallationsFolder": "Instalaciones",
       "defaultVersionsFolder": "Versiones",
-      "folders": "Carpetas predeterminadas",
       "backupsFolder": "Copias de seguridad"
     },
     "backups": {
@@ -171,9 +165,7 @@
       "errorDeletingBackup": "¡Ha ocurrido un error eliminando la copia de seguridad!",
       "errorMakingBackup": "¡Ha ocurrido un error mientras se hacía una copia de seguridad!"
     },
-    "servers": {
-      "installOnServer": "Instalar en el servidor"
-    }
+    "servers": {}
   },
   "generic": {
     "add": "Añadir",
@@ -188,7 +180,6 @@
     "install": "Instalar",
     "issues": "Problemas",
     "minMaxLength": "{{min}} a {{max}} caracteres",
-    "name": "Nombre",
     "openOnFileExplorer": "Abrir carpeta en el explorador de archivos",
     "play": "Jugar",
     "releaseDate": "Fecha de lanzamiento",
@@ -197,10 +188,7 @@
     "type": "Tipo",
     "uninstall": "Desinstalar",
     "version": "Versión",
-    "advanced": "Avanzado",
     "backup": "Hacer copia de seguridad",
-    "backups": "Copias de seguridad",
-    "basics": "Básicos",
     "donate": "Donaciónes",
     "edit": "Editar",
     "minMaxAmmount": "Número entre {{min}} y {{max}}",
@@ -217,7 +205,6 @@
     "trending": "Tendencia",
     "updated": "Actualización",
     "versions": "Versiones",
-    "amount": "Cantidad",
     "actions": "Acciones",
     "authors": "Autores",
     "contributors": "Colaboradores",

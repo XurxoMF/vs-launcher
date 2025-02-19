@@ -1,14 +1,15 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import { Button, Description, Dialog, DialogPanel, DialogTitle } from "@headlessui/react"
+import { Button } from "@headlessui/react"
 import { PiFolderFill, PiPlusCircleFill, PiTrashFill, PiMagnifyingGlassFill } from "react-icons/pi"
-import { useTranslation, Trans } from "react-i18next"
-import { AnimatePresence, motion } from "motion/react"
+import { useTranslation } from "react-i18next"
 
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 
 import { ListGroup, ListWrapper, Listitem } from "@renderer/components/ui/List"
+import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
+import PopupDialogPanel from "@renderer/components/ui/PopupDialogPanel"
 
 function ListVersions(): JSX.Element {
   const { t } = useTranslation()
@@ -17,119 +18,94 @@ function ListVersions(): JSX.Element {
 
   const [versionToDelete, setVersionToDelete] = useState<GameVersionType | null>(null)
 
+  async function DeleteVersionHandler(): Promise<void> {
+    if (versionToDelete === null) return addNotification(t("features.versions.noVersionSelected"), "error")
+
+    try {
+      if (versionToDelete._playing) return addNotification(t("features.versions.deleteWhilePlaying"), "error")
+
+      configDispatch({ type: CONFIG_ACTIONS.EDIT_GAME_VERSION, payload: { version: versionToDelete.version, updates: { _deleting: true } } })
+      const deleted = await window.api.pathsManager.deletePath(versionToDelete!.path)
+      if (!deleted) throw new Error("Error deleting fame gersion data")
+      configDispatch({ type: CONFIG_ACTIONS.DELETE_GAME_VERSION, payload: { version: versionToDelete!.version } })
+      addNotification(t("features.versions.versionUninstalledSuccesfully", { version: versionToDelete!.version }), "success")
+    } catch (err) {
+      configDispatch({ type: CONFIG_ACTIONS.EDIT_GAME_VERSION, payload: { version: versionToDelete.version, updates: { _deleting: false } } })
+      addNotification(t("features.versions.versionUninstallationFailed", { version: versionToDelete!.version }), "error")
+    } finally {
+      setVersionToDelete(null)
+    }
+  }
+
   return (
-    <>
-      <h1 className="text-3xl text-center font-bold select-none">{t("features.versions.listTitle")}</h1>
-
-      <ListWrapper className="max-w-[800px] w-full">
-        <ListGroup>
-          {config.gameVersions.length < 1 && (
-            <div className="w-full flex flex-col items-center justify-center gap-2 rounded bg-zinc-850 p-4">
-              <p className="text-2xl">{t("features.versions.noVersionsFound")}</p>
-              <p className="w-full flex gap-1 items-center justify-center">
-                <Trans i18nKey="features.versions.noVersionsFoundDescOnPage" components={{ button: <PiPlusCircleFill className="text-lg" /> }} />
-              </p>
+    <ScrollableContainer>
+      <div className="min-h-full flex flex-col items-center justify-center">
+        <ListWrapper className="max-w-[800px] w-full">
+          <ListGroup>
+            <div className="flex gap-2">
+              <Listitem>
+                <Link to="/versions/add" title={t("features.versions.installNewVersion")} className="w-full h-8 flex items-center justify-center rounded">
+                  <PiPlusCircleFill className="text-lg" />
+                </Link>
+              </Listitem>
+              <Listitem>
+                <Link to="/versions/look-for-a-version" title={t("features.versions.searchForAGameVersion")} className="w-full h-8 flex items-center justify-center rounded">
+                  <PiMagnifyingGlassFill className="text-lg" />
+                </Link>
+              </Listitem>
             </div>
-          )}
-          {config.gameVersions.map((gv) => (
-            <Listitem key={gv.version}>
-              <div className="flex gap-4 px-2 py-1 justify-between items-center">
-                <p>{gv.version}</p>
-                <p className="hidden group-hover:block text-sm text-zinc-500 overflow-hidden text-ellipsis whitespace-nowrap">{gv.path}</p>
-                <div className="flex gap-2 text-lg">
-                  <Button
-                    className="w-7 h-7 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
-                    title={t("generic.delete")}
-                    onClick={async () => {
-                      setVersionToDelete(gv)
-                    }}
-                  >
-                    <PiTrashFill />
-                  </Button>
-                  <Button
-                    onClick={async () => {
-                      if (!(await window.api.pathsManager.checkPathExists(gv.path))) return addNotification(t("notifications.titles.error"), t("notifications.body.folderDoesntExists"), "error")
-                      window.api.pathsManager.openPathOnFileExplorer(gv.path)
-                    }}
-                    title={t("generic.openOnFileExplorer")}
-                    className="w-7 h-7 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
-                  >
-                    <PiFolderFill />
-                  </Button>
+            {config.gameVersions.map((gv) => (
+              <Listitem key={gv.version}>
+                <div className="w-full h-8 flex gap-4 px-2 py-1 justify-between items-center">
+                  <p className="font-bold">{gv.version}</p>
+                  <p className="hidden group-hover:block text-sm text-zinc-400 overflow-hidden text-ellipsis whitespace-nowrap">{gv.path}</p>
+                  <div className="flex gap-1 text-lg">
+                    <Button
+                      className="p-1 flex items-center justify-center"
+                      title={t("generic.delete")}
+                      onClick={async () => {
+                        setVersionToDelete(gv)
+                      }}
+                    >
+                      <PiTrashFill />
+                    </Button>
+                    <Button
+                      onClick={async () => {
+                        if (!(await window.api.pathsManager.checkPathExists(gv.path))) return addNotification(t("notifications.body.folderDoesntExists"), "error")
+                        window.api.pathsManager.openPathOnFileExplorer(gv.path)
+                      }}
+                      title={t("generic.openOnFileExplorer")}
+                      className="p-1 flex items-center justify-center"
+                    >
+                      <PiFolderFill />
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            </Listitem>
-          ))}
-        </ListGroup>
-      </ListWrapper>
+              </Listitem>
+            ))}
+          </ListGroup>
+        </ListWrapper>
 
-      <div className="flex gap-2 justify-center items-center">
-        <Link to="/versions/add" title={t("generic.add")} className="w-7 h-7 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded">
-          <PiPlusCircleFill className="text-lg" />
-        </Link>
-        <Link
-          to="/versions/look-for-a-version"
-          title={t("features.versions.searchForAGameVersion")}
-          className="w-7 h-7 bg-zinc-850 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
-        >
-          <PiMagnifyingGlassFill className="text-lg" />
-        </Link>
+        <PopupDialogPanel title={t("features.versions.uninstallVersion")} isOpen={versionToDelete !== null} close={() => setVersionToDelete(null)}>
+          <>
+            <p>{t("features.versions.areYouSureUninstall")}</p>
+            <p className="text-zinc-400">{t("features.versions.uninstallingNotReversible")}</p>
+            <div className="flex gap-4 items-center justify-center">
+              <Button
+                title={t("generic.cancel")}
+                className="px-2 py-1 bg-zinc-800 shadow shadow-zinc-950 hover:shadow-none flex items-center justify-center rounded"
+                onClick={() => setVersionToDelete(null)}
+              >
+                {t("generic.cancel")}
+              </Button>
+              <Button title={t("generic.uninstall")} className="px-2 py-1 bg-red-800 shadow shadow-zinc-950 hover:shadow-none flex items-center justify-center rounded" onClick={DeleteVersionHandler}>
+                {t("generic.uninstall")}
+              </Button>
+            </div>
+          </>
+        </PopupDialogPanel>
       </div>
-
-      <AnimatePresence>
-        {versionToDelete !== null && (
-          <Dialog
-            static
-            as={motion.div}
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0 }}
-            open={versionToDelete !== null}
-            onClose={() => setVersionToDelete(null)}
-            className="w-full h-full absolute top-0 left-0 z-[200] flex justify-center items-center backdrop-blur-sm"
-          >
-            <DialogPanel className="flex flex-col gap-4 text-center bg-zinc-850 rounded p-8 max-w-[600px]">
-              <DialogTitle className="text-2xl font-bold">{t("features.versions.uninstallVersion")}</DialogTitle>
-              <Description className="flex flex-col gap-2">
-                <span>{t("features.versions.areYouSureUninstall")}</span>
-                <span className="text-zinc-500">{t("features.versions.uninstallingNotReversible")}</span>
-              </Description>
-              <div className="flex gap-4 items-center justify-center">
-                <button
-                  title={t("generic.cancel")}
-                  className="px-2 py-1 bg-zinc-800 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
-                  onClick={() => setVersionToDelete(null)}
-                >
-                  {t("generic.cancel")}
-                </button>
-                <button
-                  title={t("generic.uninstall")}
-                  className="px-2 py-1 bg-red-800 shadow shadow-zinc-900 hover:shadow-none flex items-center justify-center rounded"
-                  onClick={async () => {
-                    try {
-                      if (versionToDelete._playing) return addNotification(t("notifications.titles.error"), t("features.versions.deleteWhilePlaying"), "error")
-
-                      configDispatch({ type: CONFIG_ACTIONS.EDIT_GAME_VERSION, payload: { version: versionToDelete.version, updates: { _deleting: true } } })
-                      const deleted = await window.api.pathsManager.deletePath(versionToDelete!.path)
-                      if (!deleted) throw new Error("Error deleting fame gersion data")
-                      configDispatch({ type: CONFIG_ACTIONS.DELETE_GAME_VERSION, payload: { version: versionToDelete!.version } })
-                      addNotification(t("notifications.titles.success"), t("features.versions.versionUninstalledSuccesfully", { version: versionToDelete!.version }), "success")
-                    } catch (err) {
-                      configDispatch({ type: CONFIG_ACTIONS.EDIT_GAME_VERSION, payload: { version: versionToDelete.version, updates: { _deleting: false } } })
-                      addNotification(t("notifications.titles.error"), t("features.versions.versionUninstallationFailed", { version: versionToDelete!.version }), "error")
-                    } finally {
-                      setVersionToDelete(null)
-                    }
-                  }}
-                >
-                  {t("generic.uninstall")}
-                </button>
-              </div>
-            </DialogPanel>
-          </Dialog>
-        )}
-      </AnimatePresence>
-    </>
+    </ScrollableContainer>
   )
 }
 

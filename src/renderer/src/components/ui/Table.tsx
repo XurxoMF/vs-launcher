@@ -9,7 +9,7 @@ import clsx from "clsx"
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
 export function TableWrapper({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
-  return <div className={clsx("bg-zinc-850 rounded shadow shadow-zinc-900 select-none", className)}>{children}</div>
+  return <div className={clsx("rounded shadow shadow-zinc-950 overflow-hidden", className)}>{children}</div>
 }
 
 /**
@@ -21,7 +21,7 @@ export function TableWrapper({ children, className }: { children: React.ReactNod
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
 export function TableHead({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
-  return <div className={clsx("sticky top-0 z-10 bg-zinc-850 flex flex-col", className)}>{children}</div>
+  return <div className={clsx("sticky top-0 z-10 bg-zinc-950/50 flex flex-col pr-[10px]", className)}>{children}</div>
 }
 
 /**
@@ -45,7 +45,7 @@ export function TableHeadRow({ children, className }: { children: React.ReactNod
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
 export function TableBody({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
-  return <div className={clsx("flex flex-col", className)}>{children}</div>
+  return <div className={clsx("flex flex-col overflow-x-hidden overflow-y-scroll", className)}>{children}</div>
 }
 
 /**
@@ -73,8 +73,16 @@ export function TableBodyRow({
   onClick?: () => void
 }): JSX.Element {
   return (
-    <div className={clsx("border-l-4 border-transparent", selected ? "bg-vs/15 border-vs" : "odd:bg-zinc-800", disabled ? "text-zinc-600" : "cursor-pointer", className)} onClick={onClick}>
-      <div className={clsx("flex", !disabled && "duration-100 hover:translate-x-1")}>{children}</div>
+    <div
+      className={clsx(
+        "flex group border-l-4 border-transparent duration-200",
+        selected ? "bg-vs/15 border-vs" : "even:bg-zinc-950/50 odd:bg-zinc-900/50 hover:bg-vs/25",
+        disabled ? "text-zinc-500" : "cursor-pointer",
+        className
+      )}
+      onClick={onClick}
+    >
+      {children}
     </div>
   )
 }
