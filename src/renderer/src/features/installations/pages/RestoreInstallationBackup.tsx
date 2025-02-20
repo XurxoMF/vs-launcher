@@ -9,7 +9,7 @@ import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/cont
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 import { useTaskContext } from "@renderer/contexts/TaskManagerContext"
 
-import { ListGroup, Listitem, ListWrapper } from "@renderer/components/ui/List"
+import { ListGroup, ListItem, ListWrapper } from "@renderer/components/ui/List"
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
 import PopupDialogPanel from "@renderer/components/ui/PopupDialogPanel"
 
@@ -101,21 +101,21 @@ function RestoreInstallationBackup(): JSX.Element {
         <h1 className="text-3xl text-center font-bold">{t("features.installations.restoreBackup")}</h1>
 
         <ListWrapper className="max-w-[800px] w-full">
+          {backups && backups.length < 1 && (
+            <div className="w-full flex flex-col items-center justify-center gap-2 rounded bg-zinc-950/50 p-4">
+              <p className="text-2xl">{t("features.backups.noBackupsFound")}</p>
+            </div>
+          )}
           <ListGroup>
-            {backups && backups.length < 1 && (
-              <div className="w-full flex flex-col items-center justify-center gap-2 rounded bg-zinc-950/50 p-4">
-                <p className="text-2xl">{t("features.backups.noBackupsFound")}</p>
-              </div>
-            )}
             {backups &&
               backups.map((backup) => (
-                <Listitem key={backup.id}>
+                <ListItem key={backup.id}>
                   <div className="flex gap-4 px-2 py-1 justify-between items-center whitespace-nowrap">
                     <div className="flex gap-2 items-center font-bold">
                       <p>{new Date(backup.date).toLocaleString("es")}</p>
                     </div>
 
-                    <div className="w-full text-sm text-zinc-400  text-center overflow-hidden">
+                    <div className="w-full text-sm text-zinc-300  text-center overflow-hidden">
                       <p className="hidden group-hover:block overflow-hidden text-ellipsis">{backup.path}</p>
                     </div>
 
@@ -139,7 +139,7 @@ function RestoreInstallationBackup(): JSX.Element {
                       </Button>
                     </div>
                   </div>
-                </Listitem>
+                </ListItem>
               ))}
           </ListGroup>
         </ListWrapper>
@@ -147,16 +147,16 @@ function RestoreInstallationBackup(): JSX.Element {
         <PopupDialogPanel title={t("features.backups.restoreBackup")} isOpen={backupToRestore !== null} close={() => setBackupToRestore(null)}>
           <>
             <p>{t("features.backups.areYouSureRestoreBackup")}</p>
-            <p className="text-zinc-400">{t("features.backups.restoringNotReversible")}</p>
+            <p className="text-zinc-300">{t("features.backups.restoringNotReversible")}</p>
             <div className="flex gap-4 items-center justify-center">
               <Button
                 title={t("generic.cancel")}
-                className="px-2 py-1 bg-zinc-800 shadow shadow-zinc-950 hover:shadow-none flex items-center justify-center rounded"
+                className="px-2 py-1 bg-zinc-800 shadow shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded"
                 onClick={() => setBackupToRestore(null)}
               >
                 {t("generic.cancel")}
               </Button>
-              <Button title={t("generic.restore")} className="px-2 py-1 bg-red-800 shadow shadow-zinc-950 hover:shadow-none flex items-center justify-center rounded" onClick={RestoreBackupHandler}>
+              <Button title={t("generic.restore")} className="px-2 py-1 bg-red-800 shadow shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded" onClick={RestoreBackupHandler}>
                 {t("generic.restore")}
               </Button>
             </div>
@@ -166,16 +166,16 @@ function RestoreInstallationBackup(): JSX.Element {
         <PopupDialogPanel title={t("features.backups.deleteBackup")} isOpen={backupToDelete !== null} close={() => setBackupToDelete(null)}>
           <>
             <p>{t("features.backups.areYouSureDelete")}</p>
-            <p className="text-zinc-400">{t("features.backups.deletingNotReversible")}</p>
+            <p className="text-zinc-300">{t("features.backups.deletingNotReversible")}</p>
             <div className="flex gap-4 items-center justify-center">
               <Button
                 title={t("generic.cancel")}
-                className="px-2 py-1 bg-zinc-800 shadow shadow-zinc-950 hover:shadow-none flex items-center justify-center rounded"
+                className="px-2 py-1 bg-zinc-800 shadow shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded"
                 onClick={() => setBackupToDelete(null)}
               >
                 {t("generic.cancel")}
               </Button>
-              <Button title={t("generic.delete")} className="px-2 py-1 bg-red-800 shadow shadow-zinc-950 hover:shadow-none flex items-center justify-center rounded" onClick={DeleteBackupHandler}>
+              <Button title={t("generic.delete")} className="px-2 py-1 bg-red-800 shadow shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded" onClick={DeleteBackupHandler}>
                 {t("generic.delete")}
               </Button>
             </div>

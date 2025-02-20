@@ -7,7 +7,7 @@ function ControllsPanel({ goBackTo }: { goBackTo: string }): JSX.Element {
   const { t } = useTranslation()
 
   return (
-    <div className="w-full flex justify-between px-8 text-zinc-400">
+    <div className="w-full flex justify-between px-8 text-zinc-300">
       <div className="flex gap-4 items-center">
         <Link to={goBackTo} title={t("generic.goBack")}>
           <PiArrowLeftFill />

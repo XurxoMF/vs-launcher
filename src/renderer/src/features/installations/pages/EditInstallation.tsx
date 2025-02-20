@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useParams, useNavigate, Link } from "react-router-dom"
 import { useTranslation, Trans } from "react-i18next"
 import { Button } from "@headlessui/react"
+import { PiFloppyDiskBackFill, PiXBold } from "react-icons/pi"
 
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
@@ -118,12 +119,12 @@ function EditInslallation(): JSX.Element {
                         {config.gameVersions.length < 1 && (
                           <div className="w-full p-1 flex flex-col items-center justify-center">
                             <p>{t("features.versions.noVersionsFound")}</p>
-                            <p className="text-zinc-400 text-sm flex gap-1 items-center flex-wrap justify-center">
+                            <p className="text-zinc-300 text-sm flex gap-1 items-center flex-wrap justify-center">
                               <Trans
                                 i18nKey="features.versions.noVersionsFoundDesc"
                                 components={{
                                   link: (
-                                    <Link to="/versions" className="text-vs">
+                                    <Link to="/versions" className="text-vsl">
                                       {t("components.mainMenu.versionsTitle")}
                                     </Link>
                                   )
@@ -193,7 +194,7 @@ function EditInslallation(): JSX.Element {
                             i18nKey="features.installations.startParamsDesc"
                             components={{
                               link: (
-                                <Button onClick={() => window.api.utils.openOnBrowser("https://wiki.vintagestory.at/Client_startup_parameters")} className="text-vs">
+                                <Button onClick={() => window.api.utils.openOnBrowser("https://wiki.vintagestory.at/Client_startup_parameters")} className="text-vsl">
                                   {t("features.installations.startParamsLink")}
                                 </Button>
                               )
@@ -210,8 +211,12 @@ function EditInslallation(): JSX.Element {
         </FromWrapper>
 
         <ButtonsWrapper>
-          <FormButton onClick={handleEditInstallation} title={t("generic.save")} />
-          <FormLinkButton to="/installations" title={t("generic.cancel")} />
+          <FormLinkButton to="/installations" title={t("generic.goBack")} className="p-2">
+            <PiXBold />
+          </FormLinkButton>
+          <FormButton onClick={handleEditInstallation} title={t("generic.add")} className="p-2">
+            <PiFloppyDiskBackFill />
+          </FormButton>
         </ButtonsWrapper>
       </div>
     </ScrollableContainer>

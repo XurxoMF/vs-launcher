@@ -23,7 +23,7 @@ import { useNotificationsContext } from "@renderer/contexts/NotificationsContext
 import { useCountMods } from "@renderer/features/mods/hooks/useCountMods"
 import { useInstallMod } from "@renderer/features/mods/hooks/useInstallMod"
 
-import { ListGroup, Listitem, ListWrapper } from "@renderer/components/ui/List"
+import { ListGroup, ListItem, ListWrapper } from "@renderer/components/ui/List"
 import { TableBody, TableBodyRow, TableCell, TableHead, TableHeadRow, TableWrapper } from "@renderer/components/ui/Table"
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
 import PopupDialogPanel from "@renderer/components/ui/PopupDialogPanel"
@@ -40,6 +40,7 @@ function ListMods(): JSX.Element {
 
   const [installedMods, setInstalledMods] = useState<InstalledModType[]>([])
   const [insatlledModsWithErrors, setInstalledModsWithErrors] = useState<ErrorInstalledModType[]>([])
+
   const [modToDelete, setModToDelete] = useState<InstalledModType | ErrorInstalledModType | null>(null)
   const [modToUpdate, setModToUpdate] = useState<InstalledModType | null>(null)
 
@@ -71,8 +72,8 @@ function ListMods(): JSX.Element {
       })
     )
 
-    setInstalledMods(mods.mods)
     setInstalledModsWithErrors(mods.errors)
+    setInstalledMods(mods.mods)
     setGettingMods(false)
   }
 
@@ -113,173 +114,173 @@ function ListMods(): JSX.Element {
 
   return (
     <ScrollableContainer>
-      <div className="min-h-full flex flex-col justify-center gap-4">
+      <div className="min-h-full flex flex-col justify-center gap-6">
         <h1 className="text-3xl text-center font-bold">{t("features.mods.manageTitle")}</h1>
 
         {insatlledModsWithErrors.length > 0 && (
-          <div className="w-full flex flex-col gap-4 p-4">
-            <div className="flex flex-col gap-1">
-              <h2 className="text-2xl text-center font-bold">{t("features.mods.listWithErrorsTitle")}</h2>
-              <p className="text-zinc-400 text-center">{t("features.mods.modsWithErrorsDescription")}</p>
-              <p className="text-zinc-400 text-center">
-                <Trans
-                  i18nKey="features.mods.modsWithErrorsDescriptionReport"
-                  components={{
-                    issues: (
-                      <Button
-                        onClick={(e) => {
-                          e.preventDefault()
-                          e.stopPropagation()
-                          window.api.utils.openOnBrowser("https://github.com/XurxoMF/vs-launcher/issues")
-                        }}
-                        className="text-vs"
-                      >
-                        {t("generic.issues")}
-                      </Button>
-                    ),
-                    discord: (
-                      <Button
-                        onClick={(e) => {
-                          e.preventDefault()
-                          e.stopPropagation()
-                          window.api.utils.openOnBrowser("https://discord.gg/RtWpYBRRUz")
-                        }}
-                        className="text-vs"
-                      >
-                        Discord
-                      </Button>
-                    )
-                  }}
-                />
-              </p>
-            </div>
-
-            <ListWrapper className="max-w-[800px] w-full">
-              <ListGroup>
-                {insatlledModsWithErrors.map((iModE) => (
-                  <Listitem key={iModE.zipname}>
-                    <div className="flex gap-4 p-2 justify-between items-center whitespace-nowrap bg-red-700/15 duration-200">
-                      <div className="shrink-0">
-                        <div className="w-16 h-16 bg-zinc-950/50 rounded shadow shadow-zinc-950" />
-                      </div>
-
-                      <div className="w-full flex flex-col gap-1 justify-center overflow-hidden">
-                        <div className="flex gap-2 items-center">
-                          <p>{iModE.zipname}</p>
-                        </div>
-                      </div>
-
-                      <div className="flex gap-2 justify-end text-lg">
+          <ListWrapper className="max-w-[800px] w-full">
+            <ListGroup>
+              <div className="flex flex-col gap-1">
+                <h2 className="text-2xl text-center font-bold">{t("features.mods.listWithErrorsTitle")}</h2>
+                <p className="text-zinc-300 text-center">{t("features.mods.modsWithErrorsDescription")}</p>
+                <p className="text-zinc-300 text-center">
+                  <Trans
+                    i18nKey="features.mods.modsWithErrorsDescriptionReport"
+                    components={{
+                      issues: (
                         <Button
-                          className="p-1 flex items-center justify-center"
-                          title={t("generic.delete")}
-                          onClick={async () => {
-                            setModToDelete(iModE)
+                          onClick={(e) => {
+                            e.preventDefault()
+                            e.stopPropagation()
+                            window.api.utils.openOnBrowser("https://github.com/XurxoMF/vs-launcher/issues")
                           }}
+                          className="text-vsl"
                         >
-                          <PiTrashFill />
+                          {t("generic.issues")}
                         </Button>
+                      ),
+                      discord: (
+                        <Button
+                          onClick={(e) => {
+                            e.preventDefault()
+                            e.stopPropagation()
+                            window.api.utils.openOnBrowser("https://discord.gg/RtWpYBRRUz")
+                          }}
+                          className="text-vsl"
+                        >
+                          Discord
+                        </Button>
+                      )
+                    }}
+                  />
+                </p>
+              </div>
+              {insatlledModsWithErrors.map((iModE) => (
+                <ListItem key={iModE.zipname}>
+                  <div className="flex gap-4 p-2 justify-between items-center whitespace-nowrap bg-red-700/15 duration-200">
+                    <div className="shrink-0">
+                      <div className="w-16 h-16 bg-zinc-950/50 rounded shadow shadow-zinc-950" />
+                    </div>
+
+                    <div className="w-full flex flex-col gap-1 justify-center overflow-hidden">
+                      <div className="flex gap-2 items-center">
+                        <p>{iModE.zipname}</p>
                       </div>
                     </div>
-                  </Listitem>
-                ))}
-              </ListGroup>
-            </ListWrapper>
-          </div>
+
+                    <div className="flex gap-2 justify-end text-lg">
+                      <Button
+                        className="p-1 flex items-center justify-center"
+                        title={t("generic.delete")}
+                        onClick={async () => {
+                          setModToDelete(iModE)
+                        }}
+                      >
+                        <PiTrashFill />
+                      </Button>
+                    </div>
+                  </div>
+                </ListItem>
+              ))}
+            </ListGroup>
+          </ListWrapper>
         )}
 
         <ListWrapper className="max-w-[800px] w-full">
-          <ListGroup>
-            {installedMods.length < 1 && (
-              <>
-                {gettingMods ? (
-                  <div className="w-full flex items-center justify-center">
-                    <div className="w-full h-full flex items-center justify-center">
-                      <FiLoader className="animate-spin text-4xl text-zinc-400" />
-                    </div>
-                  </div>
-                ) : (
-                  <div className="w-full flex flex-col items-center justify-center gap-2 rounded bg-zinc-950/50 p-4">
-                    <p className="text-2xl">{t("features.mods.noModsFound")}</p>
-                    <p className="w-full flex gap-1 items-center justify-center">
-                      <Trans
-                        i18nKey="features.mods.noModsInstalled"
-                        components={{
-                          link: (
-                            <Link to="/mods" className="text-vs">
-                              {t("components.mainMenu.modsTitle")}
-                            </Link>
-                          )
-                        }}
-                      />
-                    </p>
-                  </div>
-                )}
-              </>
-            )}
-            {installedMods.map((iMod) => (
-              <Listitem key={iMod.modid}>
-                <div className="flex gap-4 p-2 justify-between items-center whitespace-nowrap">
-                  <div className="shrink-0">
-                    {iMod._image ? (
-                      <img src={`cachemodimg:${iMod._image}`} alt={iMod.name} className="w-16 h-16 object-cover rounded" />
-                    ) : (
-                      <div className="w-16 h-16 bg-zinc-900 rounded shadow shadow-zinc-950" />
-                    )}
-                  </div>
-
-                  <div className="w-full flex flex-col gap-1 justify-center overflow-hidden">
-                    <div className="flex gap-2 items-center">
-                      <p>{iMod.name}</p>
-                      <p>v{iMod.version}</p>
-                    </div>
-
-                    {iMod.description && (
-                      <div className="overflow-hidden">
-                        <p className="text-sm text-zinc-400 overflow-hidden whitespace-nowrap text-ellipsis">{iMod.description}</p>
-                      </div>
-                    )}
-
-                    <div className="flex gap-2 items-center text-sm text-zinc-400">
-                      {iMod.authors && iMod.authors?.length > 0 && (
-                        <p>
-                          {t("generic.authors")}: {iMod.authors?.join(", ")}
-                        </p>
-                      )}
-                      {iMod.contributors && iMod.contributors?.length > 0 && (
-                        <p className="overflow-hidden whitespace-nowrap text-ellipsis">
-                          {t("generic.contributors")}: {iMod.contributors?.join(", ")}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="flex gap-1 justify-end text-lg">
-                    <Button
-                      className="p-1 flex items-center justify-center"
-                      title={t("generic.update")}
-                      onClick={async () => {
-                        if (!iMod._mod || iMod._mod.releases.length < 1) return addNotification(t("features.mods.noVersionsFound"), "error")
-                        setModToUpdate(iMod)
-                      }}
-                    >
-                      <PiArrowClockwiseFill />
-                    </Button>
-
-                    <Button
-                      className="p-1 flex items-center justify-center"
-                      title={t("generic.delete")}
-                      onClick={async () => {
-                        setModToDelete(iMod)
-                      }}
-                    >
-                      <PiTrashFill />
-                    </Button>
+          {installedMods.length < 1 ? (
+            <>
+              {gettingMods ? (
+                <div className="w-full flex items-center justify-center">
+                  <div className="w-full h-full flex items-center justify-center">
+                    <FiLoader className="animate-spin text-4xl text-zinc-300" />
                   </div>
                 </div>
-              </Listitem>
-            ))}
-          </ListGroup>
+              ) : (
+                <div className="w-full flex flex-col items-center justify-center gap-2 rounded bg-zinc-950/50 p-4">
+                  <p className="text-2xl">{t("features.mods.noModsFound")}</p>
+                  <p className="w-full flex gap-1 items-center justify-center">
+                    <Trans
+                      i18nKey="features.mods.noModsInstalled"
+                      components={{
+                        link: (
+                          <Link to="/mods" className="text-vsl">
+                            {t("components.mainMenu.modsTitle")}
+                          </Link>
+                        )
+                      }}
+                    />
+                  </p>
+                </div>
+              )}
+            </>
+          ) : (
+            <ListGroup>
+              {installedMods.map((iMod) => (
+                <ListItem key={iMod.modid}>
+                  <div className="flex gap-4 p-2 justify-between items-center whitespace-nowrap">
+                    <div className="shrink-0">
+                      {iMod._image ? (
+                        <img src={`cachemodimg:${iMod._image}`} alt={iMod.name} className="w-16 h-16 object-cover rounded" />
+                      ) : (
+                        <div className="w-16 h-16 bg-zinc-900 rounded shadow shadow-zinc-950" />
+                      )}
+                    </div>
+
+                    <div className="w-full flex flex-col gap-1 justify-center overflow-hidden">
+                      <div className="flex gap-2 items-center">
+                        <p>{iMod.name}</p>
+                        <p>v{iMod.version}</p>
+                      </div>
+
+                      {iMod.description && (
+                        <div className="overflow-hidden">
+                          <p className="text-sm text-zinc-300 overflow-hidden whitespace-nowrap text-ellipsis">{iMod.description}</p>
+                        </div>
+                      )}
+
+                      <div className="flex gap-2 items-center text-sm text-zinc-300">
+                        <p className="overflow-hidden whitespace-nowrap text-ellipsis">
+                          {iMod.authors && iMod.authors?.length > 0 && (
+                            <span>
+                              {t("generic.authors")}: {iMod.authors?.join(", ")}
+                            </span>
+                          )}
+                          {iMod.contributors && iMod.contributors?.length > 0 && (
+                            <span>
+                              {t("generic.contributors")}: {iMod.contributors?.join(", ")}
+                            </span>
+                          )}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-1 justify-end text-lg">
+                      <Button
+                        className="p-1 flex items-center justify-center"
+                        title={t("generic.update")}
+                        onClick={async () => {
+                          if (!iMod._mod || iMod._mod.releases.length < 1) return addNotification(t("features.mods.noVersionsFound"), "error")
+                          setModToUpdate(iMod)
+                        }}
+                      >
+                        <PiArrowClockwiseFill />
+                      </Button>
+
+                      <Button
+                        className="p-1 flex items-center justify-center"
+                        title={t("generic.delete")}
+                        onClick={async () => {
+                          setModToDelete(iMod)
+                        }}
+                      >
+                        <PiTrashFill />
+                      </Button>
+                    </div>
+                  </div>
+                </ListItem>
+              ))}
+            </ListGroup>
+          )}
         </ListWrapper>
 
         <PopupDialogPanel title={t("features.mods.updateMod")} isOpen={modToUpdate !== null} close={() => setModToUpdate(null)} maxWidth={false}>
@@ -353,7 +354,7 @@ function ListMods(): JSX.Element {
         <PopupDialogPanel title={t("features.mods.deleteMod")} isOpen={modToDelete !== null} close={() => setModToDelete(null)}>
           <>
             <p>{t("features.mods.areYouSureDelete")}</p>
-            <p className="text-zinc-400">{t("features.mods.deletingNotReversible")}</p>
+            <p className="text-zinc-300">{t("features.mods.deletingNotReversible")}</p>
             <div className="flex gap-4 items-center justify-center">
               <Button
                 title={t("generic.cancel")}

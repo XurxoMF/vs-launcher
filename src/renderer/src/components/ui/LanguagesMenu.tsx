@@ -1,10 +1,28 @@
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { PiCaretDownBold } from "react-icons/pi"
-import { AnimatePresence, motion } from "motion/react"
+import { AnimatePresence, motion, Variants } from "motion/react"
 import clsx from "clsx"
 
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from "@headlessui/react"
+
+const LISTGROUP_VARIANTS: Variants = {
+  initial: { opacity: 0 },
+  animate: {
+    opacity: 1,
+    transition: {
+      duration: 0.1,
+      delayChildren: 0.1,
+      staggerChildren: 0.1
+    }
+  },
+  exit: { opacity: 0 }
+}
+
+const LISTITEM_VARIANTS: Variants = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 }
+}
 
 function LanguagesMenu(): JSX.Element {
   const { i18n, t } = useTranslation()
@@ -33,38 +51,46 @@ function LanguagesMenu(): JSX.Element {
     <Listbox value={selectedLanguage} onChange={handleLanguageChange}>
       {({ open }) => (
         <>
-          <ListboxButton className="bg-zinc-850 shadow shadow-zinc-950 hover:shadow-none w-full h-7 flex items-center justify-between gap-2 rounded overflow-hidden">
-            {languages
-              .filter((lang) => lang.code === selectedLanguage)
-              .map((lang) => (
-                <div key={lang.code} className="flex gap-2 px-2 py-1 items-center overflow-hidden">
-                  <p className="whitespace-nowrap font-bold text-sm">{lang.name}</p>
-                  <p className="whitespace-nowrap text-ellipsis overflow-hidden text-zinc-500 text-xs">{lang.credits}</p>
-                </div>
-              ))}
-            <PiCaretDownBold className={clsx(open && "rotate-180", "text-sm text-zinc-400 shrink-0 mr-2")} />
-          </ListboxButton>
+          {languages
+            .filter((lang) => lang.code === selectedLanguage)
+            .map((lang) => (
+              <ListboxButton
+                key={lang.code}
+                className="w-full h-8 px-2 py-1 flex items-center justify-between gap-2 rounded overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow shadow-zinc-950/50 hover:shadow-none"
+              >
+                <p className="flex gap-2 items-center overflow-hidden whitespace-nowrap">
+                  <span className="font-bold text-sm">{lang.name}</span>
+                  <span className="text-ellipsis overflow-hidden text-zinc-400 text-xs">{lang.credits}</span>
+                </p>
+                <PiCaretDownBold className={clsx("text-zinc-300 shrink-0", open && "rotate-180")} />
+              </ListboxButton>
+            ))}
+
           <AnimatePresence>
             {open && (
-              <ListboxOptions
-                static
-                as={motion.div}
-                initial={{ height: 0 }}
-                animate={{ height: "auto" }}
-                exit={{ height: 0 }}
-                anchor="bottom"
-                className="w-[var(--button-width)] bg-zinc-850 shadow shadow-zinc-950 translate-y-1 rounded"
-              >
-                <div className="flex flex-col max-h-40">
+              <ListboxOptions static anchor="bottom" className="w-[var(--button-width)] z-[800] mt-2 select-none rounded overflow-hidden">
+                <motion.ul
+                  variants={LISTGROUP_VARIANTS}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  className="h-40 flex flex-col bg-zinc-950/50 backdrop-blur-md border border-zinc-400/5 shadow shadow-zinc-950/50 hover:shadow-none rounded overflow-y-scroll"
+                >
                   {languages.map((lang) => (
-                    <ListboxOption key={lang.code} value={lang.code} className="hover:pl-1 duration-100 odd:bg-zinc-850 even:bg-zinc-800">
-                      <div className="flex gap-2 h-7 px-2 py-1 items-center overflow-hidden" title={`${lang.name} - ${lang.credits}`}>
-                        <p className="whitespace-nowrap font-bold text-sm">{lang.name}</p>
-                        <p className="text-zinc-500 text-xs whitespace-nowrap text-ellipsis overflow-hidden">{lang.credits}</p>
-                      </div>
+                    <ListboxOption
+                      key={lang.code}
+                      value={lang.code}
+                      as={motion.li}
+                      variants={LISTITEM_VARIANTS}
+                      className="w-full h-8 px-2 py-1 shrink-0 flex items-center overflow-hidden odd:bg-zinc-800/30 cursor-pointer "
+                    >
+                      <p className="flex gap-2 items-center overflow-hidden whitespace-nowrap" title={`${lang.name} - ${lang.credits}`}>
+                        <span className="font-bold text-sm">{lang.name}</span>
+                        <span className="text-ellipsis overflow-hidden text-zinc-400 text-xs">{lang.credits}</span>
+                      </p>
                     </ListboxOption>
                   ))}
-                </div>
+                </motion.ul>
               </ListboxOptions>
             )}
           </AnimatePresence>

@@ -16,7 +16,7 @@ const BORDER_COLOR_TYPES = {
 
 const FONT_COLOR_TYPES = {
   success: "text-lime-600",
-  info: "text-vs",
+  info: "text-vsl",
   error: "text-red-600",
   warning: "text-yellow-400"
 }
@@ -38,7 +38,7 @@ function NotificationsOverlay(): JSX.Element {
         {notifications.map(({ id, title, body, type, options }) => (
           <motion.div
             key={id}
-            className={clsx("w-[300px] flex items-center justify-between gap-2 p-2 rounded text-center bg-zinc-850 border-l-4", BORDER_COLOR_TYPES[type])}
+            className={clsx("w-[300px] flex items-center justify-between gap-2 p-2 rounded text-center bg-zinc-950/60 backdrop-blur border-l-4", BORDER_COLOR_TYPES[type])}
             initial={{ x: 320 }}
             animate={{ x: 0 }}
             exit={{ x: 320 }}
@@ -52,11 +52,11 @@ function NotificationsOverlay(): JSX.Element {
               <span className={clsx("text-xl p-2 rounded-full border", BORDER_COLOR_TYPES[type], FONT_COLOR_TYPES[type])}>{ICON_TYPES[type]}</span>
               <div className="flex flex-col items-start justify-center">
                 <p className="font-bold text-sm">{title}</p>
-                <p className="text-xs text-zinc-400">{body}</p>
+                <p className="text-xs text-zinc-300">{body}</p>
               </div>
             </div>
             <Button
-              className="p-1 text-zinc-400"
+              className="p-1 text-zinc-300"
               title={t("notifications.discard")}
               onClick={(e) => {
                 e.preventDefault()

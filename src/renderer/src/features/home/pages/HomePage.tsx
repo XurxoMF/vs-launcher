@@ -13,7 +13,7 @@ function HomePage(): JSX.Element {
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         referrerPolicy="strict-origin-when-cross-origin"
         allowFullScreen
-        className="max-w-full max-h-full h-1/2 aspect-video rounded-md shadow-md shadow-zinc-950 m-6"
+        className="max-w-full max-h-full h-1/2 aspect-video rounded-md shadow-md shadow-zinc-950/50 m-6"
       ></iframe>
     </div>
   )

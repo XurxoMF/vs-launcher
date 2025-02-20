@@ -26,8 +26,8 @@ function PopupDialogPanel({
             transition={{ duration: 0.2 }}
             className="w-full h-full absolute top-0 left-0 z-[200] flex justify-center items-center backdrop-blur-md select-none"
           >
-            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} transition={{ duration: 0.2 }}>
-              <DialogPanel className={clsx("flex flex-col gap-4 text-center bg-zinc-950/50 rounded-md p-6 shadow shadow-zinc-950", maxWidth && "max-w-[600px]")}>
+            <motion.div initial={{ scale: 0.5 }} animate={{ scale: 1 }} exit={{ scale: 0.5 }} transition={{ duration: 0.2 }}>
+              <DialogPanel className={clsx("flex flex-col gap-4 text-center p-6 rounded-md border border-zinc-400/5 bg-zinc-950/30 shadow shadow-zinc-950/25", maxWidth && "max-w-[600px]")}>
                 <>
                   <DialogTitle className="text-2xl font-bold">{title}</DialogTitle>
                   {children}

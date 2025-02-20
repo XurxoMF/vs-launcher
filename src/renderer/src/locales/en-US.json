@@ -161,7 +161,8 @@
       "title": "Settings",
       "defaultInstallationsFolder": "Installations folder",
       "defaultVersionsFolder": "Versions folder",
-      "backupsFolder": "Backups folder"
+      "backupsFolder": "Backups folder",
+      "desc": "Configure VS Launcher"
     },
     "backups": {
       "backupInProgress": "There is a backup already in progress!",

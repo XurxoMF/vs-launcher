@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next"
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 
-import { ListGroup, ListWrapper, Listitem } from "@renderer/components/ui/List"
+import { ListGroup, ListWrapper, ListItem } from "@renderer/components/ui/List"
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
 import PopupDialogPanel from "@renderer/components/ui/PopupDialogPanel"
 
@@ -43,22 +43,22 @@ function ListVersions(): JSX.Element {
         <ListWrapper className="max-w-[800px] w-full">
           <ListGroup>
             <div className="flex gap-2">
-              <Listitem>
+              <ListItem className="group">
                 <Link to="/versions/add" title={t("features.versions.installNewVersion")} className="w-full h-8 flex items-center justify-center rounded">
-                  <PiPlusCircleFill className="text-lg" />
+                  <PiPlusCircleFill className="text-xl text-zinc-300/60 group-hover:scale-95 duration-200" />
                 </Link>
-              </Listitem>
-              <Listitem>
+              </ListItem>
+              <ListItem className="group">
                 <Link to="/versions/look-for-a-version" title={t("features.versions.searchForAGameVersion")} className="w-full h-8 flex items-center justify-center rounded">
-                  <PiMagnifyingGlassFill className="text-lg" />
+                  <PiMagnifyingGlassFill className="text-xl text-zinc-300/60 group-hover:scale-95 duration-200" />
                 </Link>
-              </Listitem>
+              </ListItem>
             </div>
             {config.gameVersions.map((gv) => (
-              <Listitem key={gv.version}>
+              <ListItem key={gv.version}>
                 <div className="w-full h-8 flex gap-4 px-2 py-1 justify-between items-center">
                   <p className="font-bold">{gv.version}</p>
-                  <p className="hidden group-hover:block text-sm text-zinc-400 overflow-hidden text-ellipsis whitespace-nowrap">{gv.path}</p>
+                  <p className="hidden group-hover:block text-sm text-zinc-300 overflow-hidden text-ellipsis whitespace-nowrap">{gv.path}</p>
                   <div className="flex gap-1 text-lg">
                     <Button
                       className="p-1 flex items-center justify-center"
@@ -81,7 +81,7 @@ function ListVersions(): JSX.Element {
                     </Button>
                   </div>
                 </div>
-              </Listitem>
+              </ListItem>
             ))}
           </ListGroup>
         </ListWrapper>
@@ -89,16 +89,20 @@ function ListVersions(): JSX.Element {
         <PopupDialogPanel title={t("features.versions.uninstallVersion")} isOpen={versionToDelete !== null} close={() => setVersionToDelete(null)}>
           <>
             <p>{t("features.versions.areYouSureUninstall")}</p>
-            <p className="text-zinc-400">{t("features.versions.uninstallingNotReversible")}</p>
+            <p className="text-zinc-300">{t("features.versions.uninstallingNotReversible")}</p>
             <div className="flex gap-4 items-center justify-center">
               <Button
                 title={t("generic.cancel")}
-                className="px-2 py-1 bg-zinc-800 shadow shadow-zinc-950 hover:shadow-none flex items-center justify-center rounded"
+                className="px-2 py-1 bg-zinc-800 shadow shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded"
                 onClick={() => setVersionToDelete(null)}
               >
                 {t("generic.cancel")}
               </Button>
-              <Button title={t("generic.uninstall")} className="px-2 py-1 bg-red-800 shadow shadow-zinc-950 hover:shadow-none flex items-center justify-center rounded" onClick={DeleteVersionHandler}>
+              <Button
+                title={t("generic.uninstall")}
+                className="px-2 py-1 bg-red-800 shadow shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded"
+                onClick={DeleteVersionHandler}
+              >
                 {t("generic.uninstall")}
               </Button>
             </div>

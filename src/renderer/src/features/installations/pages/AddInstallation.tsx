@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { useTranslation, Trans } from "react-i18next"
 import { v4 as uuidv4 } from "uuid"
-import { Button } from "@headlessui/react"
+import { PiFloppyDiskBackFill, PiXBold } from "react-icons/pi"
 
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
@@ -26,6 +26,7 @@ import {
 } from "@renderer/components/ui/FormComponents"
 import { TableBody, TableBodyRow, TableCell, TableHead, TableHeadRow, TableWrapper } from "@renderer/components/ui/Table"
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
+import { NormalButton } from "@renderer/components/ui/Buttons"
 
 function AddInslallation(): JSX.Element {
   const { t } = useTranslation()
@@ -86,7 +87,7 @@ function AddInslallation(): JSX.Element {
 
   return (
     <ScrollableContainer>
-      <div className="min-h-full flex flex-col justify-center gap-4">
+      <div className="min-h-full flex flex-col justify-center gap-6">
         <h1 className="text-3xl text-center font-bold">{t("features.installations.addTitle")}</h1>
 
         <FromWrapper className="max-w-[800px] w-full">
@@ -129,12 +130,12 @@ function AddInslallation(): JSX.Element {
                     {config.gameVersions.length < 1 && (
                       <div className="w-full p-1 flex flex-col items-center justify-center">
                         <p>{t("features.versions.noVersionsFound")}</p>
-                        <p className="text-zinc-400 text-sm flex gap-1 items-center flex-wrap justify-center">
+                        <p className="text-zinc-300 text-sm flex gap-1 items-center flex-wrap justify-center">
                           <Trans
                             i18nKey="features.versions.noVersionsFoundDesc"
                             components={{
                               link: (
-                                <Link to="/versions" className="text-vs">
+                                <Link to="/versions" className="text-vsl">
                                   {t("components.mainMenu.versionsTitle")}
                                 </Link>
                               )
@@ -169,7 +170,10 @@ function AddInslallation(): JSX.Element {
                       }
                     }}
                     title={t("generic.browse")}
-                  />
+                    className="h-8 px-2 py-1"
+                  >
+                    {t("generic.browse")}
+                  </FormButton>
                   <FormInputText placeholder={t("features.installations.installationFolder")} value={folder} onChange={(e) => setFolder(e.target.value)} minLength={1} className="w-full" />
                 </FormFieldGroup>
               </FormBody>
@@ -232,9 +236,13 @@ function AddInslallation(): JSX.Element {
                         i18nKey="features.installations.startParamsDesc"
                         components={{
                           link: (
-                            <Button onClick={() => window.api.utils.openOnBrowser("https://wiki.vintagestory.at/Client_startup_parameters")} className="text-vs">
+                            <NormalButton
+                              title={t("features.installations.startParamsLink")}
+                              onClick={() => window.api.utils.openOnBrowser("https://wiki.vintagestory.at/Client_startup_parameters")}
+                              className="text-vsl"
+                            >
                               {t("features.installations.startParamsLink")}
-                            </Button>
+                            </NormalButton>
                           )
                         }}
                       />
@@ -247,8 +255,12 @@ function AddInslallation(): JSX.Element {
         </FromWrapper>
 
         <ButtonsWrapper>
-          <FormButton onClick={handleAddInstallation} title={t("generic.add")} />
-          <FormLinkButton to="/installations" title={t("generic.goBack")} />
+          <FormLinkButton to="/installations" title={t("generic.goBack")} className="p-2">
+            <PiXBold />
+          </FormLinkButton>
+          <FormButton onClick={handleAddInstallation} title={t("generic.add")} className="p-2">
+            <PiFloppyDiskBackFill />
+          </FormButton>
         </ButtonsWrapper>
       </div>
     </ScrollableContainer>

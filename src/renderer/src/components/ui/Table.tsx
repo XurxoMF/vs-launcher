@@ -1,4 +1,5 @@
 import clsx from "clsx"
+import { AnimatePresence, motion, Variants } from "motion/react"
 
 /**
  * Table external wrapper.
@@ -9,7 +10,7 @@ import clsx from "clsx"
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
 export function TableWrapper({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
-  return <div className={clsx("rounded shadow shadow-zinc-950 overflow-hidden", className)}>{children}</div>
+  return <div className={clsx("rounded bg-zinc-950/50 border border-zinc-400/5 shadow shadow-zinc-950/50 hover:shadow-none duration-200 overflow-hidden", className)}>{children}</div>
 }
 
 /**
@@ -21,7 +22,7 @@ export function TableWrapper({ children, className }: { children: React.ReactNod
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
 export function TableHead({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
-  return <div className={clsx("sticky top-0 z-10 bg-zinc-950/50 flex flex-col pr-[10px]", className)}>{children}</div>
+  return <ul className={clsx("sticky top-0 z-10 bg-zinc-950/50 flex flex-col pr-[10px]", className)}>{children}</ul>
 }
 
 /**
@@ -33,7 +34,16 @@ export function TableHead({ children, className }: { children: React.ReactNode; 
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
 export function TableHeadRow({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
-  return <div className={clsx("flex border-l-4 border-transparent", className)}>{children}</div>
+  return <li className={clsx("flex border-l-4 border-transparent", className)}>{children}</li>
+}
+
+const TABLEBODY_VARIANTS: Variants = {
+  animate: {
+    transition: {
+      delayChildren: 0.1,
+      staggerChildren: 0.05
+    }
+  }
 }
 
 /**
@@ -45,7 +55,18 @@ export function TableHeadRow({ children, className }: { children: React.ReactNod
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
 export function TableBody({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
-  return <div className={clsx("flex flex-col overflow-x-hidden overflow-y-scroll", className)}>{children}</div>
+  return (
+    <AnimatePresence>
+      <motion.ul variants={TABLEBODY_VARIANTS} initial="initial" animate="animate" className={clsx("flex flex-col overflow-x-hidden overflow-y-scroll", className)}>
+        {children}
+      </motion.ul>
+    </AnimatePresence>
+  )
+}
+
+const TABLEROW_VARIANTS: Variants = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 }
 }
 
 /**
@@ -73,17 +94,13 @@ export function TableBodyRow({
   onClick?: () => void
 }): JSX.Element {
   return (
-    <div
-      className={clsx(
-        "flex group border-l-4 border-transparent duration-200",
-        selected ? "bg-vs/15 border-vs" : "even:bg-zinc-950/50 odd:bg-zinc-900/50 hover:bg-vs/25",
-        disabled ? "text-zinc-500" : "cursor-pointer",
-        className
-      )}
+    <motion.li
+      variants={TABLEROW_VARIANTS}
+      className={clsx("flex group border-l-4 border-transparent duration-200", selected ? "bg-vs/15 border-vs" : "odd:bg-zinc-800/30", disabled ? "text-zinc-400" : "cursor-pointer", className)}
       onClick={onClick}
     >
       {children}
-    </div>
+    </motion.li>
   )
 }
 

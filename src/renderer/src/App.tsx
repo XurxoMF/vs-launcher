@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { HashRouter as Router, Route, Routes } from "react-router-dom"
+import { HashRouter as Router, Route, Routes, useLocation } from "react-router-dom"
 import { FiExternalLink, FiLoader } from "react-icons/fi"
 import { useTranslation } from "react-i18next"
 import { AnimatePresence, motion } from "motion/react"
@@ -41,32 +41,16 @@ function App(): JSX.Element {
       <NotificationsProvider>
         <TaskProvider>
           <Router>
-            <div className="relative w-screen h-screen select-none bg-image-vs bg-center bg-cover">
-              <div className="w-full h-full flex bg-zinc-950/60 backdrop-blur">
+            <div className="w-screen h-screen select-none bg-image-vs bg-center bg-cover">
+              <div className="relative w-full h-full flex bg-zinc-900/30">
                 <Loader />
 
                 <MainMenu />
 
-                <main className="relative w-full h-full flex-1">
+                <main className="relative w-full h-full flex-1 backdrop-blur">
                   <AppInfo />
 
-                  <Routes>
-                    <Route path="/" element={<HomePage />} />
-                    <Route path="/installations">
-                      <Route index element={<ListInslallations />} />
-                      <Route path="add" element={<AddInslallation />} />
-                      <Route path="edit/:id" element={<EditInslallation />} />
-                      <Route path="backups/:id" element={<RestoreInstallationBackup />} />
-                      <Route path="mods/:id" element={<ManageInstallationMods />} />
-                    </Route>
-                    <Route path="/versions">
-                      <Route index element={<ListVersions />} />
-                      <Route path="add" element={<AddVersion />} />
-                      <Route path="look-for-a-version" element={<LookForAVersion />} />
-                    </Route>
-                    <Route path="/mods" element={<ListMods />} />
-                    <Route path="/config" element={<ConfigPage />} />
-                  </Routes>
+                  <AnimatedRoutes />
                 </main>
 
                 <NotificationsOverlay />
@@ -76,6 +60,36 @@ function App(): JSX.Element {
         </TaskProvider>
       </NotificationsProvider>
     </ConfigProvider>
+  )
+}
+
+function AnimatedRoutes(): JSX.Element {
+  const location = useLocation()
+
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<AnimatedRoute element={<HomePage />} />} />
+        <Route path="/installations" element={<AnimatedRoute element={<ListInslallations />} />} />
+        <Route path="/installations/add" element={<AnimatedRoute element={<AddInslallation />} />} />
+        <Route path="/installations/edit/:id" element={<AnimatedRoute element={<EditInslallation />} />} />
+        <Route path="/installations/backups/:id" element={<AnimatedRoute element={<RestoreInstallationBackup />} />} />
+        <Route path="/installations/mods/:id" element={<AnimatedRoute element={<ManageInstallationMods />} />} />
+        <Route path="/versions" element={<AnimatedRoute element={<ListVersions />} />} />
+        <Route path="/versions/add" element={<AnimatedRoute element={<AddVersion />} />} />
+        <Route path="/versions/look-for-a-version" element={<AnimatedRoute element={<LookForAVersion />} />} />
+        <Route path="/mods" element={<AnimatedRoute element={<ListMods />} />} />
+        <Route path="/config" element={<AnimatedRoute element={<ConfigPage />} />} />
+      </Routes>
+    </AnimatePresence>
+  )
+}
+
+function AnimatedRoute({ element }: { element: React.ReactElement }): JSX.Element {
+  return (
+    <motion.div transition={{ duration: 0.1 }} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="w-full h-full">
+      {element}
+    </motion.div>
   )
 }
 
@@ -92,7 +106,7 @@ function AppInfo(): JSX.Element {
   }, [])
 
   return (
-    <div className="w-full absolute z-[100] top-0 left-0 py-1 px-4 flex justify-between items-center text-xs text-zinc-400">
+    <div className="w-full absolute z-[100] top-0 left-0 py-1 px-4 flex justify-between items-center text-xs bg-gradient-to-b from-zinc-950/50 to-transparent">
       <div className="flex flex-nowrap gap-1">
         <MiniLinks to="https://github.com/XurxoMF/vs-launcher/issues" text={t("generic.issues")} />
         <MiniLinks to="https://vsldocs.xurxomf.xyz/" text={t("generic.guides")} />
@@ -139,7 +153,7 @@ function Loader(): JSX.Element {
             <h1 className="text-4xl">{t("components.loader.title")}</h1>
             <p className="text-xl">{t("components.loader.desc")}</p>
             <p className="pt-4">
-              <FiLoader className="animate-spin text-5xl text-zinc-400 " />
+              <FiLoader className="animate-spin text-5xl text-zinc-300 " />
             </p>
           </motion.div>
         </motion.div>

@@ -52,7 +52,7 @@ function LookForAVersion(): JSX.Element {
 
   return (
     <ScrollableContainer>
-      <div className="min-h-full flex flex-col items-center justify-center">
+      <div className="min-h-full flex flex-col justify-center gap-4">
         <h1 className="text-3xl text-center font-bold">{t("features.versions.lookForAVersion")}</h1>
 
         <FromWrapper className="max-w-[800px] w-full">

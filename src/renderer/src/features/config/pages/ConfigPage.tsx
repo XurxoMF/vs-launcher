@@ -12,7 +12,7 @@ function ConfigPage(): JSX.Element {
 
   return (
     <ScrollableContainer>
-      <div className="min-h-full flex flex-col items-center justify-center">
+      <div className="min-h-full flex flex-col justify-center gap-4">
         <h1 className="text-3xl text-center font-bold">{t("features.config.title")}</h1>
 
         <FromWrapper className="max-w-[800px] w-full">
@@ -32,7 +32,10 @@ function ConfigPage(): JSX.Element {
                       }
                     }}
                     title={t("generic.browse")}
-                  />
+                    className="px-2 py-1"
+                  >
+                    {t("generic.browse")}
+                  </FormButton>
                   <FormInputTextNotEditable value={config.defaultInstallationsFolder} className="w-full" />
                 </FormFieldGroup>
               </FormBody>
@@ -53,7 +56,10 @@ function ConfigPage(): JSX.Element {
                       }
                     }}
                     title={t("generic.browse")}
-                  />
+                    className="px-2 py-1"
+                  >
+                    {t("generic.browse")}
+                  </FormButton>
                   <FormInputTextNotEditable value={config.defaultVersionsFolder} className="w-full" />
                 </FormFieldGroup>
               </FormBody>
@@ -76,7 +82,10 @@ function ConfigPage(): JSX.Element {
                       }
                     }}
                     title={t("generic.browse")}
-                  />
+                    className="px-2 py-1"
+                  >
+                    {t("generic.browse")}
+                  </FormButton>
                   <FormInputTextNotEditable value={config.backupsFolder} className="w-full" />
                 </FormFieldGroup>
               </FormBody>

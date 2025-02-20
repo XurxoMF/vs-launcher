@@ -105,7 +105,7 @@ function AddVersion(): JSX.Element {
 
   return (
     <ScrollableContainer>
-      <div className="min-h-full flex flex-col items-center justify-center">
+      <div className="min-h-full flex flex-col justify-center gap-4">
         <h1 className="text-3xl text-center font-bold">{t("features.versions.installTitle")}</h1>
 
         <FromWrapper className="max-w-[800px] w-full">
@@ -156,7 +156,7 @@ function AddVersion(): JSX.Element {
                     {gameVersions.length === 0 && (
                       <TableBodyRow>
                         <TableCell className="w-full h-24 flex items-center justify-center">
-                          <FiLoader className="animate-spin text-3xl text-zinc-400" />
+                          <FiLoader className="animate-spin text-3xl text-zinc-300" />
                         </TableCell>
                       </TableBodyRow>
                     )}
@@ -196,8 +196,9 @@ function AddVersion(): JSX.Element {
                       }
                     }}
                     title={t("generic.browse")}
-                  />
-
+                  >
+                    {t("generic.browse")}
+                  </FormButton>
                   <FormInputText placeholder={t("features.versions.versionFolder")} value={folder} onChange={(e) => setFolder(e.target.value)} className="w-full" />
                 </FormFieldGroup>
               </FormBody>
@@ -206,8 +207,12 @@ function AddVersion(): JSX.Element {
         </FromWrapper>
 
         <ButtonsWrapper>
-          <FormButton onClick={handleInstallVersion} title={t("generic.install")} />
-          <FormLinkButton to="/versions" title={t("generic.cancel")} />
+          <FormButton onClick={handleInstallVersion} title={t("generic.install")}>
+            {t("generic.install")}
+          </FormButton>
+          <FormLinkButton to="/versions" title={t("generic.cancel")}>
+            {t("generic.cancel")}
+          </FormLinkButton>
         </ButtonsWrapper>
       </div>
     </ScrollableContainer>

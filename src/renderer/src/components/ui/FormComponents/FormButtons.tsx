@@ -16,18 +16,33 @@ export function ButtonsWrapper({ children, className }: { children: React.ReactN
 }
 
 /**
- * Button that fits the content width with h-8.
+ * Regular button.
  *
  * @param {object} props - The component props.
+ * @param {React.ReactNode} props.children - The content to be wrapped.
  * @param {string} props.className - Additional class names for styling.
  * @param {() => void} props.onClick - The function to be called when the button is clicked.
  * @param {string} props.title - The title and content of the button.
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
-export function FormButton({ className, onClick, title }: { className?: string; onClick: () => void; title: string }): JSX.Element {
+export function FormButton({
+  children,
+  className,
+  onClick,
+  title
+}: {
+  children: React.ReactNode
+  className?: string
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void
+  title: string
+}): JSX.Element {
   return (
-    <HButton onClick={onClick} title={title} className={clsx("w-fit h-8 bg-zinc-950/50 shadow shadow-zinc-950 hover:shadow-none flex items-center justify-center rounded px-2 py-1", className)}>
-      {title}
+    <HButton
+      onClick={onClick}
+      title={title}
+      className={clsx("border border-zinc-400/5 bg-zinc-950/50 shadow shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded", className)}
+    >
+      {children}
     </HButton>
   )
 }
@@ -36,15 +51,16 @@ export function FormButton({ className, onClick, title }: { className?: string; 
  * Link to a page with the same styles as the FormButton.
  *
  * @param {object} props - The component props.
+ * @param {React.ReactNode} props.children - The content to be wrapped.
  * @param {string} props.className - Additional class names for styling.
  * @param {string} props.to - Route to the page.
  * @param {string} props.title - The title and content of the button.
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
-export function FormLinkButton({ className, to, title }: { className?: string; to: string; title: string }): JSX.Element {
+export function FormLinkButton({ children, className, to, title }: { children: React.ReactNode; className?: string; to: string; title: string }): JSX.Element {
   return (
-    <Link to={to} title={title} className={clsx("w-fit h-8 bg-zinc-950/50 shadow shadow-zinc-950 hover:shadow-none flex items-center justify-center rounded px-2 py-1", className)}>
-      {title}
+    <Link to={to} title={title} className={clsx("border border-zinc-400/5 bg-zinc-950/50 shadow shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded", className)}>
+      {children}
     </Link>
   )
 }

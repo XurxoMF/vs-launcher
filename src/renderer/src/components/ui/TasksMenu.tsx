@@ -13,7 +13,7 @@ const NAME_BY_TYPE = {
 }
 
 const FONT_COLOR_TYPES = {
-  pending: "text-vs",
+  pending: "text-vsl",
   "in-progress": "text-yellow-400",
   failed: "text-red-800",
   completed: "text-lime-600"
@@ -33,7 +33,7 @@ function TasksMenu(): JSX.Element {
     <Popover className="relative">
       {({ open }) => (
         <>
-          <PopoverButton className="w-7 h-7 bg-zinc-850 rounded flex items-center justify-center shadow shadow-zinc-950 hover:shadow-none">
+          <PopoverButton className="w-7 h-7 bg-zinc-850 rounded flex items-center justify-center shadow shadow-zinc-950/50 hover:shadow-none">
             <PiDownloadFill />
           </PopoverButton>
           <AnimatePresence>
@@ -61,12 +61,12 @@ function TasksMenu(): JSX.Element {
                             <p className={clsx("text-xl p-2", FONT_COLOR_TYPES[task.status])}>{ICON_TYPES[task.type]}</p>
                             <div className="flex flex-col items-start justify-center">
                               <p className="font-bold text-sm">{`${t(NAME_BY_TYPE[task.type])}`}</p>
-                              <p className="text-xs text-zinc-400">{task.desc}</p>
+                              <p className="text-xs text-zinc-300">{task.desc}</p>
                               {task.status === "failed" && <p className={clsx("text-xs", FONT_COLOR_TYPES["failed"])}>{t("components.tasksMenu.error")}</p>}
                             </div>
                           </div>
                           {(task.status === "completed" || task.status === "failed") && (
-                            <Button className="p-1 text-zinc-400" title={t("generic.discard")} onClick={() => removeTask(task.id)}>
+                            <Button className="p-1 text-zinc-300" title={t("generic.discard")} onClick={() => removeTask(task.id)}>
                               <PiXBold />
                             </Button>
                           )}

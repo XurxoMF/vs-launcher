@@ -9,7 +9,6 @@ import clsx from "clsx"
 import icon from "@renderer/assets/icon.png"
 import iconVersions from "@renderer/assets/icon-versions.png"
 import iconMods from "@renderer/assets/icon-moddb.png"
-import iconNews from "@renderer/assets/icon-news.png"
 import iconChangelog from "@renderer/assets/icon-changelog.png"
 
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
@@ -42,7 +41,7 @@ function MainMenu(): JSX.Element {
 
   const makeInstallationBackup = useMakeInstallationBackup()
 
-  const LINKS: MainMenuLinkProps[] = [
+  const GROUP_1: MainMenuLinkProps[] = [
     {
       icon: icon,
       text: t("components.mainMenu.homeTitle"),
@@ -70,12 +69,6 @@ function MainMenu(): JSX.Element {
   ]
 
   const AS: MainMenuAProps[] = [
-    {
-      icon: iconNews,
-      text: t("components.mainMenu.newsTitle"),
-      desc: t("components.mainMenu.newsDesc"),
-      href: "https://github.com/XurxoMF/vs-launcher/discussions/categories/announcements-news"
-    },
     {
       icon: iconChangelog,
       text: t("components.mainMenu.changelogTitle"),
@@ -119,9 +112,9 @@ function MainMenu(): JSX.Element {
   }
 
   return (
-    <header className="z-[500] w-[280px] flex flex-col gap-4 p-2 bg-zinc-950/50 shadow shadow-zinc-950">
+    <header className="z-[99] w-[280px] flex flex-col gap-4 p-2 bg-zinc-950/50 shadow shadow-zinc-950/50 backdrop-blur-lg border-r border-zinc-400/5">
       <div className="flex h-7 shrink-0 gap-2">
-        <Link to="/config" title={t("features.config.title")} className="shrink-0 w-7 h-7 bg-zinc-850 rounded flex items-center justify-center shadow shadow-zinc-950 hover:shadow-none">
+        <Link to="/config" title={t("features.config.title")} className="shrink-0 w-7 h-7 bg-zinc-850 rounded flex items-center justify-center shadow shadow-zinc-950/50 hover:shadow-none">
           <PiGearFill />
         </Link>
         <TasksMenu />
@@ -129,7 +122,7 @@ function MainMenu(): JSX.Element {
       </div>
 
       <div className="h-full flex flex-col gap-2">
-        {LINKS.map((link) => (
+        {GROUP_1.map((link) => (
           <Link key={link.to} to={link.to} className="flex items-start">
             <LinkContent icon={link.icon} text={link.text} desc={link.desc} link={link.to} external={false} />
           </Link>
@@ -143,7 +136,7 @@ function MainMenu(): JSX.Element {
 
       <div className="flex flex-col gap-2">
         <InstallationsDropdownMenu />
-        <Button title={t("generic.play")} onClick={PlayHandler} className="w-full h-14 bg-vs rounded shadow-md shadow-zinc-950 hover:shadow-none">
+        <Button title={t("generic.play")} onClick={PlayHandler} className="w-full h-14 bg-vs rounded shadow-md shadow-zinc-950/50 hover:shadow-none">
           <p className="text-2xl">{t("generic.play")}</p>
         </Button>
       </div>
@@ -173,9 +166,9 @@ function LinkContent({ icon, text, desc, link, external }: LinkContentProps): JS
       <div className="flex flex-col overflow-hidden whitespace-nowrap">
         <div className="font-bold text-sm flex items-center gap-2">
           <p className="overflow-hidden text-ellipsis">{text}</p>
-          {external && <FiExternalLink className="text-zinc-500" />}
+          {external && <FiExternalLink className="text-zinc-400" />}
         </div>
-        <p className="text-zinc-500 text-xs overflow-hidden text-ellipsis">{desc}</p>
+        <p className="text-zinc-400 text-xs overflow-hidden text-ellipsis">{desc}</p>
       </div>
     </div>
   )
