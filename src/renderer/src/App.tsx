@@ -112,7 +112,7 @@ function AppInfo(): JSX.Element {
   }, [])
 
   return (
-    <div className="w-full absolute z-[100] top-0 left-0 py-1 px-4 flex justify-between items-center text-xs bg-gradient-to-b from-zinc-950/50 to-transparent">
+    <div className="w-full absolute z-100 top-0 left-0 py-1 px-4 flex justify-between items-center text-xs bg-linear-to-b from-zinc-950/50 to-transparent">
       <div className="flex flex-nowrap gap-1">
         <MiniLinks to="https://github.com/XurxoMF/vs-launcher/issues" text={t("generic.issues")} />
         <MiniLinks to="https://vsldocs.xurxomf.xyz/" text={t("generic.guides")} />
@@ -127,7 +127,7 @@ function AppInfo(): JSX.Element {
 
 function MiniLinks({ to, text }: { to: string; text: string }): JSX.Element {
   return (
-    <a title={text} onClick={() => window.api.utils.openOnBrowser(to)} className="group flex flex-row flex-nowrap items-center gap-1 cursor-pointer [&:not(:last-child)]:before:content-['|']">
+    <a title={text} onClick={() => window.api.utils.openOnBrowser(to)} className="group flex flex-row flex-nowrap items-center gap-1 cursor-pointer not-last:before:content-['|']">
       <span>{text}</span> <FiExternalLink className="text-[.6rem]" />
     </a>
   )
@@ -149,7 +149,7 @@ function Loader(): JSX.Element {
   return (
     <AnimatePresence>
       {!minTimeElapsed && (
-        <motion.div initial={{ opacity: 1 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-zinc-800 z-[1000]">
+        <motion.div initial={{ opacity: 1 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-zinc-800 z-1000">
           <motion.div
             initial={{ opacity: 0, y: 100 }}
             animate={{ opacity: 1, y: 0, transition: { delay: 0.5 } }}

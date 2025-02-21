@@ -102,7 +102,7 @@ function RestoreInstallationBackup(): JSX.Element {
 
         <ListWrapper className="max-w-[800px] w-full">
           {backups && backups.length < 1 && (
-            <div className="w-full flex flex-col items-center justify-center gap-2 rounded bg-zinc-950/50 p-4">
+            <div className="w-full flex flex-col items-center justify-center gap-2 rounded-sm bg-zinc-950/50 p-4">
               <p className="text-2xl">{t("features.backups.noBackupsFound")}</p>
             </div>
           )}
@@ -151,12 +151,16 @@ function RestoreInstallationBackup(): JSX.Element {
             <div className="flex gap-4 items-center justify-center">
               <Button
                 title={t("generic.cancel")}
-                className="px-2 py-1 bg-zinc-800 shadow shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded"
+                className="px-2 py-1 bg-zinc-800 shadow-sm shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded-sm"
                 onClick={() => setBackupToRestore(null)}
               >
                 {t("generic.cancel")}
               </Button>
-              <Button title={t("generic.restore")} className="px-2 py-1 bg-red-800 shadow shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded" onClick={RestoreBackupHandler}>
+              <Button
+                title={t("generic.restore")}
+                className="px-2 py-1 bg-red-800 shadow-sm shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded-sm"
+                onClick={RestoreBackupHandler}
+              >
                 {t("generic.restore")}
               </Button>
             </div>
@@ -170,12 +174,16 @@ function RestoreInstallationBackup(): JSX.Element {
             <div className="flex gap-4 items-center justify-center">
               <Button
                 title={t("generic.cancel")}
-                className="px-2 py-1 bg-zinc-800 shadow shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded"
+                className="px-2 py-1 bg-zinc-800 shadow-sm shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded-sm"
                 onClick={() => setBackupToDelete(null)}
               >
                 {t("generic.cancel")}
               </Button>
-              <Button title={t("generic.delete")} className="px-2 py-1 bg-red-800 shadow shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded" onClick={DeleteBackupHandler}>
+              <Button
+                title={t("generic.delete")}
+                className="px-2 py-1 bg-red-800 shadow-sm shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded-sm"
+                onClick={DeleteBackupHandler}
+              >
                 {t("generic.delete")}
               </Button>
             </div>

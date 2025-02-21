@@ -27,7 +27,7 @@ export function NormalButton({
   disabled?: boolean
 }): JSX.Element {
   return (
-    <HButton disabled={disabled} onClick={onClick} title={title} className={clsx("flex items-center justify-center rounded disabled:opacity-50", className)}>
+    <HButton disabled={disabled} onClick={onClick} title={title} className={clsx("flex items-center justify-center rounded-sm disabled:opacity-50", className)}>
       {children}
     </HButton>
   )
@@ -45,7 +45,7 @@ export function NormalButton({
  */
 export function LinkButton({ children, className, to, title }: { children: React.ReactNode; className?: string; to: string; title: string }): JSX.Element {
   return (
-    <Link to={to} title={title} className={clsx("flex items-center justify-center rounded", className)}>
+    <Link to={to} title={title} className={clsx("flex items-center justify-center rounded-sm", className)}>
       {children}
     </Link>
   )

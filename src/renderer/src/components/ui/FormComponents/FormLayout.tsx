@@ -39,7 +39,7 @@ export function FormGroupWrapper({ children, className }: { children: React.Reac
     <div
       className={clsx("relative w-full bg-zinc-950/25 rounded-md", "before:absolute before:left-0 before:top-0 before:w-full before:h-full before:rounded-md before:backdrop-blur-[2px]", className)}
     >
-      <div className="relative flex flex-col p-2 gap-2 z-[1]">{children}</div>
+      <div className="relative flex flex-col p-2 gap-2 z-1">{children}</div>
     </div>
   )
 }

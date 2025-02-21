@@ -61,7 +61,7 @@ export function ListItem({ children, className, onClick }: { children: React.Rea
       variants={LISTITEM_VARIANTS}
       onClick={onClick}
       className={clsx(
-        "w-full rounded backdrop-blur-sm bg-zinc-950/50 border border-zinc-400/5 cursor-pointer group overflow-hidden group shadow shadow-zinc-950/50 hover:shadow-none duration-200",
+        "w-full rounded-sm backdrop-blur-xs bg-zinc-950/50 border border-zinc-400/5 cursor-pointer group overflow-hidden group shadow-sm shadow-zinc-950/50 hover:shadow-none duration-200",
         className
       )}
     >

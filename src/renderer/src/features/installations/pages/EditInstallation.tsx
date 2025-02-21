@@ -82,7 +82,7 @@ function EditInslallation(): JSX.Element {
 
         <FromWrapper className="max-w-[800px] w-full">
           {!installation ? (
-            <div className="w-full flex flex-col items-center justify-center gap-2 rounded bg-zinc-950/50 p-4">
+            <div className="w-full flex flex-col items-center justify-center gap-2 rounded-sm bg-zinc-950/50 p-4">
               <p className="text-2xl">{t("features.installations.noInstallationFound")}</p>
               <p className="w-full flex gap-1 items-center justify-center">{t("features.installations.noInstallationFoundDesc")}</p>
             </div>

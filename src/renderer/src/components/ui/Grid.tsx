@@ -68,7 +68,7 @@ export function GridItem({ children, className, onClick }: { children: React.Rea
       variants={GRIDITEM_VARIANTS}
       animate={isInView ? "animate" : "initial"}
       onClick={onClick}
-      className={clsx("flex-1 rounded backdrop-blur-sm bg-zinc-950/50 border border-zinc-400/5 cursor-pointer shadow shadow-zinc-950/50 hover:shadow-none duration-200", className)}
+      className={clsx("flex-1 rounded-sm backdrop-blur-xs bg-zinc-950/50 border border-zinc-400/5 cursor-pointer shadow-sm shadow-zinc-950/50 hover:shadow-none duration-200", className)}
     >
       {children}
     </motion.li>

@@ -64,7 +64,7 @@ function ListInslallations(): JSX.Element {
         <ListWrapper className="max-w-[800px] w-full">
           <ListGroup>
             <ListItem className="group">
-              <Link to="/installations/add" title={t("features.installations.addNewInstallation")} className="w-full h-12 flex items-center justify-center rounded">
+              <Link to="/installations/add" title={t("features.installations.addNewInstallation")} className="w-full h-12 flex items-center justify-center rounded-sm">
                 <PiPlusCircleFill className="text-2xl text-zinc-300/60 group-hover:scale-95 duration-200" />
               </Link>
             </ListItem>

@@ -14,7 +14,7 @@ function InstallationsDropdownMenu(): JSX.Element {
   const { config, configDispatch } = useConfigContext()
 
   return (
-    <div className="w-full bg-zinc-850 rounded text-sm shadow shadow-zinc-950/50 hover:shadow-none">
+    <div className="w-full bg-zinc-850 rounded-sm text-sm shadow-sm shadow-zinc-950/50 hover:shadow-none">
       {config.installations.length < 1 ? (
         <div className="w-full flex flex-col items-center justify-between px-4 py-2">
           <p className="font-bold">{t("features.installations.noInstallationsFound")}</p>
@@ -79,7 +79,7 @@ function InstallationsDropdownMenu(): JSX.Element {
                     animate={{ height: "fit-content" }}
                     exit={{ height: 0 }}
                     anchor="top"
-                    className="w-[var(--button-width)] bg-zinc-850 shadow shadow-zinc-950/50 -translate-y-1 rounded text-sm"
+                    className="w-[var(--button-width)] bg-zinc-850 shadow-sm shadow-zinc-950/50 -translate-y-1 rounded-sm text-sm"
                   >
                     <div className="flex flex-col max-h-80">
                       {config.installations.map((current) => (

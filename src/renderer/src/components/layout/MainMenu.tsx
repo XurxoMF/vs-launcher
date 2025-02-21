@@ -112,9 +112,9 @@ function MainMenu(): JSX.Element {
   }
 
   return (
-    <header className="z-[99] w-[280px] flex flex-col gap-4 p-2 bg-zinc-950/50 shadow shadow-zinc-950/50 backdrop-blur-lg border-r border-zinc-400/5">
+    <header className="z-99 w-[280px] flex flex-col gap-4 p-2 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 backdrop-blur-lg border-r border-zinc-400/5">
       <div className="flex h-7 shrink-0 gap-2">
-        <Link to="/config" title={t("features.config.title")} className="shrink-0 w-7 h-7 bg-zinc-850 rounded flex items-center justify-center shadow shadow-zinc-950/50 hover:shadow-none">
+        <Link to="/config" title={t("features.config.title")} className="shrink-0 w-7 h-7 bg-zinc-850 rounded-sm flex items-center justify-center shadow-sm shadow-zinc-950/50 hover:shadow-none">
           <PiGearFill />
         </Link>
         <TasksMenu />
@@ -136,7 +136,7 @@ function MainMenu(): JSX.Element {
 
       <div className="flex flex-col gap-2">
         <InstallationsDropdownMenu />
-        <Button title={t("generic.play")} onClick={PlayHandler} className="w-full h-14 bg-vs rounded shadow-md shadow-zinc-950/50 hover:shadow-none">
+        <Button title={t("generic.play")} onClick={PlayHandler} className="w-full h-14 bg-vs rounded-sm shadow-md shadow-zinc-950/50 hover:shadow-none">
           <p className="text-2xl">{t("generic.play")}</p>
         </Button>
       </div>
@@ -161,7 +161,7 @@ function LinkContent({ icon, text, desc, link, external }: LinkContentProps): JS
   }
 
   return (
-    <div className={clsx("w-full flex items-center gap-2 px-2 py-1 rounded duration-100 group hover:pl-3 border-l-4", currentLocation() ? "border-vs bg-vs/15" : "border-transparent")}>
+    <div className={clsx("w-full flex items-center gap-2 px-2 py-1 rounded-sm duration-100 group hover:pl-3 border-l-4", currentLocation() ? "border-vs bg-vs/15" : "border-transparent")}>
       <img src={icon} alt={text} className="w-7" />
       <div className="flex flex-col overflow-hidden whitespace-nowrap">
         <div className="font-bold text-sm flex items-center gap-2">

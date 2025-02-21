@@ -44,12 +44,12 @@ function ListVersions(): JSX.Element {
           <ListGroup>
             <div className="flex gap-2">
               <ListItem className="group">
-                <Link to="/versions/add" title={t("features.versions.installNewVersion")} className="w-full h-8 flex items-center justify-center rounded">
+                <Link to="/versions/add" title={t("features.versions.installNewVersion")} className="w-full h-8 flex items-center justify-center rounded-sm">
                   <PiPlusCircleFill className="text-xl text-zinc-300/60 group-hover:scale-95 duration-200" />
                 </Link>
               </ListItem>
               <ListItem className="group">
-                <Link to="/versions/look-for-a-version" title={t("features.versions.searchForAGameVersion")} className="w-full h-8 flex items-center justify-center rounded">
+                <Link to="/versions/look-for-a-version" title={t("features.versions.searchForAGameVersion")} className="w-full h-8 flex items-center justify-center rounded-sm">
                   <PiMagnifyingGlassFill className="text-xl text-zinc-300/60 group-hover:scale-95 duration-200" />
                 </Link>
               </ListItem>
@@ -93,14 +93,14 @@ function ListVersions(): JSX.Element {
             <div className="flex gap-4 items-center justify-center">
               <Button
                 title={t("generic.cancel")}
-                className="px-2 py-1 bg-zinc-800 shadow shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded"
+                className="px-2 py-1 bg-zinc-800 shadow-sm shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded-sm"
                 onClick={() => setVersionToDelete(null)}
               >
                 {t("generic.cancel")}
               </Button>
               <Button
                 title={t("generic.uninstall")}
-                className="px-2 py-1 bg-red-800 shadow shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded"
+                className="px-2 py-1 bg-red-800 shadow-sm shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded-sm"
                 onClick={DeleteVersionHandler}
               >
                 {t("generic.uninstall")}

@@ -56,7 +56,7 @@ function LanguagesMenu(): JSX.Element {
             .map((lang) => (
               <ListboxButton
                 key={lang.code}
-                className="w-full h-8 px-2 py-1 flex items-center justify-between gap-2 rounded overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow shadow-zinc-950/50 hover:shadow-none"
+                className="w-full h-8 px-2 py-1 flex items-center justify-between gap-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none"
               >
                 <p className="flex gap-2 items-center overflow-hidden whitespace-nowrap">
                   <span className="font-bold text-sm">{lang.name}</span>
@@ -68,13 +68,13 @@ function LanguagesMenu(): JSX.Element {
 
           <AnimatePresence>
             {open && (
-              <ListboxOptions static anchor="bottom" className="w-[var(--button-width)] z-[800] mt-2 select-none rounded overflow-hidden">
+              <ListboxOptions static anchor="bottom" className="w-[var(--button-width)] z-800 mt-2 select-none rounded-sm overflow-hidden">
                 <motion.ul
                   variants={LISTGROUP_VARIANTS}
                   initial="initial"
                   animate="animate"
                   exit="exit"
-                  className="h-40 flex flex-col bg-zinc-950/50 backdrop-blur-md border border-zinc-400/5 shadow shadow-zinc-950/50 hover:shadow-none rounded overflow-y-scroll"
+                  className="h-40 flex flex-col bg-zinc-950/50 backdrop-blur-md border border-zinc-400/5 shadow-sm shadow-zinc-950/50 hover:shadow-none rounded-sm overflow-y-scroll"
                 >
                   {languages.map((lang) => (
                     <ListboxOption

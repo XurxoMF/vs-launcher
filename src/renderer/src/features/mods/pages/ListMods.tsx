@@ -131,8 +131,8 @@ function ListMods(): JSX.Element {
         <div className="sticky top-0 z-10 w-full flex items-center justify-center">
           <div
             className={clsx(
-              "relative rounded border border-zinc-400/5 shadow shadow-zinc-950/50 p-2 duration-200",
-              "before:absolute before:left-0 before:top-0 before:w-full before:h-full before:backdrop-blur-sm",
+              "relative rounded-sm border border-zinc-400/5 shadow-sm shadow-zinc-950/50 p-2 duration-200",
+              "before:absolute before:left-0 before:top-0 before:w-full before:h-full before:backdrop-blur-xs",
               scrTop > 20 ? "bg-zinc-800" : "bg-zinc-950/15"
             )}
           >
@@ -149,7 +149,7 @@ function ListMods(): JSX.Element {
 
               <OrderFilter orderBy={orderBy} setOrderBy={setOrderBy} orderByOrder={orderByOrder} setOrderByOrder={setOrderByOrder} />
 
-              <div className="w-8 h-8 flex items-center justify-center rounded bg-zinc-950/25 text-lg text-zinc-300" title={searching ? t("generic.searching") : t("generic.waitingForChanges")}>
+              <div className="w-8 h-8 flex items-center justify-center rounded-sm bg-zinc-950/25 text-lg text-zinc-300" title={searching ? t("generic.searching") : t("generic.waitingForChanges")}>
                 {searching ? <FiLoader className="animate-spin" /> : <PiCheckBold />}
               </div>
             </div>
@@ -159,7 +159,7 @@ function ListMods(): JSX.Element {
         <GridWrapper className="w-full">
           {modsList.length < 1 ? (
             <div className="w-full h-[calc(100vh-10.1rem)] flex flex-col items-center justify-center gap-2">
-              <p className="w-1/2 p-6 text-center text-2xl rounded bg-zinc-950/50 backdrop-blur-sm shadow shadow-zinc-950/50">
+              <p className="w-1/2 p-6 text-center text-2xl rounded-sm bg-zinc-950/50 backdrop-blur-xs shadow-sm shadow-zinc-950/50">
                 {searching ? t("features.mods.searching") : t("features.mods.noMatchingFilters")}
               </p>
             </div>
@@ -172,7 +172,7 @@ function ListMods(): JSX.Element {
                     if (!config.installations.some((i) => i.id === config.lastUsedInstallation)) return addNotification(t("features.installations.noInstallationSelected"), "error")
                     setModToInstall(mod.modid)
                   }}
-                  className="min-w-72 max-w-96 aspect-[4/3] overflow-hidden"
+                  className="min-w-72 max-w-96 aspect-4/3 overflow-hidden"
                 >
                   <div className="relative w-full h-2/3 text-sm">
                     <img src={mod.logo ? `${mod.logo}` : "https://mods.vintagestory.at/web/img/mod-default.png"} alt={mod.name} className="w-full h-full object-cover object-center" />
@@ -185,22 +185,22 @@ function ListMods(): JSX.Element {
                           e.stopPropagation()
                           window.api.utils.openOnBrowser(`https://mods.vintagestory.at/show/mod/${mod.assetid}`)
                         }}
-                        className="px-2 py-1 backdrop-blur"
+                        className="px-2 py-1 backdrop-blur-sm"
                       >
                         {t("features.mods.openOnTheModDB")}
                       </FormButton>
                     </div> */}
 
                     <div className="absolute bottom-0 right-0 flex items-center gap-2 p-1">
-                      <p className="px-1 flex gap-1 items-center backdrop-blur rounded border border-zinc-400/5 bg-zinc-950/50 shadow shadow-zinc-950/50">
+                      <p className="px-1 flex gap-1 items-center backdrop-blur-sm rounded-sm border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50">
                         <PiDownloadFill />
                         <span>{mod.downloads}</span>
                       </p>
-                      <p className="px-1 flex gap-1 items-center backdrop-blur rounded border border-zinc-400/5 bg-zinc-950/50 shadow shadow-zinc-950/50">
+                      <p className="px-1 flex gap-1 items-center backdrop-blur-sm rounded-sm border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50">
                         <PiStarFill />
                         <span>{mod.follows}</span>
                       </p>
-                      <p className="px-1 flex gap-1 items-center backdrop-blur rounded border border-zinc-400/5 bg-zinc-950/50 shadow shadow-zinc-950/50">
+                      <p className="px-1 flex gap-1 items-center backdrop-blur-sm rounded-sm border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50">
                         <PiChatCenteredDotsFill />
                         <span>{mod.comments}</span>
                       </p>
@@ -260,12 +260,12 @@ function AuthorFilter({ authorFilter, setAuthorFilter }: { authorFilter: Downloa
     <Combobox value={authorFilter} onChange={(value) => setAuthorFilter(value || { userid: "", name: "" })} onClose={() => setAuthorsQuery("")}>
       {({ open }) => (
         <>
-          <div className="w-40 h-8 backdrop-blur-sm border border-zinc-400/5 bg-zinc-950/50 shadow shadow-zinc-950/50 hover:shadow-none rounded flex items-center justify-between gap-2 overflow-hidden">
+          <div className="w-40 h-8 backdrop-blur-xs border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none rounded-sm flex items-center justify-between gap-2 overflow-hidden">
             <ComboboxInput
               placeholder={t("generic.author")}
               displayValue={() => authorFilter?.name || ""}
               onChange={(event) => setAuthorsQuery(event.target.value)}
-              className="w-full px-2 py-1 placeholder:text-zinc-600 bg-transparent outline-none"
+              className="w-full px-2 py-1 placeholder:text-zinc-600 bg-transparent outline-hidden"
             />
             <ComboboxButton className="w-8">
               <PiCaretDownBold className={clsx(open && "rotate-180", "text-sm shrink-0")} />
@@ -281,7 +281,7 @@ function AuthorFilter({ authorFilter, setAuthorFilter }: { authorFilter: Downloa
                 animate={{ height: "auto" }}
                 exit={{ height: 0 }}
                 anchor="bottom start"
-                className="w-40 rounded bg-zinc-850 shadow shadow-zinc-950/50 mt-1 z-[100]"
+                className="w-40 rounded-sm bg-zinc-850 shadow-sm shadow-zinc-950/50 mt-1 z-100"
               >
                 <div className="flex flex-col max-h-40">
                   <>
@@ -333,7 +333,7 @@ function VersionsFilter({
     <Listbox value={versionsFilter} onChange={setVersionsFilter} multiple>
       {({ open }) => (
         <>
-          <ListboxButton className="w-40 h-8 rounded backdrop-blur-sm border border-zinc-400/5 bg-zinc-950/50 shadow shadow-zinc-950/50 hover:shadow-none flex items-center justify-between gap-2 overflow-hidden">
+          <ListboxButton className="w-40 h-8 rounded-sm backdrop-blur-xs border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none flex items-center justify-between gap-2 overflow-hidden">
             <span className={clsx("w-full px-2 py-1 text-start overflow-hidden whitespace-nowrap text-ellipsis", versionsFilter.length < 1 && "text-zinc-600")}>
               {versionsFilter.length < 1 ? t("generic.versions") : versionsFilter.map((version) => version.name).join(", ")}
             </span>
@@ -349,7 +349,7 @@ function VersionsFilter({
                 animate={{ height: "auto" }}
                 exit={{ height: 0 }}
                 anchor="bottom"
-                className="w-[var(--button-width)] bg-zinc-850 shadow shadow-zinc-950/50 mt-2 rounded"
+                className="w-[var(--button-width)] bg-zinc-850 shadow-sm shadow-zinc-950/50 mt-2 rounded-sm"
               >
                 <div className="flex flex-col max-h-40">
                   {gameVersionsList.map((version) => (
@@ -407,16 +407,16 @@ function OrderFilter({
         <>
           <MenuButton
             title={t("generic.order")}
-            className="w-8 h-8 backdrop-blur-sm border border-zinc-400/5 bg-zinc-950/50 shadow shadow-zinc-950/50 hover:shadow-none flex items-center justify-center text-lg rounded"
+            className="w-8 h-8 backdrop-blur-xs border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none flex items-center justify-center text-lg rounded-sm"
           >
             <PiArrowsDownUpFill />
           </MenuButton>
           <AnimatePresence>
             {open && (
-              <MenuItems static anchor="bottom" className={clsx("w-40 flex flex-col rounded mt-2 bg-zinc-800 overflow-hidden text-sm", open ? "opacity-100" : "opacity-0")}>
+              <MenuItems static anchor="bottom" className={clsx("w-40 flex flex-col rounded-sm mt-2 bg-zinc-800 overflow-hidden text-sm", open ? "opacity-100" : "opacity-0")}>
                 {ORDER_BY.map((ob) => (
                   <MenuItem key={ob.key}>
-                    <Button onClick={() => changeOrder(ob.key)} className="px-2 py-1 rounded hover:pl-3 duration-100 odd:bg-zinc-850 even:bg-zinc-800 flex gap-2 items-center justify-between">
+                    <Button onClick={() => changeOrder(ob.key)} className="px-2 py-1 rounded-sm hover:pl-3 duration-100 odd:bg-zinc-850 even:bg-zinc-800 flex gap-2 items-center justify-between">
                       <span className="flex gap-1 items-center">
                         {ob.icon}
                         {ob.value}

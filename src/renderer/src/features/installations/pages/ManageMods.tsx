@@ -145,7 +145,7 @@ function ListMods(): JSX.Element {
                 <ListItem key={iModE.zipname}>
                   <div className="flex gap-4 p-2 justify-between items-center whitespace-nowrap bg-red-700/15 duration-200">
                     <div className="shrink-0">
-                      <div className="w-16 h-16 bg-zinc-950/50 rounded shadow shadow-zinc-950" />
+                      <div className="w-16 h-16 bg-zinc-950/50 rounded-sm shadow-sm shadow-zinc-950" />
                     </div>
 
                     <div className="w-full flex flex-col gap-1 justify-center overflow-hidden">
@@ -182,7 +182,7 @@ function ListMods(): JSX.Element {
                   </div>
                 </div>
               ) : (
-                <div className="w-full flex flex-col items-center justify-center gap-2 rounded bg-zinc-950/50 p-4">
+                <div className="w-full flex flex-col items-center justify-center gap-2 rounded-sm bg-zinc-950/50 p-4">
                   <p className="text-2xl">{t("features.mods.noModsFound")}</p>
                   <p className="w-full flex gap-1 items-center justify-center">
                     <Trans
@@ -206,9 +206,9 @@ function ListMods(): JSX.Element {
                   <div className="flex gap-4 p-2 justify-between items-center whitespace-nowrap">
                     <div className="shrink-0">
                       {iMod._image ? (
-                        <img src={`cachemodimg:${iMod._image}`} alt={iMod.name} className="w-16 h-16 object-cover rounded" />
+                        <img src={`cachemodimg:${iMod._image}`} alt={iMod.name} className="w-16 h-16 object-cover rounded-sm" />
                       ) : (
-                        <div className="w-16 h-16 bg-zinc-900 rounded shadow shadow-zinc-950" />
+                        <div className="w-16 h-16 bg-zinc-900 rounded-sm shadow-sm shadow-zinc-950" />
                       )}
                     </div>
 
@@ -280,12 +280,12 @@ function ListMods(): JSX.Element {
             <div className="flex gap-4 items-center justify-center">
               <Button
                 title={t("generic.cancel")}
-                className="px-2 py-1 bg-zinc-800 shadow shadow-zinc-950 hover:shadow-none flex items-center justify-center rounded"
+                className="px-2 py-1 bg-zinc-800 shadow-sm shadow-zinc-950 hover:shadow-none flex items-center justify-center rounded-sm"
                 onClick={() => setModToDelete(null)}
               >
                 {t("generic.cancel")}
               </Button>
-              <Button title={t("generic.delete")} className="px-2 py-1 bg-red-800 shadow shadow-zinc-950 hover:shadow-none flex items-center justify-center rounded" onClick={DeleteModHandler}>
+              <Button title={t("generic.delete")} className="px-2 py-1 bg-red-800 shadow-sm shadow-zinc-950 hover:shadow-none flex items-center justify-center rounded-sm" onClick={DeleteModHandler}>
                 {t("generic.delete")}
               </Button>
             </div>

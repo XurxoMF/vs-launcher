@@ -33,7 +33,7 @@ function TasksMenu(): JSX.Element {
     <Popover className="relative">
       {({ open }) => (
         <>
-          <PopoverButton className="w-7 h-7 bg-zinc-850 rounded flex items-center justify-center shadow shadow-zinc-950/50 hover:shadow-none">
+          <PopoverButton className="w-7 h-7 bg-zinc-850 rounded-sm flex items-center justify-center shadow-sm shadow-zinc-950/50 hover:shadow-none">
             <PiDownloadFill />
           </PopoverButton>
           <AnimatePresence>
@@ -45,7 +45,7 @@ function TasksMenu(): JSX.Element {
                 animate={{ height: "auto" }}
                 exit={{ height: 0 }}
                 anchor="bottom"
-                className="w-80 translate-y-1 translate-x-2 bg-zinc-850 rounded"
+                className="w-80 translate-y-1 translate-x-2 bg-zinc-850 rounded-sm"
               >
                 <div className="flex flex-col max-h-80">
                   <AnimatePresence>

@@ -33,12 +33,12 @@ function NotificationsOverlay(): JSX.Element {
   const { notifications, removeNotification } = useNotificationsContext()
 
   return (
-    <div className="w-[300px] h-fit absolute flex flex-col items-end top-0 right-0 z-[800] p-2 gap-2">
+    <div className="w-[300px] h-fit absolute flex flex-col items-end top-0 right-0 z-800 p-2 gap-2">
       <AnimatePresence>
         {notifications.map(({ id, title, body, type, options }) => (
           <motion.div
             key={id}
-            className={clsx("w-[300px] flex items-center justify-between gap-2 p-2 rounded text-center bg-zinc-950/60 backdrop-blur border-l-4", BORDER_COLOR_TYPES[type])}
+            className={clsx("w-[300px] flex items-center justify-between gap-2 p-2 rounded-sm text-center bg-zinc-950/60 backdrop-blur-sm border-l-4", BORDER_COLOR_TYPES[type])}
             initial={{ x: 320 }}
             animate={{ x: 0 }}
             exit={{ x: 320 }}

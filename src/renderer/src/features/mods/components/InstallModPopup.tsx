@@ -84,7 +84,7 @@ function InstallModPopup({
                   <TableCell className="w-2/12">{release.modversion}</TableCell>
                   <TableCell className="w-3/12">{new Date(release.created).toLocaleDateString("es")}</TableCell>
                   <TableCell className="w-5/12 overflow-hidden whitespace-nowrap text-ellipsis">
-                    <input type="text" value={release.tags.join(", ")} readOnly className="w-full bg-transparent outline-none text-center" />
+                    <input type="text" value={release.tags.join(", ")} readOnly className="w-full bg-transparent outline-hidden text-center" />
                   </TableCell>
                   <TableCell className="w-2/12 flex gap-2 items-center justify-center">
                     <NormalButton
@@ -98,7 +98,7 @@ function InstallModPopup({
                         setDownloadableModToInstall(null)
                       }}
                       className={clsx(
-                        "w-7 h-7 backdrop-blur-sm border border-zinc-400/5 shadow shadow-zinc-950/50 hover:shadow-none rounded",
+                        "w-7 h-7 backdrop-blur-xs border border-zinc-400/5 shadow-sm shadow-zinc-950/50 hover:shadow-none rounded-sm",
                         release.tags.includes(`v${installation.version}`)
                           ? "bg-green-700/50"
                           : release.tags.some((tag) => tag.startsWith(`v${installation.version.split(".").slice(0, 2).join(".")}`))
