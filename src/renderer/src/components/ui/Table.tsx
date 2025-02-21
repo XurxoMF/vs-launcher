@@ -10,7 +10,7 @@ import { AnimatePresence, motion, Variants } from "motion/react"
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
 export function TableWrapper({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
-  return <div className={clsx("rounded bg-zinc-950/50 border border-zinc-400/5 shadow shadow-zinc-950/50 hover:shadow-none duration-200 overflow-hidden", className)}>{children}</div>
+  return <div className={clsx("rounded bg-zinc-950/50 border border-zinc-400/5 shadow shadow-zinc-950/50 hover:shadow-none duration-200 overflow-hidden backdrop-blur-sm", className)}>{children}</div>
 }
 
 /**

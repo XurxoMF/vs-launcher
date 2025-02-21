@@ -10,14 +10,14 @@ import { AnimatePresence, motion, Variants } from "motion/react"
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
 export function ListWrapper({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
-  return <div className={clsx("mx-auto flex flex-col rounded-md p-2 bg-zinc-900/15", className)}>{children}</div>
+  return <div className={clsx("mx-auto flex flex-col rounded-md p-2 bg-zinc-900/25", className)}>{children}</div>
 }
 
 const LISTGROUP_VARIANTS: Variants = {
   animate: {
     transition: {
       delayChildren: 0.1,
-      staggerChildren: 0.05
+      staggerChildren: 0.1
     }
   }
 }
@@ -60,7 +60,10 @@ export function ListItem({ children, className, onClick }: { children: React.Rea
     <motion.li
       variants={LISTITEM_VARIANTS}
       onClick={onClick}
-      className={clsx("w-full rounded bg-zinc-950/50 border border-zinc-400/5 cursor-pointer group overflow-hidden group shadow shadow-zinc-950/50 hover:shadow-none duration-200", className)}
+      className={clsx(
+        "w-full rounded backdrop-blur-sm bg-zinc-950/50 border border-zinc-400/5 cursor-pointer group overflow-hidden group shadow shadow-zinc-950/50 hover:shadow-none duration-200",
+        className
+      )}
     >
       {children}
     </motion.li>

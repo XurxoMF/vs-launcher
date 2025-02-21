@@ -1,11 +1,11 @@
 import { Input, Switch } from "@headlessui/react"
 import clsx from "clsx"
 
-const INPUT_BASE_STYLES = `h-8 px-2 py-1 rounded-md placeholder:text-zinc-200/15 overflow-hidden outline-none`
-const INPUT_INVALID_STYLES = "border border-red-800 bg-red-800/20"
-const INPUT_VALID_STYLES = "bg-zinc-950/50 border border-zinc-400/5"
-const INPUT_ENABLED_STYLES = "shadow shadow-zinc-950/50 hover:shadow-none"
-const INPUT_DISABLED_STYLES = "text-zinc-400"
+const INPUT_BASE_STYLES = `h-8 px-2 py-1 rounded-md placeholder:text-zinc-200/15 overflow-hidden outline-none backdrop-blur-sm`
+const INPUT_INVALID_STYLES = "invalid:border invalid:border-red-800 invalid:bg-red-800/20"
+const INPUT_VALID_STYLES = "valid:bg-zinc-950/50 valid:border valid:border-zinc-400/5"
+const INPUT_ENABLED_STYLES = "enabled:shadow enabled:shadow-zinc-950/50 enabled:hover:shadow-none"
+const INPUT_DISABLED_STYLES = "disabled:text-zinc-400"
 
 /**
  * Input with type text and validation for minimum and maximum length.
@@ -40,17 +40,13 @@ export function FormInputText({
   return (
     <Input
       type="text"
-      className={clsx(
-        INPUT_BASE_STYLES,
-        (minLength && value.length < minLength) || (maxLength && value.length > maxLength) ? INPUT_INVALID_STYLES : INPUT_VALID_STYLES,
-        disabled ? INPUT_DISABLED_STYLES : INPUT_ENABLED_STYLES,
-        className
-      )}
+      className={clsx(INPUT_BASE_STYLES, INPUT_INVALID_STYLES, INPUT_VALID_STYLES, INPUT_DISABLED_STYLES, INPUT_ENABLED_STYLES, className)}
       value={value}
       onChange={onChange}
       placeholder={placeholder}
       minLength={minLength}
       maxLength={maxLength}
+      disabled={disabled}
     />
   )
 }
@@ -82,16 +78,12 @@ export function FormInputTextNotEditable({
   return (
     <Input
       type="text"
-      className={clsx(
-        INPUT_BASE_STYLES,
-        (minLength && value.length < minLength) || (maxLength && value.length > maxLength) ? INPUT_INVALID_STYLES : INPUT_VALID_STYLES,
-        disabled ? INPUT_DISABLED_STYLES : INPUT_ENABLED_STYLES,
-        className
-      )}
+      className={clsx(INPUT_BASE_STYLES, INPUT_INVALID_STYLES, INPUT_VALID_STYLES, INPUT_DISABLED_STYLES, INPUT_ENABLED_STYLES, className)}
       value={value}
       placeholder={placeholder}
       minLength={minLength}
       maxLength={maxLength}
+      disabled={disabled}
       readOnly
     />
   )
@@ -130,12 +122,13 @@ export function FormInputNumber({
   return (
     <Input
       type="number"
-      className={clsx(INPUT_BASE_STYLES, (min && value < min) || (max && value > max) ? INPUT_INVALID_STYLES : INPUT_VALID_STYLES, disabled ? INPUT_DISABLED_STYLES : INPUT_ENABLED_STYLES, className)}
+      className={clsx(INPUT_BASE_STYLES, INPUT_INVALID_STYLES, INPUT_VALID_STYLES, INPUT_DISABLED_STYLES, INPUT_ENABLED_STYLES, className)}
       value={value}
       onChange={onChange}
       placeholder={placeholder}
       min={min}
       max={max}
+      disabled={disabled}
     />
   )
 }
@@ -170,11 +163,12 @@ export function FormInputNumberNoteditable({
   return (
     <Input
       type="number"
-      className={clsx(INPUT_BASE_STYLES, (min && value < min) || (max && value > max) ? INPUT_INVALID_STYLES : INPUT_VALID_STYLES, disabled ? INPUT_DISABLED_STYLES : INPUT_ENABLED_STYLES, className)}
+      className={clsx(INPUT_BASE_STYLES, INPUT_INVALID_STYLES, INPUT_VALID_STYLES, INPUT_DISABLED_STYLES, INPUT_ENABLED_STYLES, className)}
       value={value}
       placeholder={placeholder}
       min={min}
       max={max}
+      disabled={disabled}
       readOnly
     />
   )
@@ -193,7 +187,7 @@ export function FormToggle({ value, onChange }: { className?: string; value: boo
     <Switch
       checked={value}
       onChange={onChange}
-      className="group relative flex h-fit w-12 cursor-pointer rounded-full border border-zinc-400/5 bg-zinc-950/50 p-1 shadow shadow-zinc-950/50 hover:shadow-none transition-colors duration-100 ease-in-out focus:outline-none data-[focus]:outline-1 data-[focus]:outline-white data-[checked]:bg-vs"
+      className="group relative flex h-fit w-12 cursor-pointer backdrop-blur-sm rounded-full border border-zinc-400/5 bg-zinc-950/50 p-1 shadow shadow-zinc-950/50 hover:shadow-none transition-colors duration-100 ease-in-out focus:outline-none data-[focus]:outline-1 data-[focus]:outline-white data-[checked]:bg-vs"
     >
       <span
         aria-hidden="true"

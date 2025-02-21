@@ -36,8 +36,10 @@ export function FromGroup({ children, className, alignment = "x" }: { children: 
  */
 export function FormGroupWrapper({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
   return (
-    <div className={clsx("w-full flex flex-col p-2 bg-zinc-950/15 gap-2 relative rounded-md", className)}>
-      <>{children}</>
+    <div
+      className={clsx("relative w-full bg-zinc-950/25 rounded-md", "before:absolute before:left-0 before:top-0 before:w-full before:h-full before:rounded-md before:backdrop-blur-[2px]", className)}
+    >
+      <div className="relative flex flex-col p-2 gap-2 z-[1]">{children}</div>
     </div>
   )
 }

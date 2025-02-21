@@ -10,7 +10,7 @@ export function useInstallMod(): (
   mod: DownloadableMod | undefined,
   version: DownloadableModVersion | undefined,
   oldMod: InstalledModType | undefined,
-  afterInstall?: () => void
+  onFinish?: () => void
 ) => Promise<void> {
   const { t } = useTranslation()
   const { addNotification } = useNotificationsContext()
@@ -27,7 +27,7 @@ export function useInstallMod(): (
     mod: DownloadableMod | undefined,
     version: DownloadableModVersion | undefined,
     oldMod: InstalledModType | undefined,
-    afterInstall?: () => void
+    onFinish?: () => void
   ): Promise<void> {
     if (!installation) return addNotification(t("features.installations.noInstallationSelected"), "error")
     if (!mod) return addNotification(t("features.mods.noModSelected"), "error")
@@ -46,7 +46,7 @@ export function useInstallMod(): (
       async (status, path, error) => {
         if (!status) return window.api.utils.logMessage("error", `[component] [ManageMods(installations)] Error downloading mod: ${error}`)
         window.api.utils.logMessage("info", `[component] [ManageMods(installations)] Downloaded mod ${version.mainfile} on ${path}`)
-        if (afterInstall) afterInstall()
+        if (onFinish) onFinish()
         countMods()
       }
     )

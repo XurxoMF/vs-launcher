@@ -1,5 +1,6 @@
 import clsx from "clsx"
-import { AnimatePresence, motion, Variants } from "motion/react"
+import { AnimatePresence, motion, useInView, Variants } from "motion/react"
+import { useRef } from "react"
 
 /**
  * Grid external wrapper.
@@ -10,7 +11,7 @@ import { AnimatePresence, motion, Variants } from "motion/react"
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
 export function GridWrapper({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
-  return <div className={clsx("mx-auto flex flex-col rounded-md p-2 bg-zinc-900/15", className)}>{children}</div>
+  return <div className={clsx("mx-auto flex flex-col rounded-md p-2 bg-zinc-900/25", className)}>{children}</div>
 }
 
 const GRIDGROUP_VARIANTS: Variants = {
@@ -56,11 +57,18 @@ const GRIDITEM_VARIANTS: Variants = {
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
 export function GridItem({ children, className, onClick }: { children: React.ReactNode; className?: string; onClick?: () => void }): JSX.Element {
+  const ref = useRef(null)
+  const isInView = useInView(ref, {
+    once: false
+  })
+
   return (
     <motion.li
+      ref={ref}
       variants={GRIDITEM_VARIANTS}
+      animate={isInView ? "animate" : "initial"}
       onClick={onClick}
-      className={clsx("flex-1 rounded bg-zinc-950/50 border border-zinc-400/5 cursor-pointer shadow shadow-zinc-950/50 hover:shadow-none duration-200", className)}
+      className={clsx("flex-1 rounded backdrop-blur-sm bg-zinc-950/50 border border-zinc-400/5 cursor-pointer shadow shadow-zinc-950/50 hover:shadow-none duration-200", className)}
     >
       {children}
     </motion.li>

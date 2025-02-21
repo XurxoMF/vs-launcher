@@ -23,24 +23,28 @@ export function ButtonsWrapper({ children, className }: { children: React.ReactN
  * @param {string} props.className - Additional class names for styling.
  * @param {() => void} props.onClick - The function to be called when the button is clicked.
  * @param {string} props.title - The title and content of the button.
+ * @param {boolean} props.disabled - If the button is dissabled or not.
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
 export function FormButton({
   children,
   className,
   onClick,
-  title
+  title,
+  disabled
 }: {
   children: React.ReactNode
   className?: string
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void
   title: string
+  disabled?: boolean
 }): JSX.Element {
   return (
     <HButton
+      disabled={disabled}
       onClick={onClick}
       title={title}
-      className={clsx("border border-zinc-400/5 bg-zinc-950/50 shadow shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded", className)}
+      className={clsx("backdrop-blur-sm border border-zinc-400/5 bg-zinc-950/50 shadow shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded disabled:opacity-50", className)}
     >
       {children}
     </HButton>
@@ -59,7 +63,11 @@ export function FormButton({
  */
 export function FormLinkButton({ children, className, to, title }: { children: React.ReactNode; className?: string; to: string; title: string }): JSX.Element {
   return (
-    <Link to={to} title={title} className={clsx("border border-zinc-400/5 bg-zinc-950/50 shadow shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded", className)}>
+    <Link
+      to={to}
+      title={title}
+      className={clsx("backdrop-blur-sm border border-zinc-400/5 bg-zinc-950/50 shadow shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded", className)}
+    >
       {children}
     </Link>
   )

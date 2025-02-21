@@ -29,6 +29,7 @@ import LookForAVersion from "@renderer/features/versions/pages/LookForAVersion"
 import ListMods from "@renderer/features/mods/pages/ListMods"
 
 import ConfigPage from "@renderer/features/config/pages/ConfigPage"
+import clsx from "clsx"
 
 function App(): JSX.Element {
   useEffect(() => {
@@ -41,13 +42,18 @@ function App(): JSX.Element {
       <NotificationsProvider>
         <TaskProvider>
           <Router>
-            <div className="w-screen h-screen select-none bg-image-vs bg-center bg-cover">
-              <div className="relative w-full h-full flex bg-zinc-900/30">
+            <div
+              className={clsx(
+                "relative w-screen h-screen select-none bg-image-vs bg-center bg-cover",
+                "before:absolute before:left-0 before:top-0 before:w-full before:h-full before:backdrop-blur-[2px]"
+              )}
+            >
+              <div className="w-full h-full flex bg-zinc-900/30">
                 <Loader />
 
                 <MainMenu />
 
-                <main className="relative w-full h-full flex-1 backdrop-blur">
+                <main className="relative w-full h-full flex-1">
                   <AppInfo />
 
                   <AnimatedRoutes />
@@ -121,7 +127,7 @@ function AppInfo(): JSX.Element {
 
 function MiniLinks({ to, text }: { to: string; text: string }): JSX.Element {
   return (
-    <a title={text} onClick={() => window.api.utils.openOnBrowser(to)} className="group flex flex-row flex-nowrap items-center gap-1 cursor-pointer [&:not(:last-child)]:after:content-['|']">
+    <a title={text} onClick={() => window.api.utils.openOnBrowser(to)} className="group flex flex-row flex-nowrap items-center gap-1 cursor-pointer [&:not(:last-child)]:before:content-['|']">
       <span>{text}</span> <FiExternalLink className="text-[.6rem]" />
     </a>
   )

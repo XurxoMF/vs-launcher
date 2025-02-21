@@ -12,7 +12,7 @@ function ConfigPage(): JSX.Element {
 
   return (
     <ScrollableContainer>
-      <div className="min-h-full flex flex-col justify-center gap-4">
+      <div className="min-h-full flex flex-col justify-center gap-6">
         <h1 className="text-3xl text-center font-bold">{t("features.config.title")}</h1>
 
         <FromWrapper className="max-w-[800px] w-full">

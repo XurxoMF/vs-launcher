@@ -41,7 +41,9 @@
     "authors": "Authors",
     "contributors": "Contributors",
     "update": "Update",
-    "reload": "Reload"
+    "reload": "Reload",
+    "searching": "Searching",
+    "waitingForChanges": "Waiting for changes"
   },
   "features": {
     "generic": {

@@ -10,21 +10,24 @@ import { Link } from "react-router-dom"
  * @param {string} props.className - Additional class names for styling.
  * @param {() => void} props.onClick - The function to be called when the button is clicked.
  * @param {string} props.title - The title and content of the button.
+ * @param {boolean} props.disabled - If the button is dissabled or not.
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
 export function NormalButton({
   children,
   className,
   onClick,
-  title
+  title,
+  disabled
 }: {
   children: React.ReactNode
   className?: string
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void
   title: string
+  disabled?: boolean
 }): JSX.Element {
   return (
-    <HButton onClick={onClick} title={title} className={clsx("flex items-center justify-center rounded", className)}>
+    <HButton disabled={disabled} onClick={onClick} title={title} className={clsx("flex items-center justify-center rounded disabled:opacity-50", className)}>
       {children}
     </HButton>
   )

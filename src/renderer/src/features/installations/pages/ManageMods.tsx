@@ -1,32 +1,19 @@
-/*
-! IMPORTANT NOTES
-
-I've made this page in just a few hours. It's not optimiced at all and it'll need a rewrite when I have time.
-
-If you're reading this, don't get examples from this page please xD
-
-Just check out the nested ternary operators on the install/update buttons... for the sake of god,
-what am I doing just to release this update!? This makes no sense xD
-*/
-
 import { useEffect, useRef, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import { Trans, useTranslation } from "react-i18next"
 import { Button } from "@headlessui/react"
 import { PiArrowClockwiseFill, PiTrashFill } from "react-icons/pi"
 import { FiLoader } from "react-icons/fi"
-import clsx from "clsx"
 
 import { useConfigContext } from "@renderer/features/config/contexts/ConfigContext"
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 
 import { useCountMods } from "@renderer/features/mods/hooks/useCountMods"
-import { useInstallMod } from "@renderer/features/mods/hooks/useInstallMod"
 
 import { ListGroup, ListItem, ListWrapper } from "@renderer/components/ui/List"
-import { TableBody, TableBodyRow, TableCell, TableHead, TableHeadRow, TableWrapper } from "@renderer/components/ui/Table"
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
 import PopupDialogPanel from "@renderer/components/ui/PopupDialogPanel"
+import InstallModPopup from "@renderer/features/mods/components/InstallModPopup"
 
 function ListMods(): JSX.Element {
   const { t } = useTranslation()
@@ -34,7 +21,6 @@ function ListMods(): JSX.Element {
   const { addNotification } = useNotificationsContext()
 
   const countMods = useCountMods()
-  const installMod = useInstallMod()
 
   const { id } = useParams()
 
@@ -42,7 +28,7 @@ function ListMods(): JSX.Element {
   const [insatlledModsWithErrors, setInstalledModsWithErrors] = useState<ErrorInstalledModType[]>([])
 
   const [modToDelete, setModToDelete] = useState<InstalledModType | ErrorInstalledModType | null>(null)
-  const [modToUpdate, setModToUpdate] = useState<InstalledModType | null>(null)
+  const [modToUpdate, setModToUpdate] = useState<string | null>(null)
 
   const [gettingMods, setGettingMods] = useState<boolean>(false)
 
@@ -260,7 +246,7 @@ function ListMods(): JSX.Element {
                         title={t("generic.update")}
                         onClick={async () => {
                           if (!iMod._mod || iMod._mod.releases.length < 1) return addNotification(t("features.mods.noVersionsFound"), "error")
-                          setModToUpdate(iMod)
+                          setModToUpdate(iMod.modid)
                         }}
                       >
                         <PiArrowClockwiseFill />
@@ -283,73 +269,9 @@ function ListMods(): JSX.Element {
           )}
         </ListWrapper>
 
-        <PopupDialogPanel title={t("features.mods.updateMod")} isOpen={modToUpdate !== null} close={() => setModToUpdate(null)} maxWidth={false}>
-          <>
-            {modToUpdate && (
-              <>
-                <p>{t("features.mods.installationPopupDesc", { modName: modToUpdate.name })}</p>
-                <TableWrapper className="w-[800px]">
-                  <TableHead>
-                    <TableHeadRow>
-                      <TableCell className="w-2/12">{t("generic.version")}</TableCell>
-                      <TableCell className="w-3/12">{t("generic.releaseDate")}</TableCell>
-                      <TableCell className="w-5/12">{t("generic.versions")}</TableCell>
-                      <TableCell className="w-2/12">{t("generic.actions")}</TableCell>
-                    </TableHeadRow>
-                  </TableHead>
-
-                  <TableBody className="max-h-[300px]">
-                    {modToUpdate._mod &&
-                      modToUpdate._mod.releases.map((release) => (
-                        <TableBodyRow key={release.releaseid} disabled={release.modversion === modToUpdate.version}>
-                          <TableCell className="w-2/12">{release.modversion}</TableCell>
-                          <TableCell className="w-3/12">{new Date(release.created).toLocaleDateString("es")}</TableCell>
-                          <TableCell className="w-5/12 overflow-hidden whitespace-nowrap text-ellipsis">
-                            <input type="text" value={release.tags.join(", ")} readOnly className="w-full bg-transparent outline-none text-center" />
-                          </TableCell>
-                          <TableCell className="w-2/12 flex gap-2 items-center justify-center">
-                            <Button
-                              disabled={release.modversion === modToUpdate.version}
-                              onClick={() => {
-                                installMod(
-                                  config.installations.find((i) => i.id === id),
-                                  modToUpdate._mod,
-                                  release,
-                                  modToUpdate,
-                                  () => getMods()
-                                )
-                                setModToUpdate(null)
-                              }}
-                              className={clsx(
-                                "w-7 h-7 rounded flex items-center justify-center",
-                                config.installations.some((i) => i.id === config.lastUsedInstallation) &&
-                                  release.tags.includes(`v${config.installations.find((i) => i.id === config.lastUsedInstallation)!.version}`)
-                                  ? "bg-green-700"
-                                  : release.tags.some((mvt) =>
-                                        mvt.startsWith(
-                                          `v${config.installations
-                                            .find((i) => i.id === config.lastUsedInstallation)!
-                                            .version.split(".")
-                                            .slice(0, 2)
-                                            .join(".")}`
-                                        )
-                                      )
-                                    ? "bg-yellow-600"
-                                    : "bg-red-700"
-                              )}
-                              title={t("generic.update")}
-                            >
-                              <PiArrowClockwiseFill />
-                            </Button>
-                          </TableCell>
-                        </TableBodyRow>
-                      ))}
-                  </TableBody>
-                </TableWrapper>
-              </>
-            )}
-          </>
-        </PopupDialogPanel>
+        {config.installations.some((i) => i.id === id) && modToUpdate !== null && (
+          <InstallModPopup installation={config.installations.find((i) => i.id === id) as InstallationType} modToInstall={modToUpdate} setModToInstall={setModToUpdate} />
+        )}
 
         <PopupDialogPanel title={t("features.mods.deleteMod")} isOpen={modToDelete !== null} close={() => setModToDelete(null)}>
           <>
