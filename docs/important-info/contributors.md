@@ -4,7 +4,7 @@ description: List of contributors and a letter of love.
 
 # 👤 Contributors
 
-I started this project as a freelance developer, but after a few days many people started contributing to the project by translating it into new languages, suggesting features, and bug hunting.
+[https://github.com/Pi](https://github.com/Pingoda)I started this project as a freelance developer, but after a few days many people started contributing to the project by translating it into new languages, suggesting features, and bug hunting.
 
 This page is the Hall of Fame with the name of all the contributors this project has and had on the past!
 
@@ -25,7 +25,7 @@ This page is the Hall of Fame with the name of all the contributors this project
 * [**bruno-cabrita**](https://github.com/bruno-cabrita) - Portuguese
 * **Dennisjeee** - Dutch (Netherlands)
 * [**Runo Hawk**](https://github.com/RunoHawk) **-** Polish
-* #### [**Pingoda**](https://github.com/Pingoda) **- Italian**
+* [Pingoda](https://github.com/Pingoda) - Italian
 
 ***
 
