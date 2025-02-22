@@ -23,6 +23,7 @@ let mainWindow: BrowserWindow
 
 function createWindow(): void {
   mainWindow = new BrowserWindow({
+    center: true,
     width: 1280,
     height: 720,
     title: `VS Launcher`,
@@ -49,7 +50,7 @@ function createWindow(): void {
     return { action: "deny" }
   })
 
-  mainWindow.on("close", (e) => {
+  mainWindow.on("close", () => {
     if (getShouldPreventClose()) {
       logMessage("info", "[main] Prevented from closing")
 
