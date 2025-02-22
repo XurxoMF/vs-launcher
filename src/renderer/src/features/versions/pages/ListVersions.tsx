@@ -10,6 +10,7 @@ import { useNotificationsContext } from "@renderer/contexts/NotificationsContext
 import { ListGroup, ListWrapper, ListItem } from "@renderer/components/ui/List"
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
 import PopupDialogPanel from "@renderer/components/ui/PopupDialogPanel"
+import { NormalButton } from "@renderer/components/ui/Buttons"
 
 function ListVersions(): JSX.Element {
   const { t } = useTranslation()
@@ -60,7 +61,7 @@ function ListVersions(): JSX.Element {
                   <p className="font-bold">{gv.version}</p>
                   <p className="hidden group-hover:block text-sm text-zinc-400 overflow-hidden text-ellipsis whitespace-nowrap">{gv.path}</p>
                   <div className="flex gap-1 text-lg">
-                    <Button
+                    <NormalButton
                       className="p-1 flex items-center justify-center"
                       title={t("generic.delete")}
                       onClick={async () => {
@@ -68,8 +69,8 @@ function ListVersions(): JSX.Element {
                       }}
                     >
                       <PiTrashFill />
-                    </Button>
-                    <Button
+                    </NormalButton>
+                    <NormalButton
                       onClick={async () => {
                         if (!(await window.api.pathsManager.checkPathExists(gv.path))) return addNotification(t("notifications.body.folderDoesntExists"), "error")
                         window.api.pathsManager.openPathOnFileExplorer(gv.path)
@@ -78,7 +79,7 @@ function ListVersions(): JSX.Element {
                       className="p-1 flex items-center justify-center"
                     >
                       <PiFolderFill />
-                    </Button>
+                    </NormalButton>
                   </div>
                 </div>
               </ListItem>

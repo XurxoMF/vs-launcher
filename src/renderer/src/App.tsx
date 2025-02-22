@@ -50,7 +50,7 @@ function App(): JSX.Element {
                 "before:absolute before:left-0 before:top-0 before:w-full before:h-full before:backdrop-blur-[2px]"
               )}
             >
-              <div className="w-full h-full flex bg-zinc-900/30">
+              <div className="w-full h-full flex bg-zinc-950/25">
                 <Loader />
 
                 <MainMenu />
@@ -115,7 +115,7 @@ function AppInfo(): JSX.Element {
 
   return (
     <div className="w-full absolute z-100 top-0 left-0 py-1 p-3 flex justify-between items-center text-xs">
-      <div className="shrink-0 flex flex-nowrap gap-1">
+      <div className="shrink-0 flex flex-nowrap gap-2">
         <MiniLinks to="https://github.com/XurxoMF/vs-launcher/issues" text={t("generic.issues")} />
         <MiniLinks to="https://vsldocs.xurxomf.xyz/" text={t("generic.guides")} />
         <MiniLinks to="https://discord.gg/RtWpYBRRUz" text="Discord" />
@@ -144,7 +144,13 @@ function AppInfo(): JSX.Element {
 
 function MiniLinks({ to, text }: { to: string; text: string }): JSX.Element {
   return (
-    <FormButton title={text} onClick={() => window.api.utils.openOnBrowser(to)} className={"px-1 gap-1 opacity-50 hover:opacity-100 duration-200"}>
+    <FormButton
+      title={text}
+      onClick={() => window.api.utils.openOnBrowser(to)}
+      className={
+        "backdrop-blur-xs border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded-sm cursor-pointer px-1 opacity-50 hover:opacity-100 duration-200"
+      }
+    >
       <span>{text}</span> <FiExternalLink className="text-[.6rem]" />
     </FormButton>
   )

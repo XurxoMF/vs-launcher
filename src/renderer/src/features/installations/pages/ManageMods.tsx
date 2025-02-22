@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import { Trans, useTranslation } from "react-i18next"
-import { Button } from "@headlessui/react"
 import { PiArrowClockwiseFill, PiTrashFill } from "react-icons/pi"
 import { FiLoader } from "react-icons/fi"
 
@@ -14,6 +13,7 @@ import { ListGroup, ListItem, ListWrapper } from "@renderer/components/ui/List"
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
 import PopupDialogPanel from "@renderer/components/ui/PopupDialogPanel"
 import InstallModPopup from "@renderer/features/mods/components/InstallModPopup"
+import { NormalButton } from "@renderer/components/ui/Buttons"
 
 function ListMods(): JSX.Element {
   const { t } = useTranslation()
@@ -114,7 +114,8 @@ function ListMods(): JSX.Element {
                     i18nKey="features.mods.modsWithErrorsDescriptionReport"
                     components={{
                       issues: (
-                        <Button
+                        <NormalButton
+                          title={t("generic.issues")}
                           onClick={(e) => {
                             e.stopPropagation()
                             window.api.utils.openOnBrowser("https://github.com/XurxoMF/vs-launcher/issues")
@@ -122,10 +123,11 @@ function ListMods(): JSX.Element {
                           className="text-vsl"
                         >
                           {t("generic.issues")}
-                        </Button>
+                        </NormalButton>
                       ),
                       discord: (
-                        <Button
+                        <NormalButton
+                          title="Discord"
                           onClick={(e) => {
                             e.stopPropagation()
                             window.api.utils.openOnBrowser("https://discord.gg/RtWpYBRRUz")
@@ -133,7 +135,7 @@ function ListMods(): JSX.Element {
                           className="text-vsl"
                         >
                           Discord
-                        </Button>
+                        </NormalButton>
                       )
                     }}
                   />
@@ -152,8 +154,8 @@ function ListMods(): JSX.Element {
                       </div>
                     </div>
 
-                    <div className="flex gap-2 justify-end text-lg">
-                      <Button
+                    <div className="flex gap-1 justify-end text-lg">
+                      <NormalButton
                         className="p-1 flex items-center justify-center"
                         title={t("generic.delete")}
                         onClick={async () => {
@@ -161,7 +163,7 @@ function ListMods(): JSX.Element {
                         }}
                       >
                         <PiTrashFill />
-                      </Button>
+                      </NormalButton>
                     </div>
                   </div>
                 </ListItem>
@@ -172,9 +174,9 @@ function ListMods(): JSX.Element {
 
         <ListWrapper className="max-w-[800px] w-full">
           {installedMods.length < 1 ? (
-            <>
+            <ListGroup>
               {gettingMods ? (
-                <div className="w-full flex items-center justify-center">
+                <div className="w-full flex flex-col items-center justify-center gap-2 rounded-sm bg-zinc-950/50 p-8">
                   <div className="w-full h-full flex items-center justify-center">
                     <FiLoader className="animate-spin text-4xl text-zinc-400" />
                   </div>
@@ -196,7 +198,7 @@ function ListMods(): JSX.Element {
                   </p>
                 </div>
               )}
-            </>
+            </ListGroup>
           ) : (
             <ListGroup>
               {installedMods.map((iMod) => (
@@ -239,7 +241,7 @@ function ListMods(): JSX.Element {
                     </div>
 
                     <div className="flex gap-1 justify-end text-lg">
-                      <Button
+                      <NormalButton
                         className="p-1 flex items-center justify-center"
                         title={t("generic.update")}
                         onClick={async () => {
@@ -248,9 +250,9 @@ function ListMods(): JSX.Element {
                         }}
                       >
                         <PiArrowClockwiseFill />
-                      </Button>
+                      </NormalButton>
 
-                      <Button
+                      <NormalButton
                         className="p-1 flex items-center justify-center"
                         title={t("generic.delete")}
                         onClick={async () => {
@@ -258,7 +260,7 @@ function ListMods(): JSX.Element {
                         }}
                       >
                         <PiTrashFill />
-                      </Button>
+                      </NormalButton>
                     </div>
                   </div>
                 </ListItem>
@@ -276,16 +278,20 @@ function ListMods(): JSX.Element {
             <p>{t("features.mods.areYouSureDelete")}</p>
             <p className="text-zinc-400">{t("features.mods.deletingNotReversible")}</p>
             <div className="flex gap-4 items-center justify-center">
-              <Button
+              <NormalButton
                 title={t("generic.cancel")}
                 className="px-2 py-1 bg-zinc-800 shadow-sm shadow-zinc-950 hover:shadow-none flex items-center justify-center rounded-sm"
                 onClick={() => setModToDelete(null)}
               >
                 {t("generic.cancel")}
-              </Button>
-              <Button title={t("generic.delete")} className="px-2 py-1 bg-red-800 shadow-sm shadow-zinc-950 hover:shadow-none flex items-center justify-center rounded-sm" onClick={DeleteModHandler}>
+              </NormalButton>
+              <NormalButton
+                title={t("generic.delete")}
+                className="px-2 py-1 bg-red-800 shadow-sm shadow-zinc-950 hover:shadow-none flex items-center justify-center rounded-sm"
+                onClick={DeleteModHandler}
+              >
                 {t("generic.delete")}
-              </Button>
+              </NormalButton>
             </div>
           </>
         </PopupDialogPanel>

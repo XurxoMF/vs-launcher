@@ -11,7 +11,17 @@ import { useRef } from "react"
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
 export function GridWrapper({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
-  return <div className={clsx("mx-auto flex flex-col rounded-md p-2 bg-zinc-900/25", className)}>{children}</div>
+  return (
+    <div
+      className={clsx(
+        "relative mx-auto flex flex-col rounded-md p-2",
+        "before:absolute before:left-0 before:top-0 before:w-full before:h-full before:rounded-md before:backdrop-blur-sm before:bg-zinc-950/25 before:shadow-sm before:shadow-zinc-950/50 before:border before:border-zinc-400/5",
+        className
+      )}
+    >
+      {children}
+    </div>
+  )
 }
 
 const GRIDGROUP_VARIANTS: Variants = {
@@ -38,7 +48,7 @@ export function GridGroup({ children, className }: { children: React.ReactNode; 
       initial="initial"
       animate="animate"
       exit="exit"
-      className={clsx("w-full grid grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 gap-4", className)}
+      className={clsx("relative w-full grid grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 gap-4", className)}
     >
       <AnimatePresence>{children}</AnimatePresence>
     </motion.ul>
@@ -73,7 +83,11 @@ export function GridItem({ children, className, onClick }: { children: React.Rea
         initial="initial"
         animate={isInView ? "animate" : "initial"}
         exit="exit"
-        className={clsx("w-full h-full rounded-sm backdrop-blur-xs bg-zinc-950/50 border border-zinc-400/5 cursor-pointer shadow-sm shadow-zinc-950/50 hover:shadow-none duration-200", className)}
+        className={clsx(
+          "w-full h-full rounded-sm backdrop-blur-xs bg-zinc-950/50 border border-zinc-400/5 cursor-pointer shadow-sm shadow-zinc-950/50 hover:shadow-none  duration-200",
+          onClick && "cursor-pointer",
+          className
+        )}
       >
         {children}
       </motion.div>

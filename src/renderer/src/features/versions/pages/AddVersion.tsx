@@ -144,12 +144,12 @@ function AddVersion(): JSX.Element {
               </FormHead>
 
               <FormBody>
-                <TableWrapper>
+                <TableWrapper className="text-center">
                   <TableHead>
                     <TableHeadRow>
-                      <TableCell className="w-3/6 ">{t("generic.version")}</TableCell>
+                      <TableCell className="w-2/6 ">{t("generic.version")}</TableCell>
                       <TableCell className="w-2/6">{t("generic.releaseDate")}</TableCell>
-                      <TableCell className="w-1/6">{t("generic.type")}</TableCell>
+                      <TableCell className="w-2/6">{t("generic.type")}</TableCell>
                     </TableHeadRow>
                   </TableHead>
 
@@ -168,9 +168,9 @@ function AddVersion(): JSX.Element {
                               disabled={config.gameVersions.some((igv) => igv.version === gv.version)}
                               onClick={() => !config.gameVersions.find((igv) => igv.version === gv.version) && setVersion(gv)}
                             >
-                              <TableCell className="w-3/6">{gv.version}</TableCell>
+                              <TableCell className="w-2/6">{gv.version}</TableCell>
                               <TableCell className="w-2/6">{new Date(gv.releaseDate).toLocaleDateString("es")}</TableCell>
-                              <TableCell className="w-1/6">{gv.type}</TableCell>
+                              <TableCell className="w-2/6">{gv.type}</TableCell>
                             </TableBodyRow>
                           )
                       )}

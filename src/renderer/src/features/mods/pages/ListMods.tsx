@@ -30,8 +30,7 @@ import {
   Menu,
   MenuButton,
   MenuItem,
-  MenuItems,
-  Button
+  MenuItems
 } from "@headlessui/react"
 import clsx from "clsx"
 
@@ -46,6 +45,7 @@ import { GridGroup, GridItem, GridWrapper } from "@renderer/components/ui/Grid"
 import InstallModPopup from "../components/InstallModPopup"
 
 import { DROPDOWN_MENU_ITEM_VARIANTS, DROPDOWN_MENU_WRAPPER_VARIANTS } from "@renderer/utils/animateVariants"
+import { NormalButton } from "@renderer/components/ui/Buttons"
 
 function ListMods(): JSX.Element {
   const { t } = useTranslation()
@@ -175,15 +175,15 @@ function ListMods(): JSX.Element {
           </div>
         </div>
 
-        <GridWrapper className="w-full">
+        <GridWrapper>
           {modsList.length < 1 ? (
-            <div className="w-full h-[calc(100vh-8rem)] flex flex-col items-center justify-center gap-2">
-              <p className="w-1/2 p-6 text-center text-2xl rounded-sm bg-zinc-950/50 backdrop-blur-xs shadow-sm shadow-zinc-950/50">
+            <div className="flex flex-col items-center justify-center gap-2">
+              <p className="p-6 text-center text-2xl rounded-sm bg-zinc-950/50 backdrop-blur-xs shadow-sm shadow-zinc-950/50">
                 {searching ? t("features.mods.searching") : t("features.mods.noMatchingFilters")}
               </p>
             </div>
           ) : (
-            <GridGroup key={modsList.length}>
+            <GridGroup key={modsList.length + modsList[0].assetid + modsList[modsList.length - 1].assetid}>
               {modsList.slice(0, visibleMods).map((mod) => (
                 <GridItem
                   key={mod.modid}
@@ -191,7 +191,7 @@ function ListMods(): JSX.Element {
                     if (!config.installations.some((i) => i.id === config.lastUsedInstallation)) return addNotification(t("features.installations.noInstallationSelected"), "error")
                     setModToInstall(mod.modid)
                   }}
-                  className="group w-full overflow-hidden duration-200 hover:scale-105"
+                  className="group overflow-hidden"
                 >
                   <div className="relative w-full aspect-video">
                     <img src={mod.logo ? `${mod.logo}` : "https://mods.vintagestory.at/web/img/mod-default.png"} alt={mod.name} className="w-full h-full object-cover object-center" />
@@ -280,14 +280,14 @@ function AuthorFilter({ authorFilter, setAuthorFilter }: { authorFilter: Downloa
     <Combobox value={authorFilter} onChange={(value) => setAuthorFilter(value || { userid: "", name: "" })} onClose={() => setAuthorsQuery("")}>
       {({ open }) => (
         <>
-          <div className="w-40 h-8 flex items-center justify-between gap-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none">
+          <div className="w-40 h-8 flex items-center justify-between rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none">
             <ComboboxInput
               placeholder={t("generic.author")}
               displayValue={() => authorFilter?.name || ""}
               onChange={(event) => setAuthorsQuery(event.target.value)}
               className="w-full h-full placeholder:text-zinc-600 bg-transparent outline-hidden pl-2"
             />
-            <ComboboxButton className="h-full shrink-0 px-2">
+            <ComboboxButton className="h-full shrink-0 px-2 cursor-pointer">
               <PiCaretDownBold className={clsx("text-zinc-300 shrink-0 duration-200", open && "-rotate-180")} />
             </ComboboxButton>
           </div>
@@ -362,7 +362,7 @@ function VersionsFilter({
     <Listbox value={versionsFilter} onChange={setVersionsFilter} multiple>
       {({ open }) => (
         <>
-          <ListboxButton className="w-40 h-8 px-2 flex items-center justify-between gap-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none">
+          <ListboxButton className="w-40 h-8 px-2 flex items-center justify-between gap-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none cursor-pointer">
             <p className={clsx("flex gap-2 items-center overflow-hidden whitespace-nowrap text-ellipsis", versionsFilter.length < 1 && "text-zinc-600")}>
               {versionsFilter.length < 1 ? t("generic.versions") : versionsFilter.map((version) => version.name).join(", ")}
             </p>
@@ -425,11 +425,23 @@ function OrderFilter({
     { key: "follows", value: t("generic.follows"), icon: <PiStarFill /> }
   ]
 
+  useEffect(() => {
+    const lsOrderBy = window.localStorage.getItem("listModsOrderBy")
+    if (lsOrderBy !== null && ORDER_BY.some((ob) => ob.key === lsOrderBy)) setOrderBy(lsOrderBy)
+
+    const lsOrderByOrder = window.localStorage.getItem("listModsOrderByOrder")
+    if (lsOrderByOrder !== null && (lsOrderByOrder === "desc" || lsOrderByOrder === "asc")) setOrderByOrder(lsOrderByOrder)
+  }, [])
+
   function changeOrder(order: string): void {
     if (orderBy === order) {
-      setOrderByOrder((prev) => (prev === "desc" ? "asc" : "desc"))
+      const newOrder = orderByOrder === "desc" ? "asc" : "desc"
+      window.localStorage.setItem("listModsOrderByOrder", newOrder)
+      setOrderByOrder(newOrder)
     } else {
+      window.localStorage.setItem("listModsOrderBy", order)
       setOrderBy(order)
+      window.localStorage.setItem("listModsOrderByOrder", "desc")
       setOrderByOrder("desc")
     }
   }
@@ -440,24 +452,39 @@ function OrderFilter({
         <>
           <MenuButton
             title={t("generic.order")}
-            className="w-8 h-8 backdrop-blur-xs border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none flex items-center justify-center text-lg rounded-sm"
+            className="w-8 h-8 flex items-center justify-center gap-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none cursor-pointer text-lg"
           >
             <PiArrowsDownUpFill />
           </MenuButton>
           <AnimatePresence>
             {open && (
-              <MenuItems static anchor="bottom" className={clsx("w-40 flex flex-col rounded-sm mt-2 bg-zinc-800 overflow-hidden text-sm", open ? "opacity-100" : "opacity-0")}>
-                {ORDER_BY.map((ob) => (
-                  <MenuItem key={ob.key}>
-                    <Button onClick={() => changeOrder(ob.key)} className="px-2 py-1 rounded-sm hover:pl-3 duration-100 odd:bg-zinc-850 even:bg-zinc-800 flex gap-2 items-center justify-between">
-                      <span className="flex items-center gap-1">
-                        {ob.icon}
-                        {ob.value}
-                      </span>
-                      {orderBy === ob.key && (orderByOrder === "desc" ? <PiArrowDownBold /> : <PiArrowDownBold className="rotate-180" />)}
-                    </Button>
-                  </MenuItem>
-                ))}
+              <MenuItems static anchor="bottom" className="w-40 z-600 mt-1 select-none rounded-sm overflow-hidden">
+                <motion.ul
+                  variants={DROPDOWN_MENU_WRAPPER_VARIANTS}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  className="w-full flex flex-col bg-zinc-950/50 backdrop-blur-md border border-zinc-400/5 shadow-sm shadow-zinc-950/50 hover:shadow-none rounded-sm"
+                >
+                  {ORDER_BY.map((ob) => (
+                    <MenuItem
+                      key={ob.key}
+                      as={motion.li}
+                      variants={DROPDOWN_MENU_ITEM_VARIANTS}
+                      className="shrink-0 w-full h-8 flex items-center overflow-hidden odd:bg-zinc-800/30 even:bg-zinc-950/30 cursor-pointer whitespace-nowrap text-ellipsis text-sm px-2 py-1"
+                    >
+                      <NormalButton title={`${ob.value}`} onClick={() => changeOrder(ob.key)} className="w-full">
+                        <div className="w-full flex items-center justify-between gap-1">
+                          <p className="flex items-center gap-1">
+                            <span>{ob.icon}</span>
+                            <span>{ob.value}</span>
+                          </p>
+                          <p className="flex items-center gap-1">{orderBy === ob.key && (orderByOrder === "desc" ? <PiArrowDownBold /> : <PiArrowDownBold className="rotate-180" />)}</p>
+                        </div>
+                      </NormalButton>
+                    </MenuItem>
+                  ))}
+                </motion.ul>
               </MenuItems>
             )}
           </AnimatePresence>

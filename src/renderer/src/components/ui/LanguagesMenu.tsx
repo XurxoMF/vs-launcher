@@ -40,7 +40,7 @@ function LanguagesMenu(): JSX.Element {
             .map((lang) => (
               <ListboxButton
                 key={lang.code}
-                className="w-full h-8 px-2 py-1 flex items-center justify-between gap-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none"
+                className="w-full h-8 px-2 py-1 flex items-center justify-between gap-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none cursor-pointer"
               >
                 <p className="flex gap-2 items-center overflow-hidden whitespace-nowrap">
                   <span className="font-bold text-sm">{lang.name}</span>

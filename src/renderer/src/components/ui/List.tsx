@@ -10,7 +10,17 @@ import { AnimatePresence, motion, Variants } from "motion/react"
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
 export function ListWrapper({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
-  return <div className={clsx("mx-auto flex flex-col rounded-md p-2 bg-zinc-900/25", className)}>{children}</div>
+  return (
+    <div
+      className={clsx(
+        "relative mx-auto flex flex-col rounded-md p-2",
+        "before:absolute before:left-0 before:top-0 before:w-full before:h-full before:rounded-md before:backdrop-blur-sm before:bg-zinc-950/25 before:shadow-sm before:shadow-zinc-950/50 before:border before:border-zinc-400/5",
+        className
+      )}
+    >
+      {children}
+    </div>
+  )
 }
 
 const LISTGROUP_VARIANTS: Variants = {
@@ -32,7 +42,7 @@ const LISTGROUP_VARIANTS: Variants = {
  */
 export function ListGroup({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
   return (
-    <motion.ul variants={LISTGROUP_VARIANTS} initial="initial" animate="animate" exit="exit" className={clsx("w-full flex flex-col gap-2", className)}>
+    <motion.ul variants={LISTGROUP_VARIANTS} initial="initial" animate="animate" exit="exit" className={clsx("relative w-full flex flex-col gap-2", className)}>
       <AnimatePresence>{children}</AnimatePresence>
     </motion.ul>
   )
@@ -59,7 +69,8 @@ export function ListItem({ children, className, onClick }: { children: React.Rea
       variants={LISTITEM_VARIANTS}
       onClick={onClick}
       className={clsx(
-        "w-full rounded-sm backdrop-blur-xs bg-zinc-950/50 border border-zinc-400/5 cursor-pointer group overflow-hidden group shadow-sm shadow-zinc-950/50 hover:shadow-none duration-200",
+        "w-full rounded-sm backdrop-blur-xs bg-zinc-950/50 border border-zinc-400/5 group overflow-hidden shadow-sm shadow-zinc-950/50 hover:shadow-none duration-200",
+        onClick && "cursor-pointer",
         className
       )}
     >

@@ -35,7 +35,7 @@ function TasksMenu(): JSX.Element {
     <Popover className="relative">
       {({ open }) => (
         <>
-          <PopoverButton className="w-8 h-8 px-2 py-1 flex items-center justify-between gap-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none">
+          <PopoverButton className="w-8 h-8 px-2 py-1 flex items-center justify-between gap-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none cursor-pointer">
             <PiDownloadFill />
           </PopoverButton>
 
