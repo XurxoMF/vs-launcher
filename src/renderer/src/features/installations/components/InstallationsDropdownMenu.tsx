@@ -17,7 +17,7 @@ function InstallationsDropdownMenu(): JSX.Element {
   return (
     <div className="w-full">
       {config.installations.length < 1 ? (
-        <div className="w-full flex flex-col items-center justify-between rounded-sm backdrop-blur-xs bg-zinc-950/50 border border-zinc-400/5 group overflow-hidden shadow-sm shadow-zinc-950/50 px-4 py-2">
+        <div className="w-full flex flex-col items-center justify-between rounded-sm backdrop-blur-xs bg-zinc-950/50 border border-zinc-400/5 group overflow-hidden shadow-sm shadow-zinc-950/50 px-4 py-2 text-center">
           <p className="font-bold">{t("features.installations.noInstallationsFound")}</p>
           <p className="text-zinc-400 text-xs flex gap-1 items-center flex-wrap justify-center">
             <Trans
