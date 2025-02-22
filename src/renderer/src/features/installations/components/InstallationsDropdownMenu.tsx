@@ -7,6 +7,7 @@ import clsx from "clsx"
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
 
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from "@headlessui/react"
+import { DROPUP_MENU_ITEM_VARIANTS, DROPUP_MENU_WRAPPER_VARIANTS } from "@renderer/utils/animateVariants"
 
 function InstallationsDropdownMenu(): JSX.Element {
   const { t } = useTranslation()
@@ -14,11 +15,11 @@ function InstallationsDropdownMenu(): JSX.Element {
   const { config, configDispatch } = useConfigContext()
 
   return (
-    <div className="w-full bg-zinc-850 rounded-sm text-sm shadow-sm shadow-zinc-950/50 hover:shadow-none">
+    <div className="w-full">
       {config.installations.length < 1 ? (
         <div className="w-full flex flex-col items-center justify-between px-4 py-2">
           <p className="font-bold">{t("features.installations.noInstallationsFound")}</p>
-          <p className="text-zinc-300 text-xs flex gap-1 items-center flex-wrap justify-center">
+          <p className="text-zinc-400 text-xs flex gap-1 items-center flex-wrap justify-center">
             <Trans
               i18nKey="features.installations.noInstallationsFoundDesc"
               components={{
@@ -43,57 +44,51 @@ function InstallationsDropdownMenu(): JSX.Element {
         >
           {({ open }) => (
             <>
-              <ListboxButton className="w-full flex gap-2 items-center px-2 py-1">
-                {config.lastUsedInstallation === null || !config.installations.some((installation) => installation.id === config.lastUsedInstallation) ? (
-                  <div className="w-full flex items-center justify-between gap-2">
-                    <p className="font-bold text-start">{t("features.installations.noInstallationSelected")}</p>
-                    <div className="shrink-0 text-sm text-zinc-300 flex flex-col items-end justify-center">
-                      <p>X.X.X</p>
-                      <p>{t("features.mods.modsCount", { count: 0 })}</p>
+              <ListboxButton className="w-full h-14 px-2 flex items-center justify-between gap-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none text-sm text-start">
+                {config.installations
+                  .filter((i) => i.id === config.lastUsedInstallation)
+                  .map((current) => (
+                    <div key={current.id} className="w-full flex flex-col justify-around overflow-hidden">
+                      <p className="font-bold overflow-hidden whitespace-nowrap text-ellipsis">{current.name}</p>
+
+                      <div className="shrink-0 text-zinc-400 flex gap-2 items-start">
+                        <p>{current.version}</p>
+                        <p>{t("features.mods.modsCount", { count: current._modsCount as number })}</p>
+                      </div>
                     </div>
-                  </div>
-                ) : (
-                  <>
-                    {config.installations.map(
-                      (current) =>
-                        current.id === config.lastUsedInstallation && (
-                          <div key={current.id} className="w-full flex items-center justify-between gap-2">
-                            <p className="font-bold text-start">{current.name}</p>
-                            <div className="shrink-0 text-sm text-zinc-300 flex flex-col items-end justify-center">
-                              <p>{current.version}</p>
-                              <p>{t("features.mods.modsCount", { count: current._modsCount as number })}</p>
-                            </div>
-                          </div>
-                        )
-                    )}
-                  </>
-                )}
-                <PiCaretUpBold className={clsx(open && "rotate-180", "text-sm text-zinc-300 shrink-0")} />
+                  ))}
+                <PiCaretUpBold className={clsx("text-zinc-300 duration-200 shrink-0", open && "-rotate-180")} />
               </ListboxButton>
+
               <AnimatePresence>
                 {open && (
-                  <ListboxOptions
-                    static
-                    as={motion.div}
-                    initial={{ height: 0 }}
-                    animate={{ height: "fit-content" }}
-                    exit={{ height: 0 }}
-                    anchor="top"
-                    className="w-[var(--button-width)] bg-zinc-850 shadow-sm shadow-zinc-950/50 -translate-y-1 rounded-sm text-sm"
-                  >
-                    <div className="flex flex-col max-h-80">
-                      {config.installations.map((current) => (
-                        <ListboxOption key={current.id} value={current.id} className="even:bg-zinc-800 cursor-pointer group">
-                          <div key={current.id} className="w-full group-hover:pl-3 duration-100 flex items-center justify-between gap-2 px-2 py-1">
-                            <p className="font-bold text-start">{current.name}</p>
-                            <div className="shrink-0 text-sm text-zinc-300 flex flex-col items-end justify-center">
+                  <ListboxOptions static anchor="top" className="w-[var(--button-width)] z-600 -translate-y-1 select-none rounded-sm overflow-hidden">
+                    <motion.ul
+                      variants={DROPUP_MENU_WRAPPER_VARIANTS}
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                      className="max-h-40 flex flex-col bg-zinc-950/50 backdrop-blur-md border border-zinc-400/5 shadow-sm shadow-zinc-950/50 hover:shadow-none rounded-sm overflow-y-scroll text-sm"
+                    >
+                      {config.installations.toReversed().map((current) => (
+                        <ListboxOption
+                          key={current.id}
+                          value={current.id}
+                          as={motion.li}
+                          variants={DROPUP_MENU_ITEM_VARIANTS}
+                          className="w-full h-14 px-2 py-1 shrink-0 flex items-center overflow-hidden odd:bg-zinc-800/30 even:bg-zinc-950/30 cursor-pointer text-start"
+                        >
+                          <div className="w-full flex flex-col justify-around gap-1">
+                            <p className="font-bold overflow-hidden whitespace-nowrap text-ellipsis">{current.name}</p>
+
+                            <div className="shrink-0 text-zinc-400 flex gap-2 items-start">
                               <p>{current.version}</p>
                               <p>{t("features.mods.modsCount", { count: current._modsCount as number })}</p>
                             </div>
                           </div>
                         </ListboxOption>
                       ))}
-                    </div>
+                    </motion.ul>
                   </ListboxOptions>
                 )}
               </AnimatePresence>

@@ -4,6 +4,7 @@ import { Input } from "@headlessui/react"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import { FiLoader } from "react-icons/fi"
+import { PiDownloadFill, PiXBold } from "react-icons/pi"
 
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 import { CONFIG_ACTIONS, useConfigContext } from "@renderer/features/config/contexts/ConfigContext"
@@ -15,12 +16,12 @@ import {
   FormLabel,
   FromGroup,
   FromWrapper,
-  ButtonsWrapper,
   FormFieldGroup,
   FormButton,
   FormInputText,
   FormLinkButton,
-  FormGroupWrapper
+  FormGroupWrapper,
+  ButtonsWrapper
 } from "@renderer/components/ui/FormComponents"
 import { TableBody, TableBodyRow, TableCell, TableHead, TableHeadRow, TableWrapper } from "@renderer/components/ui/Table"
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
@@ -152,30 +153,29 @@ function AddVersion(): JSX.Element {
                     </TableHeadRow>
                   </TableHead>
 
-                  <TableBody className="max-h-[250px]">
-                    {gameVersions.length === 0 && (
-                      <TableBodyRow>
-                        <TableCell className="w-full h-24 flex items-center justify-center">
-                          <FiLoader className="animate-spin text-3xl text-zinc-300" />
-                        </TableCell>
-                      </TableBodyRow>
-                    )}
-                    {gameVersions.map(
-                      (gv) =>
-                        versionFilters[gv.type] && (
-                          <TableBodyRow
-                            key={gv.version}
-                            selected={version?.version === gv.version}
-                            disabled={config.gameVersions.some((igv) => igv.version === gv.version)}
-                            onClick={() => !config.gameVersions.find((igv) => igv.version === gv.version) && setVersion(gv)}
-                          >
-                            <TableCell className="w-3/6">{gv.version}</TableCell>
-                            <TableCell className="w-2/6">{new Date(gv.releaseDate).toLocaleDateString("es")}</TableCell>
-                            <TableCell className="w-1/6">{gv.type}</TableCell>
-                          </TableBodyRow>
-                        )
-                    )}
-                  </TableBody>
+                  {gameVersions.length === 0 ? (
+                    <div className="flex items-center justify-center py-10">
+                      <FiLoader className="animate-spin text-3xl text-zinc-400" />
+                    </div>
+                  ) : (
+                    <TableBody className="max-h-[250px]">
+                      {gameVersions.map(
+                        (gv) =>
+                          versionFilters[gv.type] && (
+                            <TableBodyRow
+                              key={gv.version}
+                              selected={version?.version === gv.version}
+                              disabled={config.gameVersions.some((igv) => igv.version === gv.version)}
+                              onClick={() => !config.gameVersions.find((igv) => igv.version === gv.version) && setVersion(gv)}
+                            >
+                              <TableCell className="w-3/6">{gv.version}</TableCell>
+                              <TableCell className="w-2/6">{new Date(gv.releaseDate).toLocaleDateString("es")}</TableCell>
+                              <TableCell className="w-1/6">{gv.type}</TableCell>
+                            </TableBodyRow>
+                          )
+                      )}
+                    </TableBody>
+                  )}
                 </TableWrapper>
               </FormBody>
             </FromGroup>
@@ -207,12 +207,12 @@ function AddVersion(): JSX.Element {
         </FromWrapper>
 
         <ButtonsWrapper>
-          <FormButton onClick={handleInstallVersion} title={t("generic.install")}>
-            {t("generic.install")}
-          </FormButton>
-          <FormLinkButton to="/versions" title={t("generic.cancel")}>
-            {t("generic.cancel")}
+          <FormLinkButton to="/versions" title={t("generic.goBack")} className="p-2">
+            <PiXBold />
           </FormLinkButton>
+          <FormButton onClick={handleInstallVersion} title={t("generic.install")} className="p-2">
+            <PiDownloadFill />
+          </FormButton>
         </ButtonsWrapper>
       </div>
     </ScrollableContainer>

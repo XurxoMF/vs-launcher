@@ -65,7 +65,7 @@ function ListInslallations(): JSX.Element {
           <ListGroup>
             <ListItem className="group">
               <Link to="/installations/add" title={t("features.installations.addNewInstallation")} className="w-full h-12 flex items-center justify-center rounded-sm">
-                <PiPlusCircleFill className="text-2xl text-zinc-300/60 group-hover:scale-95 duration-200" />
+                <PiPlusCircleFill className="text-2xl text-zinc-400/60 group-hover:scale-95 duration-200" />
               </Link>
             </ListItem>
             {config.installations.map((installation) => (
@@ -73,13 +73,13 @@ function ListInslallations(): JSX.Element {
                 <div className="w-full h-16 flex gap-4 px-2 py-1 justify-between items-center whitespace-nowrap">
                   <div className="h-full flex flex-col justify-center items-start gap-1 shrink-0">
                     <p className="font-bold">{installation.name}</p>
-                    <div className="flex gap-2 items-center text-sm text-zinc-300">
+                    <div className="flex gap-2 items-center text-sm text-zinc-400">
                       <p>{installation.version}</p>
                       <p>{t("features.mods.modsCount", { count: installation._modsCount as number })}</p>
                     </div>
                   </div>
 
-                  <div className="w-full text-sm text-zinc-300 text-center overflow-hidden">
+                  <div className="w-full text-sm text-zinc-400 text-center overflow-hidden">
                     <p className="opacity-0 group-hover:opacity-100 duration-200 overflow-hidden text-ellipsis">{installation.path}</p>
                   </div>
 
@@ -138,7 +138,7 @@ function ListInslallations(): JSX.Element {
         <PopupDialogPanel title={t("features.installations.deleteInstallation")} isOpen={installationToDelete !== null} close={() => setInstallationToDelete(null)}>
           <>
             <p>{t("features.installations.areYouSureDelete")}</p>
-            <p className="text-zinc-300">{t("features.installations.deletingNotReversible")}</p>
+            <p className="text-zinc-400">{t("features.installations.deletingNotReversible")}</p>
             <div className="flex gap-2 items-center justify-center">
               <Input id="delete-data" type="checkbox" checked={deleteData} onChange={(e) => setDeleData(e.target.checked)} />
               <label htmlFor="delete-data">{t("features.installations.deleteData")}</label>

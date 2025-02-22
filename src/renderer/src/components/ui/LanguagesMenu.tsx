@@ -1,28 +1,12 @@
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { PiCaretDownBold } from "react-icons/pi"
-import { AnimatePresence, motion, Variants } from "motion/react"
+import { AnimatePresence, motion } from "motion/react"
 import clsx from "clsx"
 
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from "@headlessui/react"
 
-const LISTGROUP_VARIANTS: Variants = {
-  initial: { opacity: 0 },
-  animate: {
-    opacity: 1,
-    transition: {
-      duration: 0.1,
-      delayChildren: 0.1,
-      staggerChildren: 0.1
-    }
-  },
-  exit: { opacity: 0 }
-}
-
-const LISTITEM_VARIANTS: Variants = {
-  initial: { opacity: 0 },
-  animate: { opacity: 1 }
-}
+import { DROPDOWN_MENU_ITEM_VARIANTS, DROPDOWN_MENU_WRAPPER_VARIANTS } from "@renderer/utils/animateVariants"
 
 function LanguagesMenu(): JSX.Element {
   const { i18n, t } = useTranslation()
@@ -60,17 +44,17 @@ function LanguagesMenu(): JSX.Element {
               >
                 <p className="flex gap-2 items-center overflow-hidden whitespace-nowrap">
                   <span className="font-bold text-sm">{lang.name}</span>
-                  <span className="text-ellipsis overflow-hidden text-zinc-400 text-xs">{lang.credits}</span>
+                  <span className="text-ellipsis overflow-hidden text-zinc-500 text-xs">{lang.credits}</span>
                 </p>
-                <PiCaretDownBold className={clsx("text-zinc-300 shrink-0", open && "rotate-180")} />
+                <PiCaretDownBold className={clsx("text-zinc-300 shrink-0 duration-200", open && "-rotate-180")} />
               </ListboxButton>
             ))}
 
           <AnimatePresence>
             {open && (
-              <ListboxOptions static anchor="bottom" className="w-[var(--button-width)] z-800 mt-2 select-none rounded-sm overflow-hidden">
+              <ListboxOptions static anchor="bottom" className="w-[var(--button-width)] z-600 mt-1 select-none rounded-sm overflow-hidden">
                 <motion.ul
-                  variants={LISTGROUP_VARIANTS}
+                  variants={DROPDOWN_MENU_WRAPPER_VARIANTS}
                   initial="initial"
                   animate="animate"
                   exit="exit"
@@ -81,12 +65,12 @@ function LanguagesMenu(): JSX.Element {
                       key={lang.code}
                       value={lang.code}
                       as={motion.li}
-                      variants={LISTITEM_VARIANTS}
-                      className="w-full h-8 px-2 py-1 shrink-0 flex items-center overflow-hidden odd:bg-zinc-800/30 cursor-pointer "
+                      variants={DROPDOWN_MENU_ITEM_VARIANTS}
+                      className="w-full h-8 px-2 py-1 shrink-0 flex items-center overflow-hidden odd:bg-zinc-800/30 even:bg-zinc-950/30 cursor-pointer"
                     >
                       <p className="flex gap-2 items-center overflow-hidden whitespace-nowrap" title={`${lang.name} - ${lang.credits}`}>
                         <span className="font-bold text-sm">{lang.name}</span>
-                        <span className="text-ellipsis overflow-hidden text-zinc-400 text-xs">{lang.credits}</span>
+                        <span className="text-ellipsis overflow-hidden text-zinc-500 text-xs">{lang.credits}</span>
                       </p>
                     </ListboxOption>
                   ))}

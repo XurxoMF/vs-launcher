@@ -32,11 +32,9 @@ const LISTGROUP_VARIANTS: Variants = {
  */
 export function ListGroup({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
   return (
-    <AnimatePresence>
-      <motion.ul variants={LISTGROUP_VARIANTS} initial="initial" animate="animate" exit="exit" className={clsx("w-full flex flex-col gap-2", className)}>
-        {children}
-      </motion.ul>
-    </AnimatePresence>
+    <motion.ul variants={LISTGROUP_VARIANTS} initial="initial" animate="animate" exit="exit" className={clsx("w-full flex flex-col gap-2", className)}>
+      <AnimatePresence>{children}</AnimatePresence>
+    </motion.ul>
   )
 }
 

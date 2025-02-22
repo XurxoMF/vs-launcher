@@ -29,8 +29,8 @@ function createWindow(): void {
     show: false,
     autoHideMenuBar: true,
     fullscreenable: false,
-    minWidth: 1280,
-    minHeight: 720,
+    minWidth: 1024,
+    minHeight: 600,
     icon: icon,
     ...(process.platform === "linux" ? { icon } : {}),
     webPreferences: {
@@ -52,7 +52,7 @@ function createWindow(): void {
   mainWindow.on("close", (e) => {
     if (getShouldPreventClose()) {
       logMessage("info", "[main] Prevented from closing")
-      e.preventDefault()
+
       return false
     }
     logMessage("info", "[main] Main window closing")

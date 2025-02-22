@@ -11,7 +11,7 @@ import { AnimatePresence, motion, Variants } from "motion/react"
  */
 export function TableWrapper({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
   return (
-    <div className={clsx("rounded-sm bg-zinc-950/50 border border-zinc-400/5 shadow-sm shadow-zinc-950/50 hover:shadow-none duration-200 overflow-hidden backdrop-blur-xs", className)}>{children}</div>
+    <div className={clsx("rounded-s bg-zinc-950/50 border border-zinc-400/5 shadow-sm shadow-zinc-950/50 hover:shadow-none duration-200 overflow-hidden backdrop-blur-xs", className)}>{children}</div>
   )
 }
 
@@ -58,17 +58,16 @@ const TABLEBODY_VARIANTS: Variants = {
  */
 export function TableBody({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
   return (
-    <AnimatePresence>
-      <motion.ul variants={TABLEBODY_VARIANTS} initial="initial" animate="animate" className={clsx("flex flex-col overflow-x-hidden overflow-y-scroll", className)}>
-        {children}
-      </motion.ul>
-    </AnimatePresence>
+    <motion.ul variants={TABLEBODY_VARIANTS} initial="initial" animate="animate" exit="exit" className={clsx("flex flex-col overflow-x-hidden overflow-y-scroll", className)}>
+      <AnimatePresence>{children}</AnimatePresence>
+    </motion.ul>
   )
 }
 
 const TABLEROW_VARIANTS: Variants = {
   initial: { opacity: 0 },
-  animate: { opacity: 1 }
+  animate: { opacity: 1 },
+  exit: { opacity: 0 }
 }
 
 /**
@@ -98,7 +97,12 @@ export function TableBodyRow({
   return (
     <motion.li
       variants={TABLEROW_VARIANTS}
-      className={clsx("flex group border-l-4 border-transparent duration-200", selected ? "bg-vs/15 border-vs" : "odd:bg-zinc-800/30", disabled ? "text-zinc-400" : "cursor-pointer", className)}
+      className={clsx(
+        "flex group border-l-4 border-transparent duration-200",
+        selected ? "bg-vs/15 border-vs" : "odd:bg-zinc-800/30 even:bg-zinc-950/30",
+        disabled ? "text-zinc-200/15" : "cursor-pointer",
+        className
+      )}
       onClick={onClick}
     >
       {children}

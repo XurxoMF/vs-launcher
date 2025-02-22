@@ -45,12 +45,12 @@ function ListVersions(): JSX.Element {
             <div className="flex gap-2">
               <ListItem className="group">
                 <Link to="/versions/add" title={t("features.versions.installNewVersion")} className="w-full h-8 flex items-center justify-center rounded-sm">
-                  <PiPlusCircleFill className="text-xl text-zinc-300/60 group-hover:scale-95 duration-200" />
+                  <PiPlusCircleFill className="text-xl text-zinc-400/60 group-hover:scale-95 duration-200" />
                 </Link>
               </ListItem>
               <ListItem className="group">
                 <Link to="/versions/look-for-a-version" title={t("features.versions.searchForAGameVersion")} className="w-full h-8 flex items-center justify-center rounded-sm">
-                  <PiMagnifyingGlassFill className="text-xl text-zinc-300/60 group-hover:scale-95 duration-200" />
+                  <PiMagnifyingGlassFill className="text-xl text-zinc-400/60 group-hover:scale-95 duration-200" />
                 </Link>
               </ListItem>
             </div>
@@ -58,7 +58,7 @@ function ListVersions(): JSX.Element {
               <ListItem key={gv.version}>
                 <div className="w-full h-8 flex gap-4 px-2 py-1 justify-between items-center">
                   <p className="font-bold">{gv.version}</p>
-                  <p className="hidden group-hover:block text-sm text-zinc-300 overflow-hidden text-ellipsis whitespace-nowrap">{gv.path}</p>
+                  <p className="hidden group-hover:block text-sm text-zinc-400 overflow-hidden text-ellipsis whitespace-nowrap">{gv.path}</p>
                   <div className="flex gap-1 text-lg">
                     <Button
                       className="p-1 flex items-center justify-center"
@@ -89,7 +89,7 @@ function ListVersions(): JSX.Element {
         <PopupDialogPanel title={t("features.versions.uninstallVersion")} isOpen={versionToDelete !== null} close={() => setVersionToDelete(null)}>
           <>
             <p>{t("features.versions.areYouSureUninstall")}</p>
-            <p className="text-zinc-300">{t("features.versions.uninstallingNotReversible")}</p>
+            <p className="text-zinc-400">{t("features.versions.uninstallingNotReversible")}</p>
             <div className="flex gap-4 items-center justify-center">
               <Button
                 title={t("generic.cancel")}

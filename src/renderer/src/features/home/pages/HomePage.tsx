@@ -6,6 +6,7 @@ function HomePage(): JSX.Element {
   return (
     <div className="w-full h-full flex flex-col items-center justify-center gap-4 text-center">
       <h1 className="text-4xl font-bold">{t("features.home.title")}</h1>
+
       <p className="text-lg">{t("features.home.description")}</p>
       <iframe
         src="https://www.youtube.com/embed/C5v8NaRVIyk?si=rSRDgrOXKYBWu-7W"

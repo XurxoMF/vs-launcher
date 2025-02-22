@@ -1,7 +1,6 @@
 import { FiExternalLink } from "react-icons/fi"
 import { useTranslation } from "react-i18next"
 import { Link, useLocation } from "react-router-dom"
-import { Button } from "@headlessui/react"
 import { PiGearFill } from "react-icons/pi"
 import { v4 as uuidv4 } from "uuid"
 import clsx from "clsx"
@@ -19,6 +18,8 @@ import { useMakeInstallationBackup } from "@renderer/features/installations/hook
 import LanguagesMenu from "@renderer/components/ui/LanguagesMenu"
 import InstallationsDropdownMenu from "@renderer/features/installations/components/InstallationsDropdownMenu"
 import TasksMenu from "@renderer/components/ui/TasksMenu"
+import { NormalButton } from "../ui/Buttons"
+import { FormLinkButton } from "../ui/FormComponents"
 
 interface MainMenuLinkProps {
   icon: string
@@ -112,11 +113,11 @@ function MainMenu(): JSX.Element {
   }
 
   return (
-    <header className="z-99 w-[280px] flex flex-col gap-4 p-2 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 backdrop-blur-lg border-r border-zinc-400/5">
+    <header className="z-99 w-[280px] flex flex-col gap-4 p-2 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 backdrop-blur-sm border-r border-zinc-400/5">
       <div className="flex h-7 shrink-0 gap-2">
-        <Link to="/config" title={t("features.config.title")} className="shrink-0 w-7 h-7 bg-zinc-850 rounded-sm flex items-center justify-center shadow-sm shadow-zinc-950/50 hover:shadow-none">
+        <FormLinkButton to="/config" title={t("features.config.title")} className="shrink-0 w-8 h-8">
           <PiGearFill />
-        </Link>
+        </FormLinkButton>
         <TasksMenu />
         <LanguagesMenu />
       </div>
@@ -136,9 +137,9 @@ function MainMenu(): JSX.Element {
 
       <div className="flex flex-col gap-2">
         <InstallationsDropdownMenu />
-        <Button title={t("generic.play")} onClick={PlayHandler} className="w-full h-14 bg-vs rounded-sm shadow-md shadow-zinc-950/50 hover:shadow-none">
+        <NormalButton title={t("generic.play")} onClick={PlayHandler} className="w-full h-14 bg-vs/75 shadow-sm shadow-zinc-950/50 hover:shadow-none">
           <p className="text-2xl">{t("generic.play")}</p>
-        </Button>
+        </NormalButton>
       </div>
     </header>
   )
@@ -166,9 +167,9 @@ function LinkContent({ icon, text, desc, link, external }: LinkContentProps): JS
       <div className="flex flex-col overflow-hidden whitespace-nowrap">
         <div className="font-bold text-sm flex items-center gap-2">
           <p className="overflow-hidden text-ellipsis">{text}</p>
-          {external && <FiExternalLink className="text-zinc-400" />}
+          {external && <FiExternalLink className="text-zinc-500" />}
         </div>
-        <p className="text-zinc-400 text-xs overflow-hidden text-ellipsis">{desc}</p>
+        <p className="text-zinc-500 text-xs overflow-hidden text-ellipsis">{desc}</p>
       </div>
     </div>
   )

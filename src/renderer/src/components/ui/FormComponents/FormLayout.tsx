@@ -9,7 +9,7 @@ import clsx from "clsx"
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
 export function FromWrapper({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
-  return <div className={clsx("mx-auto flex flex-col gap-4 items-start justify-center", className)}>{children}</div>
+  return <div className={clsx("mx-auto flex flex-col gap-6 items-start justify-center", className)}>{children}</div>
 }
 
 /**
@@ -22,7 +22,7 @@ export function FromWrapper({ children, className }: { children: React.ReactNode
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
 export function FromGroup({ children, className, alignment = "x" }: { children: React.ReactNode; className?: string; alignment?: "x" | "y" }): JSX.Element {
-  return <div className={clsx("w-full flex gap-2", alignment === "y" && "flex-col", className)}>{children}</div>
+  return <div className={clsx("w-full flex gap-4", alignment === "y" && "flex-col", className)}>{children}</div>
 }
 
 /**
@@ -39,7 +39,7 @@ export function FormGroupWrapper({ children, className }: { children: React.Reac
     <div
       className={clsx("relative w-full bg-zinc-950/25 rounded-md", "before:absolute before:left-0 before:top-0 before:w-full before:h-full before:rounded-md before:backdrop-blur-[2px]", className)}
     >
-      <div className="relative flex flex-col p-2 gap-2 z-1">{children}</div>
+      <div className="relative flex flex-col p-2 gap-4 z-1">{children}</div>
     </div>
   )
 }

@@ -17,8 +17,8 @@ function InstallModPopup({
   setModToInstall,
   installation
 }: {
-  modToInstall: string | null
-  setModToInstall: Dispatch<SetStateAction<string | null>>
+  modToInstall: number | string | null
+  setModToInstall: Dispatch<SetStateAction<number | string | null>>
   installation: InstallationType
 }): JSX.Element {
   const { t } = useTranslation()
@@ -75,7 +75,7 @@ function InstallModPopup({
 
           {!downloadableModToInstall ? (
             <div className="flex items-center justify-center py-10">
-              <FiLoader className="animate-spin text-3xl text-zinc-300" />
+              <FiLoader className="animate-spin text-3xl text-zinc-400" />
             </div>
           ) : (
             <TableBody className="max-h-[300px]">

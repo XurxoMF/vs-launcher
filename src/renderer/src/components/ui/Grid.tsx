@@ -17,7 +17,7 @@ export function GridWrapper({ children, className }: { children: React.ReactNode
 const GRIDGROUP_VARIANTS: Variants = {
   animate: {
     transition: {
-      delayChildren: 0.05,
+      delayChildren: 0.1,
       staggerChildren: 0.05
     }
   }
@@ -33,11 +33,15 @@ const GRIDGROUP_VARIANTS: Variants = {
  */
 export function GridGroup({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
   return (
-    <AnimatePresence>
-      <motion.ul variants={GRIDGROUP_VARIANTS} initial="initial" animate="animate" exit="exit" className={clsx("w-full flex items-center justify-center gap-4 flex-wrap", className)}>
-        {children}
-      </motion.ul>
-    </AnimatePresence>
+    <motion.ul
+      variants={GRIDGROUP_VARIANTS}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      className={clsx("w-full grid grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 gap-4", className)}
+    >
+      <AnimatePresence>{children}</AnimatePresence>
+    </motion.ul>
   )
 }
 
@@ -63,14 +67,16 @@ export function GridItem({ children, className, onClick }: { children: React.Rea
   })
 
   return (
-    <motion.li
-      ref={ref}
-      variants={GRIDITEM_VARIANTS}
-      animate={isInView ? "animate" : "initial"}
-      onClick={onClick}
-      className={clsx("flex-1 rounded-sm backdrop-blur-xs bg-zinc-950/50 border border-zinc-400/5 cursor-pointer shadow-sm shadow-zinc-950/50 hover:shadow-none duration-200", className)}
-    >
-      {children}
+    <motion.li ref={ref} variants={GRIDITEM_VARIANTS} onClick={onClick}>
+      <motion.div
+        variants={GRIDITEM_VARIANTS}
+        initial="initial"
+        animate={isInView ? "animate" : "initial"}
+        exit="exit"
+        className={clsx("w-full h-full rounded-sm backdrop-blur-xs bg-zinc-950/50 border border-zinc-400/5 cursor-pointer shadow-sm shadow-zinc-950/50 hover:shadow-none duration-200", className)}
+      >
+        {children}
+      </motion.div>
     </motion.li>
   )
 }

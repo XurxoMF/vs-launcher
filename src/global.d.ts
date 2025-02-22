@@ -51,12 +51,12 @@ declare global {
   type ErrorInstalledModType = { zipname: string; path: string } & Record<string, unknown>
 
   type DownloadableModOnList = {
-    modid: string
-    assetid: string
-    downloads: string
-    follows: string
-    trendingpoints: string
-    comments: string
+    modid: number
+    assetid: number
+    downloads: number
+    follows: number
+    trendingpoints: number
+    comments: number
     name: string
     summary: string | null
     modidstrs: string[]
@@ -70,8 +70,8 @@ declare global {
   } & Record<string, unknown>
 
   type DownloadableMod = {
-    modid: string
-    assetid: string
+    modid: number
+    assetid: number
     name: string
     text: string
     author: string
@@ -83,33 +83,33 @@ declare global {
     trailervideourl: string | null
     issuetrackerurl: string | null
     wikiurl: string | null
-    downloads: string
-    follows: string
-    trendingpoints: string
-    comments: string
+    downloads: number
+    follows: number
+    trendingpoints: number
+    comments: number
     side: string
     tuype: string
     createdat: string
     lasmodified: string
     tags: string[]
-    releases: DownloadableModVersion[]
+    releases: DownloadableModRelease[]
     screenshots: DownloadableModScreenshot[]
   } & Record<string, unknown>
 
   type DownloadableModScreenshot = {
-    fileid: string
+    fileid: number
     mainfile: string
     filename: string
     thumbnailfile: string
     createdat: string
   } & Record<string, unknown>
 
-  type DownloadableModVersion = {
-    releaseid: string
+  type DownloadableModRelease = {
+    releaseid: number
     mainfile: string
     filename: string
-    fileid: string
-    downloads: string
+    fileid: number
+    downloads: number
     tags: string[]
     modidstr: string
     modversion: string

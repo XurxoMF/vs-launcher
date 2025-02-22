@@ -44,7 +44,10 @@ export function FormButton({
       disabled={disabled}
       onClick={onClick}
       title={title}
-      className={clsx("backdrop-blur-xs border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded-sm disabled:opacity-50", className)}
+      className={clsx(
+        "backdrop-blur-xs border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded-sm disabled:opacity-50 cursor-pointer",
+        className
+      )}
     >
       {children}
     </HButton>
@@ -66,7 +69,7 @@ export function FormLinkButton({ children, className, to, title }: { children: R
     <Link
       to={to}
       title={title}
-      className={clsx("backdrop-blur-xs border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded-sm", className)}
+      className={clsx("backdrop-blur-xs border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded-sm cursor-pointer", className)}
     >
       {children}
     </Link>

@@ -1,10 +1,12 @@
 import { AnimatePresence, motion } from "motion/react"
 import { PiDownloadFill, PiFileZipFill, PiXBold } from "react-icons/pi"
-import { Popover, PopoverButton, PopoverPanel, Button } from "@headlessui/react"
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react"
 import clsx from "clsx"
 
 import { useTaskContext } from "@renderer/contexts/TaskManagerContext"
 import { useTranslation } from "react-i18next"
+import { DROPDOWN_MENU_ITEM_VARIANTS, DROPDOWN_MENU_WRAPPER_VARIANTS } from "@renderer/utils/animateVariants"
+import { NormalButton } from "./Buttons"
 
 const NAME_BY_TYPE = {
   download: "components.tasksMenu.downloading",
@@ -33,58 +35,60 @@ function TasksMenu(): JSX.Element {
     <Popover className="relative">
       {({ open }) => (
         <>
-          <PopoverButton className="w-7 h-7 bg-zinc-850 rounded-sm flex items-center justify-center shadow-sm shadow-zinc-950/50 hover:shadow-none">
+          <PopoverButton className="w-8 h-8 px-2 py-1 flex items-center justify-between gap-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none">
             <PiDownloadFill />
           </PopoverButton>
+
           <AnimatePresence>
             {open && (
-              <PopoverPanel
-                static
-                as={motion.div}
-                initial={{ height: 0 }}
-                animate={{ height: "auto" }}
-                exit={{ height: 0 }}
-                anchor="bottom"
-                className="w-80 translate-y-1 translate-x-2 bg-zinc-850 rounded-sm"
-              >
-                <div className="flex flex-col max-h-80">
+              <PopoverPanel static anchor="bottom" className="w-80 z-600 mt-1 ml-2 select-none rounded-sm overflow-hidden">
+                <motion.ul
+                  variants={DROPDOWN_MENU_WRAPPER_VARIANTS}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  className="max-h-60 flex flex-col bg-zinc-950/50 backdrop-blur-md border border-zinc-400/5 shadow-sm shadow-zinc-950/50 hover:shadow-none rounded-sm overflow-y-scroll text-sm"
+                >
                   <AnimatePresence>
-                    {tasks.length < 1 && (
-                      <div>
-                        <p className="text-sm font-bold text-center p-2">{t("components.tasksMenu.noTasksAvailable")}</p>
-                      </div>
-                    )}
-                    {tasks.map((task) => (
-                      <motion.div key={task.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="w-full flex flex-col">
-                        <div className="w-full flex justify-between gap-2 p-1">
-                          <div className="w-full flex items-center gap-2">
-                            <p className={clsx("text-xl p-2", FONT_COLOR_TYPES[task.status])}>{ICON_TYPES[task.type]}</p>
-                            <div className="flex flex-col items-start justify-center">
-                              <p className="font-bold text-sm">{`${t(NAME_BY_TYPE[task.type])}`}</p>
-                              <p className="text-xs text-zinc-300">{task.desc}</p>
-                              {task.status === "failed" && <p className={clsx("text-xs", FONT_COLOR_TYPES["failed"])}>{t("components.tasksMenu.error")}</p>}
+                    {tasks.length < 1 ? (
+                      <motion.li variants={DROPDOWN_MENU_ITEM_VARIANTS} className="w-full text-sm font-bold text-center p-4">
+                        {t("components.tasksMenu.noTasksAvailable")}
+                      </motion.li>
+                    ) : (
+                      <>
+                        {tasks.map((task) => (
+                          <motion.li key={task.id} variants={DROPDOWN_MENU_ITEM_VARIANTS} className="w-full flex flex-col odd:bg-zinc-800/30 even:bg-zinc-950/30">
+                            <div className="w-full flex justify-between gap-2 p-1">
+                              <div className="w-full flex items-center gap-2">
+                                <p className={clsx("text-xl p-2", FONT_COLOR_TYPES[task.status])}>{ICON_TYPES[task.type]}</p>
+                                <div className="flex flex-col items-start justify-center">
+                                  <p className="font-bold text-sm">{`${t(NAME_BY_TYPE[task.type])}`}</p>
+                                  <p className="text-xs text-zinc-400 line-clamp-2">{task.desc}</p>
+                                  {task.status === "failed" && <p className={clsx("text-xs", FONT_COLOR_TYPES["failed"])}>{t("components.tasksMenu.error")}</p>}
+                                </div>
+                              </div>
+                              {(task.status === "completed" || task.status === "failed") && (
+                                <NormalButton className="p-1 text-zinc-400" title={t("generic.discard")} onClick={() => removeTask(task.id)}>
+                                  <PiXBold />
+                                </NormalButton>
+                              )}
                             </div>
-                          </div>
-                          {(task.status === "completed" || task.status === "failed") && (
-                            <Button className="p-1 text-zinc-300" title={t("generic.discard")} onClick={() => removeTask(task.id)}>
-                              <PiXBold />
-                            </Button>
-                          )}
-                        </div>
-                        {task.status === "in-progress" && (
-                          <div className="w-full h-1 bg-zinc-900 rounded-full">
-                            <motion.div
-                              className={`h-full bg-vs rounded-full`}
-                              initial={{ width: `${task.progress}%` }}
-                              animate={{ width: `${task.progress}%` }}
-                              transition={{ ease: "easeInOut", duration: 0.2 }}
-                            ></motion.div>
-                          </div>
-                        )}
-                      </motion.div>
-                    ))}
+                            {task.status === "in-progress" && (
+                              <div className="w-full h-1 bg-zinc-900 rounded-full">
+                                <motion.div
+                                  className={`h-full bg-vs rounded-full`}
+                                  initial={{ width: `${task.progress}%` }}
+                                  animate={{ width: `${task.progress}%` }}
+                                  transition={{ ease: "easeInOut", duration: 0.2 }}
+                                ></motion.div>
+                              </div>
+                            )}
+                          </motion.li>
+                        ))}
+                      </>
+                    )}
                   </AnimatePresence>
-                </div>
+                </motion.ul>
               </PopoverPanel>
             )}
           </AnimatePresence>

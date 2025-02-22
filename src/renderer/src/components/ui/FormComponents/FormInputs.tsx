@@ -1,11 +1,11 @@
 import { Input, Switch } from "@headlessui/react"
 import clsx from "clsx"
 
-const INPUT_BASE_STYLES = `h-8 px-2 py-1 rounded-md placeholder:text-zinc-200/15 overflow-hidden outline-hidden backdrop-blur-xs`
+const INPUT_BASE_STYLES = `h-8 px-2 py-1 rounded-md placeholder:text-zinc-200/15 overflow-hidden outline-hidden backdrop-blur-xs bg-zinc-950/50 border border-zinc-400/5`
 const INPUT_INVALID_STYLES = "invalid:border invalid:border-red-800 invalid:bg-red-800/20"
-const INPUT_VALID_STYLES = "valid:bg-zinc-950/50 valid:border valid:border-zinc-400/5"
+const INPUT_VALID_STYLES = ""
 const INPUT_ENABLED_STYLES = "enabled:shadow-sm enabled:shadow-zinc-950/50 enabled:hover:shadow-none"
-const INPUT_DISABLED_STYLES = "disabled:text-zinc-400"
+const INPUT_DISABLED_STYLES = "disabled:text-zinc-500"
 
 /**
  * Input with type text and validation for minimum and maximum length.

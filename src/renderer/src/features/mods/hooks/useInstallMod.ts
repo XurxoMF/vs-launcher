@@ -8,7 +8,7 @@ import { useCountMods } from "@renderer/features/mods/hooks/useCountMods"
 export function useInstallMod(): (
   installation: InstallationType | undefined,
   mod: DownloadableMod | undefined,
-  version: DownloadableModVersion | undefined,
+  version: DownloadableModRelease | undefined,
   oldMod: InstalledModType | undefined,
   onFinish?: () => void
 ) => Promise<void> {
@@ -25,7 +25,7 @@ export function useInstallMod(): (
   async function installMod(
     installation: InstallationType | undefined,
     mod: DownloadableMod | undefined,
-    version: DownloadableModVersion | undefined,
+    version: DownloadableModRelease | undefined,
     oldMod: InstalledModType | undefined,
     onFinish?: () => void
   ): Promise<void> {

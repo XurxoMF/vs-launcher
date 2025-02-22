@@ -115,7 +115,7 @@ function RestoreInstallationBackup(): JSX.Element {
                       <p>{new Date(backup.date).toLocaleString("es")}</p>
                     </div>
 
-                    <div className="w-full text-sm text-zinc-300  text-center overflow-hidden">
+                    <div className="w-full text-sm text-zinc-400  text-center overflow-hidden">
                       <p className="hidden group-hover:block overflow-hidden text-ellipsis">{backup.path}</p>
                     </div>
 
@@ -147,7 +147,7 @@ function RestoreInstallationBackup(): JSX.Element {
         <PopupDialogPanel title={t("features.backups.restoreBackup")} isOpen={backupToRestore !== null} close={() => setBackupToRestore(null)}>
           <>
             <p>{t("features.backups.areYouSureRestoreBackup")}</p>
-            <p className="text-zinc-300">{t("features.backups.restoringNotReversible")}</p>
+            <p className="text-zinc-400">{t("features.backups.restoringNotReversible")}</p>
             <div className="flex gap-4 items-center justify-center">
               <Button
                 title={t("generic.cancel")}
@@ -170,7 +170,7 @@ function RestoreInstallationBackup(): JSX.Element {
         <PopupDialogPanel title={t("features.backups.deleteBackup")} isOpen={backupToDelete !== null} close={() => setBackupToDelete(null)}>
           <>
             <p>{t("features.backups.areYouSureDelete")}</p>
-            <p className="text-zinc-300">{t("features.backups.deletingNotReversible")}</p>
+            <p className="text-zinc-400">{t("features.backups.deletingNotReversible")}</p>
             <div className="flex gap-4 items-center justify-center">
               <Button
                 title={t("generic.cancel")}

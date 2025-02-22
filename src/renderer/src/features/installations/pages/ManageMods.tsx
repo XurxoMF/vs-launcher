@@ -28,7 +28,7 @@ function ListMods(): JSX.Element {
   const [insatlledModsWithErrors, setInstalledModsWithErrors] = useState<ErrorInstalledModType[]>([])
 
   const [modToDelete, setModToDelete] = useState<InstalledModType | ErrorInstalledModType | null>(null)
-  const [modToUpdate, setModToUpdate] = useState<string | null>(null)
+  const [modToUpdate, setModToUpdate] = useState<number | string | null>(null)
 
   const [gettingMods, setGettingMods] = useState<boolean>(false)
 
@@ -108,15 +108,14 @@ function ListMods(): JSX.Element {
             <ListGroup>
               <div className="flex flex-col gap-1">
                 <h2 className="text-2xl text-center font-bold">{t("features.mods.listWithErrorsTitle")}</h2>
-                <p className="text-zinc-300 text-center">{t("features.mods.modsWithErrorsDescription")}</p>
-                <p className="text-zinc-300 text-center">
+                <p className="text-zinc-400 text-center">{t("features.mods.modsWithErrorsDescription")}</p>
+                <p className="text-zinc-400 text-center">
                   <Trans
                     i18nKey="features.mods.modsWithErrorsDescriptionReport"
                     components={{
                       issues: (
                         <Button
                           onClick={(e) => {
-                            e.preventDefault()
                             e.stopPropagation()
                             window.api.utils.openOnBrowser("https://github.com/XurxoMF/vs-launcher/issues")
                           }}
@@ -128,7 +127,6 @@ function ListMods(): JSX.Element {
                       discord: (
                         <Button
                           onClick={(e) => {
-                            e.preventDefault()
                             e.stopPropagation()
                             window.api.utils.openOnBrowser("https://discord.gg/RtWpYBRRUz")
                           }}
@@ -178,7 +176,7 @@ function ListMods(): JSX.Element {
               {gettingMods ? (
                 <div className="w-full flex items-center justify-center">
                   <div className="w-full h-full flex items-center justify-center">
-                    <FiLoader className="animate-spin text-4xl text-zinc-300" />
+                    <FiLoader className="animate-spin text-4xl text-zinc-400" />
                   </div>
                 </div>
               ) : (
@@ -220,11 +218,11 @@ function ListMods(): JSX.Element {
 
                       {iMod.description && (
                         <div className="overflow-hidden">
-                          <p className="text-sm text-zinc-300 overflow-hidden whitespace-nowrap text-ellipsis">{iMod.description}</p>
+                          <p className="text-sm text-zinc-400 overflow-hidden whitespace-nowrap text-ellipsis">{iMod.description}</p>
                         </div>
                       )}
 
-                      <div className="flex gap-2 items-center text-sm text-zinc-300">
+                      <div className="flex gap-2 items-center text-sm text-zinc-400">
                         <p className="overflow-hidden whitespace-nowrap text-ellipsis">
                           {iMod.authors && iMod.authors?.length > 0 && (
                             <span>
@@ -276,7 +274,7 @@ function ListMods(): JSX.Element {
         <PopupDialogPanel title={t("features.mods.deleteMod")} isOpen={modToDelete !== null} close={() => setModToDelete(null)}>
           <>
             <p>{t("features.mods.areYouSureDelete")}</p>
-            <p className="text-zinc-300">{t("features.mods.deletingNotReversible")}</p>
+            <p className="text-zinc-400">{t("features.mods.deletingNotReversible")}</p>
             <div className="flex gap-4 items-center justify-center">
               <Button
                 title={t("generic.cancel")}

@@ -1,27 +1,21 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @theme {
+  --breakpoint-3xl: 120rem;
+
   --color-vs: #7e501e;
   --color-vsl: #ad7639;
   --color-vsd: #4f3110;
   --color-zinc-750: #313136;
   --color-zinc-850: #212122;
 
-  --background-image-image-vs: url('./assets/background.jpg');
+  --background-image-image-vs: url("./assets/background.jpg");
 
   --shadow-inner-sm: inset 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-inner:
-    inset 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    inset 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-inner-md:
-    inset 0 6px 10px -1px rgba(0, 0, 0, 0.1),
-    inset 0 4px 6px -1px rgba(0, 0, 0, 0.06);
-  --shadow-inner-lg:
-    inset 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    inset 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-inner-xl:
-    inset 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    inset 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-inner: inset 0 4px 6px -1px rgba(0, 0, 0, 0.1), inset 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-inner-md: inset 0 6px 10px -1px rgba(0, 0, 0, 0.1), inset 0 4px 6px -1px rgba(0, 0, 0, 0.06);
+  --shadow-inner-lg: inset 0 10px 15px -3px rgba(0, 0, 0, 0.1), inset 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-inner-xl: inset 0 20px 25px -5px rgba(0, 0, 0, 0.1), inset 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   --shadow-inner-2xl: inset 0 25px 50px -12px rgba(0, 0, 0, 0.25);
 }
 

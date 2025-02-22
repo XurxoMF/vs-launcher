@@ -33,7 +33,7 @@ function NotificationsOverlay(): JSX.Element {
   const { notifications, removeNotification } = useNotificationsContext()
 
   return (
-    <div className="w-[300px] h-fit absolute flex flex-col items-end top-0 right-0 z-800 p-2 gap-2">
+    <div className="w-[300px] h-fit absolute flex flex-col items-end top-2 right-4 z-800 gap-2">
       <AnimatePresence>
         {notifications.map(({ id, title, body, type, options }) => (
           <motion.div
@@ -43,7 +43,6 @@ function NotificationsOverlay(): JSX.Element {
             animate={{ x: 0 }}
             exit={{ x: 320 }}
             onClick={(e) => {
-              e.preventDefault()
               e.stopPropagation()
               if (options?.onClick) options?.onClick()
             }}
@@ -52,14 +51,13 @@ function NotificationsOverlay(): JSX.Element {
               <span className={clsx("text-xl p-2 rounded-full border", BORDER_COLOR_TYPES[type], FONT_COLOR_TYPES[type])}>{ICON_TYPES[type]}</span>
               <div className="flex flex-col items-start justify-center">
                 <p className="font-bold text-sm">{title}</p>
-                <p className="text-xs text-zinc-300">{body}</p>
+                <p className="text-xs text-zinc-400">{body}</p>
               </div>
             </div>
             <Button
-              className="p-1 text-zinc-300"
+              className="p-1 text-zinc-400"
               title={t("notifications.discard")}
               onClick={(e) => {
-                e.preventDefault()
                 e.stopPropagation()
                 removeNotification(id)
               }}

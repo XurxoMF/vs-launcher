@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react"
 import { HashRouter as Router, Route, Routes, useLocation } from "react-router-dom"
 import { FiExternalLink, FiLoader } from "react-icons/fi"
-import { useTranslation } from "react-i18next"
+import { Trans, useTranslation } from "react-i18next"
 import { AnimatePresence, motion } from "motion/react"
 import "./i18n"
+import clsx from "clsx"
 
 import { ConfigProvider } from "@renderer/features/config/contexts/ConfigContext"
 import { NotificationsProvider } from "@renderer/contexts/NotificationsContext"
@@ -13,6 +14,7 @@ import i18n from "./i18n"
 import NotificationsOverlay from "@renderer/components/layout/NotificationsOverlay"
 
 import MainMenu from "@renderer/components/layout/MainMenu"
+import { FormButton } from "./components/ui/FormComponents"
 
 import HomePage from "@renderer/features/home/pages/HomePage"
 
@@ -29,7 +31,7 @@ import LookForAVersion from "@renderer/features/versions/pages/LookForAVersion"
 import ListMods from "@renderer/features/mods/pages/ListMods"
 
 import ConfigPage from "@renderer/features/config/pages/ConfigPage"
-import clsx from "clsx"
+import { NormalButton } from "./components/ui/Buttons"
 
 function App(): JSX.Element {
   useEffect(() => {
@@ -112,24 +114,39 @@ function AppInfo(): JSX.Element {
   }, [])
 
   return (
-    <div className="w-full absolute z-100 top-0 left-0 py-1 px-4 flex justify-between items-center text-xs bg-linear-to-b from-zinc-950/50 to-transparent">
-      <div className="flex flex-nowrap gap-1">
+    <div className="w-full absolute z-100 top-0 left-0 py-1 p-3 flex justify-between items-center text-xs">
+      <div className="shrink-0 flex flex-nowrap gap-1">
         <MiniLinks to="https://github.com/XurxoMF/vs-launcher/issues" text={t("generic.issues")} />
         <MiniLinks to="https://vsldocs.xurxomf.xyz/" text={t("generic.guides")} />
-        <MiniLinks to="https://github.com/XurxoMF/vs-launcher" text={t("generic.source")} />
         <MiniLinks to="https://discord.gg/RtWpYBRRUz" text="Discord" />
         <MiniLinks to="https://ko-fi.com/xurxomf" text={t("generic.donate")} />
       </div>
-      <p>VS Launcher - v{version}</p>
+
+      <span className="flex gap-1 items-center flex-wrap justify-center animate-pulse">
+        <Trans
+          i18nKey="generic.tryMVL"
+          components={{
+            link: (
+              <NormalButton title="MVL" onClick={() => window.api.utils.openOnBrowser("https://mods.vintagestory.at/mvl")} className="text-vsl">
+                MVL
+              </NormalButton>
+            )
+          }}
+        />
+      </span>
+
+      <div className="shrink-0 flex flex-nowrap gap-1">
+        <MiniLinks text={`VS Launcher v${version}`} to="https://github.com/XurxoMF/vs-launcher" />
+      </div>
     </div>
   )
 }
 
 function MiniLinks({ to, text }: { to: string; text: string }): JSX.Element {
   return (
-    <a title={text} onClick={() => window.api.utils.openOnBrowser(to)} className="group flex flex-row flex-nowrap items-center gap-1 cursor-pointer not-last:before:content-['|']">
+    <FormButton title={text} onClick={() => window.api.utils.openOnBrowser(to)} className={"px-1 gap-1 opacity-50 hover:opacity-100 duration-200"}>
       <span>{text}</span> <FiExternalLink className="text-[.6rem]" />
-    </a>
+    </FormButton>
   )
 }
 
@@ -159,7 +176,7 @@ function Loader(): JSX.Element {
             <h1 className="text-4xl">{t("components.loader.title")}</h1>
             <p className="text-xl">{t("components.loader.desc")}</p>
             <p className="pt-4">
-              <FiLoader className="animate-spin text-5xl text-zinc-300 " />
+              <FiLoader className="animate-spin text-5xl text-zinc-400 " />
             </p>
           </motion.div>
         </motion.div>

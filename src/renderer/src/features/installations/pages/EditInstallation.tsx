@@ -119,7 +119,7 @@ function EditInslallation(): JSX.Element {
                         {config.gameVersions.length < 1 && (
                           <div className="w-full p-1 flex flex-col items-center justify-center">
                             <p>{t("features.versions.noVersionsFound")}</p>
-                            <p className="text-zinc-300 text-sm flex gap-1 items-center flex-wrap justify-center">
+                            <p className="text-zinc-400 text-sm flex gap-1 items-center flex-wrap justify-center">
                               <Trans
                                 i18nKey="features.versions.noVersionsFoundDesc"
                                 components={{

@@ -43,7 +43,8 @@
     "update": "Update",
     "reload": "Reload",
     "searching": "Searching",
-    "waitingForChanges": "Waiting for changes"
+    "waitingForChanges": "Waiting for changes",
+    "tryMVL": "Not liking VS Launcher? Try <link /> launcher!"
   },
   "features": {
     "generic": {
@@ -247,5 +248,8 @@
       "compressError": "Error compressing: {{compressName}}!"
     },
     "discard": "Discard notification"
+  },
+  "genetic": {
+    "goToTop": "Go to top"
   }
 }
