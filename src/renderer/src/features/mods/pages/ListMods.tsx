@@ -177,7 +177,7 @@ function ListMods(): JSX.Element {
 
         <GridWrapper className="w-full">
           {modsList.length < 1 ? (
-            <div className="w-full h-[calc(100vh-10.1rem)] flex flex-col items-center justify-center gap-2">
+            <div className="w-full h-[calc(100vh-8rem)] flex flex-col items-center justify-center gap-2">
               <p className="w-1/2 p-6 text-center text-2xl rounded-sm bg-zinc-950/50 backdrop-blur-xs shadow-sm shadow-zinc-950/50">
                 {searching ? t("features.mods.searching") : t("features.mods.noMatchingFilters")}
               </p>
