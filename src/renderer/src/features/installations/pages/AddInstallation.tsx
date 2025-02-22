@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { useTranslation, Trans } from "react-i18next"
 import { v4 as uuidv4 } from "uuid"
 import { PiFloppyDiskBackFill, PiXBold } from "react-icons/pi"
@@ -26,7 +26,7 @@ import {
 } from "@renderer/components/ui/FormComponents"
 import { TableBody, TableBodyRow, TableCell, TableHead, TableHeadRow, TableWrapper } from "@renderer/components/ui/Table"
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
-import { NormalButton } from "@renderer/components/ui/Buttons"
+import { LinkButton, NormalButton } from "@renderer/components/ui/Buttons"
 
 function AddInslallation(): JSX.Element {
   const { t } = useTranslation()
@@ -80,11 +80,6 @@ function AddInslallation(): JSX.Element {
     }
   }
 
-  useEffect(() => {
-    if ((!config.lastUsedInstallation || !config.installations.some((i) => i.id === config.lastUsedInstallation)) && config.installations.length > 0)
-      configDispatch({ type: CONFIG_ACTIONS.SET_LAST_USED_INSTALLATION, payload: config.installations[0].id })
-  }, [config.installations])
-
   return (
     <ScrollableContainer>
       <div className="min-h-full flex flex-col justify-center gap-6">
@@ -135,9 +130,9 @@ function AddInslallation(): JSX.Element {
                             i18nKey="features.versions.noVersionsFoundDesc"
                             components={{
                               link: (
-                                <Link to="/versions" className="text-vsl">
+                                <LinkButton title={t("components.mainMenu.versionsTitle")} to="/versions" className="text-vsl">
                                   {t("components.mainMenu.versionsTitle")}
-                                </Link>
+                                </LinkButton>
                               )
                             }}
                           />

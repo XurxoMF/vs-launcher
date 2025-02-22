@@ -17,7 +17,7 @@ const BORDER_COLOR_TYPES = {
 const FONT_COLOR_TYPES = {
   success: "text-lime-600",
   info: "text-vsl",
-  error: "text-red-600",
+  error: "text-red-700",
   warning: "text-yellow-400"
 }
 

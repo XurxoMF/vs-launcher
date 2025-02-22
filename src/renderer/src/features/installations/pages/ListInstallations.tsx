@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
 import { Input } from "@headlessui/react"
-import { PiFolderFill, PiPlusCircleFill, PiTrashFill, PiPencilFill, PiCaretCircleDoubleDownFill, PiArrowCounterClockwiseFill, PiGearFill, PiXBold, PiEraserFill } from "react-icons/pi"
+import { PiFolderFill, PiPlusCircleFill, PiTrashFill, PiPencilFill, PiCaretCircleDoubleDownFill, PiArrowCounterClockwiseFill, PiGearFill, PiXBold } from "react-icons/pi"
 import { useTranslation } from "react-i18next"
 
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
@@ -14,7 +13,7 @@ import { ListGroup, ListWrapper, ListItem } from "@renderer/components/ui/List"
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
 import PopupDialogPanel from "@renderer/components/ui/PopupDialogPanel"
 import { FormButton } from "@renderer/components/ui/FormComponents"
-import { NormalButton } from "@renderer/components/ui/Buttons"
+import { LinkButton, NormalButton } from "@renderer/components/ui/Buttons"
 
 function ListInslallations(): JSX.Element {
   const { t } = useTranslation()
@@ -32,7 +31,7 @@ function ListInslallations(): JSX.Element {
     countMods()
   }, [])
 
-  async function HandleModDelete(): Promise<void> {
+  async function DeleteInstallationHandler(): Promise<void> {
     try {
       if (!installationToDelete) return addNotification(t("features.installations.noInstallationSelected"), "error")
 
@@ -64,9 +63,9 @@ function ListInslallations(): JSX.Element {
         <ListWrapper className="max-w-[800px] w-full">
           <ListGroup>
             <ListItem className="group">
-              <Link to="/installations/add" title={t("features.installations.addNewInstallation")} className="w-full h-12 flex items-center justify-center rounded-sm">
+              <LinkButton to="/installations/add" title={t("features.installations.addNewInstallation")} className="w-full h-12">
                 <PiPlusCircleFill className="text-2xl text-zinc-400/60 group-hover:scale-95 duration-200" />
-              </Link>
+              </LinkButton>
             </ListItem>
             {config.installations.map((installation) => (
               <ListItem key={installation.id}>
@@ -86,7 +85,7 @@ function ListInslallations(): JSX.Element {
                   <div className="h-full flex gap-1 items-center shrink-0 text-lg">
                     <div className="flex flex-col gap-1">
                       <NormalButton
-                        className="p-1 flex items-center justify-center"
+                        className="p-1"
                         title={t("generic.backup")}
                         onClick={async () => {
                           if (!(await window.api.pathsManager.checkPathExists(installation.path))) return addNotification(t("features.backups.folderDoesntExists"), "error")
@@ -95,31 +94,31 @@ function ListInslallations(): JSX.Element {
                       >
                         <PiCaretCircleDoubleDownFill />
                       </NormalButton>
-                      <Link to={`/installations/backups/${installation.id}`} className="p-1 flex items-center justify-center" title={t("features.backups.restoreBackup")}>
+                      <LinkButton to={`/installations/backups/${installation.id}`} className="p-1" title={t("features.backups.restoreBackup")}>
                         <PiArrowCounterClockwiseFill />
-                      </Link>
+                      </LinkButton>
                     </div>
                     <div className="flex flex-col gap-1">
-                      <Link to={`/installations/mods/${installation.id}`} title={t("features.mods.manageMods")} className="p-1 flex items-center justify-center">
+                      <LinkButton to={`/installations/mods/${installation.id}`} title={t("features.mods.manageMods")} className="p-1">
                         <PiGearFill />
-                      </Link>
+                      </LinkButton>
                       <NormalButton
                         onClick={async () => {
                           if (!(await window.api.pathsManager.checkPathExists(installation.path))) return addNotification(t("notifications.body.folderDoesntExists"), "error")
                           window.api.pathsManager.openPathOnFileExplorer(installation.path)
                         }}
                         title={t("generic.openOnFileExplorer")}
-                        className="p-1 flex items-center justify-center"
+                        className="p-1"
                       >
                         <PiFolderFill />
                       </NormalButton>
                     </div>
                     <div className="flex flex-col gap-1">
-                      <Link to={`/installations/edit/${installation.id}`} title={t("generic.edit")} className="p-1 flex items-center justify-center">
+                      <LinkButton to={`/installations/edit/${installation.id}`} title={t("generic.edit")} className="p-1">
                         <PiPencilFill />
-                      </Link>
+                      </LinkButton>
                       <NormalButton
-                        className="p-1 flex items-center justify-center"
+                        className="p-1"
                         title={t("generic.delete")}
                         onClick={async () => {
                           setInstallationToDelete(installation)
@@ -143,12 +142,12 @@ function ListInslallations(): JSX.Element {
               <Input id="delete-data" type="checkbox" checked={deleteData} onChange={(e) => setDeleData(e.target.checked)} />
               <label htmlFor="delete-data">{t("features.installations.deleteData")}</label>
             </div>
-            <div className="flex gap-4 items-center justify-center">
-              <FormButton title={t("generic.cancel")} className="p-2 text-lg" onClick={() => setInstallationToDelete(null)}>
+            <div className="flex gap-4 items-center justify-center text-lg">
+              <FormButton title={t("generic.cancel")} className="p-2" onClick={() => setInstallationToDelete(null)}>
                 <PiXBold />
               </FormButton>
-              <FormButton title={t("generic.delete")} className="p-2 text-lg text-red-500" onClick={HandleModDelete}>
-                <PiEraserFill />
+              <FormButton title={t("generic.delete")} className="p-2" onClick={DeleteInstallationHandler} type="error">
+                <PiTrashFill />
               </FormButton>
             </div>
           </>

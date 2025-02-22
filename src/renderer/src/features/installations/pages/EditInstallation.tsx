@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useParams, useNavigate, Link } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import { useTranslation, Trans } from "react-i18next"
 import { Button } from "@headlessui/react"
 import { PiFloppyDiskBackFill, PiXBold } from "react-icons/pi"
@@ -25,6 +25,7 @@ import {
 } from "@renderer/components/ui/FormComponents"
 import { TableBody, TableBodyRow, TableCell, TableHead, TableHeadRow, TableWrapper } from "@renderer/components/ui/Table"
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
+import { LinkButton } from "@renderer/components/ui/Buttons"
 
 function EditInslallation(): JSX.Element {
   const { t } = useTranslation()
@@ -124,9 +125,9 @@ function EditInslallation(): JSX.Element {
                                 i18nKey="features.versions.noVersionsFoundDesc"
                                 components={{
                                   link: (
-                                    <Link to="/versions" className="text-vsl">
+                                    <LinkButton title={t("components.mainMenu.versionsTitle")} to="/versions" className="text-vsl">
                                       {t("components.mainMenu.versionsTitle")}
-                                    </Link>
+                                    </LinkButton>
                                   )
                                 }}
                               />

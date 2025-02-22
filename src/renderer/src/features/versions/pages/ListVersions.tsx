@@ -1,7 +1,5 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
-import { Button } from "@headlessui/react"
-import { PiFolderFill, PiPlusCircleFill, PiTrashFill, PiMagnifyingGlassFill } from "react-icons/pi"
+import { PiFolderFill, PiPlusCircleFill, PiTrashFill, PiMagnifyingGlassFill, PiXBold } from "react-icons/pi"
 import { useTranslation } from "react-i18next"
 
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
@@ -10,7 +8,8 @@ import { useNotificationsContext } from "@renderer/contexts/NotificationsContext
 import { ListGroup, ListWrapper, ListItem } from "@renderer/components/ui/List"
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
 import PopupDialogPanel from "@renderer/components/ui/PopupDialogPanel"
-import { NormalButton } from "@renderer/components/ui/Buttons"
+import { LinkButton, NormalButton } from "@renderer/components/ui/Buttons"
+import { FormButton } from "@renderer/components/ui/FormComponents"
 
 function ListVersions(): JSX.Element {
   const { t } = useTranslation()
@@ -45,14 +44,14 @@ function ListVersions(): JSX.Element {
           <ListGroup>
             <div className="flex gap-2">
               <ListItem className="group">
-                <Link to="/versions/add" title={t("features.versions.installNewVersion")} className="w-full h-8 flex items-center justify-center rounded-sm">
+                <LinkButton to="/versions/add" title={t("features.versions.installNewVersion")} className="w-full h-8">
                   <PiPlusCircleFill className="text-xl text-zinc-400/60 group-hover:scale-95 duration-200" />
-                </Link>
+                </LinkButton>
               </ListItem>
               <ListItem className="group">
-                <Link to="/versions/look-for-a-version" title={t("features.versions.searchForAGameVersion")} className="w-full h-8 flex items-center justify-center rounded-sm">
+                <LinkButton to="/versions/look-for-a-version" title={t("features.versions.searchForAGameVersion")} className="w-full h-8">
                   <PiMagnifyingGlassFill className="text-xl text-zinc-400/60 group-hover:scale-95 duration-200" />
-                </Link>
+                </LinkButton>
               </ListItem>
             </div>
             {config.gameVersions.map((gv) => (
@@ -62,7 +61,7 @@ function ListVersions(): JSX.Element {
                   <p className="hidden group-hover:block text-sm text-zinc-400 overflow-hidden text-ellipsis whitespace-nowrap">{gv.path}</p>
                   <div className="flex gap-1 text-lg">
                     <NormalButton
-                      className="p-1 flex items-center justify-center"
+                      className="p-1"
                       title={t("generic.delete")}
                       onClick={async () => {
                         setVersionToDelete(gv)
@@ -76,7 +75,7 @@ function ListVersions(): JSX.Element {
                         window.api.pathsManager.openPathOnFileExplorer(gv.path)
                       }}
                       title={t("generic.openOnFileExplorer")}
-                      className="p-1 flex items-center justify-center"
+                      className="p-1"
                     >
                       <PiFolderFill />
                     </NormalButton>
@@ -91,21 +90,13 @@ function ListVersions(): JSX.Element {
           <>
             <p>{t("features.versions.areYouSureUninstall")}</p>
             <p className="text-zinc-400">{t("features.versions.uninstallingNotReversible")}</p>
-            <div className="flex gap-4 items-center justify-center">
-              <Button
-                title={t("generic.cancel")}
-                className="px-2 py-1 bg-zinc-800 shadow-sm shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded-sm"
-                onClick={() => setVersionToDelete(null)}
-              >
-                {t("generic.cancel")}
-              </Button>
-              <Button
-                title={t("generic.uninstall")}
-                className="px-2 py-1 bg-red-800 shadow-sm shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded-sm"
-                onClick={DeleteVersionHandler}
-              >
-                {t("generic.uninstall")}
-              </Button>
+            <div className="flex gap-4 items-center justify-center text-lg">
+              <FormButton title={t("generic.cancel")} className="p-2" onClick={() => setVersionToDelete(null)}>
+                <PiXBold />
+              </FormButton>
+              <FormButton title={t("generic.uninstall")} className="p-2" onClick={DeleteVersionHandler} type="error">
+                <PiTrashFill />
+              </FormButton>
             </div>
           </>
         </PopupDialogPanel>

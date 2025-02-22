@@ -2,12 +2,12 @@ import { useTranslation, Trans } from "react-i18next"
 import { PiCaretUpBold } from "react-icons/pi"
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from "@headlessui/react"
 import { AnimatePresence, motion } from "motion/react"
-import { Link } from "react-router-dom"
 import clsx from "clsx"
 
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
 
 import { DROPUP_MENU_ITEM_VARIANTS, DROPUP_MENU_WRAPPER_VARIANTS } from "@renderer/utils/animateVariants"
+import { LinkButton } from "@renderer/components/ui/Buttons"
 
 function InstallationsDropdownMenu(): JSX.Element {
   const { t } = useTranslation()
@@ -17,16 +17,16 @@ function InstallationsDropdownMenu(): JSX.Element {
   return (
     <div className="w-full">
       {config.installations.length < 1 ? (
-        <div className="w-full flex flex-col items-center justify-between px-4 py-2">
+        <div className="w-full flex flex-col items-center justify-between rounded-sm backdrop-blur-xs bg-zinc-950/50 border border-zinc-400/5 group overflow-hidden shadow-sm shadow-zinc-950/50 px-4 py-2">
           <p className="font-bold">{t("features.installations.noInstallationsFound")}</p>
           <p className="text-zinc-400 text-xs flex gap-1 items-center flex-wrap justify-center">
             <Trans
               i18nKey="features.installations.noInstallationsFoundDesc"
               components={{
                 link: (
-                  <Link to="/installations" className="text-vsl">
+                  <LinkButton title={t("components.mainMenu.installationsTitle")} to="/installations" className="text-vsl">
                     {t("components.mainMenu.installationsTitle")}
-                  </Link>
+                  </LinkButton>
                 )
               }}
             />

@@ -2,7 +2,6 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { PiDownloadFill, PiArrowClockwiseFill } from "react-icons/pi"
 import { FiLoader } from "react-icons/fi"
-import clsx from "clsx"
 
 import { useInstallMod } from "../hooks/useInstallMod"
 import { useQueryMod } from "../hooks/useQueryMod"
@@ -10,7 +9,7 @@ import { useGetInstalledMods } from "../hooks/useGetInstalledMods"
 
 import { TableBody, TableBodyRow, TableCell, TableHead, TableHeadRow, TableWrapper } from "@renderer/components/ui/Table"
 import PopupDialogPanel from "@renderer/components/ui/PopupDialogPanel"
-import { NormalButton } from "@renderer/components/ui/Buttons"
+import { FormButton } from "@renderer/components/ui/FormComponents"
 
 function InstallModPopup({
   modToInstall,
@@ -86,8 +85,8 @@ function InstallModPopup({
                   <TableCell className="w-5/12 overflow-hidden whitespace-nowrap text-ellipsis">
                     <input type="text" value={release.tags.join(", ")} readOnly className="w-full bg-transparent outline-hidden text-center" />
                   </TableCell>
-                  <TableCell className="w-2/12 flex gap-2 items-center justify-center">
-                    <NormalButton
+                  <TableCell className="w-2/12 flex gap-2 items-center justify-center text-lg">
+                    <FormButton
                       disabled={installedMods.find((im) => release.modidstr === im.modid)?.version === release.modversion}
                       onClick={() => {
                         const oldMod = installedMods.find((im) => release.modidstr === im.modid)
@@ -97,18 +96,18 @@ function InstallModPopup({
                         setModToInstall(null)
                         setDownloadableModToInstall(null)
                       }}
-                      className={clsx(
-                        "w-7 h-7 backdrop-blur-xs border border-zinc-400/5 shadow-sm shadow-zinc-950/50 hover:shadow-none rounded-sm",
+                      className="w-7 h-7"
+                      type={
                         release.tags.includes(`v${installation.version}`)
-                          ? "bg-green-700/80"
+                          ? "success"
                           : release.tags.some((tag) => tag.startsWith(`v${installation.version.split(".").slice(0, 2).join(".")}`))
-                            ? "bg-yellow-600/80"
-                            : "bg-red-700/80"
-                      )}
+                            ? "warn"
+                            : "error"
+                      }
                       title={installedMods.some((im) => release.modidstr === im.modid) ? t("features.installations.updateOnInstallation") : t("features.installations.installOnInstallation")}
                     >
                       {installedMods.some((im) => release.modidstr === im.modid) ? <PiArrowClockwiseFill /> : <PiDownloadFill />}
-                    </NormalButton>
+                    </FormButton>
                   </TableCell>
                 </TableBodyRow>
               ))}

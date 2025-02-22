@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { useParams } from "react-router-dom"
-import { PiArrowCounterClockwiseFill, PiFolderFill, PiTrashFill } from "react-icons/pi"
+import { PiArrowCounterClockwiseFill, PiFolderFill, PiTrashFill, PiXBold } from "react-icons/pi"
 import { v4 as uuidv4 } from "uuid"
 
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
@@ -12,6 +12,7 @@ import { ListGroup, ListItem, ListWrapper } from "@renderer/components/ui/List"
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
 import PopupDialogPanel from "@renderer/components/ui/PopupDialogPanel"
 import { NormalButton } from "@renderer/components/ui/Buttons"
+import { FormButton } from "@renderer/components/ui/FormComponents"
 
 function RestoreInstallationBackup(): JSX.Element {
   const { id } = useParams()
@@ -121,10 +122,10 @@ function RestoreInstallationBackup(): JSX.Element {
                     </div>
 
                     <div className="flex gap-1 justify-end text-lg">
-                      <NormalButton className="p-1 flex items-center justify-center" title={t("features.backups.restoreBackup")} onClick={() => setBackupToRestore(backup)}>
+                      <NormalButton className="p-1" title={t("features.backups.restoreBackup")} onClick={() => setBackupToRestore(backup)}>
                         <PiArrowCounterClockwiseFill />
                       </NormalButton>
-                      <NormalButton onClick={() => setBackupToDelete(backup)} title={t("generic.delete")} className="p-1 flex items-center justify-center">
+                      <NormalButton onClick={() => setBackupToDelete(backup)} title={t("generic.delete")} className="p-1">
                         <PiTrashFill />
                       </NormalButton>
                       <NormalButton
@@ -134,7 +135,7 @@ function RestoreInstallationBackup(): JSX.Element {
                           window.api.pathsManager.openPathOnFileExplorer(folder)
                         }}
                         title={t("generic.openOnFileExplorer")}
-                        className="p-1 flex items-center justify-center"
+                        className="p-1"
                       >
                         <PiFolderFill />
                       </NormalButton>
@@ -149,21 +150,13 @@ function RestoreInstallationBackup(): JSX.Element {
           <>
             <p>{t("features.backups.areYouSureRestoreBackup")}</p>
             <p className="text-zinc-400">{t("features.backups.restoringNotReversible")}</p>
-            <div className="flex gap-4 items-center justify-center">
-              <NormalButton
-                title={t("generic.cancel")}
-                className="px-2 py-1 bg-zinc-800 shadow-sm shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded-sm"
-                onClick={() => setBackupToRestore(null)}
-              >
-                {t("generic.cancel")}
-              </NormalButton>
-              <NormalButton
-                title={t("generic.restore")}
-                className="px-2 py-1 bg-red-800 shadow-sm shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded-sm"
-                onClick={RestoreBackupHandler}
-              >
-                {t("generic.restore")}
-              </NormalButton>
+            <div className="flex gap-4 items-center justify-center text-lg">
+              <FormButton title={t("generic.cancel")} className="p-2" onClick={() => setBackupToRestore(null)}>
+                <PiXBold />
+              </FormButton>
+              <FormButton title={t("generic.restore")} className="p-2" onClick={RestoreBackupHandler} type="error">
+                <PiArrowCounterClockwiseFill />
+              </FormButton>
             </div>
           </>
         </PopupDialogPanel>
@@ -172,20 +165,12 @@ function RestoreInstallationBackup(): JSX.Element {
           <>
             <p>{t("features.backups.areYouSureDelete")}</p>
             <p className="text-zinc-400">{t("features.backups.deletingNotReversible")}</p>
-            <div className="flex gap-4 items-center justify-center">
-              <NormalButton
-                title={t("generic.cancel")}
-                className="px-2 py-1 bg-zinc-800 shadow-sm shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded-sm"
-                onClick={() => setBackupToDelete(null)}
-              >
-                {t("generic.cancel")}
+            <div className="flex gap-4 items-center justify-center text-lg">
+              <NormalButton title={t("generic.cancel")} className="p-2" onClick={() => setBackupToDelete(null)}>
+                <PiXBold />
               </NormalButton>
-              <NormalButton
-                title={t("generic.delete")}
-                className="px-2 py-1 bg-red-800 shadow-sm shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded-sm"
-                onClick={DeleteBackupHandler}
-              >
-                {t("generic.delete")}
+              <NormalButton title={t("generic.delete")} className="p-2" onClick={DeleteBackupHandler} type="error">
+                <PiTrashFill />
               </NormalButton>
             </div>
           </>

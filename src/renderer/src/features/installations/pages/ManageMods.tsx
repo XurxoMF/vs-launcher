@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
-import { Link, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import { Trans, useTranslation } from "react-i18next"
-import { PiArrowClockwiseFill, PiTrashFill } from "react-icons/pi"
+import { PiArrowClockwiseFill, PiTrashFill, PiXBold } from "react-icons/pi"
 import { FiLoader } from "react-icons/fi"
 
 import { useConfigContext } from "@renderer/features/config/contexts/ConfigContext"
@@ -13,7 +13,8 @@ import { ListGroup, ListItem, ListWrapper } from "@renderer/components/ui/List"
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
 import PopupDialogPanel from "@renderer/components/ui/PopupDialogPanel"
 import InstallModPopup from "@renderer/features/mods/components/InstallModPopup"
-import { NormalButton } from "@renderer/components/ui/Buttons"
+import { LinkButton, NormalButton } from "@renderer/components/ui/Buttons"
+import { FormButton } from "@renderer/components/ui/FormComponents"
 
 function ListMods(): JSX.Element {
   const { t } = useTranslation()
@@ -156,7 +157,7 @@ function ListMods(): JSX.Element {
 
                     <div className="flex gap-1 justify-end text-lg">
                       <NormalButton
-                        className="p-1 flex items-center justify-center"
+                        className="p-1"
                         title={t("generic.delete")}
                         onClick={async () => {
                           setModToDelete(iModE)
@@ -189,9 +190,9 @@ function ListMods(): JSX.Element {
                       i18nKey="features.mods.noModsInstalled"
                       components={{
                         link: (
-                          <Link to="/mods" className="text-vsl">
+                          <LinkButton title={t("components.mainMenu.modsTitle")} to="/mods" className="text-vsl">
                             {t("components.mainMenu.modsTitle")}
-                          </Link>
+                          </LinkButton>
                         )
                       }}
                     />
@@ -242,7 +243,7 @@ function ListMods(): JSX.Element {
 
                     <div className="flex gap-1 justify-end text-lg">
                       <NormalButton
-                        className="p-1 flex items-center justify-center"
+                        className="p-1"
                         title={t("generic.update")}
                         onClick={async () => {
                           if (!iMod._mod || iMod._mod.releases.length < 1) return addNotification(t("features.mods.noVersionsFound"), "error")
@@ -253,7 +254,7 @@ function ListMods(): JSX.Element {
                       </NormalButton>
 
                       <NormalButton
-                        className="p-1 flex items-center justify-center"
+                        className="p-1"
                         title={t("generic.delete")}
                         onClick={async () => {
                           setModToDelete(iMod)
@@ -277,21 +278,13 @@ function ListMods(): JSX.Element {
           <>
             <p>{t("features.mods.areYouSureDelete")}</p>
             <p className="text-zinc-400">{t("features.mods.deletingNotReversible")}</p>
-            <div className="flex gap-4 items-center justify-center">
-              <NormalButton
-                title={t("generic.cancel")}
-                className="px-2 py-1 bg-zinc-800 shadow-sm shadow-zinc-950 hover:shadow-none flex items-center justify-center rounded-sm"
-                onClick={() => setModToDelete(null)}
-              >
-                {t("generic.cancel")}
-              </NormalButton>
-              <NormalButton
-                title={t("generic.delete")}
-                className="px-2 py-1 bg-red-800 shadow-sm shadow-zinc-950 hover:shadow-none flex items-center justify-center rounded-sm"
-                onClick={DeleteModHandler}
-              >
-                {t("generic.delete")}
-              </NormalButton>
+            <div className="flex gap-4 items-center justify-center text-lg">
+              <FormButton title={t("generic.cancel")} className="p-2" onClick={() => setModToDelete(null)}>
+                <PiXBold />
+              </FormButton>
+              <FormButton title={t("generic.delete")} className="p-2" onClick={DeleteModHandler} type="error">
+                <PiTrashFill />
+              </FormButton>
             </div>
           </>
         </PopupDialogPanel>

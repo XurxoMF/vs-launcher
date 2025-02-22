@@ -251,6 +251,11 @@ const ConfigProvider = ({ children }: { children: React.ReactNode }): JSX.Elemen
     })
   }, [isConfigLoaded])
 
+  useEffect(() => {
+    if ((!config.lastUsedInstallation || !config.installations.some((i) => i.id === config.lastUsedInstallation)) && config.installations.length > 0)
+      configDispatch({ type: CONFIG_ACTIONS.SET_LAST_USED_INSTALLATION, payload: config.installations[0].id })
+  }, [config.installations])
+
   return <ConfigContext.Provider value={{ config, configDispatch }}>{children}</ConfigContext.Provider>
 }
 
