@@ -1,18 +1,7 @@
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react"
+import { POPUP_VARIANTS, POPUP_WRAPPER_VARIANTS } from "@renderer/utils/animateVariants"
 import clsx from "clsx"
-import { AnimatePresence, motion, Variants } from "motion/react"
-
-const WRAPPER_VARIANTS: Variants = {
-  initial: { opacity: 0 },
-  animate: { opacity: 1 },
-  exit: { opacity: 0 }
-}
-
-const POPUP_VARIANTS: Variants = {
-  initial: { scale: 0.8 },
-  animate: { scale: 1 },
-  exit: { scale: 0.8 }
-}
+import { AnimatePresence, motion } from "motion/react"
 
 function PopupDialogPanel({
   children,
@@ -34,7 +23,7 @@ function PopupDialogPanel({
       {isOpen && (
         <Dialog static open={isOpen} onClose={close} className="w-full h-full absolute top-0 left-0 z-200 flex justify-center items-center select-none bg-zinc">
           <motion.div
-            variants={WRAPPER_VARIANTS}
+            variants={POPUP_WRAPPER_VARIANTS}
             initial="initial"
             animate="animate"
             exit="exit"

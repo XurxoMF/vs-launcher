@@ -70,6 +70,7 @@ export function useMakeInstallationBackup(): (installationId: string) => Promise
         await startCompress(
           t("features.backups.cmpressTaskName", { name: installation.name }),
           t("features.backups.compressingBackupDescription", { name: installation.name }),
+          "all",
           installation.path,
           backupPath,
           fileName,

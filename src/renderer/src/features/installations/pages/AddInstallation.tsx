@@ -254,7 +254,7 @@ function AddInslallation(): JSX.Element {
           </FormGroupWrapper>
         </FromWrapper>
 
-        <ButtonsWrapper>
+        <ButtonsWrapper className="text-lg">
           <FormLinkButton to="/installations" title={t("generic.goBack")} className="p-2">
             <PiXBold />
           </FormLinkButton>

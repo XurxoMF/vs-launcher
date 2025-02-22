@@ -100,10 +100,10 @@ function InstallModPopup({
                       className={clsx(
                         "w-7 h-7 backdrop-blur-xs border border-zinc-400/5 shadow-sm shadow-zinc-950/50 hover:shadow-none rounded-sm",
                         release.tags.includes(`v${installation.version}`)
-                          ? "bg-green-700/50"
+                          ? "bg-green-700/80"
                           : release.tags.some((tag) => tag.startsWith(`v${installation.version.split(".").slice(0, 2).join(".")}`))
-                            ? "bg-yellow-600/50"
-                            : "bg-red-700/50"
+                            ? "bg-yellow-600/80"
+                            : "bg-red-700/80"
                       )}
                       title={installedMods.some((im) => release.modidstr === im.modid) ? t("features.installations.updateOnInstallation") : t("features.installations.installOnInstallation")}
                     >

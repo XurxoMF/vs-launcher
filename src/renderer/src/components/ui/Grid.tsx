@@ -1,5 +1,6 @@
+import { GRIDGROUP_VARIANTS, GRIDITEM_VARIANTS } from "@renderer/utils/animateVariants"
 import clsx from "clsx"
-import { AnimatePresence, motion, useInView, Variants } from "motion/react"
+import { AnimatePresence, motion, useInView } from "motion/react"
 import { useRef } from "react"
 
 /**
@@ -24,15 +25,6 @@ export function GridWrapper({ children, className }: { children: React.ReactNode
   )
 }
 
-const GRIDGROUP_VARIANTS: Variants = {
-  animate: {
-    transition: {
-      delayChildren: 0.1,
-      staggerChildren: 0.05
-    }
-  }
-}
-
 /**
  * Grid group. An ul html element with styles.
  *
@@ -53,12 +45,6 @@ export function GridGroup({ children, className }: { children: React.ReactNode; 
       <AnimatePresence>{children}</AnimatePresence>
     </motion.ul>
   )
-}
-
-const GRIDITEM_VARIANTS: Variants = {
-  initial: { opacity: 0 },
-  animate: { opacity: 1 },
-  exit: { opacity: 0 }
 }
 
 /**

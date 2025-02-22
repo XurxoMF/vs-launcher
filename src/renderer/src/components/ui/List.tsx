@@ -1,5 +1,6 @@
+import { LISTGROUP_VARIANTS, LISTITEM_VARIANTS } from "@renderer/utils/animateVariants"
 import clsx from "clsx"
-import { AnimatePresence, motion, Variants } from "motion/react"
+import { AnimatePresence, motion } from "motion/react"
 
 /**
  * List external wrapper.
@@ -23,15 +24,6 @@ export function ListWrapper({ children, className }: { children: React.ReactNode
   )
 }
 
-const LISTGROUP_VARIANTS: Variants = {
-  animate: {
-    transition: {
-      delayChildren: 0.1,
-      staggerChildren: 0.1
-    }
-  }
-}
-
 /**
  * List group. An ul html element with styles.
  *
@@ -46,12 +38,6 @@ export function ListGroup({ children, className }: { children: React.ReactNode; 
       <AnimatePresence>{children}</AnimatePresence>
     </motion.ul>
   )
-}
-
-const LISTITEM_VARIANTS: Variants = {
-  initial: { opacity: 0 },
-  animate: { opacity: 1 },
-  exit: { opacity: 0 }
 }
 
 /**

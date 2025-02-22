@@ -1,7 +1,6 @@
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { useParams } from "react-router-dom"
-import { Button } from "@headlessui/react"
 import { PiArrowCounterClockwiseFill, PiFolderFill, PiTrashFill } from "react-icons/pi"
 import { v4 as uuidv4 } from "uuid"
 
@@ -12,6 +11,7 @@ import { useTaskContext } from "@renderer/contexts/TaskManagerContext"
 import { ListGroup, ListItem, ListWrapper } from "@renderer/components/ui/List"
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
 import PopupDialogPanel from "@renderer/components/ui/PopupDialogPanel"
+import { NormalButton } from "@renderer/components/ui/Buttons"
 
 function RestoreInstallationBackup(): JSX.Element {
   const { id } = useParams()
@@ -54,6 +54,7 @@ function RestoreInstallationBackup(): JSX.Element {
       startExtract(
         t("features.backups.extractTaskName", { name: installation.name }),
         t("features.backups.extractingBackupDescription", { name: installation.name }),
+        "all",
         backupToRestore.path,
         installation.path,
         false,
@@ -120,13 +121,13 @@ function RestoreInstallationBackup(): JSX.Element {
                     </div>
 
                     <div className="flex gap-1 justify-end text-lg">
-                      <Button className="p-1 flex items-center justify-center" title={t("features.backups.restoreBackup")} onClick={() => setBackupToRestore(backup)}>
+                      <NormalButton className="p-1 flex items-center justify-center" title={t("features.backups.restoreBackup")} onClick={() => setBackupToRestore(backup)}>
                         <PiArrowCounterClockwiseFill />
-                      </Button>
-                      <Button onClick={() => setBackupToDelete(backup)} title={t("generic.delete")} className="p-1 flex items-center justify-center">
+                      </NormalButton>
+                      <NormalButton onClick={() => setBackupToDelete(backup)} title={t("generic.delete")} className="p-1 flex items-center justify-center">
                         <PiTrashFill />
-                      </Button>
-                      <Button
+                      </NormalButton>
+                      <NormalButton
                         onClick={async () => {
                           const folder = await window.api.pathsManager.removeFileFromPath(backup.path)
                           if (!(await window.api.pathsManager.checkPathExists(folder))) return addNotification(t("notifications.body.folderDoesntExists"), "error")
@@ -136,7 +137,7 @@ function RestoreInstallationBackup(): JSX.Element {
                         className="p-1 flex items-center justify-center"
                       >
                         <PiFolderFill />
-                      </Button>
+                      </NormalButton>
                     </div>
                   </div>
                 </ListItem>
@@ -149,20 +150,20 @@ function RestoreInstallationBackup(): JSX.Element {
             <p>{t("features.backups.areYouSureRestoreBackup")}</p>
             <p className="text-zinc-400">{t("features.backups.restoringNotReversible")}</p>
             <div className="flex gap-4 items-center justify-center">
-              <Button
+              <NormalButton
                 title={t("generic.cancel")}
                 className="px-2 py-1 bg-zinc-800 shadow-sm shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded-sm"
                 onClick={() => setBackupToRestore(null)}
               >
                 {t("generic.cancel")}
-              </Button>
-              <Button
+              </NormalButton>
+              <NormalButton
                 title={t("generic.restore")}
                 className="px-2 py-1 bg-red-800 shadow-sm shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded-sm"
                 onClick={RestoreBackupHandler}
               >
                 {t("generic.restore")}
-              </Button>
+              </NormalButton>
             </div>
           </>
         </PopupDialogPanel>
@@ -172,20 +173,20 @@ function RestoreInstallationBackup(): JSX.Element {
             <p>{t("features.backups.areYouSureDelete")}</p>
             <p className="text-zinc-400">{t("features.backups.deletingNotReversible")}</p>
             <div className="flex gap-4 items-center justify-center">
-              <Button
+              <NormalButton
                 title={t("generic.cancel")}
                 className="px-2 py-1 bg-zinc-800 shadow-sm shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded-sm"
                 onClick={() => setBackupToDelete(null)}
               >
                 {t("generic.cancel")}
-              </Button>
-              <Button
+              </NormalButton>
+              <NormalButton
                 title={t("generic.delete")}
                 className="px-2 py-1 bg-red-800 shadow-sm shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded-sm"
                 onClick={DeleteBackupHandler}
               >
                 {t("generic.delete")}
-              </Button>
+              </NormalButton>
             </div>
           </>
         </PopupDialogPanel>

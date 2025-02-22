@@ -1,7 +1,6 @@
 import { PiArrowLeftFill } from "react-icons/pi"
-import { Link } from "react-router-dom"
 import { useTranslation } from "react-i18next"
-import { Button } from "@headlessui/react"
+import { LinkButton, NormalButton } from "./Buttons"
 
 function ControllsPanel({ goBackTo }: { goBackTo: string }): JSX.Element {
   const { t } = useTranslation()
@@ -9,17 +8,18 @@ function ControllsPanel({ goBackTo }: { goBackTo: string }): JSX.Element {
   return (
     <div className="w-full flex justify-between px-8 text-zinc-400">
       <div className="flex gap-4 items-center">
-        <Link to={goBackTo} title={t("generic.goBack")}>
+        <LinkButton to={goBackTo} title={t("generic.goBack")}>
           <PiArrowLeftFill />
-        </Link>
-        <Button
+        </LinkButton>
+        <NormalButton
+          title={t("generic.reload")}
           onClick={(e) => {
             e.stopPropagation()
             window.location.reload()
           }}
         >
           {t("generic.reload")}
-        </Button>
+        </NormalButton>
       </div>
     </div>
   )

@@ -1,11 +1,11 @@
 import { motion, AnimatePresence } from "motion/react"
 import { PiInfoFill, PiWarningFill, PiCheckCircleFill, PiProhibitInsetFill, PiXBold } from "react-icons/pi"
 import { useTranslation } from "react-i18next"
-import { Button } from "@headlessui/react"
 
 import clsx from "clsx"
 
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
+import { NormalButton } from "../ui/Buttons"
 
 const BORDER_COLOR_TYPES = {
   success: "border-lime-600",
@@ -54,7 +54,7 @@ function NotificationsOverlay(): JSX.Element {
                 <p className="text-xs text-zinc-400">{body}</p>
               </div>
             </div>
-            <Button
+            <NormalButton
               className="p-1 text-zinc-400"
               title={t("notifications.discard")}
               onClick={(e) => {
@@ -63,7 +63,7 @@ function NotificationsOverlay(): JSX.Element {
               }}
             >
               <PiXBold />
-            </Button>
+            </NormalButton>
           </motion.div>
         ))}
       </AnimatePresence>

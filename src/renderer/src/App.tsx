@@ -172,12 +172,17 @@ function Loader(): JSX.Element {
   return (
     <AnimatePresence>
       {!minTimeElapsed && (
-        <motion.div initial={{ opacity: 1 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-zinc-800 z-1000">
+        <motion.div
+          initial={{ opacity: 1 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="absolute top-0 left-0 w-full h-full flex items-center justify-center bg-image-vs bg-center bg-cover z-1000"
+        >
           <motion.div
-            initial={{ opacity: 0, y: 100 }}
-            animate={{ opacity: 1, y: 0, transition: { delay: 0.5 } }}
-            exit={{ opacity: 0, y: -100 }}
-            className="flex flex-col gap-4 items-center justify-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1, transition: { delay: 0.5 } }}
+            exit={{ opacity: 0 }}
+            className="w-full h-full flex flex-col gap-4 items-center justify-center bg-zinc-950/50 backdrop-blur-xs"
           >
             <h1 className="text-4xl">{t("components.loader.title")}</h1>
             <p className="text-xl">{t("components.loader.desc")}</p>

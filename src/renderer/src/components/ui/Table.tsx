@@ -1,5 +1,6 @@
+import { TABLEBODY_VARIANTS, TABLEROW_VARIANTS } from "@renderer/utils/animateVariants"
 import clsx from "clsx"
-import { AnimatePresence, motion, Variants } from "motion/react"
+import { AnimatePresence, motion } from "motion/react"
 
 /**
  * Table external wrapper.
@@ -39,15 +40,6 @@ export function TableHeadRow({ children, className }: { children: React.ReactNod
   return <li className={clsx("flex border-l-4 border-transparent", className)}>{children}</li>
 }
 
-const TABLEBODY_VARIANTS: Variants = {
-  animate: {
-    transition: {
-      delayChildren: 0.1,
-      staggerChildren: 0.05
-    }
-  }
-}
-
 /**
  * Table body.
  *
@@ -62,12 +54,6 @@ export function TableBody({ children, className }: { children: React.ReactNode; 
       <AnimatePresence>{children}</AnimatePresence>
     </motion.ul>
   )
-}
-
-const TABLEROW_VARIANTS: Variants = {
-  initial: { opacity: 0 },
-  animate: { opacity: 1 },
-  exit: { opacity: 0 }
 }
 
 /**

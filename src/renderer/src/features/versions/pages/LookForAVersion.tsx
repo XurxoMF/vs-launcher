@@ -18,6 +18,7 @@ import {
   FormGroupWrapper
 } from "@renderer/components/ui/FormComponents"
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
+import { PiFloppyDiskBackFill, PiXBold } from "react-icons/pi"
 
 function LookForAVersion(): JSX.Element {
   const { t } = useTranslation()
@@ -81,6 +82,7 @@ function LookForAVersion(): JSX.Element {
                       }
                     }}
                     title={t("generic.browse")}
+                    className="px-2 py-1"
                   >
                     {t("generic.browse")}
                   </FormButton>
@@ -101,13 +103,13 @@ function LookForAVersion(): JSX.Element {
           </FormGroupWrapper>
         </FromWrapper>
 
-        <ButtonsWrapper>
-          <FormButton onClick={handleAddVersion} title={t("generic.add")}>
-            {t("generic.add")}
-          </FormButton>
-          <FormLinkButton to="/versions" title={t("generic.cancel")}>
-            {t("generic.cancel")}
+        <ButtonsWrapper className="text-lg">
+          <FormLinkButton to="/versions" title={t("generic.cancel")} className="p-2">
+            <PiXBold />
           </FormLinkButton>
+          <FormButton onClick={handleAddVersion} title={t("generic.add")} className="p-2">
+            <PiFloppyDiskBackFill />
+          </FormButton>
         </ButtonsWrapper>
       </div>
     </ScrollableContainer>

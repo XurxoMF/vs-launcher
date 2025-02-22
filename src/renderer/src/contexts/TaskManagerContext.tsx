@@ -56,9 +56,33 @@ export const initialState: TaskType[] = []
 
 export interface TaskContextType {
   tasks: TaskType[]
-  startDownload(name: string, desc: string, url: string, outputPath: string, fileName: string, onFinish: (status: boolean, path: string, error: Error | null) => void): Promise<void>
-  startExtract(name: string, desc: string, filePath: string, outputPath: string, deleteZip: boolean, onFinish: (status: boolean, error: Error | null) => void): Promise<void>
-  startCompress(name: string, desc: string, inputPath: string, outputPath: string, backupName: string, onFinish: (status: boolean, error: Error | null) => void): Promise<void>
+  startDownload(
+    name: string,
+    desc: string,
+    notifications: "all" | "start" | "end" | "none",
+    url: string,
+    outputPath: string,
+    fileName: string,
+    onFinish: (status: boolean, path: string, error: Error | null) => void
+  ): Promise<void>
+  startExtract(
+    name: string,
+    desc: string,
+    notifications: "all" | "start" | "end" | "none",
+    filePath: string,
+    outputPath: string,
+    deleteZip: boolean,
+    onFinish: (status: boolean, error: Error | null) => void
+  ): Promise<void>
+  startCompress(
+    name: string,
+    desc: string,
+    notifications: "all" | "start" | "end" | "none",
+    inputPath: string,
+    outputPath: string,
+    backupName: string,
+    onFinish: (status: boolean, error: Error | null) => void
+  ): Promise<void>
   removeTask(id: string): void
 }
 
@@ -95,7 +119,15 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }): JSX.E
     }
   }, [])
 
-  async function startDownload(name: string, desc: string, url: string, outputPath: string, fileName: string, onFinish: (status: boolean, path: string, error: Error | null) => void): Promise<void> {
+  async function startDownload(
+    name: string,
+    desc: string,
+    notifications: "all" | "start" | "end" | "none",
+    url: string,
+    outputPath: string,
+    fileName: string,
+    onFinish: (status: boolean, path: string, error: Error | null) => void
+  ): Promise<void> {
     const id = uuidv4()
 
     try {
@@ -104,11 +136,11 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }): JSX.E
       tasksDispatch({ type: ACTIONS.ADD_TASK, payload: { id, name, desc, type: "download", progress: 0, status: "pending" } })
 
       window.api.utils.logMessage("info", `[component] [TaskManager] [${id}] Downloading ${url}...`)
-      addNotification(t("notifications.body.downloading", { downloadName: name }), "info")
+      if (notifications === "all" || notifications === "start") addNotification(t("notifications.body.downloading", { downloadName: name }), "info")
       const downloadedFile = await window.api.pathsManager.downloadOnPath(id, url, outputPath, fileName)
 
       window.api.utils.logMessage("info", `[component] [TaskManager] [${id}] Downloaded ${url} to ${downloadedFile}`)
-      addNotification(t("notifications.body.downloaded", { downloadName: name }), "success")
+      if (notifications === "all" || notifications === "end") addNotification(t("notifications.body.downloaded", { downloadName: name }), "success")
       onFinish(true, downloadedFile, null)
     } catch (err) {
       window.api.utils.logMessage("error", `[component] [TaskManager] [${id}] Error downloading ${url}: ${err}`)
@@ -120,7 +152,15 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }): JSX.E
     }
   }
 
-  async function startExtract(name: string, desc: string, filePath: string, outputPath: string, deleteZip: boolean, onFinish: (status: boolean, error: Error | null) => void): Promise<void> {
+  async function startExtract(
+    name: string,
+    desc: string,
+    notifications: "all" | "start" | "end" | "none",
+    filePath: string,
+    outputPath: string,
+    deleteZip: boolean,
+    onFinish: (status: boolean, error: Error | null) => void
+  ): Promise<void> {
     const id = uuidv4()
 
     try {
@@ -129,7 +169,7 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }): JSX.E
       tasksDispatch({ type: ACTIONS.ADD_TASK, payload: { id, name, desc, type: "extract", progress: 0, status: "pending" } })
 
       window.api.utils.logMessage("info", `[component] [TaskManager] [${id}] Extracting ${filePath}...`)
-      addNotification(t("notifications.body.extracting", { extractName: name }), "info")
+      if (notifications === "all" || notifications === "start") addNotification(t("notifications.body.extracting", { extractName: name }), "info")
       const result = await window.api.pathsManager.extractOnPath(id, filePath, outputPath, deleteZip)
 
       if (!result) throw new Error("Extraction failed")
@@ -137,7 +177,7 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }): JSX.E
       window.api.pathsManager.changePerms([outputPath], 0o755)
 
       window.api.utils.logMessage("info", `[component] [TaskManager] [${id}] Extracted ${filePath} to ${outputPath}`)
-      addNotification(t("notifications.body.extracted", { extractName: name }), "success")
+      if (notifications === "all" || notifications === "end") addNotification(t("notifications.body.extracted", { extractName: name }), "success")
       onFinish(true, null)
     } catch (err) {
       window.api.utils.logMessage("error", `[component] [TaskManager] [${id}] Error extracting ${filePath}: ${err}`)
@@ -149,7 +189,15 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }): JSX.E
     }
   }
 
-  async function startCompress(name: string, desc: string, inputPath: string, outputPath: string, backupName: string, onFinish: (status: boolean, error: Error | null) => void): Promise<void> {
+  async function startCompress(
+    name: string,
+    desc: string,
+    notifications: "all" | "start" | "end" | "none",
+    inputPath: string,
+    outputPath: string,
+    backupName: string,
+    onFinish: (status: boolean, error: Error | null) => void
+  ): Promise<void> {
     const id = uuidv4()
 
     try {
@@ -158,13 +206,13 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }): JSX.E
       tasksDispatch({ type: ACTIONS.ADD_TASK, payload: { id, name, desc, type: "compress", progress: 0, status: "pending" } })
 
       window.api.utils.logMessage("info", `[component] [TaskManager] [${id}] Compressing ${inputPath}...`)
-      addNotification(t("notifications.body.compressing", { compressName: name }), "info")
+      if (notifications === "all" || notifications === "start") addNotification(t("notifications.body.compressing", { compressName: name }), "info")
       const result = await window.api.pathsManager.compressOnPath(id, inputPath, outputPath, backupName)
 
       if (!result) throw new Error("Compression failed")
 
       window.api.utils.logMessage("info", `[component] [TaskManager] [${id}] Compressed ${inputPath} to ${outputPath}`)
-      addNotification(t("notifications.body.compressed", { compressName: name }), "success")
+      if (notifications === "all" || notifications === "end") addNotification(t("notifications.body.compressed", { compressName: name }), "success")
       onFinish(true, null)
     } catch (err) {
       window.api.utils.logMessage("error", `[component] [TaskManager] [${id}] Error compressing ${inputPath}: ${err}`)

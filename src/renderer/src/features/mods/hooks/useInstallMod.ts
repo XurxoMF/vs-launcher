@@ -40,6 +40,7 @@ export function useInstallMod(): (
     startDownload(
       t("features.mods.modTaskName", { name: mod.name, version: `v${version.modversion}`, installation: installation.name }),
       t("features.mods.modDownloadDesc", { name: mod.name, version: `v${version.modversion}`, installation: installation.name }),
+      "end",
       version.mainfile,
       installPath,
       `${version.modidstr}-${version.modversion}`,

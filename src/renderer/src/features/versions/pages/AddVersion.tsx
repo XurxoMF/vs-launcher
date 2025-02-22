@@ -83,6 +83,7 @@ function AddVersion(): JSX.Element {
     startDownload(
       t("features.versions.gameVersionTaskName", { version: newGameVersion.version }),
       t("features.versions.gameVersionDownloadDesc", { version: newGameVersion.version }),
+      "all",
       url,
       folder,
       version.version,
@@ -92,6 +93,7 @@ function AddVersion(): JSX.Element {
         startExtract(
           t("features.versions.gameVersionTaskName", { version: newGameVersion.version }),
           t("features.versions.gameVersionExtractDesc", { version: newGameVersion.version }),
+          "all",
           path,
           folder,
           true,
@@ -196,6 +198,7 @@ function AddVersion(): JSX.Element {
                       }
                     }}
                     title={t("generic.browse")}
+                    className="px-2 py-1"
                   >
                     {t("generic.browse")}
                   </FormButton>
@@ -206,7 +209,7 @@ function AddVersion(): JSX.Element {
           </FormGroupWrapper>
         </FromWrapper>
 
-        <ButtonsWrapper>
+        <ButtonsWrapper className="text-lg">
           <FormLinkButton to="/versions" title={t("generic.goBack")} className="p-2">
             <PiXBold />
           </FormLinkButton>

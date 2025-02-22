@@ -1,12 +1,12 @@
 import { useTranslation, Trans } from "react-i18next"
 import { PiCaretUpBold } from "react-icons/pi"
+import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from "@headlessui/react"
 import { AnimatePresence, motion } from "motion/react"
 import { Link } from "react-router-dom"
 import clsx from "clsx"
 
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
 
-import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from "@headlessui/react"
 import { DROPUP_MENU_ITEM_VARIANTS, DROPUP_MENU_WRAPPER_VARIANTS } from "@renderer/utils/animateVariants"
 
 function InstallationsDropdownMenu(): JSX.Element {

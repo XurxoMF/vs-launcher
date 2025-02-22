@@ -137,7 +137,7 @@ function MainMenu(): JSX.Element {
 
       <div className="flex flex-col gap-2">
         <InstallationsDropdownMenu />
-        <NormalButton title={t("generic.play")} onClick={PlayHandler} className="w-full h-14 bg-vs/75 shadow-sm shadow-zinc-950/50 hover:shadow-none">
+        <NormalButton title={t("generic.play")} onClick={PlayHandler} className="w-full h-14 bg-vs shadow-sm shadow-zinc-950/50 hover:shadow-none">
           <p className="text-2xl">{t("generic.play")}</p>
         </NormalButton>
       </div>
