@@ -16,7 +16,7 @@ If you already have the game installed you just need to tell VS Launcher where i
 **Versions** are the base game files like assets, code, executables... By default this ones can be found on the next folder:
 
 * **Windows:** `C:/Users/YourUsername/AppData/Roaming/Vintagestory`
-* **Linux:** The folder where you extracted the `.tat.gz`
+* **Linux:** The folder where you extracted the `.tat.gz` or `/home/YourUsername/.local/share/Vintagestory/`
 
 {% hint style="warning" %}
 Don't confuse it with `VintagestoryData`, that's the Installation(data) folder.
@@ -33,7 +33,7 @@ Add an already installed version | VS Launcher Guides
 If you already played the game before then you'll have a data folder with all your worlds, configs, maps, mods... if don't the continue the guide [here](https://vsldocs.xurxomf.xyz/get-started/usage/game-client/install-vintage-story#add-an-installation). By default this ones can be found on the next folder:
 
 * **Windows:** `C:/Users/YourUsername/AppData/Roaming/VintagestoryData`
-* **Linux:** _I'll check where it is by default and edit this, I've never played on Linux without VS Launcher xD_
+* **Linux:** `/home/YourUsername/.config/VintagestoryData/`
 
 {% hint style="warning" %}
 Don't confuse it with `Vintagestory`, that's the Version(base game files) folder.
