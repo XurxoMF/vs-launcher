@@ -99,8 +99,7 @@
       "listWithErrorsTitle": "Mods con errores",
       "modsWithErrorsDescription": "¡Los siguientes mods tienen algunos errores por lo que VS Lanzador no puede identificarlos!",
       "modsWithErrorsDescriptionReport": "¡Por favor, reporta este incidente en la página <issues /> o en nuestro servidor de <discord />!",
-      "someModsCouldNotBeParsed": "¡Algunos de los mods instalados no pudieron ser analizados! ¡Ve a la página Gestionar Mods de la Instalación que tienes seleccionada para ver los mods con errores!",
-      "manageTitle": "Gestionar Mods",
+      "someModsCouldNotBeParsed": "¡No se pudieron identificar algunos de los mods instalados! ¡Haz clic aquí para verlos!",
       "noModSelected": "¡No hay ningún mod seleccionado!",
       "noVersionSelected": "¡No ninguna versión del mod seleccionada!",
       "onlyFavMods": "Mostrar solo los mods favoritos"

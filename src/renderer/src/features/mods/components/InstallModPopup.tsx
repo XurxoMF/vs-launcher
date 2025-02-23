@@ -1,7 +1,10 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { PiDownloadFill, PiArrowClockwiseFill } from "react-icons/pi"
 import { FiLoader } from "react-icons/fi"
+
+import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 
 import { useInstallMod } from "../hooks/useInstallMod"
 import { useQueryMod } from "../hooks/useQueryMod"
@@ -21,6 +24,8 @@ function InstallModPopup({
   installation: InstallationType
 }): JSX.Element {
   const { t } = useTranslation()
+  const goTo = useNavigate()
+  const { addNotification } = useNotificationsContext()
 
   const installMod = useInstallMod()
   const queryMod = useQueryMod()
@@ -28,6 +33,8 @@ function InstallModPopup({
 
   const [downloadableModToInstall, setDownloadableModToInstall] = useState<DownloadableMod | null>(null)
   const [installedMods, setInstalledMods] = useState<InstalledModType[]>([])
+
+  const installationsWithNotifiedErrors = useRef<string[]>([])
 
   const firstTimeGettingModsListMods = useRef(true)
   useEffect(() => {
@@ -46,7 +53,10 @@ function InstallModPopup({
 
   async function manageGetInstalledMods(): Promise<void> {
     const mods = await getInstalledMods({ path: installation.path })
-    // if (mods.errors.length > 0) addNotification(t("features.mods.someModsCouldNotBeParsed"), "warning")
+    if (mods.errors.length > 0 && !installationsWithNotifiedErrors.current.some((iid) => iid === installation.id)) {
+      addNotification(t("features.mods.someModsCouldNotBeParsed"), "warning", { onClick: () => goTo(`/installations/mods/${installation.id}`) })
+      installationsWithNotifiedErrors.current.push(installation.id)
+    }
     setInstalledMods(mods.mods)
   }
 

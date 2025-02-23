@@ -112,7 +112,6 @@
       "installationPopupDesc": "Lista delle versioni della mod {{modName}}",
       "listWithErrorsTitle": "Mods con errori",
       "manageMods": "Gestisci mods",
-      "manageTitle": "Gestisci mods",
       "modSuccessfullyDeleted": "Mod eliminata con successo!",
       "modDownloadDesc": "Scaricando la mod {{name}} {{version}} in {{installation}}!",
       "modTaskName": "Mod {{name}} {{version}} in {{installation}}",

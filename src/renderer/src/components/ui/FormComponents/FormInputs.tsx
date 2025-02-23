@@ -187,7 +187,7 @@ export function FormToggle({ value, title, onChange }: { className?: string; val
       checked={value}
       onChange={onChange}
       title={title}
-      className="group relative flex h-fit w-12 cursor-pointer backdrop-blur-xs rounded-full border border-zinc-400/5 bg-zinc-950/50 p-1 shadow-sm shadow-zinc-950/50 hover:shadow-none transition-colors duration-100 ease-in-out focus:outline-hidden data-focus:outline-1 data-focus:outline-white data-checked:bg-vs"
+      className="group relative flex h-fit w-12 enabled:cursor-pointer backdrop-blur-xs rounded-full border border-zinc-400/5 bg-zinc-950/50 p-1 enabled:shadow-sm enabled:shadow-zinc-950/50 enabled:hover:shadow-none transition-colors duration-100 ease-in-out focus:outline-hidden data-focus:outline-1 data-focus:outline-white data-checked:bg-vs"
     >
       <span
         aria-hidden="true"

@@ -90,15 +90,13 @@ function ListMods(): JSX.Element {
   return (
     <ScrollableContainer>
       <div className="min-h-full flex flex-col justify-center gap-6">
-        <h1 className="text-3xl text-center font-bold">{t("features.mods.manageTitle")}</h1>
-
         {insatlledModsWithErrors.length > 0 && (
           <ListWrapper className="max-w-[800px] w-full">
             <ListGroup>
               <div className="flex flex-col gap-1">
                 <h2 className="text-2xl text-center font-bold">{t("features.mods.listWithErrorsTitle")}</h2>
                 <p className="text-zinc-400 text-center">{t("features.mods.modsWithErrorsDescription")}</p>
-                <p className="text-zinc-400 text-center">
+                <p className="text-zinc-400 text-center flex gap-1 items-center justify-center">
                   <Trans
                     i18nKey="features.mods.modsWithErrorsDescriptionReport"
                     components={{
@@ -131,7 +129,7 @@ function ListMods(): JSX.Element {
                 </p>
               </div>
               {insatlledModsWithErrors.map((iModE) => (
-                <ListItem key={iModE.zipname}>
+                <ListItem key={iModE.zipname + iModE.zipname}>
                   <div className="flex gap-4 p-2 justify-between items-center whitespace-nowrap bg-red-700/15 duration-200">
                     <div className="shrink-0">
                       <div className="w-16 h-16 bg-zinc-950/50 rounded-sm shadow-sm shadow-zinc-950" />
@@ -191,7 +189,7 @@ function ListMods(): JSX.Element {
           ) : (
             <ListGroup>
               {installedMods.map((iMod) => (
-                <ListItem key={iMod.modid}>
+                <ListItem key={iMod.modid + iMod.path}>
                   <div className="flex gap-4 p-2 justify-between items-center whitespace-nowrap">
                     <div className="shrink-0">
                       {iMod._image ? (

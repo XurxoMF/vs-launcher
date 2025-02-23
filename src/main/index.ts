@@ -2,7 +2,7 @@ import { app, shell, BrowserWindow, protocol, net } from "electron"
 import { join } from "path"
 import { electronApp, optimizer, is } from "@electron-toolkit/utils"
 import { autoUpdater } from "electron-updater"
-import log from "electron-log"
+import Logger from "electron-log"
 import { pathToFileURL } from "url"
 
 const customUserDataPath = join(app.getPath("appData"), "VSLauncher")
@@ -16,8 +16,14 @@ import { IPC_CHANNELS } from "@src/ipc/ipcChannels"
 
 import "@src/ipc"
 
-autoUpdater.logger = log
+autoUpdater.logger = Logger
 autoUpdater.logger.info("Logger configured for auto-updater")
+
+Logger.transports.file.resolvePathFn = (variables, message): string => {
+  const logsPath = join(variables.userData, "Logs")
+  if (!message) return join(logsPath, "default.log")
+  return join(logsPath, `${message.level}.log`)
+}
 
 let mainWindow: BrowserWindow
 

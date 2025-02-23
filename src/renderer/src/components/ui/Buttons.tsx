@@ -73,7 +73,7 @@ export function LinkButton({
   type?: "normal" | "error" | "warn" | "success"
 }): JSX.Element {
   return (
-    <Link to={to} title={title} className={clsx("flex items-center justify-center rounded-sm cursor-pointer", type && COLOR_BY_TYPE[type], className)}>
+    <Link to={to} title={title} className={clsx("flex items-center justify-center rounded-sm enabled:cursor-pointer", type && COLOR_BY_TYPE[type], className)}>
       {children}
     </Link>
   )

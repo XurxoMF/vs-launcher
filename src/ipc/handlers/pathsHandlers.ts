@@ -46,6 +46,16 @@ ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.CHECK_PATH_EXISTS, (_event, path: stri
   return fse.existsSync(path)
 })
 
+ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.ENSURE_PATH_EXISTS, (_event, path: string): boolean => {
+  try {
+    fse.ensureDirSync(path)
+  } catch (err) {
+    logMessage("error", `[ipcMain] [ensure-path-exists] Path ${path} could not be created: ${err}`)
+    return false
+  }
+  return true
+})
+
 ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.OPEN_PATH_ON_FILE_EXPLORER, async (_event, path: string): Promise<string> => {
   return await shell.openPath(path)
 })

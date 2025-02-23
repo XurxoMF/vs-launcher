@@ -1,6 +1,6 @@
 import Logger from "electron-log"
 
-export const logMessage = (mode: ErrorTypes, message: string): void => {
+export function logMessage(mode: ErrorTypes, message: string): void {
   switch (mode) {
     case "error":
       Logger.error(`${message}`)

@@ -47,10 +47,10 @@ export async function saveConfig(config: ConfigType): Promise<boolean> {
       })
     )
     await fse.writeJSON(configPath, cleanedConfig)
-    logMessage("info", `[config] Config saved at ${configPath}`)
     return true
   } catch (err) {
-    logMessage("error", `[config] Error saving config at ${configPath}: ${err}`)
+    logMessage("error", `[back] [config] [config/configManager.ts] [saveConfig] Error saving config at ${configPath}.`)
+    logMessage("debug", `[back] [config] [config/configManager.ts] [saveConfig] Error saving config at ${configPath}: ${err}`)
     return false
   }
 }
@@ -62,7 +62,8 @@ export async function getConfig(): Promise<ConfigType> {
     const ensuredConfig = ensureConfigProperties(config)
     return ensuredConfig
   } catch (err) {
-    logMessage("error", `[config] Error getting config at ${configPath}. Using default config.`)
+    logMessage("error", `[back] [config] [config/configManager.ts] [getConfig] Error getting config at ${configPath}. Using default config.`)
+    logMessage("debug", `[back] [config] [config/configManager.ts] [getConfig] Error getting config at ${configPath}: ${err}`)
     await saveConfig(defaultConfig)
     return defaultConfig
   }
@@ -71,14 +72,16 @@ export async function getConfig(): Promise<ConfigType> {
 export async function ensureConfig(): Promise<boolean> {
   configPath = join(app.getPath("userData"), "config.json")
   try {
+    logMessage("info", `[back] [config] [config/configManager.ts] [ensureConfig] Looking for config at ${configPath}.`)
     if (!(await fse.pathExists(configPath))) {
-      logMessage("info", `[config] Config not found at ${configPath}. Creating default config.`)
+      logMessage("info", `[back] [config] [config/configManager.ts] [ensureConfig] Config not found. Creating default config.`)
       return await saveConfig(defaultConfig)
     }
-    logMessage("info", `[config] Config found at ${configPath}`)
+    logMessage("info", `[back] [config] [config/configManager.ts] [ensureConfig] Config found.`)
     return true
   } catch (err) {
-    logMessage("error", `[config] Error ensuring config at ${configPath}: ${err}`)
+    logMessage("error", `[back] [config] [config/configManager.ts] [ensureConfig] Error ensuring config.`)
+    logMessage("error", `[back] [config] [config/configManager.ts] [ensureConfig] Error ensuring config at ${configPath}: ${err}`)
     return false
   }
 }

@@ -73,6 +73,7 @@ function AddInslallation(): JSX.Element {
       }
 
       configDispatch({ type: CONFIG_ACTIONS.ADD_INSTALLATION, payload: newInstallation })
+      window.api.pathsManager.ensurePathExists(folder)
       addNotification(t("features.installations.installationSuccessfullyAdded"), "success")
       navigate("/installations")
     } catch (error) {
