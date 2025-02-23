@@ -1,6 +1,8 @@
 import { MutableRefObject, ReactNode, useEffect, useState } from "react"
 import clsx from "clsx"
 
+// Example of use on ListMods page.
+
 export function StickyMenuWrapper({ children, scrollRef, className }: { children: ReactNode; scrollRef: MutableRefObject<HTMLDivElement | null>; className?: string }): JSX.Element {
   const [scrTop, setScrTop] = useState(0)
 

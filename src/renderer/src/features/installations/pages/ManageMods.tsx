@@ -8,6 +8,7 @@ import { useConfigContext } from "@renderer/features/config/contexts/ConfigConte
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 
 import { useCountMods } from "@renderer/features/mods/hooks/useCountMods"
+import { useGetInstalledMods } from "@renderer/features/mods/hooks/useGetInstalledMods"
 
 import { ListGroup, ListItem, ListWrapper } from "@renderer/components/ui/List"
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
@@ -15,6 +16,7 @@ import PopupDialogPanel from "@renderer/components/ui/PopupDialogPanel"
 import InstallModPopup from "@renderer/features/mods/components/InstallModPopup"
 import { LinkButton, NormalButton } from "@renderer/components/ui/Buttons"
 import { FormButton } from "@renderer/components/ui/FormComponents"
+import { useQueryMod } from "@renderer/features/mods/hooks/useQueryMod"
 
 function ListMods(): JSX.Element {
   const { t } = useTranslation()
@@ -22,6 +24,8 @@ function ListMods(): JSX.Element {
   const { addNotification } = useNotificationsContext()
 
   const countMods = useCountMods()
+  const getInstalledMods = useGetInstalledMods()
+  const queryMod = useQueryMod()
 
   const { id } = useParams()
 
@@ -38,41 +42,25 @@ function ListMods(): JSX.Element {
     if (!firstTimeGettingInstallationModsInstallationModsManager.current) return
     firstTimeGettingInstallationModsInstallationModsManager.current = false
     ;(async (): Promise<void> => {
-      await getMods()
+      await getAndQueryMods()
     })()
   }, [])
 
-  async function getMods(): Promise<void> {
+  async function getAndQueryMods(): Promise<void> {
     setGettingMods(true)
-    const path = await window.api.pathsManager.formatPath([config.installations.find((i) => i.id === id)!.path, "Mods"])
-    const mods = await window.api.modsManager.getInstalledMods(path)
+
+    const mods = await getInstalledMods({ path: config.installations.find((i) => i.id === id)!.path })
 
     await Promise.all(
       mods.mods.map(async (mod) => {
-        try {
-          const versions = await queryMod(mod.modid)
-          mod._mod = versions
-        } catch (err) {
-          window.api.utils.logMessage("error", `[component] [ManageMods(installations)] Error fetching mod versions: ${err}`)
-          mod._mod = undefined
-        }
+        const versions = await queryMod({ modid: mod.modid })
+        mod._mod = versions
       })
     )
 
     setInstalledModsWithErrors(mods.errors)
     setInstalledMods(mods.mods)
     setGettingMods(false)
-  }
-
-  async function queryMod(modid: string): Promise<DownloadableMod | undefined> {
-    try {
-      const res = await window.api.netManager.queryURL(`https://mods.vintagestory.at/api/mod/${modid}`)
-      const data = await JSON.parse(res)
-      return data["mod"]
-    } catch (err) {
-      window.api.utils.logMessage("error", `[component] [ManageMods] Error fetching ${modid} mod versions: ${err}`)
-      return
-    }
   }
 
   async function DeleteModHandler(): Promise<void> {
@@ -88,7 +76,7 @@ function ListMods(): JSX.Element {
       const deleted = await window.api.pathsManager.deletePath(modToDelete.path)
       if (!deleted) throw "There was an error deleting the mod!"
 
-      await getMods()
+      await getAndQueryMods()
       countMods()
 
       addNotification(t("features.mods.modSuccessfullyDeleted"), "success")

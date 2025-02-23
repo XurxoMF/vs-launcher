@@ -16,7 +16,7 @@ import {
   PiArrowFatUpFill,
   PiMagnifyingGlassFill
 } from "react-icons/pi"
-import { FiLoader } from "react-icons/fi"
+import { FiExternalLink, FiLoader } from "react-icons/fi"
 import { AnimatePresence, motion } from "motion/react"
 import {
   Combobox,
@@ -35,7 +35,7 @@ import {
 } from "@headlessui/react"
 import clsx from "clsx"
 
-import { useConfigContext } from "@renderer/features/config/contexts/ConfigContext"
+import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 
 import { useQueryMods } from "../hooks/useQueryMods"
@@ -44,14 +44,14 @@ import { FormButton, FormInputText } from "@renderer/components/ui/FormComponent
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
 import { GridGroup, GridItem, GridWrapper } from "@renderer/components/ui/Grid"
 import InstallModPopup from "../components/InstallModPopup"
-
-import { DROPDOWN_MENU_ITEM_VARIANTS, DROPDOWN_MENU_WRAPPER_VARIANTS } from "@renderer/utils/animateVariants"
 import { NormalButton } from "@renderer/components/ui/Buttons"
 import { StickyMenuWrapper, StickyMenuGroup } from "@renderer/components/ui/StickyMenu"
 
+import { DROPDOWN_MENU_ITEM_VARIANTS, DROPDOWN_MENU_WRAPPER_VARIANTS } from "@renderer/utils/animateVariants"
+
 function ListMods(): JSX.Element {
   const { t } = useTranslation()
-  const { config } = useConfigContext()
+  const { config, configDispatch } = useConfigContext()
   const { addNotification } = useNotificationsContext()
 
   const queryMods = useQueryMods()
@@ -59,6 +59,7 @@ function ListMods(): JSX.Element {
   const [modsList, setModsList] = useState<DownloadableModOnList[]>([])
   const [visibleMods, setVisibleMods] = useState<number>(20)
 
+  const [onlyFav, setOnlyFav] = useState<boolean>(false)
   const [textFilter, setTextFilter] = useState<string>("")
   const [authorFilter, setAuthorFilter] = useState<DownloadableModAuthor>({ userid: "", name: "" })
   const [versionsFilter, setVersionsFilter] = useState<DownloadableModGameVersion[]>([])
@@ -105,7 +106,7 @@ function ListMods(): JSX.Element {
     return (): void => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current)
     }
-  }, [textFilter, authorFilter, versionsFilter, orderBy, orderByOrder])
+  }, [onlyFav, textFilter, authorFilter, versionsFilter, orderBy, orderByOrder])
 
   async function triggerQueryMods(): Promise<void> {
     setSearching(true)
@@ -124,7 +125,12 @@ function ListMods(): JSX.Element {
       }
     })
 
-    setModsList(mods)
+    if (onlyFav) {
+      const onlyFavMods = mods.filter((mod) => config.favMods.some((fm) => fm === mod.modid))
+      setModsList(onlyFavMods)
+    } else {
+      setModsList(mods)
+    }
   }
 
   function clearFilters(): void {
@@ -143,6 +149,10 @@ function ListMods(): JSX.Element {
             <AuthorFilter authorFilter={authorFilter} setAuthorFilter={setAuthorFilter} />
 
             <VersionsFilter versionsFilter={versionsFilter} setVersionsFilter={setVersionsFilter} />
+
+            <FormButton title={t("features.mods.onlyFavMods")} onClick={() => setOnlyFav((prev) => !prev)} className="w-8 h-8 text-lg" type={onlyFav ? "warn" : "normal"}>
+              <PiStarFill />
+            </FormButton>
 
             <OrderFilter orderBy={orderBy} setOrderBy={setOrderBy} orderByOrder={orderByOrder} setOrderByOrder={setOrderByOrder} />
 
@@ -194,16 +204,31 @@ function ListMods(): JSX.Element {
                   <div className="relative w-full aspect-video">
                     <img src={mod.logo ? `${mod.logo}` : "https://mods.vintagestory.at/web/img/mod-default.png"} alt={mod.name} className="w-full h-full object-cover object-center" />
 
-                    <div className="absolute w-full top-0 flex items-center justify-center p-1 opacity-0 group-hover:opacity-100 duration-200">
+                    <div className="absolute w-full top-0 flex items-center justify-between p-1">
+                      <FormButton
+                        title={t("generic.favorite")}
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          if (config.favMods.some((modid) => modid === mod.modid)) {
+                            configDispatch({ type: CONFIG_ACTIONS.REMOVE_FAV_MOD, payload: { modid: mod.modid } })
+                          } else {
+                            configDispatch({ type: CONFIG_ACTIONS.ADD_FAV_MOD, payload: { modid: mod.modid } })
+                          }
+                        }}
+                        className={clsx("p-1 text-lg", !config.favMods.some((modid) => modid === mod.modid) && "opacity-0 group-hover:opacity-100 duration-200")}
+                        type={config.favMods.some((modid) => modid === mod.modid) ? "warn" : "normal"}
+                      >
+                        <PiStarFill />
+                      </FormButton>
                       <FormButton
                         title={t("features.mods.openOnTheModDB")}
                         onClick={(e) => {
                           e.stopPropagation()
                           window.api.utils.openOnBrowser(`https://mods.vintagestory.at/show/mod/${mod.assetid}`)
                         }}
-                        className="px-2 py-1 backdrop-blur-sm bg-zinc-950/50 text-sm"
+                        className="p-1 text-lg opacity-0 group-hover:opacity-100 duration-200"
                       >
-                        {t("features.mods.openOnTheModDB")}
+                        <FiExternalLink />
                       </FormButton>
                     </div>
                   </div>

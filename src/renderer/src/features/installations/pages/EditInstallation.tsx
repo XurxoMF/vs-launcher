@@ -173,7 +173,7 @@ function EditInslallation(): JSX.Element {
 
                   <FormBody>
                     <FormFieldGroupWithDescription alignment="x">
-                      <FormToggle value={backupsAuto} onChange={setBackupsAuto} />
+                      <FormToggle title={t("features.backups.backupsAuto")} value={backupsAuto} onChange={setBackupsAuto} />
                       <FormFieldDescription content={t("features.backups.backupsAuto")} />
                     </FormFieldGroupWithDescription>
                   </FormBody>
@@ -215,7 +215,7 @@ function EditInslallation(): JSX.Element {
           <FormLinkButton to="/installations" title={t("generic.goBack")} className="p-2">
             <PiXBold />
           </FormLinkButton>
-          <FormButton onClick={handleEditInstallation} title={t("generic.add")} className="p-2">
+          <FormButton onClick={handleEditInstallation} title={t("generic.save")} className="p-2">
             <PiFloppyDiskBackFill />
           </FormButton>
         </ButtonsWrapper>

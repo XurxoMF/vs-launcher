@@ -179,14 +179,14 @@ export function FormInputNumberNoteditable({
  *
  * @param {object} props - The component props.
  * @param {number} props.value - The current value of the input field.
- * @param {string} [props.placeholder] - Placeholder text to display when the input is empty.
  * @returns {JSX.Element} A JSX element representing the input field with specified styles and validation.
  */
-export function FormToggle({ value, onChange }: { className?: string; value: boolean; onChange: (e: boolean) => void }): JSX.Element {
+export function FormToggle({ value, title, onChange }: { className?: string; value: boolean; title: string; onChange: (e: boolean) => void }): JSX.Element {
   return (
     <Switch
       checked={value}
       onChange={onChange}
+      title={title}
       className="group relative flex h-fit w-12 cursor-pointer backdrop-blur-xs rounded-full border border-zinc-400/5 bg-zinc-950/50 p-1 shadow-sm shadow-zinc-950/50 hover:shadow-none transition-colors duration-100 ease-in-out focus:outline-hidden data-focus:outline-1 data-focus:outline-white data-checked:bg-vs"
     >
       <span

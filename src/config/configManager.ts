@@ -7,16 +7,18 @@ import { logMessage } from "@src/utils/logManager"
  * VERSIONS LIST
  * 1.0: 0.0.1 -> 0.0.5
  * 1.1: 1.0.0
- * 1.2: 1.1.0
+ * 1.2: 1.1.0 -> 1.2.3
+ * 1.3: 1.3.0
  */
 const defaultConfig: ConfigType = {
-  version: 1.2,
+  version: 1.3,
   lastUsedInstallation: null,
   defaultInstallationsFolder: join(app.getPath("appData"), "VSLInstallations"),
   defaultVersionsFolder: join(app.getPath("appData"), "VSLGameVersions"),
   backupsFolder: join(app.getPath("appData"), "VSLBackups"),
   installations: [],
-  gameVersions: []
+  gameVersions: [],
+  favMods: []
 }
 
 const defaultInstallation: InstallationType = {
@@ -105,7 +107,8 @@ function ensureConfigProperties(config: ConfigType): ConfigType {
     defaultVersionsFolder: config.defaultVersionsFolder ?? defaultConfig.defaultVersionsFolder,
     backupsFolder: config.backupsFolder ?? defaultConfig.backupsFolder,
     installations,
-    gameVersions
+    gameVersions,
+    favMods: config.favMods ?? defaultConfig.favMods
   }
 
   return fixedConfig

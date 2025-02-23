@@ -32,6 +32,7 @@ declare global {
   type ConfigType = BasicConfigType & {
     installations: InstallationType[]
     gameVersions: GameVersionType[]
+    favMods: number[]
   } & Record<string, unknown>
 
   type InstalledModType = {

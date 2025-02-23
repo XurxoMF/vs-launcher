@@ -10,8 +10,6 @@
       "installationsTitle": "Instalaciones",
       "modsDesc": "Gestiona los mods instalados",
       "modsTitle": "Mods",
-      "newsDesc": "Noticias de VS Launcher",
-      "newsTitle": "Noticias",
       "versionsDesc": "Gestiona tus versiones del juego",
       "versionsTitle": "Versiones"
     },
@@ -68,7 +66,10 @@
       "startParamsLink": "Wiki de Vintage Story",
       "restoreBackup": "Restaurar copia de seguridad de la instalación",
       "installOnInstallation": "Instalar en la Instalación",
-      "updateOnInstallation": "Actualizar en la Instalación"
+      "updateOnInstallation": "Actualizar en la Instalación",
+      "addNewInstallation": "Añadir una nueva Instalación",
+      "dataFolder": "Carpeta de datos",
+      "name": "Nombre de Instalación"
     },
     "mods": {
       "modsCount": "{{count}} mods",
@@ -78,7 +79,6 @@
       "modsCount_other": "{{count}} mods",
       "modsCount_two": "{{count}} mods",
       "modsCount_zero": "{{count}} mods",
-      "listTitle": "Lista de mods",
       "noMatchingFilters": "¡No hay mods que coincidan con tus filtros!",
       "searching": "Buscando mods...",
       "areYouSureDelete": "¿Estás seguro de que quieres eliminar este mod?",
@@ -95,13 +95,15 @@
       "noModsFound": "¡No se encontraron mods!",
       "noModsInstalled": "¡No tienes mods instalados aquí! ¡Puedes instalar algunos en la página <link />!",
       "noVersionsFound": "¡No se encontraron versiones de ese mod!",
-      "updateMod": "Actualizar mod",
       "openOnTheModDB": "¡Abrir en la ModDB!",
       "listWithErrorsTitle": "Mods con errores",
       "modsWithErrorsDescription": "¡Los siguientes mods tienen algunos errores por lo que VS Lanzador no puede identificarlos!",
       "modsWithErrorsDescriptionReport": "¡Por favor, reporta este incidente en la página <issues /> o en nuestro servidor de <discord />!",
       "someModsCouldNotBeParsed": "¡Algunos de los mods instalados no pudieron ser analizados! ¡Ve a la página Gestionar Mods de la Instalación que tienes seleccionada para ver los mods con errores!",
-      "manageTitle": "Gestionar Mods"
+      "manageTitle": "Gestionar Mods",
+      "noModSelected": "¡No hay ningún mod seleccionado!",
+      "noVersionSelected": "¡No ninguna versión del mod seleccionada!",
+      "onlyFavMods": "Mostrar solo los mods favoritos"
     },
     "versions": {
       "areYouSureUninstall": "¿Estás seguro de que quieres desinstalar esta versión?",
@@ -133,7 +135,8 @@
       "noVersionsFoundDesc": "¡Instala una nueva en la página <link />!",
       "versionDeleting": "¡Esa versión está siendo eliminada!",
       "versionInstalling": "¡La versión {{version}} del juego está siendo instalanda. ¡Por favor, espera a que termine antes de jugar!",
-      "versionPlaying": "¡Ya estás jugando esa versión!"
+      "versionPlaying": "¡Ya estás jugando esa versión!",
+      "installNewVersion": "Instalar una nueva versión"
     },
     "config": {
       "title": "Ajustes",
@@ -163,7 +166,9 @@
       "deleteBackup": "Eliminar copia de seguridad",
       "deletingNotReversible": "La eliminaión no es reversible por lo que no podrás restaurar tus mundos, datos y otra información usando esta copia de seguridad nunca más.",
       "errorDeletingBackup": "¡Ha ocurrido un error eliminando la copia de seguridad!",
-      "errorMakingBackup": "¡Ha ocurrido un error mientras se hacía una copia de seguridad!"
+      "errorMakingBackup": "¡Ha ocurrido un error mientras se hacía una copia de seguridad!",
+      "backupsAmount": "Límite de backups",
+      "folderDoesntExists": "¡Esta instalación no tiene datos, por favor, juegua al menos una vez para generar los datos básicos!"
     },
     "servers": {}
   },
@@ -184,7 +189,6 @@
     "play": "Jugar",
     "releaseDate": "Fecha de lanzamiento",
     "save": "Guardar",
-    "source": "Fuente",
     "type": "Tipo",
     "uninstall": "Desinstalar",
     "version": "Versión",
@@ -208,7 +212,11 @@
     "actions": "Acciones",
     "authors": "Autores",
     "contributors": "Colaboradores",
-    "update": "Actualizar"
+    "update": "Actualizar",
+    "favorite": "Favorito",
+    "searching": "Buscando",
+    "tryMVL": "¿No te gusta VS Launcher? Prueba <link /> launcher!",
+    "waitingForChanges": "Esperando cambios"
   },
   "notifications": {
     "body": {
@@ -235,5 +243,8 @@
       "success": "Éxito",
       "warning": "Advertencia"
     }
+  },
+  "genetic": {
+    "goToTop": "Ir al principio"
   }
 }

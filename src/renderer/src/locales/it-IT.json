@@ -13,8 +13,6 @@
       "installationsTitle": "Installazioni",
       "modsDesc": "Gestisci le mods installate",
       "modsTitle": "Mods",
-      "newsDesc": "Novità del VS Launcher",
-      "newsTitle": "Novità",
       "versionsDesc": "Gestisci le tue versioni di gioco",
       "versionsTitle": "Versioni"
     },
@@ -57,7 +55,6 @@
       "backupsFolder": "Cartella dei backups",
       "defaultInstallationsFolder": "Cartella delle installazioni",
       "defaultVersionsFolder": "Cartella delle versioni",
-      "desc": "Configura VS Launcher",
       "title": "Impostazioni"
     },
     "generic": {
@@ -113,7 +110,6 @@
       "deletingNotReversible": "L'eliminazione non è reversibile quindi non potrai più recuperare le mod ma puoi sempre scaricarle di nuovo!",
       "installMod": "Installa mod",
       "installationPopupDesc": "Lista delle versioni della mod {{modName}}",
-      "listTitle": "Lista delle mods",
       "listWithErrorsTitle": "Mods con errori",
       "manageMods": "Gestisci mods",
       "manageTitle": "Gestisci mods",
@@ -137,8 +133,7 @@
       "noVersionsFound": "Nessuna versione di quella mod è stata trovata!",
       "openOnTheModDB": "Apri nel ModDB!",
       "searching": "Cercando mods...",
-      "someModsCouldNotBeParsed": "Alcune delle mods installate non possono essere analizzate! Vai nella pagina Gestisci Mods dell'Installazione selezionata per vedere le mods con errori! ",
-      "updateMod": "Aggiorna mod"
+      "someModsCouldNotBeParsed": "Alcune delle mods installate non possono essere analizzate! Vai nella pagina Gestisci Mods dell'Installazione selezionata per vedere le mods con errori! "
     },
     "versions": {
       "deleteWhilePlaying": "Non puoi eliminare una versione mentre ci stai giocando!",
@@ -205,10 +200,8 @@
     "order": "Ordina",
     "play": "Gioca",
     "releaseDate": "Data di Rilascio",
-    "reload": "Ricarica",
     "restore": "Ripristina",
     "save": "Salva",
-    "source": "Sorgente",
     "text": "Testo",
     "trending": "Popolari",
     "type": "Tipo",

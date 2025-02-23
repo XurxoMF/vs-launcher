@@ -203,7 +203,7 @@ function AddInslallation(): JSX.Element {
 
               <FormBody>
                 <FormFieldGroupWithDescription alignment="x">
-                  <FormToggle value={backupsAuto} onChange={setBackupsAuto} />
+                  <FormToggle title={t("features.backups.backupsAuto")} value={backupsAuto} onChange={setBackupsAuto} />
                   <FormFieldDescription content={t("features.backups.backupsAuto")} />
                 </FormFieldGroupWithDescription>
               </FormBody>

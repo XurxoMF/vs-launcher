@@ -5,7 +5,6 @@
     "cancel": "Cancel",
     "issues": "Issues",
     "guides": "Guides",
-    "source": "Source",
     "play": "Play",
     "openOnFileExplorer": "Open folder on the file explorer",
     "discard": "Discard",
@@ -41,10 +40,10 @@
     "authors": "Authors",
     "contributors": "Contributors",
     "update": "Update",
-    "reload": "Reload",
     "searching": "Searching",
     "waitingForChanges": "Waiting for changes",
-    "tryMVL": "Not liking VS Launcher? Try <link /> launcher!"
+    "tryMVL": "Not liking VS Launcher? Try <link /> launcher!",
+    "favorite": "Favorite"
   },
   "features": {
     "generic": {
@@ -133,7 +132,6 @@
       "modsCount_few": "{{count}} mods",
       "modsCount_many": "{{count}} mods",
       "modsCount_other": "{{count}} mods",
-      "listTitle": "Mods list",
       "searching": "Searching mods...",
       "noMatchingFilters": "There are no mods that match your filters!",
       "installMod": "Install mod",
@@ -150,7 +148,6 @@
       "areYouSureDelete": "Are you sure you want to delete this mod?",
       "deletingNotReversible": "Deletion is not reversible so you'll not be able to restore the mods but you can always download it again!",
       "noVersionsFound": "No versions of that mod were found!",
-      "updateMod": "Update mod",
       "openOnTheModDB": "Open on the ModDB!",
       "someModsCouldNotBeParsed": "Some of the installed mods could not be parsed! Go to the Manage Mods page of the Installation you've selected to see the mods with errors!",
       "listWithErrorsTitle": "Mods with errors",
@@ -158,14 +155,14 @@
       "modsWithErrorsDescriptionReport": "Please, report this incident on the <issues /> page or on our <discord /> server!",
       "manageTitle": "Manage Mods",
       "noModSelected": "No mod selected!",
-      "noVersionSelected": "No mod version selected!"
+      "noVersionSelected": "No mod version selected!",
+      "onlyFavMods": "Show favorite mods only"
     },
     "config": {
       "title": "Settings",
       "defaultInstallationsFolder": "Installations folder",
       "defaultVersionsFolder": "Versions folder",
-      "backupsFolder": "Backups folder",
-      "desc": "Configure VS Launcher"
+      "backupsFolder": "Backups folder"
     },
     "backups": {
       "backupInProgress": "There is a backup already in progress!",
@@ -203,8 +200,6 @@
       "versionsDesc": "Manage your game versions",
       "modsTitle": "Mods",
       "modsDesc": "Manage installed mods",
-      "newsTitle": "News",
-      "newsDesc": "VS Launcher news",
       "changelogTitle": "Changelog",
       "changelogDesc": "Vintage Story changelog",
       "installationsTitle": "Installations",

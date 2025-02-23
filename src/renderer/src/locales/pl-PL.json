@@ -20,8 +20,6 @@
       "installationsTitle": "Instancje",
       "modsDesc": "Zarządzaj modyfikacjami",
       "modsTitle": "Mody",
-      "newsDesc": "Nowości VS Launcher",
-      "newsTitle": "Nowości",
       "versionsDesc": "Zarządzaj wersjami gry",
       "versionsTitle": "Wersje gry"
     }
@@ -161,7 +159,6 @@
     "releaseDate": "Data wydania",
     "restore": "Przywróć",
     "save": "Zapisz",
-    "source": "Źródło",
     "type": "Typ",
     "uninstall": "Odinstaluj",
     "version": "Wersja"

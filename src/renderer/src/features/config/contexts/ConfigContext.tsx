@@ -18,7 +18,10 @@ export enum CONFIG_ACTIONS {
 
   ADD_GAME_VERSION = "ADD_GAME_VERSION",
   DELETE_GAME_VERSION = "DELETE_GAME_VERSION",
-  EDIT_GAME_VERSION = "EDIT_GAME_VERSION"
+  EDIT_GAME_VERSION = "EDIT_GAME_VERSION",
+
+  ADD_FAV_MOD = "ADD_FAV_MOD",
+  REMOVE_FAV_MOD = "REMOVE_FAV_MOD"
 }
 
 export interface SetConfig {
@@ -112,6 +115,20 @@ export interface EditGameVersion {
   }
 }
 
+export interface AddFavMod {
+  type: CONFIG_ACTIONS.ADD_FAV_MOD
+  payload: {
+    modid: number
+  }
+}
+
+export interface RemoveFavMod {
+  type: CONFIG_ACTIONS.REMOVE_FAV_MOD
+  payload: {
+    modid: number
+  }
+}
+
 export type ConfigAction =
   | SetConfig
   | SetVersion
@@ -128,6 +145,8 @@ export type ConfigAction =
   | AddGameVersion
   | DeleteGameVersion
   | EditGameVersion
+  | AddFavMod
+  | RemoveFavMod
 
 const configReducer = (config: ConfigType, action: ConfigAction): ConfigType => {
   switch (action.type) {
@@ -198,6 +217,16 @@ const configReducer = (config: ConfigType, action: ConfigAction): ConfigType => 
         ...config,
         gameVersions: config.gameVersions.map((gameVersion) => (gameVersion.version === action.payload.version ? { ...gameVersion, ...action.payload.updates } : gameVersion))
       }
+    case CONFIG_ACTIONS.ADD_FAV_MOD:
+      return {
+        ...config,
+        favMods: [...config.favMods, action.payload.modid]
+      }
+    case CONFIG_ACTIONS.REMOVE_FAV_MOD:
+      return {
+        ...config,
+        favMods: config.favMods.filter((fm) => fm !== action.payload.modid)
+      }
     default:
       return config
   }
@@ -210,7 +239,8 @@ export const initialState: ConfigType = {
   defaultVersionsFolder: "",
   backupsFolder: "",
   installations: [],
-  gameVersions: []
+  gameVersions: [],
+  favMods: []
 }
 
 interface ConfigContextType {
