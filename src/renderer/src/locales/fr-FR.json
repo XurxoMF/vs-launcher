@@ -20,7 +20,31 @@
     "releaseDate": "Date de sortie",
     "type": "Type",
     "install": "Installer",
-    "text": ""
+    "minMaxAmmount": "Nombre entre {{min}} et {{max}}",
+    "backup": "Sauvegarde",
+    "edit": "Éditer",
+    "donate": "Dons",
+    "restore": "Restaurer",
+    "text": "Texte",
+    "author": "Auteur",
+    "everyone": "Tout le monde",
+    "versions": "Versions",
+    "clearFilter": "Effacer les filtres",
+    "order": "Ordre",
+    "trending": "Tendances",
+    "downloads": "Téléchargements",
+    "comments": "Commentaires",
+    "updated": "Mis à jour",
+    "created": "Créé",
+    "follows": "Abonnements",
+    "actions": "Actions",
+    "authors": "Auteurs",
+    "contributors": "Contributeurs",
+    "update": "Mettre à jour",
+    "reload": "Recharger",
+    "searching": "Recherche",
+    "waitingForChanges": "En attente de modifications",
+    "tryMVL": "Vous n'aimez pas VS Launcher ? Essayez <link /> !"
   },
   "features": {
     "generic": {
@@ -55,7 +79,14 @@
       "searchForAGameVersion": "Rechercher une version du jeu",
       "missingFolderOrVersion": "Aucun dossier sélectionné ou aucune version trouvée dans le dossier sélectionné!",
       "lookForAVersion": "Rechercher une version",
-      "versionFound": "Version trouvée"
+      "versionFound": "Version trouvée",
+      "versionInstalling": "La version {{version}} est en cours d'installation. Veuillez attendre qu'elle se termine avant de jouer !",
+      "folderAlreadyInUse": "Ce dossier est déjà utilisé !",
+      "noVersionsFoundDesc": "Installez-en une nouvelle sur la page <link /> !",
+      "versionDeleting": "Cette version est en cours de suppression !",
+      "versionPlaying": "Vous jouez déjà à cette version !",
+      "deleteWhilePlaying": "Vous ne pouvez pas supprimer une version pendant que vous y jouez !",
+      "installNewVersion": "Installer une nouvelle version"
     },
     "installations": {
       "noInstallationsFound": "Aucune installation trouvée!",
@@ -77,7 +108,22 @@
       "noInstallationFoundDesc": "L'installation sélectionnée n'existe pas!",
       "deleteData": "Supprimer les données",
       "installationSuccessfullyDeleted": "Installation supprimée avec succès!",
-      "errorDeletingInstallation": "Une erreur est survenue lors de la suppression de l'installation!"
+      "errorDeletingInstallation": "Une erreur est survenue lors de la suppression de l'installation!",
+      "installationFolder": "Dossier d'installation",
+      "labelStartParams": "Paramètres de démarrage",
+      "startParams": "Paramètres de démarrage",
+      "startParamsDesc": "Liste de tous les paramètres de démarrage disponibles : <link />",
+      "cantUseDataPath": "Le paramètre de démarrage --dataPath ne peut pas être utilisé car il est utilisé par VS Launcher. Si vous souhaitez utiliser un autre dossier, modifiez-le lors de l'installation.",
+      "startParamsLink": "Vintage Story Wiki",
+      "gameAlreadyRunning": "Vous jouez déjà à cette installation !",
+      "editWhilePlaying": "Vous ne pouvez pas modifier une installation pendant que vous y jouez !",
+      "cantDeleteWhileinUse": "Vous ne pouvez pas supprimer cette installation pendant qu'elle est en cours d'utilisation !",
+      "restoreBackup": "Restaurer la sauvegarde de l'installation",
+      "installOnInstallation": "Installer sur l'installation",
+      "updateOnInstallation": "Mettre à jour l'installation",
+      "name": "Nom de l'installation",
+      "dataFolder": "Dossier de données",
+      "addNewInstallation": "Ajouter une nouvelle installation"
     },
     "mods": {
       "modsCount": "{{count}} mods",
@@ -86,8 +132,68 @@
       "modsCount_two": "{{count}} mods",
       "modsCount_few": "{{count}} mods",
       "modsCount_many": "{{count}} mods",
-      "modsCount_other": "{{count}} mods"
-    }
+      "modsCount_other": "{{count}} mods",
+      "listTitle": "Liste des mods",
+      "searching": "Recherche des mods...",
+      "noMatchingFilters": "Aucun mod ne correspond à vos filtres !",
+      "installMod": "Installer le mod",
+      "modTaskName": "Mod {{name}} {{version}} sur {{installation}}",
+      "modDownloadDesc": "Téléchargement du mod {{name}} {{version}} sur {{installation}} !",
+      "installationPopupDesc": "Liste des versions du mod {{modName}}",
+      "manageMods": "Gérer les mods",
+      "noModsInstalled": "Aucun mod installé ici ! Vous pouvez en installer sur la page <link /> !",
+      "noModsFound": "Aucun mod trouvé !",
+      "cantDeleteWhileinUse": "Vous ne pouvez pas supprimer un mod tant qu'il est en cours d'utilisation !",
+      "modSuccessfullyDeleted": "Mod supprimé avec succès !",
+      "errorDeletingMod": "Une erreur est survenue lors de la suppression du mod !",
+      "deleteMod": "Supprimer le mod",
+      "areYouSureDelete": "Êtes-vous sûr de vouloir supprimer ce mod ?",
+      "deletingNotReversible": "La suppression est irréversible, vous ne pourrez donc pas restaurer les mods, mais vous pouvez toujours les télécharger à nouveau !",
+      "noVersionsFound": "Aucune version de ce mod n'a été trouvée !",
+      "updateMod": "Mettre à jour le mod",
+      "openOnTheModDB": "Ouvrir sur le site !",
+      "someModsCouldNotBeParsed": "Certains des mods installés n'ont pas pu être analysés ! Allez sur la page 'Gérer les mods' de l'installation que vous avez sélectionnée pour voir les mods avec des erreurs !",
+      "listWithErrorsTitle": "Mods avec erreurs",
+      "modsWithErrorsDescription": "Les mods suivants ont des erreurs et VS Launcher ne peut pas les identifier !",
+      "modsWithErrorsDescriptionReport": "Veuillez signaler cet incident sur la page <issues /> ou sur notre serveur <discord /> !",
+      "manageTitle": "Gérer les mods",
+      "noModSelected": "Aucun mod sélectionné !",
+      "noVersionSelected": "Aucune version de mod sélectionnée !"
+    },
+    "config": {
+      "title": "Paramètres",
+      "defaultInstallationsFolder": "Dossier des installations",
+      "defaultVersionsFolder": "Dossier des versions",
+      "backupsFolder": "Dossier des sauvegardes",
+      "desc": "Configurer le VS Launcher" 
+    },
+    "backups": {
+      "backupInProgress": "Une sauvegarde est déjà en cours !",
+      "backupWhilePlaying": "Vous ne pouvez pas faire de sauvegarde pendant que vous jouez à l'installation !",
+      "automaticBackups": "Sauvegardes automatiques",
+      "backupsAuto": "Activez pour effectuer une sauvegarde automatique avant de jouer",
+      "backupsLimit": "Limite de sauvegardes",
+      "restoreBackup": "Restaurer la sauvegarde",
+      "noBackupsFound": "Aucune sauvegarde trouvée !",
+      "restoreInProgress": "Une restauration de sauvegarde est déjà en cours !",
+      "areYouSureRestoreBackup": "Êtes-vous sûr de vouloir restaurer cette sauvegarde ?",
+      "restoringNotReversible": "Restaurer une sauvegarde supprimera définitivement vos données et les remplacera par celles de la sauvegarde !",
+      "noBackupSelected": "Aucune sauvegarde sélectionnée !",
+      "cmpressTaskName": "Sauvegarde {{name}}",
+      "compressingBackupDescription": "Sauvegarde de {{name}} en cours !",
+      "extractTaskName": "Restauration de la sauvegarde {{name}}",
+      "extractingBackupDescription": "Restauration de la sauvegarde {{name}} en cours !",
+      "cantDeleteWhileinUse": "Vous ne pouvez pas supprimer cette sauvegarde pendant qu'elle est en cours d'utilisation !",
+      "backupDeletedSuccesfully": "Sauvegarde supprimée avec succès !",
+      "errorDeletingBackup": "Une erreur est survenue lors de la suppression de la sauvegarde !",
+      "deleteBackup": "Supprimer la sauvegarde",
+      "areYouSureDelete": "Êtes-vous sûr de vouloir supprimer cette sauvegarde ?",
+      "deletingNotReversible": "La suppression est irréversible, vous ne pourrez plus restaurer vos mondes, données et autres informations à partir de cette sauvegarde.",
+      "errorMakingBackup": "Une erreur est survenue lors de la création de la sauvegarde !",
+      "backupsAmount": "Limite de sauvegardes",
+      "folderDoesntExists": "Cette installation n'a pas de données. Veuillez y jouer au moins une fois pour générer les données de base !"
+    },
+    "servers": {}
   },
   "components": {
     "mainMenu": {
@@ -108,8 +214,13 @@
     "tasksMenu": {
       "downloading": "Téléchargement",
       "extracting": "Extraction",
+      "compressing": "Compression",
       "error": "Une erreur est survenue pendant le processus!",
       "noTasksAvailable": "Aucune tâche en attente!"
+    },
+    "loader": {
+      "title": "Bienvenue dans VS Launcher!",
+      "desc": "Nous préparons tout pour vous!"
     }
   },
   "notifications": {
@@ -131,8 +242,14 @@
       "extractError": "Erreur lors de l'extraction : {{extractName}}!",
       "gameExitedWithErrors": "Vintage Story s'est terminé avec des erreurs!",
       "errorExecutingGame": "Une erreur est survenue lors de l'exécution du jeu!",
-      "missingFields": "Veuillez remplir tous les champs!"
+      "missingFields": "Veuillez remplir tous les champs!",
+      "compressing": "Compression en cours : {{compressName}} !",
+      "compressed": "Compression terminée : {{compressName}} !",
+      "compressError": "Erreur lors de la compression : {{compressName}} !"
     },
     "discard": "Ignorer la notification"
+  },
+  "genetic": {
+    "goToTop": "Haut de la page"
   }
 }
