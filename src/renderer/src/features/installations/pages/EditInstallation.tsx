@@ -37,15 +37,15 @@ function EditInslallation(): JSX.Element {
 
   const [installation, setInstallation] = useState<InstallationType | undefined>(config.installations.find((igv) => igv.id === id))
 
-  useEffect(() => {
-    setInstallation(config.installations.find((igv) => igv.id === id))
-  }, [id])
-
   const [name, setName] = useState<string>("")
   const [version, setVersion] = useState<GameVersionType>(config.gameVersions[0])
   const [startParams, setStartParams] = useState<string>("")
   const [backupsLimit, setBackupsLimit] = useState<number>(0)
   const [backupsAuto, setBackupsAuto] = useState<boolean>(false)
+
+  useEffect(() => {
+    setInstallation(config.installations.find((igv) => igv.id === id))
+  }, [id])
 
   useEffect(() => {
     setName(installation?.name ?? "")

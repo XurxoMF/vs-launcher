@@ -13,7 +13,8 @@ import {
   PiArrowDownBold,
   PiFireFill,
   PiUserBold,
-  PiArrowFatUpFill
+  PiArrowFatUpFill,
+  PiMagnifyingGlassFill
 } from "react-icons/pi"
 import { FiLoader } from "react-icons/fi"
 import { AnimatePresence, motion } from "motion/react"
@@ -46,6 +47,7 @@ import InstallModPopup from "../components/InstallModPopup"
 
 import { DROPDOWN_MENU_ITEM_VARIANTS, DROPDOWN_MENU_WRAPPER_VARIANTS } from "@renderer/utils/animateVariants"
 import { NormalButton } from "@renderer/components/ui/Buttons"
+import { StickyMenuWrapper, StickyMenuGroup } from "@renderer/components/ui/StickyMenu"
 
 function ListMods(): JSX.Element {
   const { t } = useTranslation()
@@ -64,7 +66,6 @@ function ListMods(): JSX.Element {
   const [orderByOrder, setOrderByOrder] = useState<string>("desc")
 
   const [searching, setSearching] = useState<boolean>(true)
-  const [scrTop, setScrTop] = useState(0)
 
   const [modToInstall, setModToInstall] = useState<number | string | null>(null)
 
@@ -74,7 +75,6 @@ function ListMods(): JSX.Element {
   const handleScroll = (): void => {
     if (!scrollRef.current) return
     const { scrollTop, clientHeight, scrollHeight } = scrollRef.current
-    setScrTop(scrollTop)
     if (scrollTop + clientHeight >= scrollHeight - (clientHeight / 2 + 100)) setVisibleMods((prev) => prev + 10)
   }
 
@@ -95,28 +95,10 @@ function ListMods(): JSX.Element {
 
   // Query mods when filters change.
   useEffect(() => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current)
-    }
+    if (timeoutRef.current) clearTimeout(timeoutRef.current)
 
     timeoutRef.current = setTimeout(async () => {
-      setSearching(true)
-
-      const mods = await queryMods({
-        textFilter,
-        authorFilter,
-        versionsFilter,
-        orderBy,
-        orderByOrder,
-        onFinish: () => {
-          setSearching(false)
-          scrollRef.current?.scrollTo({ top: 0 })
-          setVisibleMods(20)
-          checkLoadMore()
-        }
-      })
-
-      setModsList(mods)
+      await triggerQueryMods()
       timeoutRef.current = null
     }, 400)
 
@@ -124,6 +106,26 @@ function ListMods(): JSX.Element {
       if (timeoutRef.current) clearTimeout(timeoutRef.current)
     }
   }, [textFilter, authorFilter, versionsFilter, orderBy, orderByOrder])
+
+  async function triggerQueryMods(): Promise<void> {
+    setSearching(true)
+
+    const mods = await queryMods({
+      textFilter,
+      authorFilter,
+      versionsFilter,
+      orderBy,
+      orderByOrder,
+      onFinish: () => {
+        setSearching(false)
+        scrollRef.current?.scrollTo({ top: 0 })
+        setVisibleMods(20)
+        checkLoadMore()
+      }
+    })
+
+    setModsList(mods)
+  }
 
   function clearFilters(): void {
     setTextFilter("")
@@ -134,46 +136,42 @@ function ListMods(): JSX.Element {
   return (
     <ScrollableContainer ref={scrollRef}>
       <div className="w-full min-h-full flex flex-col justify-center gap-6">
-        <div className="sticky top-0 z-10 w-full flex items-center justify-center">
-          <div
-            className={clsx(
-              "relative rounded-sm border border-zinc-400/5 shadow-sm shadow-zinc-950/50 p-2 duration-200",
-              "before:absolute before:left-0 before:top-0 before:w-full before:h-full before:backdrop-blur-xs",
-              scrTop > 20 ? "bg-zinc-800" : "bg-zinc-950/25"
-            )}
-          >
-            <div className="relative flex items-center justify-center gap-2 z-10">
-              <FormInputText placeholder={t("generic.text")} value={textFilter} onChange={(e) => setTextFilter(e.target.value)} className="w-40" />
+        <StickyMenuWrapper scrollRef={scrollRef}>
+          <StickyMenuGroup>
+            <FormInputText placeholder={t("generic.text")} value={textFilter} onChange={(e) => setTextFilter(e.target.value)} className="w-40" />
 
-              <AuthorFilter authorFilter={authorFilter} setAuthorFilter={setAuthorFilter} />
+            <AuthorFilter authorFilter={authorFilter} setAuthorFilter={setAuthorFilter} />
 
-              <VersionsFilter versionsFilter={versionsFilter} setVersionsFilter={setVersionsFilter} />
+            <VersionsFilter versionsFilter={versionsFilter} setVersionsFilter={setVersionsFilter} />
 
-              <FormButton title={t("generic.clearFilter")} onClick={() => clearFilters()} className="w-8 h-8 text-lg">
-                <PiEraserFill />
-              </FormButton>
+            <OrderFilter orderBy={orderBy} setOrderBy={setOrderBy} orderByOrder={orderByOrder} setOrderByOrder={setOrderByOrder} />
 
-              <OrderFilter orderBy={orderBy} setOrderBy={setOrderBy} orderByOrder={orderByOrder} setOrderByOrder={setOrderByOrder} />
+            <FormButton
+              title={searching ? t("generic.searching") : t("generic.waitingForChanges")}
+              onClick={() => {
+                if (!searching) triggerQueryMods()
+              }}
+              className="w-8 h-8 text-lg"
+            >
+              {searching ? <FiLoader className="animate-spin" /> : <PiMagnifyingGlassFill />}
+            </FormButton>
 
-              <FormButton
-                title={t("genetic.goToTop")}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  scrollRef.current?.scrollTo({ top: 0 })
-                  setVisibleMods(20)
-                  checkLoadMore()
-                }}
-                className="w-8 h-8 text-lg"
-              >
-                <PiArrowFatUpFill />
-              </FormButton>
+            <FormButton title={t("generic.clearFilter")} onClick={() => clearFilters()} className="w-8 h-8 text-lg">
+              <PiEraserFill />
+            </FormButton>
 
-              <div className="w-8 h-8 flex items-center justify-center rounded-sm bg-zinc-950/25 text-lg text-zinc-400" title={searching ? t("generic.searching") : t("generic.waitingForChanges")}>
-                {searching ? <FiLoader className="animate-spin" /> : <PiCheckBold />}
-              </div>
-            </div>
-          </div>
-        </div>
+            <FormButton
+              title={t("genetic.goToTop")}
+              onClick={(e) => {
+                e.stopPropagation()
+                scrollRef.current?.scrollTo({ top: 0, behavior: "smooth" })
+              }}
+              className="w-8 h-8 text-lg"
+            >
+              <PiArrowFatUpFill />
+            </FormButton>
+          </StickyMenuGroup>
+        </StickyMenuWrapper>
 
         <GridWrapper>
           {modsList.length < 1 ? (
