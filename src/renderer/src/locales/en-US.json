@@ -239,7 +239,8 @@
       "missingFields": "Please fill all the fields!",
       "compressing": "Starting compression: {{compressName}}!",
       "compressed": "Finished compression: {{compressName}}!",
-      "compressError": "Error compressing: {{compressName}}!"
+      "compressError": "Error compressing: {{compressName}}!",
+      "folderNotEmpty": "The folder you've selected is not empty! Make sure you've nothing important on there."
     },
     "discard": "Discard notification"
   },

@@ -1,12 +1,14 @@
 import { useTranslation } from "react-i18next"
 
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
+import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 
 import { FormBody, FormFieldGroup, FormHead, FormLabel, FromGroup, FromWrapper, FormGroupWrapper, FormButton, FormInputTextNotEditable } from "@renderer/components/ui/FormComponents"
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
 
 function ConfigPage(): JSX.Element {
   const { t } = useTranslation()
+  const { addNotification } = useNotificationsContext()
 
   const { config, configDispatch } = useConfigContext()
 
@@ -78,6 +80,8 @@ function ConfigPage(): JSX.Element {
                       console.log(path)
 
                       if (path && path.length > 0) {
+                        if (!(await window.api.pathsManager.checkPathEmpty(path))) addNotification(t("notifications.body.folderNotEmpty"), "warning")
+
                         configDispatch({ type: CONFIG_ACTIONS.SET_DEFAULT_BACKUPS_FOLDER, payload: path })
                       }
                     }}

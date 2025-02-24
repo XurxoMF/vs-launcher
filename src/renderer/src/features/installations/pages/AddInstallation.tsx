@@ -161,6 +161,8 @@ function AddInslallation(): JSX.Element {
                     onClick={async () => {
                       const path = await window.api.utils.selectFolderDialog()
                       if (path && path.length > 0) {
+                        if (!(await window.api.pathsManager.checkPathEmpty(path))) addNotification(t("notifications.body.folderNotEmpty"), "warning")
+
                         setFolder(path)
                         setFolderByUser(true)
                       }
