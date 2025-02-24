@@ -16,7 +16,6 @@ export const IPC_CHANNELS = {
     SAVE_CONFIG: "save-config"
   },
   MODS_MANAGER: {
-    COUNT_MODS: "count-mods",
     GET_INSTALLED_MODS: "get-installed-mods"
   },
   PATHS_MANAGER: {

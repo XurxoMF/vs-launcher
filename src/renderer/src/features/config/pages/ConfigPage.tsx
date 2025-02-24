@@ -77,11 +77,8 @@ function ConfigPage(): JSX.Element {
                   <FormButton
                     onClick={async () => {
                       const path = await window.api.utils.selectFolderDialog()
-                      console.log(path)
-
                       if (path && path.length > 0) {
                         if (!(await window.api.pathsManager.checkPathEmpty(path))) addNotification(t("notifications.body.folderNotEmpty"), "warning")
-
                         configDispatch({ type: CONFIG_ACTIONS.SET_DEFAULT_BACKUPS_FOLDER, payload: path })
                       }
                     }}

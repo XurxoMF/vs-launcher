@@ -135,8 +135,8 @@
       "searching": "Searching mods...",
       "noMatchingFilters": "There are no mods that match your filters!",
       "installMod": "Install mod",
-      "modTaskName": "{{name}} mod {{version}} on {{installation}}",
-      "modDownloadDesc": "Downloading {{name}} mod {{version}} on {{installation}}!",
+      "modTaskName": "{{name}} mod {{version}} on {{out}}",
+      "modDownloadDesc": "Downloading {{name}} mod {{version}} on {{out}}!",
       "installationPopupDesc": "List of versions of the {{modName}} mod",
       "manageMods": "Manage mods",
       "noModsInstalled": "You've no mods installed here! You can install some on the <link /> page!",
@@ -155,7 +155,13 @@
       "modsWithErrorsDescriptionReport": "Please, report this incident on the <issues /> page or on our <discord /> server!",
       "noModSelected": "No mod selected!",
       "noVersionSelected": "No mod version selected!",
-      "onlyFavMods": "Show favorite mods only"
+      "onlyFavMods": "Show favorite mods only",
+      "updatesAvailable": "You've {{amount}} mods installed that have updates compatible with your Version!",
+      "listWithUpdatesTitle": "Mods with updates",
+      "modsWithUpdatesDescription": "The next mods have available updates! Just click on the update button to install them!",
+      "modsWithUpdatesDescriptionReport": "If you find any mod missmarked as updatable, please, report it on the <issues /> page or on our <discord /> server!",
+      "modsWithUpdatesNextUpdatesDescription": "If there are no reports ina few days I'll start coding the Automatic Mod Udpater Update. If there are some reports I'll fix them first.",
+      "updatesAvailableInstallation": "The selected Installation has {{amount}} mods with available updates! Click here to see them them!"
     },
     "config": {
       "title": "Settings",

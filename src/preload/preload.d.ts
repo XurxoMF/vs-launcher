@@ -24,7 +24,6 @@ declare global {
       saveConfig: (configJson: ConfigType) => Promise<boolean>
     }
     modsManager: {
-      countMods: (path: string) => Promise<{ status: boolean; count: number }>
       getInstalledMods: (path: string) => Promise<{ mods: InstalledModType[]; errors: ErrorInstalledModType[] }>
     }
     pathsManager: {

@@ -39,6 +39,7 @@ import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/cont
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 
 import { useQueryMods } from "../hooks/useQueryMods"
+import { useGetInstalledMods } from "@renderer/features/mods/hooks/useGetInstalledMods"
 
 import { FormButton, FormInputText } from "@renderer/components/ui/FormComponents"
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
@@ -55,9 +56,13 @@ function ListMods(): JSX.Element {
   const { addNotification } = useNotificationsContext()
 
   const queryMods = useQueryMods()
+  const getInstalledMods = useGetInstalledMods()
 
   const [modsList, setModsList] = useState<DownloadableModOnList[]>([])
   const [visibleMods, setVisibleMods] = useState<number>(20)
+
+  const [installation, setInstallation] = useState<InstallationType | undefined>(undefined)
+  const [installedMods, setInstalledMods] = useState<InstalledModType[]>([])
 
   const [onlyFav, setOnlyFav] = useState<boolean>(false)
   const [textFilter, setTextFilter] = useState<string>("")
@@ -68,7 +73,7 @@ function ListMods(): JSX.Element {
 
   const [searching, setSearching] = useState<boolean>(true)
 
-  const [modToInstall, setModToInstall] = useState<number | string | null>(null)
+  const [modToInstall, setModToInstall] = useState<DownloadableModOnList | null>(null)
 
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
   const scrollRef = useRef<HTMLDivElement | null>(null)
@@ -108,6 +113,15 @@ function ListMods(): JSX.Element {
     }
   }, [onlyFav, textFilter, authorFilter, versionsFilter, orderBy, orderByOrder])
 
+  useEffect(() => {
+    setInstallation(config.installations.find((i) => i.id === config.lastUsedInstallation))
+  }, [config.lastUsedInstallation])
+
+  useEffect(() => {
+    if (!installation) return setInstalledMods([])
+    triggerGetCompleteInstalledMods()
+  }, [installation])
+
   async function triggerQueryMods(): Promise<void> {
     setSearching(true)
 
@@ -131,6 +145,19 @@ function ListMods(): JSX.Element {
     } else {
       setModsList(mods)
     }
+  }
+
+  async function triggerGetCompleteInstalledMods(): Promise<void> {
+    if (!installation) return addNotification(t("features.installations.noInstallationSelected"), "error")
+
+    const mods = await getInstalledMods({
+      path: installation.path
+    })
+
+    const totalMods = mods.errors.length + mods.mods.length
+    configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id: installation.id, updates: { _modsCount: totalMods } } })
+
+    setInstalledMods(mods.mods)
   }
 
   function clearFilters(): void {
@@ -196,8 +223,8 @@ function ListMods(): JSX.Element {
                 <GridItem
                   key={mod.modid}
                   onClick={() => {
-                    if (!config.installations.some((i) => i.id === config.lastUsedInstallation)) return addNotification(t("features.installations.noInstallationSelected"), "error")
-                    setModToInstall(mod.modid)
+                    if (!installation) return addNotification(t("features.installations.noInstallationSelected"), "error")
+                    setModToInstall(mod)
                   }}
                   className="group overflow-hidden"
                 >
@@ -264,8 +291,18 @@ function ListMods(): JSX.Element {
           )}
         </GridWrapper>
 
-        {config.installations.some((i) => i.id === config.lastUsedInstallation) && (
-          <InstallModPopup installation={config.installations.find((i) => i.id === config.lastUsedInstallation) as InstallationType} modToInstall={modToInstall} setModToInstall={setModToInstall} />
+        {installation && modToInstall && (
+          <InstallModPopup
+            modToInstall={modToInstall.modid}
+            setModToInstall={() => setModToInstall(null)}
+            pathToInstall={installation.path}
+            version={installation.version}
+            outName={installation.name}
+            oldMod={installedMods.find((iMod) => modToInstall.modidstrs.some((modidstr) => modidstr === iMod.modid))}
+            onFinishInstallation={() => {
+              triggerGetCompleteInstalledMods()
+            }}
+          />
         )}
       </div>
     </ScrollableContainer>

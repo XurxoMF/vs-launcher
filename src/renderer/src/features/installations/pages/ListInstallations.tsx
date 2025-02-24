@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Input } from "@headlessui/react"
 import { PiFolderFill, PiPlusCircleFill, PiTrashFill, PiPencilFill, PiCaretCircleDoubleDownFill, PiArrowCounterClockwiseFill, PiGearFill, PiXBold } from "react-icons/pi"
 import { useTranslation } from "react-i18next"
@@ -7,7 +7,6 @@ import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/cont
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 
 import { useMakeInstallationBackup } from "@renderer/features/installations/hooks/useMakeInstallationBackup"
-import { useCountMods } from "@renderer/features/mods/hooks/useCountMods"
 
 import { ListGroup, ListWrapper, ListItem } from "@renderer/components/ui/List"
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
@@ -19,17 +18,11 @@ function ListInslallations(): JSX.Element {
   const { t } = useTranslation()
   const { addNotification } = useNotificationsContext()
   const { config, configDispatch } = useConfigContext()
-  const countMods = useCountMods()
 
   const makeInstallationBackup = useMakeInstallationBackup()
 
   const [installationToDelete, setInstallationToDelete] = useState<InstallationType | null>(null)
   const [deleteData, setDeleData] = useState<boolean>(false)
-
-  // This is here to ensure mods are correctly counted before making any changes to installations.
-  useEffect(() => {
-    countMods()
-  }, [])
 
   async function DeleteInstallationHandler(): Promise<void> {
     try {

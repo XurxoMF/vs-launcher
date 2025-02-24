@@ -53,7 +53,7 @@ function InstallationsDropdownMenu(): JSX.Element {
 
                       <div className="shrink-0 text-zinc-400 flex gap-2 items-start">
                         <p>{current.version}</p>
-                        <p>{t("features.mods.modsCount", { count: current._modsCount as number })}</p>
+                        <p>{t("features.mods.modsCount", { count: current._modsCount })}</p>
                       </div>
                     </div>
                   ))}
@@ -83,7 +83,7 @@ function InstallationsDropdownMenu(): JSX.Element {
 
                             <div className="shrink-0 text-zinc-400 flex gap-2 items-start">
                               <p>{current.version}</p>
-                              <p>{t("features.mods.modsCount", { count: current._modsCount as number })}</p>
+                              <p>{t("features.mods.modsCount", { count: current._modsCount })}</p>
                             </div>
                           </div>
                         </ListboxOption>

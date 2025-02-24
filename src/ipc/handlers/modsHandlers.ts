@@ -7,22 +7,6 @@ import { join } from "path"
 import JSON5 from "json5"
 import { v4 as uuidv4 } from "uuid"
 
-ipcMain.handle(IPC_CHANNELS.MODS_MANAGER.COUNT_MODS, async (_event, path: string): Promise<{ status: boolean; count: number }> => {
-  try {
-    if (!fse.pathExistsSync(path)) {
-      logMessage("info", `[back] [mods] [ipc/handlers/modsHandlers.ts] [COUNT_MODS] That path does not exists. 0 mods found.`)
-      return { status: true, count: 0 }
-    }
-    const modCount = fse.readdirSync(path).length
-    logMessage("info", `[back] [mods] [ipc/handlers/modsHandlers.ts] [COUNT_MODS] Found ${modCount} mods on that path.`)
-    return { status: true, count: modCount }
-  } catch (err) {
-    logMessage("error", `[back] [mods] [ipc/handlers/modsHandlers.ts] [COUNT_MODS] There was an error counting mods.`)
-    logMessage("error", `[back] [mods] [ipc/handlers/modsHandlers.ts] [COUNT_MODS] There was an error counting mods: ${err}`)
-    return { status: false, count: 0 }
-  }
-})
-
 ipcMain.handle(IPC_CHANNELS.MODS_MANAGER.GET_INSTALLED_MODS, async (_event, path: string): Promise<{ mods: InstalledModType[]; errors: ErrorInstalledModType[] }> => {
   try {
     logMessage("info", `[back] [mods] [ipc/handlers/modsHandlers.ts] [GET_INSTALLED_MODS] Looking for mods at ${path}.`)
@@ -32,10 +16,11 @@ ipcMain.handle(IPC_CHANNELS.MODS_MANAGER.GET_INSTALLED_MODS, async (_event, path
       return { mods: [], errors: [] }
     }
 
-    const infoMods = await getModsInfo(path)
+    const infoMods = await getMods(path)
 
     logMessage("info", `[back] [mods] [ipc/handlers/modsHandlers.ts] [GET_INSTALLED_MODS] Found ${infoMods.mods.length} mods and ${infoMods.errors.length} mods with errors.`)
-    logMessage("debug", `[back] [mods] [ipc/handlers/modsHandlers.ts] [GET_INSTALLED_MODS] Found ${infoMods.errors.length} mods with errors: ${infoMods.errors.map((mwe) => mwe.zipname)}`)
+    if (infoMods.errors.length > 0)
+      logMessage("debug", `[back] [mods] [ipc/handlers/modsHandlers.ts] [GET_INSTALLED_MODS] Found ${infoMods.errors.length} mods with errors: ${infoMods.errors.map((mwe) => mwe.zipname)}`)
     return { mods: infoMods.mods, errors: infoMods.errors }
   } catch (err) {
     logMessage("error", `[back] [mods] [ipc/handlers/modsHandlers.ts] [GET_INSTALLED_MODS] Error getting installed mods.`)
@@ -50,9 +35,7 @@ ipcMain.handle(IPC_CHANNELS.MODS_MANAGER.GET_INSTALLED_MODS, async (_event, path
  * @param {string} path The path to the folder with the mods.
  * @returns {Promise<{mods: InstalledModType[]; errors: ErrorInstalledModType[]}>} A list with the succesfully parsed mods and another list with the mods that threw an error.
  */
-async function getModsInfo(path: string): Promise<{ mods: InstalledModType[]; errors: ErrorInstalledModType[] }> {
-  logMessage("info", `[back] [mods] [ipc/handlers/modsHandlers.ts] [getModsInfo] Getting mods at ${path}.`)
-
+async function getMods(path: string): Promise<{ mods: InstalledModType[]; errors: ErrorInstalledModType[] }> {
   const pathToImages = join(app.getPath("userData"), "Cache", "Images")
 
   const mods: InstalledModType[] = []
@@ -83,8 +66,9 @@ async function getModsInfo(path: string): Promise<{ mods: InstalledModType[]; er
 
           function closeZipReturnResolve(): void {
             if (zip && zip.isOpen) {
-              logMessage("info", `[back] [mods] [ipc/handlers/modsHandlers.ts] [getModsInfo] [${file}] Closing zip file.`)
               zip.close()
+              return resolve()
+            } else {
               return resolve()
             }
           }
@@ -118,8 +102,6 @@ async function getModsInfo(path: string): Promise<{ mods: InstalledModType[]; er
                     }
 
                     if (mod.modid && mod.version && mod.name && mod.path) {
-                      logMessage("info", `[back] [mods] [ipc/handlers/modsHandlers.ts] [getModsInfo] [${file}] Mod identified: ID: ${mod.modid} | Name: ${mod.name} | Version: ${mod.version}.`)
-
                       modFound = mod
 
                       if (imageFound) {
@@ -129,8 +111,6 @@ async function getModsInfo(path: string): Promise<{ mods: InstalledModType[]; er
                         const destination = join(pathToImages, imgName)
 
                         fse.moveSync(origin, destination, { overwrite: true })
-
-                        logMessage("info", `[back] [mods] [ipc/handlers/modsHandlers.ts] [getModsInfo] [${file}] Mod's logo had already been found. Renaming it to ${imgName} and saving it.`)
 
                         modFound._image = imgName
 
@@ -181,14 +161,10 @@ async function getModsInfo(path: string): Promise<{ mods: InstalledModType[]; er
 
                     fse.writeFileSync(imagePath, imageBuffer)
 
-                    logMessage("info", `[back] [mods] [ipc/handlers/modsHandlers.ts] [getModsInfo] [${file}] Mod's logo saved: ${imageName}.`)
-
                     imageFound = imageName
 
                     if (modFound) {
                       modFound._image = imageName
-
-                      logMessage("info", `[back] [mods] [ipc/handlers/modsHandlers.ts] [getModsInfo] [${file}] Mod's info already found. Adding image to it and saving it.`)
 
                       mods.push(modFound)
                     }
@@ -211,7 +187,7 @@ async function getModsInfo(path: string): Promise<{ mods: InstalledModType[]; er
           })
 
           zip.on("end", () => {
-            logMessage("error", `[back] [mods] [ipc/handlers/modsHandlers.ts] [getModsInfo] [${file}] End ZIP file.`)
+            if (modFound && !imageFound) mods.push(modFound)
             closeZipReturnResolve()
           })
 
@@ -225,6 +201,5 @@ async function getModsInfo(path: string): Promise<{ mods: InstalledModType[]; er
       })
     })
   )
-
   return { mods: mods, errors: errors }
 }

@@ -5,17 +5,23 @@ declare global {
     defaultInstallationsFolder: string
     defaultVersionsFolder: string
     backupsFolder: string
+    _notifiedModUpdatesInstallations?: string[]
   } & Record<string, unknown>
 
   type GameVersionType = {
     version: string
     path: string
+    _installing?: boolean
+    _deleting?: boolean
+    _playing?: boolean
   } & Record<string, unknown>
 
   type BackupType = {
     id: string
     date: number
     path: string
+    _deleting?: boolean
+    _restoring?: boolean
   } & Record<string, unknown>
 
   type InstallationType = {
@@ -27,6 +33,10 @@ declare global {
     backupsLimit: number
     backupsAuto: boolean
     backups: BackupType[]
+    _modsCount?: number
+    _playing?: boolean
+    _backuping?: boolean
+    _restoringBackup?: boolean
   } & Record<string, unknown>
 
   type ConfigType = BasicConfigType & {
@@ -40,13 +50,14 @@ declare global {
     modid: string
     version: string
     path: string
-    _image?: string
     description?: string
     side?: string
     authors?: string[]
     contributors?: string[]
     type?: string
+    _image?: string
     _mod?: DownloadableMod
+    _updatableTo?: string
   } & Record<string, unknown>
 
   type ErrorInstalledModType = { zipname: string; path: string } & Record<string, unknown>

@@ -32,6 +32,7 @@ import ListMods from "@renderer/features/mods/pages/ListMods"
 
 import ConfigPage from "@renderer/features/config/pages/ConfigPage"
 import { NormalButton } from "./components/ui/Buttons"
+import GlobalActionsWrapper from "./components/layout/GlobalActionsWrapper"
 
 function App(): JSX.Element {
   useEffect(() => {
@@ -44,26 +45,28 @@ function App(): JSX.Element {
       <NotificationsProvider>
         <TaskProvider>
           <Router>
-            <div
-              className={clsx(
-                "relative w-screen h-screen select-none bg-image-vs bg-center bg-cover",
-                "before:absolute before:left-0 before:top-0 before:w-full before:h-full before:backdrop-blur-[2px]"
-              )}
-            >
-              <div className="w-full h-full flex bg-zinc-950/25">
-                <Loader />
+            <GlobalActionsWrapper>
+              <div
+                className={clsx(
+                  "relative w-screen h-screen select-none bg-image-vs bg-center bg-cover",
+                  "before:absolute before:left-0 before:top-0 before:w-full before:h-full before:backdrop-blur-[2px]"
+                )}
+              >
+                <div className="w-full h-full flex bg-zinc-950/25">
+                  <Loader />
 
-                <MainMenu />
+                  <MainMenu />
 
-                <main className="relative w-full h-full flex-1">
-                  <AppInfo />
+                  <main className="relative w-full h-full flex-1">
+                    <AppInfo />
 
-                  <AnimatedRoutes />
-                </main>
+                    <AnimatedRoutes />
+                  </main>
 
-                <NotificationsOverlay />
+                  <NotificationsOverlay />
+                </div>
               </div>
-            </div>
+            </GlobalActionsWrapper>
           </Router>
         </TaskProvider>
       </NotificationsProvider>

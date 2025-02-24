@@ -1,49 +1,63 @@
 import { useTranslation } from "react-i18next"
 
-import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 import { useTaskContext } from "@renderer/contexts/TaskManagerContext"
 
-import { useCountMods } from "@renderer/features/mods/hooks/useCountMods"
-
-export function useInstallMod(): (
-  installation: InstallationType | undefined,
-  mod: DownloadableMod | undefined,
-  version: DownloadableModRelease | undefined,
-  oldMod: InstalledModType | undefined,
+export function useInstallMod(): ({
+  path,
+  mod,
+  release,
+  outName,
+  oldMod,
+  onFinish
+}: {
+  path: string
+  mod: DownloadableMod
+  release: DownloadableModRelease
+  outName: string
+  oldMod?: InstalledModType
   onFinish?: () => void
-) => Promise<void> {
+}) => Promise<void> {
   const { t } = useTranslation()
-  const { addNotification } = useNotificationsContext()
-  const countMods = useCountMods()
   const { startDownload } = useTaskContext()
 
   /**
    * Installs a mod. If there is an old mod it'll delete that one first.
    *
+   * @param {Object} props
+   * @param {string} [props.path] Where to download the mod. /Mods will be added at the end.
+   * @param {DownloadableMod} [props.mod] Mod to download.
+   * @param {DownloadableModRelease} [props.release] Release to download.
+   * @param {string} [props.outName] Name of the Server or Installations where it'll be downloaded. Shown on the notification.
+   * @param {InstalledModType} [props.oldMod] Old mod to delete first.
+   * @param {() => void} [props.onFinish] Function to be calles before returning.
    * @returns {Promise<void>}
    */
-  async function installMod(
-    installation: InstallationType | undefined,
-    mod: DownloadableMod | undefined,
-    version: DownloadableModRelease | undefined,
-    oldMod: InstalledModType | undefined,
+  async function installMod({
+    path,
+    mod,
+    release,
+    outName,
+    oldMod,
+    onFinish
+  }: {
+    path: string
+    mod: DownloadableMod
+    release: DownloadableModRelease
+    outName: string
+    oldMod?: InstalledModType
     onFinish?: () => void
-  ): Promise<void> {
-    if (!installation) return addNotification(t("features.installations.noInstallationSelected"), "error")
-    if (!mod) return addNotification(t("features.mods.noModSelected"), "error")
-    if (!version) return addNotification(t("features.mods.noVersionSelected"), "error")
-
-    const installPath = await window.api.pathsManager.formatPath([installation.path, "Mods"])
+  }): Promise<void> {
+    const installPath = await window.api.pathsManager.formatPath([path, "Mods"])
 
     if (oldMod) await window.api.pathsManager.deletePath(oldMod.path)
 
     startDownload(
-      t("features.mods.modTaskName", { name: mod.name, version: `v${version.modversion}`, installation: installation.name }),
-      t("features.mods.modDownloadDesc", { name: mod.name, version: `v${version.modversion}`, installation: installation.name }),
+      t("features.mods.modTaskName", { name: mod.name, version: `v${release.modversion}`, out: outName }),
+      t("features.mods.modDownloadDesc", { name: mod.name, version: `v${release.modversion}`, out: outName }),
       "end",
-      version.mainfile,
+      release.mainfile,
       installPath,
-      `${version.modidstr}-${version.modversion}`,
+      `${release.modidstr}-${release.modversion}`,
       async (status, _path, error) => {
         if (!status) {
           window.api.utils.logMessage("error", `[front] [mods] [features/mods/hooks/useInstallMod.ts] [useInstallMod > installMod] Error downloading mod.`)
@@ -51,7 +65,6 @@ export function useInstallMod(): (
           return
         }
         if (onFinish) onFinish()
-        countMods()
       }
     )
   }

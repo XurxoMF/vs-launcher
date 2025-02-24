@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect, useReducer, useRef, useState } from "react"
 
+import { useGetInstalledMods } from "@renderer/features/mods/hooks/useGetInstalledMods"
+
 export enum CONFIG_ACTIONS {
   SET_CONFIG = "SET_CONFIG",
 
@@ -254,6 +256,8 @@ const ConfigProvider = ({ children }: { children: React.ReactNode }): JSX.Elemen
   const [config, configDispatch] = useReducer(configReducer, initialState)
   const [isConfigLoaded, setIsConfigLoaded] = useState(false)
 
+  const getInstalledMods = useGetInstalledMods()
+
   const firstExecutedConfigContext = useRef(true)
   useEffect(() => {
     ;(async (): Promise<void> => {
@@ -262,12 +266,12 @@ const ConfigProvider = ({ children }: { children: React.ReactNode }): JSX.Elemen
         window.api.utils.logMessage("info", `[front] [config] [features/config/contexts/ConfigCntext.tsx] [ConfigProvider] Setting context config from config file.`)
         const config = await window.api.configManager.getConfig()
         configDispatch({ type: CONFIG_ACTIONS.SET_CONFIG, payload: config })
-        setIsConfigLoaded(true)
       }
     })()
   }, [])
 
   useEffect(() => {
+    if (!isConfigLoaded && config.version !== 0) setIsConfigLoaded(true)
     if (!isConfigLoaded) return
     window.api.configManager.saveConfig(config)
   }, [config])
@@ -275,9 +279,9 @@ const ConfigProvider = ({ children }: { children: React.ReactNode }): JSX.Elemen
   useEffect(() => {
     if (!isConfigLoaded) return
     config.installations.forEach(async (i) => {
-      const modsPath = await window.api.pathsManager.formatPath([i.path, "Mods"])
-      const modsCount = await window.api.modsManager.countMods(modsPath)
-      configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id: i.id, updates: { _modsCount: modsCount.count } } })
+      const mods = await getInstalledMods({ path: i.path })
+      const totalMods = mods.errors.length + mods.mods.length
+      configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id: i.id, updates: { _modsCount: totalMods } } })
     })
   }, [isConfigLoaded])
 
