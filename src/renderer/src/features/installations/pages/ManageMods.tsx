@@ -188,70 +188,72 @@ function ListMods(): JSX.Element {
             </ListGroup>
           ) : (
             <ListGroup>
-              {installedMods.map((iMod) => (
-                <ListItem key={iMod.modid + iMod.path}>
-                  <div className="flex gap-4 p-2 justify-between items-center whitespace-nowrap">
-                    <div className="shrink-0">
-                      {iMod._image ? (
-                        <img src={`cachemodimg:${iMod._image}`} alt={iMod.name} className="w-16 h-16 object-cover rounded-sm" />
-                      ) : (
-                        <div className="w-16 h-16 bg-zinc-900 rounded-sm shadow-sm shadow-zinc-950" />
-                      )}
-                    </div>
-
-                    <div className="w-full flex flex-col gap-1 justify-center overflow-hidden">
-                      <div className="flex gap-2 items-center">
-                        <p>{iMod.name}</p>
-                        <p>v{iMod.version}</p>
+              {installedMods
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .map((iMod) => (
+                  <ListItem key={iMod.modid + iMod.path}>
+                    <div className="flex gap-4 p-2 justify-between items-center whitespace-nowrap">
+                      <div className="shrink-0">
+                        {iMod._image ? (
+                          <img src={`cachemodimg:${iMod._image}`} alt={iMod.name} className="w-16 h-16 object-cover rounded-sm" />
+                        ) : (
+                          <div className="w-16 h-16 bg-zinc-900 rounded-sm shadow-sm shadow-zinc-950" />
+                        )}
                       </div>
 
-                      {iMod.description && (
-                        <div className="overflow-hidden">
-                          <p className="text-sm text-zinc-400 overflow-hidden whitespace-nowrap text-ellipsis">{iMod.description}</p>
+                      <div className="w-full flex flex-col gap-1 justify-center overflow-hidden">
+                        <div className="flex gap-2 items-center">
+                          <p>{iMod.name}</p>
+                          <p>v{iMod.version}</p>
                         </div>
-                      )}
 
-                      <div className="flex gap-2 items-center text-sm text-zinc-400">
-                        <p className="overflow-hidden whitespace-nowrap text-ellipsis">
-                          {iMod.authors && iMod.authors?.length > 0 && (
-                            <span>
-                              {t("generic.authors")}: {iMod.authors?.join(", ")}
-                            </span>
-                          )}
-                          {iMod.contributors && iMod.contributors?.length > 0 && (
-                            <span>
-                              {t("generic.contributors")}: {iMod.contributors?.join(", ")}
-                            </span>
-                          )}
-                        </p>
+                        {iMod.description && (
+                          <div className="overflow-hidden">
+                            <p className="text-sm text-zinc-400 overflow-hidden whitespace-nowrap text-ellipsis">{iMod.description}</p>
+                          </div>
+                        )}
+
+                        <div className="flex gap-2 items-center text-sm text-zinc-400">
+                          <p className="overflow-hidden whitespace-nowrap text-ellipsis">
+                            {iMod.authors && iMod.authors?.length > 0 && (
+                              <span>
+                                {t("generic.authors")}: {iMod.authors?.join(", ")}
+                              </span>
+                            )}
+                            {iMod.contributors && iMod.contributors?.length > 0 && (
+                              <span>
+                                {t("generic.contributors")}: {iMod.contributors?.join(", ")}
+                              </span>
+                            )}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex gap-1 justify-end text-lg">
+                        <NormalButton
+                          className="p-1"
+                          title={t("generic.update")}
+                          onClick={async () => {
+                            if (!iMod._mod || iMod._mod.releases.length < 1) return addNotification(t("features.mods.noVersionsFound"), "error")
+                            setModToUpdate(iMod.modid)
+                          }}
+                        >
+                          <PiArrowClockwiseFill />
+                        </NormalButton>
+
+                        <NormalButton
+                          className="p-1"
+                          title={t("generic.delete")}
+                          onClick={async () => {
+                            setModToDelete(iMod)
+                          }}
+                        >
+                          <PiTrashFill />
+                        </NormalButton>
                       </div>
                     </div>
-
-                    <div className="flex gap-1 justify-end text-lg">
-                      <NormalButton
-                        className="p-1"
-                        title={t("generic.update")}
-                        onClick={async () => {
-                          if (!iMod._mod || iMod._mod.releases.length < 1) return addNotification(t("features.mods.noVersionsFound"), "error")
-                          setModToUpdate(iMod.modid)
-                        }}
-                      >
-                        <PiArrowClockwiseFill />
-                      </NormalButton>
-
-                      <NormalButton
-                        className="p-1"
-                        title={t("generic.delete")}
-                        onClick={async () => {
-                          setModToDelete(iMod)
-                        }}
-                      >
-                        <PiTrashFill />
-                      </NormalButton>
-                    </div>
-                  </div>
-                </ListItem>
-              ))}
+                  </ListItem>
+                ))}
             </ListGroup>
           )}
         </ListWrapper>
