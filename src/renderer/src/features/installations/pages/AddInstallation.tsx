@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { useTranslation, Trans } from "react-i18next"
 import { v4 as uuidv4 } from "uuid"
 import { PiFloppyDiskBackFill, PiXBold } from "react-icons/pi"
+import semver from "semver"
 
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
@@ -140,11 +141,14 @@ function AddInslallation(): JSX.Element {
                         </p>
                       </div>
                     )}
-                    {config.gameVersions.map((gv) => (
-                      <TableBodyRow key={gv.version} onClick={() => setVersion(gv)} selected={version?.version === gv.version}>
-                        <TableCell className="w-full">{gv.version}</TableCell>
-                      </TableBodyRow>
-                    ))}
+                    {config.gameVersions
+                      .slice()
+                      .sort((a, b) => semver.rcompare(a.version, b.version))
+                      .map((gv) => (
+                        <TableBodyRow key={gv.version} onClick={() => setVersion(gv)} selected={version?.version === gv.version}>
+                          <TableCell className="w-full">{gv.version}</TableCell>
+                        </TableBodyRow>
+                      ))}
                   </TableBody>
                 </TableWrapper>
               </FormBody>
