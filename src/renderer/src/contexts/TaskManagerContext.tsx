@@ -99,19 +99,19 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }): JSX.E
     if (firstExecutedTaskManagerContext) {
       firstExecutedTaskManagerContext.current = false
 
-      window.api.utils.logMessage("info", `[component] [TaskManager] Adding listener for download progress`)
+      window.api.utils.logMessage("info", `[front] [tasks] [contexts/TaskManagercontext.tsx] [TaskProvider] Adding listener for download progress.`)
       window.api.pathsManager.onDownloadProgress((_event, id, progress) => {
         if (progress === 100) return tasksDispatch({ type: ACTIONS.UPDATE_TASK, payload: { id, updates: { status: "completed" } } })
         tasksDispatch({ type: ACTIONS.UPDATE_TASK, payload: { id, updates: { progress, status: "in-progress" } } })
       })
 
-      window.api.utils.logMessage("info", `[component] [TaskManager] Adding listener for extraction progress`)
+      window.api.utils.logMessage("info", `[front] [tasks] [contexts/TaskManagercontext.tsx] [TaskProvider] Adding listener for extract progress.`)
       window.api.pathsManager.onExtractProgress((_event, id, progress) => {
         if (progress === 100) return tasksDispatch({ type: ACTIONS.UPDATE_TASK, payload: { id, updates: { status: "completed" } } })
         tasksDispatch({ type: ACTIONS.UPDATE_TASK, payload: { id, updates: { progress, status: "in-progress" } } })
       })
 
-      window.api.utils.logMessage("info", `[component] [TaskManager] Adding listener for compress progress`)
+      window.api.utils.logMessage("info", `[front] [tasks] [contexts/TaskManagercontext.tsx] [TaskProvider] Adding listener for compress progress.`)
       window.api.pathsManager.onCompressProgress((_event, id, progress) => {
         if (progress === 100) return tasksDispatch({ type: ACTIONS.UPDATE_TASK, payload: { id, updates: { status: "completed" } } })
         tasksDispatch({ type: ACTIONS.UPDATE_TASK, payload: { id, updates: { progress, status: "in-progress" } } })
@@ -132,18 +132,19 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }): JSX.E
 
     try {
       window.api.utils.setPreventAppClose("add", id, "Started download.")
-      window.api.utils.logMessage("info", `[component] [TaskManager] [${id}] Adding download of ${url} to ${outputPath}.`)
+      window.api.utils.logMessage("info", `[front] [tasks] [contexts/TaskManagercontext.tsx] [TaskProvider > startDownload] [${id}] [${fileName}] Adding download of ${url} to ${outputPath}.`)
       tasksDispatch({ type: ACTIONS.ADD_TASK, payload: { id, name, desc, type: "download", progress: 0, status: "pending" } })
 
-      window.api.utils.logMessage("info", `[component] [TaskManager] [${id}] Downloading ${url}...`)
+      window.api.utils.logMessage("info", `[front] [tasks] [contexts/TaskManagercontext.tsx] [TaskProvider > startDownload] [${id}] [${fileName}] Downloading...`)
       if (notifications === "all" || notifications === "start") addNotification(t("notifications.body.downloading", { downloadName: name }), "info")
       const downloadedFile = await window.api.pathsManager.downloadOnPath(id, url, outputPath, fileName)
 
-      window.api.utils.logMessage("info", `[component] [TaskManager] [${id}] Downloaded ${url} to ${downloadedFile}`)
+      window.api.utils.logMessage("info", `[front] [tasks] [contexts/TaskManagercontext.tsx] [TaskProvider > startDownload] [${id}] [${fileName}] Downloaded.`)
       if (notifications === "all" || notifications === "end") addNotification(t("notifications.body.downloaded", { downloadName: name }), "success")
       onFinish(true, downloadedFile, null)
     } catch (err) {
-      window.api.utils.logMessage("error", `[component] [TaskManager] [${id}] Error downloading ${url}: ${err}`)
+      window.api.utils.logMessage("error", `[front] [tasks] [contexts/TaskManagercontext.tsx] [TaskProvider > startDownload] [${id}] [${fileName}] Error downloading.`)
+      window.api.utils.logMessage("debug", `[front] [tasks] [contexts/TaskManagercontext.tsx] [TaskProvider > startDownload] [${id}] [${fileName}] Error downloading: ${err}`)
       tasksDispatch({ type: ACTIONS.UPDATE_TASK, payload: { id, updates: { status: "failed" } } })
       addNotification(t("notifications.body.downloadError", { downloadName: name }), "error")
       onFinish(false, "", new Error(`Error downloading ${url}: ${err}`))
@@ -165,10 +166,10 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }): JSX.E
 
     try {
       window.api.utils.setPreventAppClose("add", id, "Started extraction.")
-      window.api.utils.logMessage("info", `[component] [TaskManager] [${id}] Adding extraction of ${filePath} to ${outputPath}.`)
+      window.api.utils.logMessage("info", `[front] [tasks] [contexts/TaskManagercontext.tsx] [TaskProvider > startExtract] [${id}] [${filePath}] Adding extraction of ${filePath} to ${outputPath}.`)
       tasksDispatch({ type: ACTIONS.ADD_TASK, payload: { id, name, desc, type: "extract", progress: 0, status: "pending" } })
 
-      window.api.utils.logMessage("info", `[component] [TaskManager] [${id}] Extracting ${filePath}...`)
+      window.api.utils.logMessage("info", `[front] [tasks] [contexts/TaskManagercontext.tsx] [TaskProvider > startExtract] [${id}] [${filePath}] Extracting...`)
       if (notifications === "all" || notifications === "start") addNotification(t("notifications.body.extracting", { extractName: name }), "info")
       const result = await window.api.pathsManager.extractOnPath(id, filePath, outputPath, deleteZip)
 
@@ -176,11 +177,12 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }): JSX.E
 
       window.api.pathsManager.changePerms([outputPath], 0o755)
 
-      window.api.utils.logMessage("info", `[component] [TaskManager] [${id}] Extracted ${filePath} to ${outputPath}`)
+      window.api.utils.logMessage("info", `[front] [tasks] [contexts/TaskManagercontext.tsx] [TaskProvider > startExtract] [${id}] [${filePath}] Extracted.`)
       if (notifications === "all" || notifications === "end") addNotification(t("notifications.body.extracted", { extractName: name }), "success")
       onFinish(true, null)
     } catch (err) {
-      window.api.utils.logMessage("error", `[component] [TaskManager] [${id}] Error extracting ${filePath}: ${err}`)
+      window.api.utils.logMessage("error", `[front] [tasks] [contexts/TaskManagercontext.tsx] [TaskProvider > startExtract] [${id}] [${filePath}] Error extracting.`)
+      window.api.utils.logMessage("debug", `[front] [tasks] [contexts/TaskManagercontext.tsx] [TaskProvider > startExtract] [${id}] [${filePath}] Error extracting: ${err}`)
       tasksDispatch({ type: ACTIONS.UPDATE_TASK, payload: { id, updates: { status: "failed" } } })
       addNotification(t("notifications.body.extractError", { extractName: name }), "error")
       onFinish(false, new Error(`Error extracting ${filePath}: ${err}`))
@@ -195,27 +197,28 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }): JSX.E
     notifications: "all" | "start" | "end" | "none",
     inputPath: string,
     outputPath: string,
-    backupName: string,
+    fileName: string,
     onFinish: (status: boolean, error: Error | null) => void
   ): Promise<void> {
     const id = uuidv4()
 
     try {
       window.api.utils.setPreventAppClose("add", id, "Started compression.")
-      window.api.utils.logMessage("info", `[component] [TaskManager] [${id}] Adding compression of ${inputPath} to ${outputPath}.`)
+      window.api.utils.logMessage("info", `[front] [tasks] [contexts/TaskManagercontext.tsx] [TaskProvider > startCompress] [${id}] [${fileName}] Adding compression of ${inputPath} to ${outputPath}.`)
       tasksDispatch({ type: ACTIONS.ADD_TASK, payload: { id, name, desc, type: "compress", progress: 0, status: "pending" } })
 
-      window.api.utils.logMessage("info", `[component] [TaskManager] [${id}] Compressing ${inputPath}...`)
+      window.api.utils.logMessage("info", `[front] [tasks] [contexts/TaskManagercontext.tsx] [TaskProvider > startCompress] [${id}] [${fileName}] Compressing...`)
       if (notifications === "all" || notifications === "start") addNotification(t("notifications.body.compressing", { compressName: name }), "info")
-      const result = await window.api.pathsManager.compressOnPath(id, inputPath, outputPath, backupName)
+      const result = await window.api.pathsManager.compressOnPath(id, inputPath, outputPath, fileName)
 
       if (!result) throw new Error("Compression failed")
 
-      window.api.utils.logMessage("info", `[component] [TaskManager] [${id}] Compressed ${inputPath} to ${outputPath}`)
+      window.api.utils.logMessage("info", `[front] [tasks] [contexts/TaskManagercontext.tsx] [TaskProvider > startCompress] [${id}] [${fileName}] Compressed.`)
       if (notifications === "all" || notifications === "end") addNotification(t("notifications.body.compressed", { compressName: name }), "success")
       onFinish(true, null)
     } catch (err) {
-      window.api.utils.logMessage("error", `[component] [TaskManager] [${id}] Error compressing ${inputPath}: ${err}`)
+      window.api.utils.logMessage("error", `[front] [tasks] [contexts/TaskManagercontext.tsx] [TaskProvider > startCompress] [${id}] [${fileName}] Error compressing.`)
+      window.api.utils.logMessage("debug", `[front] [tasks] [contexts/TaskManagercontext.tsx] [TaskProvider > startCompress] [${id}] [${fileName}] Error compressing: ${err}`)
       tasksDispatch({ type: ACTIONS.UPDATE_TASK, payload: { id, updates: { status: "failed" } } })
       addNotification(t("notifications.body.compressError", { compressName: name }), "error")
       onFinish(false, new Error(`Error comrpessing ${inputPath}: ${err}`))

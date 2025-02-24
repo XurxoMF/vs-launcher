@@ -63,10 +63,11 @@ if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld("electron", electronAPI)
     contextBridge.exposeInMainWorld("api", api)
-    logMessage("info", "[preload] Exposed Electron APIs")
-  } catch (error) {
-    logMessage("error", "[preload] Failed to expose Electron APIs")
-    console.error(error)
+    logMessage("info", `[back] [index] [preload/index.ts] Exposed Electron's API.`)
+  } catch (err) {
+    logMessage("error", `[back] [index] [preload/index.ts] Error exposing Electron's API.`)
+    logMessage("error", `[back] [index] [preload/index.ts] Error exposing Electron's API: ${err}`)
+    console.error(err)
   }
 } else {
   // @ts-ignore (define in dts)
@@ -74,7 +75,7 @@ if (process.contextIsolated) {
   // @ts-ignore (define in dts)
   window.api = api
 
-  logMessage("info", "[preload] Exposed Electron APIs")
+  logMessage("info", `[back] [index] [preload/index.ts] Exposed Electron's API.`)
 }
 
 export type ApiType = typeof api

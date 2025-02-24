@@ -44,9 +44,12 @@ export function useInstallMod(): (
       version.mainfile,
       installPath,
       `${version.modidstr}-${version.modversion}`,
-      async (status, path, error) => {
-        if (!status) return window.api.utils.logMessage("error", `[component] [ManageMods(installations)] Error downloading mod: ${error}`)
-        window.api.utils.logMessage("info", `[component] [ManageMods(installations)] Downloaded mod ${version.mainfile} on ${path}`)
+      async (status, _path, error) => {
+        if (!status) {
+          window.api.utils.logMessage("error", `[front] [mods] [features/mods/hooks/useInstallMod.ts] [useInstallMod > installMod] Error downloading mod.`)
+          window.api.utils.logMessage("debug", `[front] [mods] [features/mods/hooks/useInstallMod.ts] [useInstallMod > installMod] Error downloading mod: ${error}`)
+          return
+        }
         if (onFinish) onFinish()
         countMods()
       }

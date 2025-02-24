@@ -288,7 +288,8 @@ function AuthorFilter({ authorFilter, setAuthorFilter }: { authorFilter: Downloa
       const data = await JSON.parse(res)
       setAuthorsList(data["authors"])
     } catch (err) {
-      window.api.utils.logMessage("error", `[component] [ListMods -> AuthorFilter] Error fetching authors: ${err}`)
+      window.api.utils.logMessage("error", `[front] [mods] [features/mods/pages/ListMods.tsx] [AuthorFilter > queryAuthors] Error fetching authors.`)
+      window.api.utils.logMessage("debug", `[front] [mods] [features/mods/pages/ListMods.tsx] [AuthorFilter > queryAuthors] Error fetching authors: ${err}`)
     }
   }
 
@@ -377,7 +378,8 @@ function VersionsFilter({
       const data = await JSON.parse(res)
       setGameVersionsList(data["gameversions"])
     } catch (err) {
-      window.api.utils.logMessage("error", `[component] [ListMods] Error fetching game versions: ${err}`)
+      window.api.utils.logMessage("error", `[front] [mods] [features/mods/pages/ListMods.tsx] [VersionsFilter > queryGameVersions] Error fetching game versions.`)
+      window.api.utils.logMessage("debug", `[front] [mods] [features/mods/pages/ListMods.tsx] [VersionsFilter > queryGameVersions] Error fetching game versions: ${err}`)
     }
   }
 

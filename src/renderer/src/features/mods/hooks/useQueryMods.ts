@@ -56,7 +56,8 @@ export function useQueryMods(): ({
 
       return data["mods"]
     } catch (err) {
-      window.api.utils.logMessage("error", `[hook] [useQueryMods] Error fetching mods: ${err}`)
+      window.api.utils.logMessage("error", `[front] [mods] [features/mods/hooks/useQueryMods.ts] [useQueryMods > queryMods] Error fetching mods.`)
+      window.api.utils.logMessage("debug", `[front] [mods] [features/mods/hooks/useQueryMods.ts] [useQueryMods > queryMods] Error fetching mods: ${err}`)
       return []
     }
   }

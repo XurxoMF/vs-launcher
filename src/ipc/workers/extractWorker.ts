@@ -2,8 +2,9 @@ import { parentPort, workerData } from "worker_threads"
 import yauzl from "yauzl"
 import fse from "fs-extra"
 import path from "path"
+import { logMessage } from "@src/utils/logManager"
 
-const { filePath, outputPath, deleteZip } = workerData
+const { id, filePath, outputPath, deleteZip } = workerData
 
 yauzl.open(filePath, { lazyEntries: true }, (err, zipfile) => {
   if (err) {
@@ -15,7 +16,7 @@ yauzl.open(filePath, { lazyEntries: true }, (err, zipfile) => {
   let extractedCount = 0
   let lastReportedProgress = 0
 
-  zipfile.readEntry() // Comienza a leer el archivo ZIP
+  zipfile.readEntry()
 
   zipfile.on("entry", (entry) => {
     const fullPath = path.join(outputPath, entry.fileName)
@@ -36,6 +37,8 @@ yauzl.open(filePath, { lazyEntries: true }, (err, zipfile) => {
         zipfile.close()
 
         if (deleteZip) {
+          logMessage("info", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [EXTRACT_ON_PATH] [${id}] [${filePath}] Eeleting origin file ${filePath}.`)
+
           fse.unlink(filePath, (err) => {
             if (err) {
               parentPort?.postMessage({ type: "error", message: `Error deleting ZIP file: ${err.message}` })
@@ -46,7 +49,7 @@ yauzl.open(filePath, { lazyEntries: true }, (err, zipfile) => {
 
         parentPort?.postMessage({ type: "finished" })
       } else {
-        zipfile.readEntry() // Leer siguiente entrada
+        zipfile.readEntry()
       }
     } else {
       zipfile.openReadStream(entry, (err, readStream) => {
@@ -56,7 +59,7 @@ yauzl.open(filePath, { lazyEntries: true }, (err, zipfile) => {
           return
         }
 
-        fse.ensureDirSync(path.dirname(fullPath)) // Asegura que el directorio exista
+        fse.ensureDirSync(path.dirname(fullPath))
         const writeStream = fse.createWriteStream(fullPath)
 
         readStream.pipe(writeStream)
@@ -91,7 +94,7 @@ yauzl.open(filePath, { lazyEntries: true }, (err, zipfile) => {
 
             parentPort?.postMessage({ type: "finished" })
           } else {
-            zipfile.readEntry() // Leer siguiente entrada
+            zipfile.readEntry()
           }
         })
 

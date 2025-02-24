@@ -47,7 +47,7 @@ function createWindow(): void {
   })
 
   mainWindow.on("ready-to-show", () => {
-    logMessage("info", "[main] Main window ready to show")
+    logMessage("info", "[back] [index] [main/index.ts] [createWindow] Main window ready to show. Opening.")
     mainWindow.show()
   })
 
@@ -58,11 +58,10 @@ function createWindow(): void {
 
   mainWindow.on("close", () => {
     if (getShouldPreventClose()) {
-      logMessage("info", "[main] Prevented from closing")
-
+      logMessage("info", "[back] [index] [main/index.ts] [createWindow] Main window prevented from closing.")
       return false
     }
-    logMessage("info", "[main] Main window closing")
+    logMessage("info", "[back] [index] [main/index.ts] [createWindow] Main window closing.")
     return true
   })
 
@@ -76,7 +75,7 @@ function createWindow(): void {
 
 // This method will be called when Electron has finished initialization and is ready to create browser windows. Some APIs can only be used after this event occurs.
 app.whenReady().then(async () => {
-  logMessage("info", "[main] Electron ready")
+  logMessage("info", "[back] [index] [main/index.ts] [whenReady] Electron ready.")
 
   // Handler for mod icons
   protocol.handle("cachemodimg", (req) => {
@@ -119,7 +118,7 @@ app.whenReady().then(async () => {
 
 // Quit when all windows are closed, except on macOS.
 app.on("window-all-closed", () => {
-  logMessage("info", "[main] All windows closed")
+  logMessage("info", "[back] [index] [main/index.ts] [whenReady] All windows closed.")
   if (process.platform !== "darwin") {
     app.quit()
   }

@@ -64,7 +64,8 @@ function RestoreInstallationBackup(): JSX.Element {
         }
       )
     } catch (err) {
-      window.api.utils.logMessage("error", `[RestoreInstallationBackup] [backup] There was an error while restoring a backup: ${err}`)
+      window.api.utils.logMessage("error", `[front] [backups] [features/installations/pages/RestoreInstallationBackup.tsx] [RestoreBackupHandler] Error restoring a backup.`)
+      window.api.utils.logMessage("debug", `[front] [backups] [features/installations/pages/RestoreInstallationBackup.tsx] [RestoreBackupHandler] Error restoring a backup: ${err}`)
     } finally {
       setBackupToRestore(null)
       window.api.utils.setPreventAppClose("remove", id, "Finished backup restoration...")

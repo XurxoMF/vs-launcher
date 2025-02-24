@@ -259,7 +259,7 @@ const ConfigProvider = ({ children }: { children: React.ReactNode }): JSX.Elemen
     ;(async (): Promise<void> => {
       if (firstExecutedConfigContext.current) {
         firstExecutedConfigContext.current = false
-        window.api.utils.logMessage("info", `[context] [ConfigConext] Setting context config from config file`)
+        window.api.utils.logMessage("info", `[front] [config] [features/config/contexts/ConfigCntext.tsx] [ConfigProvider] Setting context config from config file.`)
         const config = await window.api.configManager.getConfig()
         configDispatch({ type: CONFIG_ACTIONS.SET_CONFIG, payload: config })
         setIsConfigLoaded(true)

@@ -58,7 +58,10 @@ export function useMakeInstallationBackup(): (installationId: string) => Promise
             payload: { id: installation.id, backupId: backupToDelete.id }
           })
           backupsLength--
-          window.api.utils.logMessage("info", `[ListInstallations] [backup] Deleted old backup: ${backupToDelete.path}`)
+          window.api.utils.logMessage(
+            "info",
+            `[front] [backups] [features/installations/hooks/useMakeInstallationBackup.ts] [useMakeInstallationBackup > makeInstallationBackup] Deleted old backup ${backupToDelete.path}.`
+          )
         }
 
         const backupDate = Date.now()
@@ -84,7 +87,14 @@ export function useMakeInstallationBackup(): (installationId: string) => Promise
           }
         )
       } catch (err) {
-        window.api.utils.logMessage("error", `[ListInstallations] [backup] Error making a backup: ${err}`)
+        window.api.utils.logMessage(
+          "error",
+          `[front] [backups] [features/installations/hooks/useMakeInstallationBackup.ts] [useMakeInstallationBackup > makeInstallationBackup] Error creating backup.`
+        )
+        window.api.utils.logMessage(
+          "debug",
+          `[front] [backups] [features/installations/hooks/useMakeInstallationBackup.ts] [useMakeInstallationBackup > makeInstallationBackup] Error creating backup: ${err}`
+        )
         addNotification(t("features.backups.errorMakingBackup"), "error")
         return false
       } finally {
