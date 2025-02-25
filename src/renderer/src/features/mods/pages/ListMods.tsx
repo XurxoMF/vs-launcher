@@ -63,7 +63,8 @@ function ListMods(): JSX.Element {
   const [visibleMods, setVisibleMods] = useState<number>(20)
 
   const [installation, setInstallation] = useState<InstallationType | undefined>(undefined)
-  const [installedMods, setInstalledMods] = useState<InstalledModType[]>([])
+
+  const [installationInstalledMods, setInstallationInstalledMods] = useState<InstalledModType[]>([])
 
   const [onlyFav, setOnlyFav] = useState<boolean>(false)
   const [textFilter, setTextFilter] = useState<string>("")
@@ -121,7 +122,7 @@ function ListMods(): JSX.Element {
   }, [config.lastUsedInstallation])
 
   useEffect(() => {
-    if (!installation) return setInstalledMods([])
+    if (!installation) return setInstallationInstalledMods([])
     triggerGetCompleteInstalledMods()
   }, [installation])
 
@@ -159,7 +160,7 @@ function ListMods(): JSX.Element {
     const totalMods = mods.errors.length + mods.mods.length
     configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id: installation.id, updates: { _modsCount: totalMods } } })
 
-    setInstalledMods(mods.mods)
+    setInstallationInstalledMods(mods.mods)
   }
 
   function clearFilters(): void {
@@ -317,14 +318,16 @@ function ListMods(): JSX.Element {
           )}
         </GridWrapper>
 
-        {installation && modToInstall && (
+        {modToInstall && (
           <InstallModPopup
             modToInstall={modToInstall.modid}
             setModToInstall={() => setModToInstall(null)}
-            pathToInstall={installation.path}
-            version={installation.version}
-            outName={installation.name}
-            oldMod={installedMods.find((iMod) => modToInstall.modidstrs.some((modidstr) => modidstr === iMod.modid))}
+            installation={
+              installation && {
+                installation: installation,
+                oldMod: installationInstalledMods.find((iMod) => modToInstall.modidstrs.some((modidstr) => modidstr === iMod.modid))
+              }
+            }
             onFinishInstallation={() => {
               triggerGetCompleteInstalledMods()
             }}

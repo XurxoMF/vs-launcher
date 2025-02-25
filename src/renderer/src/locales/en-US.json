@@ -168,7 +168,8 @@
       "probablyDontWorkOnTheVersion": "Author didn't tagged it as compatible and there is a 90% chance it will not work on the selected Vintage Story Version!",
       "compatibleUpdate": "You can update to this version!",
       "listWithIncompatibleUpdatesTitle": "Mods with incompatible updates",
-      "modsWithIncompatibleUpdatesDescription": "The next mods have available updates that are 90% incompatible with your selected Vinatge Story Version!"
+      "modsWithIncompatibleUpdatesDescription": "The next mods have available updates that are 90% incompatible with your selected Vinatge Story Version!",
+      "cantUpdateWhileinUse": "You can't update a mod while it's in use!"
     },
     "config": {
       "title": "Settings",

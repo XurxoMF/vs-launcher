@@ -62,19 +62,23 @@ function ListVersions(): JSX.Element {
               .map((gv) => (
                 <ListItem key={gv.version}>
                   <div className="w-full h-8 flex gap-2 px-2 py-1 justify-between items-center">
-                    <div className="shrink-0 w-22 flex items-center justify-center text-start font-bold">
+                    <div className="w-full flex items-center justify-center text-start font-bold">
                       <p className="w-full">{gv.version}</p>
                     </div>
 
                     <ThinSeparator />
 
-                    <div className="w-full flex items-center justify-center text-sm text-zinc-500 overflow-hidden">
-                      <p className="overflow-hidden text-ellipsis whitespace-nowrap">{gv.path}</p>
-                    </div>
-
-                    <ThinSeparator />
-
                     <div className="shrink-0 w-fit flex gap-1 text-lg">
+                      <NormalButton
+                        onClick={async () => {
+                          if (!(await window.api.pathsManager.checkPathExists(gv.path))) return addNotification(t("notifications.body.folderDoesntExists"), "error")
+                          window.api.pathsManager.openPathOnFileExplorer(gv.path)
+                        }}
+                        title={`${t("generic.openOnFileExplorer")} · ${gv.path}`}
+                        className="p-1"
+                      >
+                        <PiFolderOpenDuotone />
+                      </NormalButton>
                       <NormalButton
                         className="p-1"
                         title={t("generic.delete")}
@@ -83,16 +87,6 @@ function ListVersions(): JSX.Element {
                         }}
                       >
                         <PiTrashDuotone />
-                      </NormalButton>
-                      <NormalButton
-                        onClick={async () => {
-                          if (!(await window.api.pathsManager.checkPathExists(gv.path))) return addNotification(t("notifications.body.folderDoesntExists"), "error")
-                          window.api.pathsManager.openPathOnFileExplorer(gv.path)
-                        }}
-                        title={t("generic.openOnFileExplorer")}
-                        className="p-1"
-                      >
-                        <PiFolderOpenDuotone />
                       </NormalButton>
                     </div>
                   </div>

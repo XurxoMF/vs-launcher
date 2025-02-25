@@ -229,7 +229,14 @@ function ListMods(): JSX.Element {
                 .filter((iMod) => iMod._updatableTo)
                 .sort((a, b) => a.name.localeCompare(b.name))
                 .map((iMod) => (
-                  <InstalledModItem key={iMod.modid + iMod.path} iMod={iMod} onDeleteClick={() => setModToDelete(iMod)} onUpdateClick={() => setModToUpdate(iMod)} />
+                  <InstalledModItem
+                    key={iMod.modid + iMod.path}
+                    iMod={iMod}
+                    onDeleteClick={() => setModToDelete(iMod)}
+                    onUpdateClick={() => {
+                      setModToUpdate(iMod)
+                    }}
+                  />
                 ))}
             </ListGroup>
           </ListWrapper>
@@ -277,7 +284,14 @@ function ListMods(): JSX.Element {
                 .filter((iMod) => !iMod._updatableTo && iMod._lastVersion)
                 .sort((a, b) => a.name.localeCompare(b.name))
                 .map((iMod) => (
-                  <InstalledModItem key={iMod.modid + iMod.path} iMod={iMod} onDeleteClick={() => setModToDelete(iMod)} onUpdateClick={() => setModToUpdate(iMod)} />
+                  <InstalledModItem
+                    key={iMod.modid + iMod.path}
+                    iMod={iMod}
+                    onDeleteClick={() => setModToDelete(iMod)}
+                    onUpdateClick={() => {
+                      setModToUpdate(iMod)
+                    }}
+                  />
                 ))}
             </ListGroup>
           </ListWrapper>
@@ -300,10 +314,7 @@ function ListMods(): JSX.Element {
           <InstallModPopup
             modToInstall={modToUpdate.modid}
             setModToInstall={() => setModToUpdate(null)}
-            outName={installation.name}
-            pathToInstall={installation.path}
-            version={installation.version}
-            oldMod={installedMods.find((iMod) => iMod.modid === modToUpdate.modid)}
+            installation={{ installation: installation, oldMod: installedMods.find((iMod) => iMod.modid === modToUpdate.modid) }}
             onFinishInstallation={() => {
               triggerGetCompleteInstalledMods()
             }}
@@ -331,7 +342,6 @@ function ListMods(): JSX.Element {
 
 function InstalledModItem({ iMod, onDeleteClick, onUpdateClick }: { iMod: InstalledModType; onDeleteClick: () => void; onUpdateClick: () => void }): JSX.Element {
   const { t } = useTranslation()
-  const { addNotification } = useNotificationsContext()
 
   return (
     <ListItem key={iMod.modid + iMod.path}>
@@ -382,7 +392,6 @@ function InstalledModItem({ iMod, onDeleteClick, onUpdateClick }: { iMod: Instal
             className="p-1"
             title={t("generic.update")}
             onClick={async () => {
-              if (!iMod._mod || iMod._mod.releases.length < 1) return addNotification(t("features.mods.noVersionsFound"), "error")
               onUpdateClick()
             }}
           >

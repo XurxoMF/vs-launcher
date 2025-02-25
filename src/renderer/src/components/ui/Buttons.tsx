@@ -40,7 +40,7 @@ export function NormalButton({
     <HButton
       disabled={disabled}
       onClick={onClick}
-      title={title}
+      title={!disabled ? title : ""}
       className={clsx("flex items-center justify-center rounded-sm disabled:opacity-50 cursor-pointer", type && COLOR_BY_TYPE[type], className)}
     >
       {children}

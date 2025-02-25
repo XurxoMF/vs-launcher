@@ -65,23 +65,24 @@ function ListInslallations(): JSX.Element {
               <ListItem key={installation.id}>
                 <div className="h-16 flex gap-2 px-2 py-1 justify-between items-center whitespace-nowrap">
                   <div className="w-full flex flex-col items-start justify-center gap-1 overflow-hidden">
-                    <div className="flex gap-1 items-center justify-center">
+                    <div className="w-full flex gap-1 items-center justify-start">
                       <p className="font-bold">{installation.name}</p>
-                      <span>·</span>
-                      <p className="text-sm text-zinc-400">{installation.lastTimePlayed === -1 ? t("generic.notPlayedYet") : new Date(installation.lastTimePlayed).toLocaleString("es")}</p>
-                      <span>·</span>
-                      <p className="text-sm text-zinc-400">{t("generic.totalTime", { total: installation.totalTimePlayed > 1000 ? formatMilliseconds(installation.totalTimePlayed) : "0s" })}</p>
                     </div>
-                    <p className="overflow-hidden text-ellipsis text-sm text-zinc-500" title={installation.path}>
-                      {installation.path}
-                    </p>
+
+                    <div className="w-full flex gap-1 items-center justify-start text-sm text-zinc-500">
+                      <p>{installation.lastTimePlayed === -1 ? t("generic.notPlayedYet") : new Date(installation.lastTimePlayed).toLocaleString("es")}</p>
+
+                      <span>·</span>
+
+                      <p>{t("generic.totalTime", { total: installation.totalTimePlayed > 1000 ? formatMilliseconds(installation.totalTimePlayed) : "0s" })}</p>
+                    </div>
                   </div>
 
                   <ThinSeparator />
 
-                  <div className="shrink-0 w-22 flex flex-col items-center justify-center gap-1 text-sm">
+                  <div className="shrink-0 w-22 flex flex-col items-center justify-center gap-1">
                     <p className="font-bold">{installation.version}</p>
-                    <p>{t("features.mods.modsCount", { count: installation._modsCount as number })}</p>
+                    <p className="text-sm">{t("features.mods.modsCount", { count: installation._modsCount as number })}</p>
                   </div>
 
                   <ThinSeparator />
@@ -111,7 +112,7 @@ function ListInslallations(): JSX.Element {
                           if (!(await window.api.pathsManager.checkPathExists(installation.path))) return addNotification(t("notifications.body.folderDoesntExists"), "error")
                           window.api.pathsManager.openPathOnFileExplorer(installation.path)
                         }}
-                        title={t("generic.openOnFileExplorer")}
+                        title={`${t("generic.openOnFileExplorer")} · ${installation.path}`}
                         className="p-1"
                       >
                         <PiFolderOpenDuotone />
