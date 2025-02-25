@@ -44,8 +44,9 @@ function AddVersion(): JSX.Element {
       try {
         const { data }: { data: DownloadableGameVersionType[] } = await axios("https://vslapi.xurxomf.xyz/versions")
         setGameVersions(data)
-      } catch (error) {
-        window.api.utils.logMessage("error", `[component] [AddVersion] Error fetching game versions: ${error}`)
+      } catch (err) {
+        window.api.utils.logMessage("error", `[front] [mods] [features/versions/pages/AddVersion.tsx] [AddVersion] Error fetching game versions.`)
+        window.api.utils.logMessage("debug", `[front] [mods] [features/versions/pages/AddVersion.tsx] [AddVersion] Error fetching game versions: ${err}`)
       }
     })()
   }, [])
@@ -193,6 +194,8 @@ function AddVersion(): JSX.Element {
                     onClick={async () => {
                       const path = await window.api.utils.selectFolderDialog()
                       if (path && path.length > 0) {
+                        if (!(await window.api.pathsManager.checkPathEmpty(path))) addNotification(t("notifications.body.folderNotEmpty"), "warning")
+
                         setFolder(path)
                         setFolderByUser(true)
                       }

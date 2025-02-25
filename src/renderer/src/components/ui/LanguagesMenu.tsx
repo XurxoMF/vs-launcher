@@ -25,7 +25,7 @@ function LanguagesMenu(): JSX.Element {
   const languages = getLanguages()
 
   const handleLanguageChange = (lang: string): void => {
-    window.api.utils.logMessage("info", `[component] [LanguagesMenu] Changing language to ${lang}`)
+    window.api.utils.logMessage("info", `[front] [localization] [components/ui/LanguagesMenu.tsx] [handleLanguageChange] Changing language to ${lang}.`)
     i18n.changeLanguage(lang)
     localStorage.setItem("lang", lang)
     setSelectedLanguage(lang)

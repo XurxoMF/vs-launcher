@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom"
 import { useTranslation, Trans } from "react-i18next"
 import { Button } from "@headlessui/react"
 import { PiFloppyDiskBackFill, PiXBold } from "react-icons/pi"
+import semver from "semver"
 
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
@@ -37,15 +38,15 @@ function EditInslallation(): JSX.Element {
 
   const [installation, setInstallation] = useState<InstallationType | undefined>(config.installations.find((igv) => igv.id === id))
 
-  useEffect(() => {
-    setInstallation(config.installations.find((igv) => igv.id === id))
-  }, [id])
-
   const [name, setName] = useState<string>("")
   const [version, setVersion] = useState<GameVersionType>(config.gameVersions[0])
   const [startParams, setStartParams] = useState<string>("")
   const [backupsLimit, setBackupsLimit] = useState<number>(0)
   const [backupsAuto, setBackupsAuto] = useState<boolean>(false)
+
+  useEffect(() => {
+    setInstallation(config.installations.find((igv) => igv.id === id))
+  }, [id])
 
   useEffect(() => {
     setName(installation?.name ?? "")
@@ -134,11 +135,14 @@ function EditInslallation(): JSX.Element {
                             </p>
                           </div>
                         )}
-                        {config.gameVersions.map((gv) => (
-                          <TableBodyRow key={gv.version} onClick={() => setVersion(gv)} selected={version?.version === gv.version}>
-                            <TableCell className="w-full">{gv.version}</TableCell>
-                          </TableBodyRow>
-                        ))}
+                        {config.gameVersions
+                          .slice()
+                          .sort((a, b) => semver.rcompare(a.version, b.version))
+                          .map((gv) => (
+                            <TableBodyRow key={gv.version} onClick={() => setVersion(gv)} selected={version?.version === gv.version}>
+                              <TableCell className="w-full">{gv.version}</TableCell>
+                            </TableBodyRow>
+                          ))}
                       </TableBody>
                     </TableWrapper>
                   </FormBody>
@@ -173,7 +177,7 @@ function EditInslallation(): JSX.Element {
 
                   <FormBody>
                     <FormFieldGroupWithDescription alignment="x">
-                      <FormToggle value={backupsAuto} onChange={setBackupsAuto} />
+                      <FormToggle title={t("features.backups.backupsAuto")} value={backupsAuto} onChange={setBackupsAuto} />
                       <FormFieldDescription content={t("features.backups.backupsAuto")} />
                     </FormFieldGroupWithDescription>
                   </FormBody>
@@ -215,7 +219,7 @@ function EditInslallation(): JSX.Element {
           <FormLinkButton to="/installations" title={t("generic.goBack")} className="p-2">
             <PiXBold />
           </FormLinkButton>
-          <FormButton onClick={handleEditInstallation} title={t("generic.add")} className="p-2">
+          <FormButton onClick={handleEditInstallation} title={t("generic.save")} className="p-2">
             <PiFloppyDiskBackFill />
           </FormButton>
         </ButtonsWrapper>

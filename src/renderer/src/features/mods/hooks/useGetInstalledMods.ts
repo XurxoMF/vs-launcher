@@ -16,7 +16,8 @@ export function useGetInstalledMods(): ({ path, onFinish }: { path: string; onFi
 
       return mods
     } catch (err) {
-      window.api.utils.logMessage("error", `[hook] [useQueryMod] Error getting mods installed on ${path}: ${err}`)
+      window.api.utils.logMessage("error", `[front] [mods] [features/mods/hooks/useGetInstalledMods.ts] [useGetInstalledMods > getInstalledMods] Error getting mods installed on ${path}.`)
+      window.api.utils.logMessage("debug", `[front] [mods] [features/mods/hooks/useGetInstalledMods.ts] [useGetInstalledMods > getInstalledMods] Error getting mods installed on ${path}: ${err}`)
       return { mods: [], errors: [] }
     }
   }

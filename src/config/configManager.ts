@@ -7,16 +7,18 @@ import { logMessage } from "@src/utils/logManager"
  * VERSIONS LIST
  * 1.0: 0.0.1 -> 0.0.5
  * 1.1: 1.0.0
- * 1.2: 1.1.0
+ * 1.2: 1.1.0 -> 1.2.3
+ * 1.3: 1.3.0
  */
 const defaultConfig: ConfigType = {
-  version: 1.2,
+  version: 1.3,
   lastUsedInstallation: null,
   defaultInstallationsFolder: join(app.getPath("appData"), "VSLInstallations"),
   defaultVersionsFolder: join(app.getPath("appData"), "VSLGameVersions"),
   backupsFolder: join(app.getPath("appData"), "VSLBackups"),
   installations: [],
-  gameVersions: []
+  gameVersions: [],
+  favMods: []
 }
 
 const defaultInstallation: InstallationType = {
@@ -45,10 +47,10 @@ export async function saveConfig(config: ConfigType): Promise<boolean> {
       })
     )
     await fse.writeJSON(configPath, cleanedConfig)
-    logMessage("info", `[config] Config saved at ${configPath}`)
     return true
   } catch (err) {
-    logMessage("error", `[config] Error saving config at ${configPath}: ${err}`)
+    logMessage("error", `[back] [config] [config/configManager.ts] [saveConfig] Error saving config at ${configPath}.`)
+    logMessage("debug", `[back] [config] [config/configManager.ts] [saveConfig] Error saving config at ${configPath}: ${err}`)
     return false
   }
 }
@@ -60,7 +62,8 @@ export async function getConfig(): Promise<ConfigType> {
     const ensuredConfig = ensureConfigProperties(config)
     return ensuredConfig
   } catch (err) {
-    logMessage("error", `[config] Error getting config at ${configPath}. Using default config.`)
+    logMessage("error", `[back] [config] [config/configManager.ts] [getConfig] Error getting config at ${configPath}. Using default config.`)
+    logMessage("debug", `[back] [config] [config/configManager.ts] [getConfig] Error getting config at ${configPath}: ${err}`)
     await saveConfig(defaultConfig)
     return defaultConfig
   }
@@ -69,14 +72,16 @@ export async function getConfig(): Promise<ConfigType> {
 export async function ensureConfig(): Promise<boolean> {
   configPath = join(app.getPath("userData"), "config.json")
   try {
+    logMessage("info", `[back] [config] [config/configManager.ts] [ensureConfig] Looking for config at ${configPath}.`)
     if (!(await fse.pathExists(configPath))) {
-      logMessage("info", `[config] Config not found at ${configPath}. Creating default config.`)
+      logMessage("info", `[back] [config] [config/configManager.ts] [ensureConfig] Config not found. Creating default config.`)
       return await saveConfig(defaultConfig)
     }
-    logMessage("info", `[config] Config found at ${configPath}`)
+    logMessage("info", `[back] [config] [config/configManager.ts] [ensureConfig] Config found.`)
     return true
   } catch (err) {
-    logMessage("error", `[config] Error ensuring config at ${configPath}: ${err}`)
+    logMessage("error", `[back] [config] [config/configManager.ts] [ensureConfig] Error ensuring config.`)
+    logMessage("error", `[back] [config] [config/configManager.ts] [ensureConfig] Error ensuring config at ${configPath}: ${err}`)
     return false
   }
 }
@@ -105,7 +110,8 @@ function ensureConfigProperties(config: ConfigType): ConfigType {
     defaultVersionsFolder: config.defaultVersionsFolder ?? defaultConfig.defaultVersionsFolder,
     backupsFolder: config.backupsFolder ?? defaultConfig.backupsFolder,
     installations,
-    gameVersions
+    gameVersions,
+    favMods: config.favMods ?? defaultConfig.favMods
   }
 
   return fixedConfig

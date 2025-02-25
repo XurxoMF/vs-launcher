@@ -5,28 +5,26 @@ import { IPC_CHANNELS } from "../ipcChannels"
 import { logMessage } from "@src/utils/logManager"
 import { join } from "path"
 import JSON5 from "json5"
-
-ipcMain.handle(IPC_CHANNELS.MODS_MANAGER.COUNT_MODS, async (_event, path: string): Promise<{ status: boolean; count: number }> => {
-  try {
-    if (!fse.pathExistsSync(path)) return { status: true, count: 0 }
-    const modCount = fse.readdirSync(path).length
-    return { status: true, count: modCount }
-  } catch (err) {
-    logMessage("error", `[ipcMain] [count-mods] There was an error counting mods`)
-    return { status: false, count: 0 }
-  }
-})
+import { v4 as uuidv4 } from "uuid"
 
 ipcMain.handle(IPC_CHANNELS.MODS_MANAGER.GET_INSTALLED_MODS, async (_event, path: string): Promise<{ mods: InstalledModType[]; errors: ErrorInstalledModType[] }> => {
   try {
-    if (!fse.pathExistsSync(path)) return { mods: [], errors: [] }
+    logMessage("info", `[back] [mods] [ipc/handlers/modsHandlers.ts] [GET_INSTALLED_MODS] Looking for mods at ${path}.`)
 
-    const infoMods = await getModsInfo(path)
-    const mods = await addImagesToMods(infoMods.mods)
+    if (!fse.pathExistsSync(path)) {
+      logMessage("info", `[back] [mods] [ipc/handlers/modsHandlers.ts] [GET_INSTALLED_MODS] That path does not exists. 0 mods detected.`)
+      return { mods: [], errors: [] }
+    }
 
-    return { mods: mods, errors: infoMods.errors }
+    const infoMods = await getMods(path)
+
+    logMessage("info", `[back] [mods] [ipc/handlers/modsHandlers.ts] [GET_INSTALLED_MODS] Found ${infoMods.mods.length} mods and ${infoMods.errors.length} mods with errors.`)
+    if (infoMods.errors.length > 0)
+      logMessage("debug", `[back] [mods] [ipc/handlers/modsHandlers.ts] [GET_INSTALLED_MODS] Found ${infoMods.errors.length} mods with errors: ${infoMods.errors.map((mwe) => mwe.zipname)}`)
+    return { mods: infoMods.mods, errors: infoMods.errors }
   } catch (err) {
-    logMessage("error", `[ipcMain] [get-installed-mods] There was an error getting installed mods: ${err}`)
+    logMessage("error", `[back] [mods] [ipc/handlers/modsHandlers.ts] [GET_INSTALLED_MODS] Error getting installed mods.`)
+    logMessage("debug", `[back] [mods] [ipc/handlers/modsHandlers.ts] [GET_INSTALLED_MODS] Error getting installed mods: ${err}`)
     return { mods: [], errors: [] }
   }
 })
@@ -37,11 +35,15 @@ ipcMain.handle(IPC_CHANNELS.MODS_MANAGER.GET_INSTALLED_MODS, async (_event, path
  * @param {string} path The path to the folder with the mods.
  * @returns {Promise<{mods: InstalledModType[]; errors: ErrorInstalledModType[]}>} A list with the succesfully parsed mods and another list with the mods that threw an error.
  */
-async function getModsInfo(path: string): Promise<{ mods: InstalledModType[]; errors: ErrorInstalledModType[] }> {
+async function getMods(path: string): Promise<{ mods: InstalledModType[]; errors: ErrorInstalledModType[] }> {
+  const pathToImages = join(app.getPath("userData"), "Cache", "Images")
+
   const mods: InstalledModType[] = []
   const errors: ErrorInstalledModType[] = []
 
   const files = fse.readdirSync(path).filter((file) => file.endsWith(".zip"))
+
+  logMessage("info", `[back] [mods] [ipc/handlers/modsHandlers.ts] [getModsInfo] Found ${files.length} zip files. Starting reading them looking for mods.`)
 
   // Wait for all the mods to be parsed.
   await Promise.all(
@@ -49,23 +51,36 @@ async function getModsInfo(path: string): Promise<{ mods: InstalledModType[]; er
       const zipPath = join(path, file)
 
       return new Promise<void>((resolve) => {
+        let imageFound: string | undefined = undefined
+        let modFound: InstalledModType | undefined = undefined
+
         yauzl.open(zipPath, { lazyEntries: true }, (err, zip) => {
           if (err) {
-            logMessage("error", `[ipcMain] [get-installed-mods] [getModsInfo] An error occurred opening ${file}: ${err}`)
+            logMessage("error", `[back] [mods] [ipc/handlers/modsHandlers.ts] [getModsInfo] [${file}] Error opening zip file.`)
+            logMessage("debug", `[back] [mods] [ipc/handlers/modsHandlers.ts] [getModsInfo] [${file}] Error opening zip file: ${err}`)
             errors.push({ zipname: file, path: zipPath })
             return resolve()
           }
 
-          zip.readEntry()
+          if (zip.isOpen) zip.readEntry()
+
+          function closeZipReturnResolve(): void {
+            if (zip && zip.isOpen) {
+              zip.close()
+              return resolve()
+            } else {
+              return resolve()
+            }
+          }
 
           zip.on("entry", (entry) => {
             if (entry.fileName === "modinfo.json") {
               zip.openReadStream(entry, (err, stream) => {
                 if (err) {
-                  logMessage("error", `[ipcMain] [get-installed-mods] [getModsInfo] Error reading stream for ${file}: ${err}`)
+                  logMessage("error", `[back] [mods] [ipc/handlers/modsHandlers.ts] [getModsInfo] [${file}] Error reading stream for ${entry}.`)
+                  logMessage("debug", `[back] [mods] [ipc/handlers/modsHandlers.ts] [getModsInfo] [${file}] Error reading stream for ${entry}: ${err}`)
                   errors.push({ zipname: file, path: zipPath })
-                  zip.close()
-                  return resolve()
+                  closeZipReturnResolve()
                 }
 
                 let data = ""
@@ -87,74 +102,48 @@ async function getModsInfo(path: string): Promise<{ mods: InstalledModType[]; er
                     }
 
                     if (mod.modid && mod.version && mod.name && mod.path) {
-                      mods.push(mod)
+                      modFound = mod
+
+                      if (imageFound) {
+                        const imgName = `${mod.modid}.png`
+
+                        const origin = join(pathToImages, imageFound)
+                        const destination = join(pathToImages, imgName)
+
+                        fse.moveSync(origin, destination, { overwrite: true })
+
+                        modFound._image = imgName
+
+                        mods.push(modFound)
+                      }
                     } else {
-                      logMessage("error", `[ipcMain] [get-installed-mods] [getModsInfo] Missing modid, version, name, or path for ${file}`)
+                      logMessage("error", `[back] [mods] [ipc/handlers/modsHandlers.ts] [getModsInfo] [${file}] Couldn't identify a mod.`)
+                      logMessage("debug", `[back] [mods] [ipc/handlers/modsHandlers.ts] [getModsInfo] [${file}] Couldn't identify a mod: ${json}`)
                       errors.push({ zipname: file, path: zipPath })
+                      resolve()
                     }
                   } catch (err) {
-                    logMessage("error", `[ipcMain] [get-installed-mods] [getModsInfo] Error parsing JSON for ${file}: ${err}`)
+                    logMessage("error", `[back] [mods] [ipc/handlers/modsHandlers.ts] [getModsInfo] [${file}] Error parsing modinfo.json.`)
+                    logMessage("debug", `[back] [mods] [ipc/handlers/modsHandlers.ts] [getModsInfo] [${file}] Error parsing modinfo.json: ${err}`)
                     errors.push({ zipname: file, path: zipPath })
+                    closeZipReturnResolve()
                   } finally {
-                    zip.close()
-                    resolve()
+                    if (modFound && imageFound) closeZipReturnResolve()
+                    if (zip.isOpen) zip.readEntry()
                   }
                 })
+
+                stream.on("error", (err) => {
+                  logMessage("error", `[back] [mods] [ipc/handlers/modsHandlers.ts] [getModsInfo] [${file}] Error reading modinfo.json.`)
+                  logMessage("debug", `[back] [mods] [ipc/handlers/modsHandlers.ts] [getModsInfo] [${file}] Error reading modinfo.json: ${err}`)
+                })
               })
-            } else {
-              zip.readEntry()
-            }
-          })
-
-          zip.on("end", () => {
-            zip.close()
-            resolve()
-          })
-
-          zip.on("error", (err) => {
-            logMessage("error", `[ipcMain] [get-installed-mods] [getModsInfo] Zip error for ${file}: ${err}`)
-            errors.push({ zipname: file, path: zipPath })
-            zip.close()
-            resolve()
-          })
-        })
-      })
-    })
-  )
-
-  return { mods: mods, errors: errors }
-}
-
-/**
- * Get a list of mods in a folder and read the modinfo.json of each one to get the mod information.
- *
- * @param {InstalledModType[]} modsInfo List of mods.
- * @returns {Promise<InstalledModType[]>} A list with the same mods but with the image added to _image. Undefined if there is no image.
- */
-async function addImagesToMods(modsInfo: InstalledModType[]): Promise<InstalledModType[]> {
-  const pathToImages = join(app.getPath("userData"), "Cache", "Images")
-
-  const modsWithImages = [...modsInfo]
-
-  // Wait for all the mods to be parsed.
-  await Promise.all(
-    modsWithImages.map(async (iMod) => {
-      // Add a promise to the list while the current mod is parsed.
-      await new Promise<void>((resolve) => {
-        yauzl.open(iMod.path, { lazyEntries: true }, (err, zip) => {
-          if (err) {
-            logMessage("error", `[ipcMain] [get-installed-mods] [addImagesToMods] An error occurred opening ${iMod.path}: ${err}`)
-            return resolve()
-          }
-
-          zip.readEntry()
-
-          zip.on("entry", (entry) => {
-            if (entry.fileName === "modicon.png") {
+            } else if (entry.fileName === "modicon.png") {
               zip.openReadStream(entry, (err, stream) => {
                 if (err) {
-                  logMessage("error", `[ipcMain] [get-installed-mods] [addImagesToMods] Error reading stream for ${iMod.path}: ${err}`)
-                  return resolve()
+                  logMessage("error", `[back] [mods] [ipc/handlers/modsHandlers.ts] [getModsInfo] [${file}] Error reading stream for ${entry}.`)
+                  logMessage("debug", `[back] [mods] [ipc/handlers/modsHandlers.ts] [getModsInfo] [${file}] Error reading stream for ${entry}: ${err}`)
+                  closeZipReturnResolve()
                 }
 
                 const chunks: Buffer[] = []
@@ -162,44 +151,55 @@ async function addImagesToMods(modsInfo: InstalledModType[]): Promise<InstalledM
                 stream.on("end", async () => {
                   try {
                     const imageBuffer = Buffer.concat(chunks)
-                    const modId = iMod.modid
-                    const imageName = `${modId}.png`
+
+                    let imageName = `${uuidv4()}.png`
+                    if (modFound) imageName = `${modFound.name}.png`
+
                     const imagePath = join(pathToImages, imageName)
 
-                    if (!fse.existsSync(pathToImages)) {
-                      fse.mkdirSync(pathToImages, { recursive: true })
-                    }
+                    fse.ensureDirSync(pathToImages)
 
                     fse.writeFileSync(imagePath, imageBuffer)
 
-                    iMod._image = imageName
+                    imageFound = imageName
+
+                    if (modFound) {
+                      modFound._image = imageName
+
+                      mods.push(modFound)
+                    }
                   } catch (imageErr) {
-                    logMessage("error", `[ipcMain] [get-installed-mods] [addImagesToMods] Error saving the image of the ${iMod.path} mod: ${imageErr}`)
+                    logMessage("error", `[back] [mods] [ipc/handlers/modsHandlers.ts] [getModsInfo] [${file}] Error saving the mod's logo.`)
                   } finally {
-                    zip.close()
-                    resolve()
+                    if (modFound && imageFound) closeZipReturnResolve()
+                    if (zip.isOpen) zip.readEntry()
                   }
+                })
+
+                stream.on("error", (err) => {
+                  logMessage("error", `[back] [mods] [ipc/handlers/modsHandlers.ts] [getModsInfo] [${file}] Error reading image.png.`)
+                  logMessage("debug", `[back] [mods] [ipc/handlers/modsHandlers.ts] [getModsInfo] [${file}] Error reading image.png: ${err}`)
                 })
               })
             } else {
-              zip.readEntry()
+              if (zip.isOpen) zip.readEntry()
             }
           })
 
           zip.on("end", () => {
-            zip.close()
-            resolve()
+            if (modFound && !imageFound) mods.push(modFound)
+            closeZipReturnResolve()
           })
 
           zip.on("error", (err) => {
-            logMessage("error", `[ipcMain] [get-installed-mods] [addImagesToMods] Zip error for ${iMod.path}: ${err}`)
-            zip.close()
-            resolve()
+            logMessage("error", `[back] [mods] [ipc/handlers/modsHandlers.ts] [getModsInfo] [${file}] Error with ZIP file.`)
+            logMessage("debug", `[back] [mods] [ipc/handlers/modsHandlers.ts] [getModsInfo] [${file}] Error with ZIP file: ${err}`)
+            errors.push({ zipname: file, path: zipPath })
+            closeZipReturnResolve()
           })
         })
       })
     })
   )
-
-  return modsWithImages
+  return { mods: mods, errors: errors }
 }

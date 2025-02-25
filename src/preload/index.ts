@@ -25,7 +25,6 @@ const api: BridgeAPI = {
     saveConfig: (configJson: ConfigType): Promise<boolean> => ipcRenderer.invoke(IPC_CHANNELS.CONFIG_MANAGER.SAVE_CONFIG, configJson)
   },
   modsManager: {
-    countMods: (path: string): Promise<{ status: boolean; count: number }> => ipcRenderer.invoke(IPC_CHANNELS.MODS_MANAGER.COUNT_MODS, path),
     getInstalledMods: (path: string): Promise<{ mods: InstalledModType[]; errors: ErrorInstalledModType[] }> => ipcRenderer.invoke(IPC_CHANNELS.MODS_MANAGER.GET_INSTALLED_MODS, path)
   },
   pathsManager: {
@@ -35,6 +34,7 @@ const api: BridgeAPI = {
     removeFileFromPath: (path: string): Promise<string> => ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.REMOVE_FILE_FROM_PATH, path),
     checkPathEmpty: (path: string): Promise<boolean> => ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.CHECK_PATH_EMPTY, path),
     checkPathExists: (path: string): Promise<boolean> => ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.CHECK_PATH_EXISTS, path),
+    ensurePathExists: (path: string): Promise<boolean> => ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.ENSURE_PATH_EXISTS, path),
     openPathOnFileExplorer: (path: string): Promise<string> => ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.OPEN_PATH_ON_FILE_EXPLORER, path),
     downloadOnPath: (id: string, url: string, outputPath: string, fileName: string): Promise<string> => ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.DOWNLOAD_ON_PATH, id, url, outputPath, fileName),
     extractOnPath: (id: string, filePath: string, outputPath: string, deleteZip: boolean): Promise<boolean> =>
@@ -62,10 +62,11 @@ if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld("electron", electronAPI)
     contextBridge.exposeInMainWorld("api", api)
-    logMessage("info", "[preload] Exposed Electron APIs")
-  } catch (error) {
-    logMessage("error", "[preload] Failed to expose Electron APIs")
-    console.error(error)
+    logMessage("info", `[back] [index] [preload/index.ts] Exposed Electron's API.`)
+  } catch (err) {
+    logMessage("error", `[back] [index] [preload/index.ts] Error exposing Electron's API.`)
+    logMessage("error", `[back] [index] [preload/index.ts] Error exposing Electron's API: ${err}`)
+    console.error(err)
   }
 } else {
   // @ts-ignore (define in dts)
@@ -73,7 +74,7 @@ if (process.contextIsolated) {
   // @ts-ignore (define in dts)
   window.api = api
 
-  logMessage("info", "[preload] Exposed Electron APIs")
+  logMessage("info", `[back] [index] [preload/index.ts] Exposed Electron's API.`)
 }
 
 export type ApiType = typeof api

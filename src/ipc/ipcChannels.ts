@@ -16,7 +16,6 @@ export const IPC_CHANNELS = {
     SAVE_CONFIG: "save-config"
   },
   MODS_MANAGER: {
-    COUNT_MODS: "count-mods",
     GET_INSTALLED_MODS: "get-installed-mods"
   },
   PATHS_MANAGER: {
@@ -26,6 +25,7 @@ export const IPC_CHANNELS = {
     REMOVE_FILE_FROM_PATH: "remove-file-from-path",
     CHECK_PATH_EMPTY: "check-empty-path",
     CHECK_PATH_EXISTS: "check-path-exists",
+    ENSURE_PATH_EXISTS: "ensure-path-exists",
     OPEN_PATH_ON_FILE_EXPLORER: "open-path-on-file-explorer",
     DOWNLOAD_ON_PATH: "download-on-path",
     EXTRACT_ON_PATH: "extract-on-path",

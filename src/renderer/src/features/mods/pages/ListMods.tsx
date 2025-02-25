@@ -13,9 +13,10 @@ import {
   PiArrowDownBold,
   PiFireFill,
   PiUserBold,
-  PiArrowFatUpFill
+  PiArrowFatUpFill,
+  PiMagnifyingGlassFill
 } from "react-icons/pi"
-import { FiLoader } from "react-icons/fi"
+import { FiExternalLink, FiLoader } from "react-icons/fi"
 import { AnimatePresence, motion } from "motion/react"
 import {
   Combobox,
@@ -34,29 +35,36 @@ import {
 } from "@headlessui/react"
 import clsx from "clsx"
 
-import { useConfigContext } from "@renderer/features/config/contexts/ConfigContext"
+import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 
 import { useQueryMods } from "../hooks/useQueryMods"
+import { useGetInstalledMods } from "@renderer/features/mods/hooks/useGetInstalledMods"
 
 import { FormButton, FormInputText } from "@renderer/components/ui/FormComponents"
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
 import { GridGroup, GridItem, GridWrapper } from "@renderer/components/ui/Grid"
 import InstallModPopup from "../components/InstallModPopup"
+import { NormalButton } from "@renderer/components/ui/Buttons"
+import { StickyMenuWrapper, StickyMenuGroup } from "@renderer/components/ui/StickyMenu"
 
 import { DROPDOWN_MENU_ITEM_VARIANTS, DROPDOWN_MENU_WRAPPER_VARIANTS } from "@renderer/utils/animateVariants"
-import { NormalButton } from "@renderer/components/ui/Buttons"
 
 function ListMods(): JSX.Element {
   const { t } = useTranslation()
-  const { config } = useConfigContext()
+  const { config, configDispatch } = useConfigContext()
   const { addNotification } = useNotificationsContext()
 
   const queryMods = useQueryMods()
+  const getInstalledMods = useGetInstalledMods()
 
   const [modsList, setModsList] = useState<DownloadableModOnList[]>([])
   const [visibleMods, setVisibleMods] = useState<number>(20)
 
+  const [installation, setInstallation] = useState<InstallationType | undefined>(undefined)
+  const [installedMods, setInstalledMods] = useState<InstalledModType[]>([])
+
+  const [onlyFav, setOnlyFav] = useState<boolean>(false)
   const [textFilter, setTextFilter] = useState<string>("")
   const [authorFilter, setAuthorFilter] = useState<DownloadableModAuthor>({ userid: "", name: "" })
   const [versionsFilter, setVersionsFilter] = useState<DownloadableModGameVersion[]>([])
@@ -64,9 +72,8 @@ function ListMods(): JSX.Element {
   const [orderByOrder, setOrderByOrder] = useState<string>("desc")
 
   const [searching, setSearching] = useState<boolean>(true)
-  const [scrTop, setScrTop] = useState(0)
 
-  const [modToInstall, setModToInstall] = useState<number | string | null>(null)
+  const [modToInstall, setModToInstall] = useState<DownloadableModOnList | null>(null)
 
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
   const scrollRef = useRef<HTMLDivElement | null>(null)
@@ -74,7 +81,6 @@ function ListMods(): JSX.Element {
   const handleScroll = (): void => {
     if (!scrollRef.current) return
     const { scrollTop, clientHeight, scrollHeight } = scrollRef.current
-    setScrTop(scrollTop)
     if (scrollTop + clientHeight >= scrollHeight - (clientHeight / 2 + 100)) setVisibleMods((prev) => prev + 10)
   }
 
@@ -95,35 +101,64 @@ function ListMods(): JSX.Element {
 
   // Query mods when filters change.
   useEffect(() => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current)
-    }
+    if (timeoutRef.current) clearTimeout(timeoutRef.current)
 
     timeoutRef.current = setTimeout(async () => {
-      setSearching(true)
-
-      const mods = await queryMods({
-        textFilter,
-        authorFilter,
-        versionsFilter,
-        orderBy,
-        orderByOrder,
-        onFinish: () => {
-          setSearching(false)
-          scrollRef.current?.scrollTo({ top: 0 })
-          setVisibleMods(20)
-          checkLoadMore()
-        }
-      })
-
-      setModsList(mods)
+      await triggerQueryMods()
       timeoutRef.current = null
     }, 400)
 
     return (): void => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current)
     }
-  }, [textFilter, authorFilter, versionsFilter, orderBy, orderByOrder])
+  }, [onlyFav, textFilter, authorFilter, versionsFilter, orderBy, orderByOrder])
+
+  useEffect(() => {
+    setInstallation(config.installations.find((i) => i.id === config.lastUsedInstallation))
+  }, [config.lastUsedInstallation])
+
+  useEffect(() => {
+    if (!installation) return setInstalledMods([])
+    triggerGetCompleteInstalledMods()
+  }, [installation])
+
+  async function triggerQueryMods(): Promise<void> {
+    setSearching(true)
+
+    const mods = await queryMods({
+      textFilter,
+      authorFilter,
+      versionsFilter,
+      orderBy,
+      orderByOrder,
+      onFinish: () => {
+        setSearching(false)
+        scrollRef.current?.scrollTo({ top: 0 })
+        setVisibleMods(20)
+        checkLoadMore()
+      }
+    })
+
+    if (onlyFav) {
+      const onlyFavMods = mods.filter((mod) => config.favMods.some((fm) => fm === mod.modid))
+      setModsList(onlyFavMods)
+    } else {
+      setModsList(mods)
+    }
+  }
+
+  async function triggerGetCompleteInstalledMods(): Promise<void> {
+    if (!installation) return addNotification(t("features.installations.noInstallationSelected"), "error")
+
+    const mods = await getInstalledMods({
+      path: installation.path
+    })
+
+    const totalMods = mods.errors.length + mods.mods.length
+    configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id: installation.id, updates: { _modsCount: totalMods } } })
+
+    setInstalledMods(mods.mods)
+  }
 
   function clearFilters(): void {
     setTextFilter("")
@@ -134,46 +169,46 @@ function ListMods(): JSX.Element {
   return (
     <ScrollableContainer ref={scrollRef}>
       <div className="w-full min-h-full flex flex-col justify-center gap-6">
-        <div className="sticky top-0 z-10 w-full flex items-center justify-center">
-          <div
-            className={clsx(
-              "relative rounded-sm border border-zinc-400/5 shadow-sm shadow-zinc-950/50 p-2 duration-200",
-              "before:absolute before:left-0 before:top-0 before:w-full before:h-full before:backdrop-blur-xs",
-              scrTop > 20 ? "bg-zinc-800" : "bg-zinc-950/25"
-            )}
-          >
-            <div className="relative flex items-center justify-center gap-2 z-10">
-              <FormInputText placeholder={t("generic.text")} value={textFilter} onChange={(e) => setTextFilter(e.target.value)} className="w-40" />
+        <StickyMenuWrapper scrollRef={scrollRef}>
+          <StickyMenuGroup>
+            <FormInputText placeholder={t("generic.text")} value={textFilter} onChange={(e) => setTextFilter(e.target.value)} className="w-40" />
 
-              <AuthorFilter authorFilter={authorFilter} setAuthorFilter={setAuthorFilter} />
+            <AuthorFilter authorFilter={authorFilter} setAuthorFilter={setAuthorFilter} />
 
-              <VersionsFilter versionsFilter={versionsFilter} setVersionsFilter={setVersionsFilter} />
+            <VersionsFilter versionsFilter={versionsFilter} setVersionsFilter={setVersionsFilter} />
 
-              <FormButton title={t("generic.clearFilter")} onClick={() => clearFilters()} className="w-8 h-8 text-lg">
-                <PiEraserFill />
-              </FormButton>
+            <FormButton title={t("features.mods.onlyFavMods")} onClick={() => setOnlyFav((prev) => !prev)} className="w-8 h-8 text-lg" type={onlyFav ? "warn" : "normal"}>
+              <PiStarFill />
+            </FormButton>
 
-              <OrderFilter orderBy={orderBy} setOrderBy={setOrderBy} orderByOrder={orderByOrder} setOrderByOrder={setOrderByOrder} />
+            <OrderFilter orderBy={orderBy} setOrderBy={setOrderBy} orderByOrder={orderByOrder} setOrderByOrder={setOrderByOrder} />
 
-              <FormButton
-                title={t("genetic.goToTop")}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  scrollRef.current?.scrollTo({ top: 0 })
-                  setVisibleMods(20)
-                  checkLoadMore()
-                }}
-                className="w-8 h-8 text-lg"
-              >
-                <PiArrowFatUpFill />
-              </FormButton>
+            <FormButton
+              title={searching ? t("generic.searching") : t("generic.waitingForChanges")}
+              onClick={() => {
+                if (!searching) triggerQueryMods()
+              }}
+              className="w-8 h-8 text-lg"
+            >
+              {searching ? <FiLoader className="animate-spin" /> : <PiMagnifyingGlassFill />}
+            </FormButton>
 
-              <div className="w-8 h-8 flex items-center justify-center rounded-sm bg-zinc-950/25 text-lg text-zinc-400" title={searching ? t("generic.searching") : t("generic.waitingForChanges")}>
-                {searching ? <FiLoader className="animate-spin" /> : <PiCheckBold />}
-              </div>
-            </div>
-          </div>
-        </div>
+            <FormButton title={t("generic.clearFilter")} onClick={() => clearFilters()} className="w-8 h-8 text-lg">
+              <PiEraserFill />
+            </FormButton>
+
+            <FormButton
+              title={t("genetic.goToTop")}
+              onClick={(e) => {
+                e.stopPropagation()
+                scrollRef.current?.scrollTo({ top: 0, behavior: "smooth" })
+              }}
+              className="w-8 h-8 text-lg"
+            >
+              <PiArrowFatUpFill />
+            </FormButton>
+          </StickyMenuGroup>
+        </StickyMenuWrapper>
 
         <GridWrapper>
           {modsList.length < 1 ? (
@@ -188,24 +223,39 @@ function ListMods(): JSX.Element {
                 <GridItem
                   key={mod.modid}
                   onClick={() => {
-                    if (!config.installations.some((i) => i.id === config.lastUsedInstallation)) return addNotification(t("features.installations.noInstallationSelected"), "error")
-                    setModToInstall(mod.modid)
+                    if (!installation) return addNotification(t("features.installations.noInstallationSelected"), "error")
+                    setModToInstall(mod)
                   }}
                   className="group overflow-hidden"
                 >
                   <div className="relative w-full aspect-video">
                     <img src={mod.logo ? `${mod.logo}` : "https://mods.vintagestory.at/web/img/mod-default.png"} alt={mod.name} className="w-full h-full object-cover object-center" />
 
-                    <div className="absolute w-full top-0 flex items-center justify-center p-1 opacity-0 group-hover:opacity-100 duration-200">
+                    <div className="absolute w-full top-0 flex items-center justify-between p-1">
+                      <FormButton
+                        title={t("generic.favorite")}
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          if (config.favMods.some((modid) => modid === mod.modid)) {
+                            configDispatch({ type: CONFIG_ACTIONS.REMOVE_FAV_MOD, payload: { modid: mod.modid } })
+                          } else {
+                            configDispatch({ type: CONFIG_ACTIONS.ADD_FAV_MOD, payload: { modid: mod.modid } })
+                          }
+                        }}
+                        className={clsx("p-1 text-lg", !config.favMods.some((modid) => modid === mod.modid) && "opacity-0 group-hover:opacity-100 duration-200")}
+                        type={config.favMods.some((modid) => modid === mod.modid) ? "warn" : "normal"}
+                      >
+                        <PiStarFill />
+                      </FormButton>
                       <FormButton
                         title={t("features.mods.openOnTheModDB")}
                         onClick={(e) => {
                           e.stopPropagation()
                           window.api.utils.openOnBrowser(`https://mods.vintagestory.at/show/mod/${mod.assetid}`)
                         }}
-                        className="px-2 py-1 backdrop-blur-sm bg-zinc-950/50 text-sm"
+                        className="p-1 text-lg opacity-0 group-hover:opacity-100 duration-200"
                       >
-                        {t("features.mods.openOnTheModDB")}
+                        <FiExternalLink />
                       </FormButton>
                     </div>
                   </div>
@@ -241,8 +291,18 @@ function ListMods(): JSX.Element {
           )}
         </GridWrapper>
 
-        {config.installations.some((i) => i.id === config.lastUsedInstallation) && (
-          <InstallModPopup installation={config.installations.find((i) => i.id === config.lastUsedInstallation) as InstallationType} modToInstall={modToInstall} setModToInstall={setModToInstall} />
+        {installation && modToInstall && (
+          <InstallModPopup
+            modToInstall={modToInstall.modid}
+            setModToInstall={() => setModToInstall(null)}
+            pathToInstall={installation.path}
+            version={installation.version}
+            outName={installation.name}
+            oldMod={installedMods.find((iMod) => modToInstall.modidstrs.some((modidstr) => modidstr === iMod.modid))}
+            onFinishInstallation={() => {
+              triggerGetCompleteInstalledMods()
+            }}
+          />
         )}
       </div>
     </ScrollableContainer>
@@ -265,7 +325,8 @@ function AuthorFilter({ authorFilter, setAuthorFilter }: { authorFilter: Downloa
       const data = await JSON.parse(res)
       setAuthorsList(data["authors"])
     } catch (err) {
-      window.api.utils.logMessage("error", `[component] [ListMods -> AuthorFilter] Error fetching authors: ${err}`)
+      window.api.utils.logMessage("error", `[front] [mods] [features/mods/pages/ListMods.tsx] [AuthorFilter > queryAuthors] Error fetching authors.`)
+      window.api.utils.logMessage("debug", `[front] [mods] [features/mods/pages/ListMods.tsx] [AuthorFilter > queryAuthors] Error fetching authors: ${err}`)
     }
   }
 
@@ -354,7 +415,8 @@ function VersionsFilter({
       const data = await JSON.parse(res)
       setGameVersionsList(data["gameversions"])
     } catch (err) {
-      window.api.utils.logMessage("error", `[component] [ListMods] Error fetching game versions: ${err}`)
+      window.api.utils.logMessage("error", `[front] [mods] [features/mods/pages/ListMods.tsx] [VersionsFilter > queryGameVersions] Error fetching game versions.`)
+      window.api.utils.logMessage("debug", `[front] [mods] [features/mods/pages/ListMods.tsx] [VersionsFilter > queryGameVersions] Error fetching game versions: ${err}`)
     }
   }
 

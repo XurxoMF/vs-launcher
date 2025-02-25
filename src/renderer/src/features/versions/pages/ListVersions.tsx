@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { PiFolderFill, PiPlusCircleFill, PiTrashFill, PiMagnifyingGlassFill, PiXBold } from "react-icons/pi"
 import { useTranslation } from "react-i18next"
+import semver from "semver"
 
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
@@ -54,35 +55,38 @@ function ListVersions(): JSX.Element {
                 </LinkButton>
               </ListItem>
             </div>
-            {config.gameVersions.map((gv) => (
-              <ListItem key={gv.version}>
-                <div className="w-full h-8 flex gap-4 px-2 py-1 justify-between items-center">
-                  <p className="font-bold">{gv.version}</p>
-                  <p className="hidden group-hover:block text-sm text-zinc-400 overflow-hidden text-ellipsis whitespace-nowrap">{gv.path}</p>
-                  <div className="flex gap-1 text-lg">
-                    <NormalButton
-                      className="p-1"
-                      title={t("generic.delete")}
-                      onClick={async () => {
-                        setVersionToDelete(gv)
-                      }}
-                    >
-                      <PiTrashFill />
-                    </NormalButton>
-                    <NormalButton
-                      onClick={async () => {
-                        if (!(await window.api.pathsManager.checkPathExists(gv.path))) return addNotification(t("notifications.body.folderDoesntExists"), "error")
-                        window.api.pathsManager.openPathOnFileExplorer(gv.path)
-                      }}
-                      title={t("generic.openOnFileExplorer")}
-                      className="p-1"
-                    >
-                      <PiFolderFill />
-                    </NormalButton>
+            {config.gameVersions
+              .slice()
+              .sort((a, b) => semver.rcompare(a.version, b.version))
+              .map((gv) => (
+                <ListItem key={gv.version}>
+                  <div className="w-full h-8 flex gap-4 px-2 py-1 justify-between items-center">
+                    <p className="font-bold">{gv.version}</p>
+                    <p className="hidden group-hover:block text-sm text-zinc-400 overflow-hidden text-ellipsis whitespace-nowrap">{gv.path}</p>
+                    <div className="flex gap-1 text-lg">
+                      <NormalButton
+                        className="p-1"
+                        title={t("generic.delete")}
+                        onClick={async () => {
+                          setVersionToDelete(gv)
+                        }}
+                      >
+                        <PiTrashFill />
+                      </NormalButton>
+                      <NormalButton
+                        onClick={async () => {
+                          if (!(await window.api.pathsManager.checkPathExists(gv.path))) return addNotification(t("notifications.body.folderDoesntExists"), "error")
+                          window.api.pathsManager.openPathOnFileExplorer(gv.path)
+                        }}
+                        title={t("generic.openOnFileExplorer")}
+                        className="p-1"
+                      >
+                        <PiFolderFill />
+                      </NormalButton>
+                    </div>
                   </div>
-                </div>
-              </ListItem>
-            ))}
+                </ListItem>
+              ))}
           </ListGroup>
         </ListWrapper>
 

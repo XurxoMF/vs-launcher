@@ -16,7 +16,8 @@ export function useQueryMod(): ({ modid, onFinish }: { modid: number | string; o
 
       return data["mod"]
     } catch (err) {
-      window.api.utils.logMessage("error", `[hook] [useQueryMod] Error fetching ${modid} mod versions: ${err}`)
+      window.api.utils.logMessage("error", `[front] [mods] [features/mods/hooks/useQueryMod.ts] [useQueryMod > queryMod] Error fetching ${modid} mod versions.`)
+      window.api.utils.logMessage("debug", `[front] [mods] [features/mods/hooks/useQueryMod.ts] [useQueryMod > queryMod] Error fetching ${modid} mod versions: ${err}`)
       return
     }
   }

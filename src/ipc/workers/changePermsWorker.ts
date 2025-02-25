@@ -1,6 +1,7 @@
 import { parentPort, workerData } from "worker_threads"
 import fse from "fs-extra"
 import { join } from "path"
+import { logMessage } from "@src/utils/logManager"
 
 const { paths, perms } = workerData
 
@@ -20,6 +21,7 @@ const changePermissionsRecursively = (path: string): void => {
 }
 
 for (const path of paths) {
+  logMessage("info", `[back] [worker] [ipc/workers/changePermsWorker.ts] [for loop] Changing perms to ${path}.`)
   changePermissionsRecursively(path)
 }
 

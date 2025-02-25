@@ -24,7 +24,6 @@ declare global {
       saveConfig: (configJson: ConfigType) => Promise<boolean>
     }
     modsManager: {
-      countMods: (path: string) => Promise<{ status: boolean; count: number }>
       getInstalledMods: (path: string) => Promise<{ mods: InstalledModType[]; errors: ErrorInstalledModType[] }>
     }
     pathsManager: {
@@ -34,6 +33,7 @@ declare global {
       deletePath: (path: string) => Promise<boolean>
       checkPathEmpty: (path: string) => Promise<boolean>
       checkPathExists: (path: string) => Promise<boolean>
+      ensurePathExists: (path: string) => Promise<boolean>
       openPathOnFileExplorer: (path: string) => Promise<string>
       downloadOnPath: (id: string, url: string, outputPath: string, fileName: string) => Promise<string>
       extractOnPath: (id: string, filePath: string, outputPath: string, deleteZip: boolean) => Promise<boolean>

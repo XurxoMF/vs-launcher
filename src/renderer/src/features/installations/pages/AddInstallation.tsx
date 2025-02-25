@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { useTranslation, Trans } from "react-i18next"
 import { v4 as uuidv4 } from "uuid"
 import { PiFloppyDiskBackFill, PiXBold } from "react-icons/pi"
+import semver from "semver"
 
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
@@ -73,6 +74,7 @@ function AddInslallation(): JSX.Element {
       }
 
       configDispatch({ type: CONFIG_ACTIONS.ADD_INSTALLATION, payload: newInstallation })
+      window.api.pathsManager.ensurePathExists(folder)
       addNotification(t("features.installations.installationSuccessfullyAdded"), "success")
       navigate("/installations")
     } catch (error) {
@@ -139,11 +141,14 @@ function AddInslallation(): JSX.Element {
                         </p>
                       </div>
                     )}
-                    {config.gameVersions.map((gv) => (
-                      <TableBodyRow key={gv.version} onClick={() => setVersion(gv)} selected={version?.version === gv.version}>
-                        <TableCell className="w-full">{gv.version}</TableCell>
-                      </TableBodyRow>
-                    ))}
+                    {config.gameVersions
+                      .slice()
+                      .sort((a, b) => semver.rcompare(a.version, b.version))
+                      .map((gv) => (
+                        <TableBodyRow key={gv.version} onClick={() => setVersion(gv)} selected={version?.version === gv.version}>
+                          <TableCell className="w-full">{gv.version}</TableCell>
+                        </TableBodyRow>
+                      ))}
                   </TableBody>
                 </TableWrapper>
               </FormBody>
@@ -160,6 +165,8 @@ function AddInslallation(): JSX.Element {
                     onClick={async () => {
                       const path = await window.api.utils.selectFolderDialog()
                       if (path && path.length > 0) {
+                        if (!(await window.api.pathsManager.checkPathEmpty(path))) addNotification(t("notifications.body.folderNotEmpty"), "warning")
+
                         setFolder(path)
                         setFolderByUser(true)
                       }
@@ -203,7 +210,7 @@ function AddInslallation(): JSX.Element {
 
               <FormBody>
                 <FormFieldGroupWithDescription alignment="x">
-                  <FormToggle value={backupsAuto} onChange={setBackupsAuto} />
+                  <FormToggle title={t("features.backups.backupsAuto")} value={backupsAuto} onChange={setBackupsAuto} />
                   <FormFieldDescription content={t("features.backups.backupsAuto")} />
                 </FormFieldGroupWithDescription>
               </FormBody>

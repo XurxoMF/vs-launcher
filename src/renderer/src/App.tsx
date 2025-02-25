@@ -32,6 +32,7 @@ import ListMods from "@renderer/features/mods/pages/ListMods"
 
 import ConfigPage from "@renderer/features/config/pages/ConfigPage"
 import { NormalButton } from "./components/ui/Buttons"
+import GlobalActionsWrapper from "./components/layout/GlobalActionsWrapper"
 
 function App(): JSX.Element {
   useEffect(() => {
@@ -44,26 +45,28 @@ function App(): JSX.Element {
       <NotificationsProvider>
         <TaskProvider>
           <Router>
-            <div
-              className={clsx(
-                "relative w-screen h-screen select-none bg-image-vs bg-center bg-cover",
-                "before:absolute before:left-0 before:top-0 before:w-full before:h-full before:backdrop-blur-[2px]"
-              )}
-            >
-              <div className="w-full h-full flex bg-zinc-950/25">
-                <Loader />
+            <GlobalActionsWrapper>
+              <div
+                className={clsx(
+                  "relative w-screen h-screen select-none bg-image-vs bg-center bg-cover",
+                  "before:absolute before:left-0 before:top-0 before:w-full before:h-full before:backdrop-blur-[2px]"
+                )}
+              >
+                <div className="w-full h-full flex bg-zinc-950/25">
+                  <Loader />
 
-                <MainMenu />
+                  <MainMenu />
 
-                <main className="relative w-full h-full flex-1">
-                  <AppInfo />
+                  <main className="relative w-full h-full flex-1">
+                    <AppInfo />
 
-                  <AnimatedRoutes />
-                </main>
+                    <AnimatedRoutes />
+                  </main>
 
-                <NotificationsOverlay />
+                  <NotificationsOverlay />
+                </div>
               </div>
-            </div>
+            </GlobalActionsWrapper>
           </Router>
         </TaskProvider>
       </NotificationsProvider>
@@ -148,7 +151,7 @@ function MiniLinks({ to, text }: { to: string; text: string }): JSX.Element {
       title={text}
       onClick={() => window.api.utils.openOnBrowser(to)}
       className={
-        "backdrop-blur-xs border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded-sm cursor-pointer px-1 opacity-50 hover:opacity-100 duration-200"
+        "backdrop-blur-xs border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none flex items-center justify-center gap-1 rounded-sm cursor-pointer px-1 opacity-50 hover:opacity-100 duration-200"
       }
     >
       <span>{text}</span> <FiExternalLink className="text-[.6rem]" />

@@ -1,5 +1,7 @@
 import { createContext, useContext, useEffect, useReducer, useRef, useState } from "react"
 
+import { useGetInstalledMods } from "@renderer/features/mods/hooks/useGetInstalledMods"
+
 export enum CONFIG_ACTIONS {
   SET_CONFIG = "SET_CONFIG",
 
@@ -18,7 +20,10 @@ export enum CONFIG_ACTIONS {
 
   ADD_GAME_VERSION = "ADD_GAME_VERSION",
   DELETE_GAME_VERSION = "DELETE_GAME_VERSION",
-  EDIT_GAME_VERSION = "EDIT_GAME_VERSION"
+  EDIT_GAME_VERSION = "EDIT_GAME_VERSION",
+
+  ADD_FAV_MOD = "ADD_FAV_MOD",
+  REMOVE_FAV_MOD = "REMOVE_FAV_MOD"
 }
 
 export interface SetConfig {
@@ -112,6 +117,20 @@ export interface EditGameVersion {
   }
 }
 
+export interface AddFavMod {
+  type: CONFIG_ACTIONS.ADD_FAV_MOD
+  payload: {
+    modid: number
+  }
+}
+
+export interface RemoveFavMod {
+  type: CONFIG_ACTIONS.REMOVE_FAV_MOD
+  payload: {
+    modid: number
+  }
+}
+
 export type ConfigAction =
   | SetConfig
   | SetVersion
@@ -128,6 +147,8 @@ export type ConfigAction =
   | AddGameVersion
   | DeleteGameVersion
   | EditGameVersion
+  | AddFavMod
+  | RemoveFavMod
 
 const configReducer = (config: ConfigType, action: ConfigAction): ConfigType => {
   switch (action.type) {
@@ -198,6 +219,16 @@ const configReducer = (config: ConfigType, action: ConfigAction): ConfigType => 
         ...config,
         gameVersions: config.gameVersions.map((gameVersion) => (gameVersion.version === action.payload.version ? { ...gameVersion, ...action.payload.updates } : gameVersion))
       }
+    case CONFIG_ACTIONS.ADD_FAV_MOD:
+      return {
+        ...config,
+        favMods: [...config.favMods, action.payload.modid]
+      }
+    case CONFIG_ACTIONS.REMOVE_FAV_MOD:
+      return {
+        ...config,
+        favMods: config.favMods.filter((fm) => fm !== action.payload.modid)
+      }
     default:
       return config
   }
@@ -210,7 +241,8 @@ export const initialState: ConfigType = {
   defaultVersionsFolder: "",
   backupsFolder: "",
   installations: [],
-  gameVersions: []
+  gameVersions: [],
+  favMods: []
 }
 
 interface ConfigContextType {
@@ -224,20 +256,22 @@ const ConfigProvider = ({ children }: { children: React.ReactNode }): JSX.Elemen
   const [config, configDispatch] = useReducer(configReducer, initialState)
   const [isConfigLoaded, setIsConfigLoaded] = useState(false)
 
+  const getInstalledMods = useGetInstalledMods()
+
   const firstExecutedConfigContext = useRef(true)
   useEffect(() => {
     ;(async (): Promise<void> => {
       if (firstExecutedConfigContext.current) {
         firstExecutedConfigContext.current = false
-        window.api.utils.logMessage("info", `[context] [ConfigConext] Setting context config from config file`)
+        window.api.utils.logMessage("info", `[front] [config] [features/config/contexts/ConfigCntext.tsx] [ConfigProvider] Setting context config from config file.`)
         const config = await window.api.configManager.getConfig()
         configDispatch({ type: CONFIG_ACTIONS.SET_CONFIG, payload: config })
-        setIsConfigLoaded(true)
       }
     })()
   }, [])
 
   useEffect(() => {
+    if (!isConfigLoaded && config.version !== 0) setIsConfigLoaded(true)
     if (!isConfigLoaded) return
     window.api.configManager.saveConfig(config)
   }, [config])
@@ -245,9 +279,9 @@ const ConfigProvider = ({ children }: { children: React.ReactNode }): JSX.Elemen
   useEffect(() => {
     if (!isConfigLoaded) return
     config.installations.forEach(async (i) => {
-      const modsPath = await window.api.pathsManager.formatPath([i.path, "Mods"])
-      const modsCount = await window.api.modsManager.countMods(modsPath)
-      configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id: i.id, updates: { _modsCount: modsCount.count } } })
+      const mods = await getInstalledMods({ path: i.path })
+      const totalMods = mods.errors.length + mods.mods.length
+      configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id: i.id, updates: { _modsCount: totalMods } } })
     })
   }, [isConfigLoaded])
 

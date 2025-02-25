@@ -12,13 +12,18 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: VSLauncher
+  executableName: VS Launcher
   icon: resources/icon.ico
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
+  createStartMenuShortcut: always
+  allowToChangeInstallationDirectory: true
+  installerIcon: resources/icon.ico
+  oneClick: false
+  runAfterFinish: true
 mac:
   entitlementsInherit: build/entitlements.mac.plist
   extendInfo:

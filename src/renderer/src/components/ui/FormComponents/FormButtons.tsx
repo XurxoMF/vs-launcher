@@ -55,7 +55,7 @@ export function FormButton({
       onClick={onClick}
       title={title}
       className={clsx(
-        "backdrop-blur-xs border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded-sm disabled:opacity-50 cursor-pointer",
+        "backdrop-blur-xs border border-zinc-400/5 bg-zinc-950/50 enabled:shadow-sm enabled:shadow-zinc-950/50 enabled:hover:shadow-none flex items-center justify-center rounded-sm disabled:opacity-50 enabled:cursor-pointer",
         type && COLOR_BY_TYPE[type],
         className
       )}
@@ -94,7 +94,7 @@ export function FormLinkButton({
       to={to}
       title={title}
       className={clsx(
-        "backdrop-blur-xs border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none flex items-center justify-center rounded-sm cursor-pointer",
+        "backdrop-blur-xs border border-zinc-400/5 bg-zinc-950/50 enabled:shadow-sm enabled:shadow-zinc-950/50 enabled:hover:shadow-none flex items-center justify-center rounded-sm enabled:cursor-pointer",
         type && COLOR_BY_TYPE[type],
         className
       )}

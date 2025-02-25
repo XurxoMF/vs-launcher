@@ -3,11 +3,12 @@ import { useParams } from "react-router-dom"
 import { Trans, useTranslation } from "react-i18next"
 import { PiArrowClockwiseFill, PiTrashFill, PiXBold } from "react-icons/pi"
 import { FiLoader } from "react-icons/fi"
+import clsx from "clsx"
 
-import { useConfigContext } from "@renderer/features/config/contexts/ConfigContext"
+import { CONFIG_ACTIONS, useConfigContext } from "@renderer/features/config/contexts/ConfigContext"
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 
-import { useCountMods } from "@renderer/features/mods/hooks/useCountMods"
+import { useGetCompleteInstalledMods } from "@renderer/features/mods/hooks/useGetCompleteInstalledMods"
 
 import { ListGroup, ListItem, ListWrapper } from "@renderer/components/ui/List"
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
@@ -18,18 +19,20 @@ import { FormButton } from "@renderer/components/ui/FormComponents"
 
 function ListMods(): JSX.Element {
   const { t } = useTranslation()
-  const { config } = useConfigContext()
+  const { config, configDispatch } = useConfigContext()
   const { addNotification } = useNotificationsContext()
 
-  const countMods = useCountMods()
+  const getCompleteInstalledMods = useGetCompleteInstalledMods()
 
   const { id } = useParams()
+
+  const installation = config.installations.find((i) => i.id === id)
 
   const [installedMods, setInstalledMods] = useState<InstalledModType[]>([])
   const [insatlledModsWithErrors, setInstalledModsWithErrors] = useState<ErrorInstalledModType[]>([])
 
   const [modToDelete, setModToDelete] = useState<InstalledModType | ErrorInstalledModType | null>(null)
-  const [modToUpdate, setModToUpdate] = useState<number | string | null>(null)
+  const [modToUpdate, setModToUpdate] = useState<InstalledModType | null>(null)
 
   const [gettingMods, setGettingMods] = useState<boolean>(false)
 
@@ -38,48 +41,31 @@ function ListMods(): JSX.Element {
     if (!firstTimeGettingInstallationModsInstallationModsManager.current) return
     firstTimeGettingInstallationModsInstallationModsManager.current = false
     ;(async (): Promise<void> => {
-      await getMods()
+      triggerGetCompleteInstalledMods()
     })()
   }, [])
 
-  async function getMods(): Promise<void> {
+  async function triggerGetCompleteInstalledMods(): Promise<void> {
     setGettingMods(true)
-    const path = await window.api.pathsManager.formatPath([config.installations.find((i) => i.id === id)!.path, "Mods"])
-    const mods = await window.api.modsManager.getInstalledMods(path)
 
-    await Promise.all(
-      mods.mods.map(async (mod) => {
-        try {
-          const versions = await queryMod(mod.modid)
-          mod._mod = versions
-        } catch (err) {
-          window.api.utils.logMessage("error", `[component] [ManageMods(installations)] Error fetching mod versions: ${err}`)
-          mod._mod = undefined
-        }
-      })
-    )
+    if (!installation) return addNotification(t("features.installations.noInstallationSelected"), "error")
 
-    setInstalledModsWithErrors(mods.errors)
+    const mods = await getCompleteInstalledMods({
+      path: installation.path,
+      version: installation.version
+    })
+
+    const totalMods = mods.errors.length + mods.mods.length
+    configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id: installation.id, updates: { _modsCount: totalMods } } })
+
     setInstalledMods(mods.mods)
+    setInstalledModsWithErrors(mods.errors)
     setGettingMods(false)
-  }
-
-  async function queryMod(modid: string): Promise<DownloadableMod | undefined> {
-    try {
-      const res = await window.api.netManager.queryURL(`https://mods.vintagestory.at/api/mod/${modid}`)
-      const data = await JSON.parse(res)
-      return data["mod"]
-    } catch (err) {
-      window.api.utils.logMessage("error", `[component] [ManageMods] Error fetching ${modid} mod versions: ${err}`)
-      return
-    }
   }
 
   async function DeleteModHandler(): Promise<void> {
     try {
       if (!modToDelete) return addNotification(t("features.mods.noModSelected"), "error")
-
-      const installation = config.installations.find((i) => i.id === id)
 
       if (!installation) return addNotification(t("features.installations.noInstallationFound"), "error")
 
@@ -88,8 +74,7 @@ function ListMods(): JSX.Element {
       const deleted = await window.api.pathsManager.deletePath(modToDelete.path)
       if (!deleted) throw "There was an error deleting the mod!"
 
-      await getMods()
-      countMods()
+      triggerGetCompleteInstalledMods()
 
       addNotification(t("features.mods.modSuccessfullyDeleted"), "success")
     } catch (err) {
@@ -102,7 +87,35 @@ function ListMods(): JSX.Element {
   return (
     <ScrollableContainer>
       <div className="min-h-full flex flex-col justify-center gap-6">
-        <h1 className="text-3xl text-center font-bold">{t("features.mods.manageTitle")}</h1>
+        {installedMods.length < 1 && insatlledModsWithErrors.length < 1 && (
+          <ListWrapper className="max-w-[800px] w-full">
+            <ListGroup>
+              {gettingMods ? (
+                <div className="w-full flex flex-col items-center justify-center gap-2 rounded-sm bg-zinc-950/50 p-8">
+                  <div className="w-full h-full flex items-center justify-center">
+                    <FiLoader className="animate-spin text-4xl text-zinc-400" />
+                  </div>
+                </div>
+              ) : (
+                <div className="w-full flex flex-col items-center justify-center gap-2 rounded-sm bg-zinc-950/50 p-4">
+                  <p className="text-2xl">{t("features.mods.noModsFound")}</p>
+                  <p className="w-full flex gap-1 items-center justify-center">
+                    <Trans
+                      i18nKey="features.mods.noModsInstalled"
+                      components={{
+                        link: (
+                          <LinkButton title={t("components.mainMenu.modsTitle")} to="/mods" className="text-vsl">
+                            {t("components.mainMenu.modsTitle")}
+                          </LinkButton>
+                        )
+                      }}
+                    />
+                  </p>
+                </div>
+              )}
+            </ListGroup>
+          </ListWrapper>
+        )}
 
         {insatlledModsWithErrors.length > 0 && (
           <ListWrapper className="max-w-[800px] w-full">
@@ -110,7 +123,7 @@ function ListMods(): JSX.Element {
               <div className="flex flex-col gap-1">
                 <h2 className="text-2xl text-center font-bold">{t("features.mods.listWithErrorsTitle")}</h2>
                 <p className="text-zinc-400 text-center">{t("features.mods.modsWithErrorsDescription")}</p>
-                <p className="text-zinc-400 text-center">
+                <p className="text-zinc-400 text-center flex gap-1 items-center justify-center">
                   <Trans
                     i18nKey="features.mods.modsWithErrorsDescriptionReport"
                     components={{
@@ -143,8 +156,8 @@ function ListMods(): JSX.Element {
                 </p>
               </div>
               {insatlledModsWithErrors.map((iModE) => (
-                <ListItem key={iModE.zipname}>
-                  <div className="flex gap-4 p-2 justify-between items-center whitespace-nowrap bg-red-700/15 duration-200">
+                <ListItem key={iModE.zipname + iModE.zipname}>
+                  <div className="flex gap-4 p-2 justify-between items-center whitespace-nowrap bg-red-700/15">
                     <div className="shrink-0">
                       <div className="w-16 h-16 bg-zinc-950/50 rounded-sm shadow-sm shadow-zinc-950" />
                     </div>
@@ -173,105 +186,80 @@ function ListMods(): JSX.Element {
           </ListWrapper>
         )}
 
-        <ListWrapper className="max-w-[800px] w-full">
-          {installedMods.length < 1 ? (
+        {installedMods.filter((iMod) => iMod._updatableTo).length > 0 && (
+          <ListWrapper className="max-w-[800px] w-full">
             <ListGroup>
-              {gettingMods ? (
-                <div className="w-full flex flex-col items-center justify-center gap-2 rounded-sm bg-zinc-950/50 p-8">
-                  <div className="w-full h-full flex items-center justify-center">
-                    <FiLoader className="animate-spin text-4xl text-zinc-400" />
-                  </div>
-                </div>
-              ) : (
-                <div className="w-full flex flex-col items-center justify-center gap-2 rounded-sm bg-zinc-950/50 p-4">
-                  <p className="text-2xl">{t("features.mods.noModsFound")}</p>
-                  <p className="w-full flex gap-1 items-center justify-center">
-                    <Trans
-                      i18nKey="features.mods.noModsInstalled"
-                      components={{
-                        link: (
-                          <LinkButton title={t("components.mainMenu.modsTitle")} to="/mods" className="text-vsl">
-                            {t("components.mainMenu.modsTitle")}
-                          </LinkButton>
-                        )
-                      }}
-                    />
-                  </p>
-                </div>
-              )}
+              <div className="flex flex-col gap-1">
+                <h2 className="text-2xl text-center font-bold">{t("features.mods.listWithUpdatesTitle")}</h2>
+                <p className="text-zinc-400 text-center">{t("features.mods.modsWithUpdatesDescription")}</p>
+                <p className="text-zinc-400 text-center flex gap-1 items-center justify-center">
+                  <Trans
+                    i18nKey="features.mods.modsWithUpdatesDescriptionReport"
+                    components={{
+                      issues: (
+                        <NormalButton
+                          title={t("generic.issues")}
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            window.api.utils.openOnBrowser("https://github.com/XurxoMF/vs-launcher/issues")
+                          }}
+                          className="text-vsl"
+                        >
+                          {t("generic.issues")}
+                        </NormalButton>
+                      ),
+                      discord: (
+                        <NormalButton
+                          title="Discord"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            window.api.utils.openOnBrowser("https://discord.gg/RtWpYBRRUz")
+                          }}
+                          className="text-vsl"
+                        >
+                          Discord
+                        </NormalButton>
+                      )
+                    }}
+                  />
+                </p>
+                <p className="text-zinc-400 text-center text-xs italic">{t("features.mods.modsWithUpdatesNextUpdatesDescription")}</p>
+              </div>
+              {installedMods
+                .filter((iMod) => iMod._updatableTo)
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .map((iMod) => (
+                  <InstalledModItem key={iMod.modid + iMod.path} iMod={iMod} onDeleteClick={() => setModToDelete(iMod)} onUpdateClick={() => setModToUpdate(iMod)} />
+                ))}
             </ListGroup>
-          ) : (
+          </ListWrapper>
+        )}
+
+        {installedMods.filter((iMod) => !iMod._updatableTo).length > 0 && (
+          <ListWrapper className="max-w-[800px] w-full">
             <ListGroup>
-              {installedMods.map((iMod) => (
-                <ListItem key={iMod.modid}>
-                  <div className="flex gap-4 p-2 justify-between items-center whitespace-nowrap">
-                    <div className="shrink-0">
-                      {iMod._image ? (
-                        <img src={`cachemodimg:${iMod._image}`} alt={iMod.name} className="w-16 h-16 object-cover rounded-sm" />
-                      ) : (
-                        <div className="w-16 h-16 bg-zinc-900 rounded-sm shadow-sm shadow-zinc-950" />
-                      )}
-                    </div>
-
-                    <div className="w-full flex flex-col gap-1 justify-center overflow-hidden">
-                      <div className="flex gap-2 items-center">
-                        <p>{iMod.name}</p>
-                        <p>v{iMod.version}</p>
-                      </div>
-
-                      {iMod.description && (
-                        <div className="overflow-hidden">
-                          <p className="text-sm text-zinc-400 overflow-hidden whitespace-nowrap text-ellipsis">{iMod.description}</p>
-                        </div>
-                      )}
-
-                      <div className="flex gap-2 items-center text-sm text-zinc-400">
-                        <p className="overflow-hidden whitespace-nowrap text-ellipsis">
-                          {iMod.authors && iMod.authors?.length > 0 && (
-                            <span>
-                              {t("generic.authors")}: {iMod.authors?.join(", ")}
-                            </span>
-                          )}
-                          {iMod.contributors && iMod.contributors?.length > 0 && (
-                            <span>
-                              {t("generic.contributors")}: {iMod.contributors?.join(", ")}
-                            </span>
-                          )}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex gap-1 justify-end text-lg">
-                      <NormalButton
-                        className="p-1"
-                        title={t("generic.update")}
-                        onClick={async () => {
-                          if (!iMod._mod || iMod._mod.releases.length < 1) return addNotification(t("features.mods.noVersionsFound"), "error")
-                          setModToUpdate(iMod.modid)
-                        }}
-                      >
-                        <PiArrowClockwiseFill />
-                      </NormalButton>
-
-                      <NormalButton
-                        className="p-1"
-                        title={t("generic.delete")}
-                        onClick={async () => {
-                          setModToDelete(iMod)
-                        }}
-                      >
-                        <PiTrashFill />
-                      </NormalButton>
-                    </div>
-                  </div>
-                </ListItem>
-              ))}
+              {installedMods
+                .filter((iMod) => !iMod._updatableTo)
+                .sort((a, b) => a.name.localeCompare(b.name))
+                .map((iMod) => (
+                  <InstalledModItem key={iMod.modid + iMod.path} iMod={iMod} onDeleteClick={() => setModToDelete(iMod)} onUpdateClick={() => setModToUpdate(iMod)} />
+                ))}
             </ListGroup>
-          )}
-        </ListWrapper>
+          </ListWrapper>
+        )}
 
-        {config.installations.some((i) => i.id === id) && modToUpdate !== null && (
-          <InstallModPopup installation={config.installations.find((i) => i.id === id) as InstallationType} modToInstall={modToUpdate} setModToInstall={setModToUpdate} />
+        {installation && modToUpdate !== null && (
+          <InstallModPopup
+            modToInstall={modToUpdate.modid}
+            setModToInstall={() => setModToUpdate(null)}
+            outName={installation.name}
+            pathToInstall={installation.path}
+            version={installation.version}
+            oldMod={installedMods.find((iMod) => iMod.modid === modToUpdate.modid)}
+            onFinishInstallation={() => {
+              triggerGetCompleteInstalledMods()
+            }}
+          />
         )}
 
         <PopupDialogPanel title={t("features.mods.deleteMod")} isOpen={modToDelete !== null} close={() => setModToDelete(null)}>
@@ -290,6 +278,76 @@ function ListMods(): JSX.Element {
         </PopupDialogPanel>
       </div>
     </ScrollableContainer>
+  )
+}
+
+function InstalledModItem({ iMod, onDeleteClick, onUpdateClick }: { iMod: InstalledModType; onDeleteClick: () => void; onUpdateClick: () => void }): JSX.Element {
+  const { t } = useTranslation()
+  const { addNotification } = useNotificationsContext()
+
+  return (
+    <ListItem key={iMod.modid + iMod.path}>
+      <div className={clsx("flex gap-4 p-2 justify-between items-center whitespace-nowrap", iMod._updatableTo && "bg-lime-600/25")}>
+        <div className="shrink-0">
+          {iMod._image ? (
+            <img src={`cachemodimg:${iMod._image}`} alt={iMod.name} className="w-16 h-16 object-cover rounded-sm" />
+          ) : (
+            <div className="w-16 h-16 bg-zinc-900 rounded-sm shadow-sm shadow-zinc-950" />
+          )}
+        </div>
+
+        <div className="w-full flex flex-col gap-1 justify-center overflow-hidden">
+          <div className="flex gap-2 items-center">
+            <p>{iMod.name}</p>
+            <p>v{iMod.version}</p>
+          </div>
+
+          {iMod.description && (
+            <div className="overflow-hidden">
+              <p className="text-sm text-zinc-400 overflow-hidden whitespace-nowrap text-ellipsis">{iMod.description}</p>
+            </div>
+          )}
+
+          <div className="flex gap-2 items-center text-sm text-zinc-400">
+            <p className="overflow-hidden whitespace-nowrap text-ellipsis">
+              {iMod.authors && iMod.authors?.length > 0 && (
+                <span>
+                  {t("generic.authors")}: {iMod.authors?.join(", ")}
+                </span>
+              )}
+              {iMod.contributors && iMod.contributors?.length > 0 && (
+                <span>
+                  {t("generic.contributors")}: {iMod.contributors?.join(", ")}
+                </span>
+              )}
+            </p>
+          </div>
+        </div>
+
+        <div className="flex gap-1 justify-end text-lg">
+          <NormalButton
+            className="p-1"
+            title={t("generic.update")}
+            onClick={async () => {
+              if (!iMod._mod || iMod._mod.releases.length < 1) return addNotification(t("features.mods.noVersionsFound"), "error")
+              onUpdateClick()
+            }}
+          >
+            <PiArrowClockwiseFill />
+          </NormalButton>
+
+          <NormalButton
+            className="p-1"
+            title={t("generic.delete")}
+            onClick={async () => {
+              onDeleteClick()
+            }}
+          >
+            <PiTrashFill />
+          </NormalButton>
+        </div>
+      </div>
+    </ListItem>
   )
 }
 

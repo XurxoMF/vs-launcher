@@ -38,13 +38,18 @@ function NotificationsOverlay(): JSX.Element {
         {notifications.map(({ id, title, body, type, options }) => (
           <motion.div
             key={id}
-            className={clsx("w-[300px] flex items-center justify-between gap-2 p-2 rounded-sm text-center bg-zinc-950/60 backdrop-blur-sm border-l-4", BORDER_COLOR_TYPES[type])}
+            className={clsx(
+              "w-[300px] flex items-center justify-between gap-2 p-2 rounded-sm text-center bg-zinc-950/60 backdrop-blur-sm border-l-4",
+              BORDER_COLOR_TYPES[type],
+              options?.onClick && "cursor-pointer"
+            )}
             initial={{ x: 320 }}
             animate={{ x: 0 }}
             exit={{ x: 320 }}
             onClick={(e) => {
               e.stopPropagation()
               if (options?.onClick) options?.onClick()
+              removeNotification(id)
             }}
           >
             <div className="flex items-center gap-2 text-start">

@@ -44,7 +44,8 @@ function LookForAVersion(): JSX.Element {
       addNotification(t("features.versions.versionSuccessfullyAdded", { version: versionFound }), "success")
       navigate("/versions")
     } catch (err) {
-      window.api.utils.logMessage("error", `[LookForAVersion] There was an error while looking for a version: ${err}`)
+      window.api.utils.logMessage("error", `[front] [mods] [features/versions/pages/LookForAVersion.tsx] [LookForAVersion > handleAddVersion] Error looking for a version.`)
+      window.api.utils.logMessage("debug", `[front] [mods] [features/versions/pages/LookForAVersion.tsx] [LookForAVersion> handleAddVersion] Error looking for a version: ${err}`)
     } finally {
       setFolder("")
       setVersionFound("")
