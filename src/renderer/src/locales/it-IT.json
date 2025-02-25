@@ -83,7 +83,6 @@
       "errorEditingInstallation": "C'è stato un errore durante la modifica dell'installazione!",
       "folderAlreadyInUse": "Quella cartella è già in uso!",
       "gameAlreadyRunning": "Stai già giocando quell'installazione!",
-      "installOnInstallation": "Installa nell'Installazione",
       "installationFolder": "Cartella dell'installazione",
       "installationNameMinMaxCharacters": "Il nome dell'installazione deve essere contenuto in {{min}} e {{max}} caratteri!",
       "installationSuccessfullyAdded": "Installazione aggiunta con successo!",
@@ -99,8 +98,7 @@
       "restoreBackup": "Recupera il backup dell'installazione",
       "startParams": "Parametri di avvio",
       "startParamsDesc": "Lista di tutti i parametri di avvio disponibili: <link />",
-      "startParamsLink": "Wiki di Vintage Story",
-      "updateOnInstallation": "Aggiorna sull'Installazione"
+      "startParamsLink": "Wiki di Vintage Story"
     },
     "mods": {
       "areYouSureDelete": "Sei sicuro di voler eliminare questa mod?",
@@ -128,11 +126,9 @@
       "noModSelected": "Nessuna mod selezionata!",
       "noModsFound": "Nessuna mod trovata!",
       "noModsInstalled": "Non hai mods installate qui! Puoi installarle nella pagina <link />!",
-      "noVersionSelected": "Nessuna versione della mod selezionata!",
       "noVersionsFound": "Nessuna versione di quella mod è stata trovata!",
       "openOnTheModDB": "Apri nel ModDB!",
-      "searching": "Cercando mods...",
-      "someModsCouldNotBeParsed": "Alcune delle mods installate non possono essere analizzate! Vai nella pagina Gestisci Mods dell'Installazione selezionata per vedere le mods con errori! "
+      "searching": "Cercando mods..."
     },
     "versions": {
       "deleteWhilePlaying": "Non puoi eliminare una versione mentre ci stai giocando!",
@@ -230,9 +226,6 @@
     },
     "discard": "Scarta notifica",
     "titles": {
-      "error": "Errore",
-      "info": "Informazioni",
-      "success": "Successo",
       "warning": "Avvertenza"
     }
   }

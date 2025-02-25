@@ -40,7 +40,6 @@
     "authors": "Auteurs",
     "contributors": "Contributeurs",
     "update": "Mettre à jour",
-    "reload": "Recharger",
     "searching": "Recherche",
     "waitingForChanges": "En attente de modifications",
     "tryMVL": "Vous n'aimez pas VS Launcher ? Essayez <link /> !"
@@ -118,8 +117,6 @@
       "editWhilePlaying": "Vous ne pouvez pas modifier une installation pendant que vous y jouez !",
       "cantDeleteWhileinUse": "Vous ne pouvez pas supprimer cette installation pendant qu'elle est en cours d'utilisation !",
       "restoreBackup": "Restaurer la sauvegarde de l'installation",
-      "installOnInstallation": "Installer sur l'installation",
-      "updateOnInstallation": "Mettre à jour l'installation",
       "name": "Nom de l'installation",
       "dataFolder": "Dossier de données",
       "addNewInstallation": "Ajouter une nouvelle installation"
@@ -132,7 +129,6 @@
       "modsCount_few": "{{count}} mods",
       "modsCount_many": "{{count}} mods",
       "modsCount_other": "{{count}} mods",
-      "listTitle": "Liste des mods",
       "searching": "Recherche des mods...",
       "noMatchingFilters": "Aucun mod ne correspond à vos filtres !",
       "installMod": "Installer le mod",
@@ -149,22 +145,17 @@
       "areYouSureDelete": "Êtes-vous sûr de vouloir supprimer ce mod ?",
       "deletingNotReversible": "La suppression est irréversible, vous ne pourrez donc pas restaurer les mods, mais vous pouvez toujours les télécharger à nouveau !",
       "noVersionsFound": "Aucune version de ce mod n'a été trouvée !",
-      "updateMod": "Mettre à jour le mod",
       "openOnTheModDB": "Ouvrir sur le site !",
-      "someModsCouldNotBeParsed": "Certains des mods installés n'ont pas pu être analysés ! Allez sur la page 'Gérer les mods' de l'installation que vous avez sélectionnée pour voir les mods avec des erreurs !",
       "listWithErrorsTitle": "Mods avec erreurs",
       "modsWithErrorsDescription": "Les mods suivants ont des erreurs et VS Launcher ne peut pas les identifier !",
       "modsWithErrorsDescriptionReport": "Veuillez signaler cet incident sur la page <issues /> ou sur notre serveur <discord /> !",
-      "manageTitle": "Gérer les mods",
-      "noModSelected": "Aucun mod sélectionné !",
-      "noVersionSelected": "Aucune version de mod sélectionnée !"
+      "noModSelected": "Aucun mod sélectionné !"
     },
     "config": {
       "title": "Paramètres",
       "defaultInstallationsFolder": "Dossier des installations",
       "defaultVersionsFolder": "Dossier des versions",
-      "backupsFolder": "Dossier des sauvegardes",
-      "desc": "Configurer le VS Launcher" 
+      "backupsFolder": "Dossier des sauvegardes"
     },
     "backups": {
       "backupInProgress": "Une sauvegarde est déjà en cours !",
@@ -222,10 +213,7 @@
   },
   "notifications": {
     "titles": {
-      "error": "Erreur",
-      "warning": "Avertissement",
-      "info": "Info",
-      "success": "Succès"
+      "warning": "Avertissement"
     },
     "body": {
       "folderDoesntExists": "Le dossier que vous essayez d'ouvrir n'existe pas!",

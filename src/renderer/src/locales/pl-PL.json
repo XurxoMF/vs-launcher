@@ -183,9 +183,6 @@
     },
     "discard": "Wyczyść powiadomienia",
     "titles": {
-      "error": "Błąd",
-      "info": "Informacje",
-      "success": "Sukces",
       "warning": "Uwaga"
     }
   }

@@ -166,10 +166,7 @@
   },
   "notifications": {
     "titles": {
-      "error": "Erro",
-      "warning": "Aviso",
-      "info": "Informação",
-      "success": "Sucesso"
+      "warning": "Aviso"
     },
     "body": {
       "folderDoesntExists": "A pasta que está a tentar abrir não existe!",

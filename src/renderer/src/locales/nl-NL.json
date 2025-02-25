@@ -126,10 +126,7 @@
   },
   "notifications": {
     "titles": {
-      "error": "Fout",
-      "warning": "Waarschuwing",
-      "info": "Informatie",
-      "success": "Success"
+      "warning": "Waarschuwing"
     },
     "body": {
       "folderDoesntExists": "De folder die je probeert te openen bestaat niet!",

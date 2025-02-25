@@ -65,8 +65,6 @@
       "startParamsDesc": "Lista de todos los parámetros de inicio disponibles: <link />",
       "startParamsLink": "Wiki de Vintage Story",
       "restoreBackup": "Restaurar copia de seguridad de la instalación",
-      "installOnInstallation": "Instalar en la Instalación",
-      "updateOnInstallation": "Actualizar en la Instalación",
       "addNewInstallation": "Añadir una nueva Instalación",
       "dataFolder": "Carpeta de datos",
       "name": "Nombre de Instalación"
@@ -99,10 +97,18 @@
       "listWithErrorsTitle": "Mods con errores",
       "modsWithErrorsDescription": "¡Los siguientes mods tienen algunos errores por lo que VS Lanzador no puede identificarlos!",
       "modsWithErrorsDescriptionReport": "¡Por favor, reporta este incidente en la página <issues /> o en nuestro servidor de <discord />!",
-      "someModsCouldNotBeParsed": "¡No se pudieron identificar algunos de los mods instalados! ¡Haz clic aquí para verlos!",
       "noModSelected": "¡No hay ningún mod seleccionado!",
-      "noVersionSelected": "¡No ninguna versión del mod seleccionada!",
-      "onlyFavMods": "Mostrar solo los mods favoritos"
+      "onlyFavMods": "Mostrar solo los mods favoritos",
+      "compatibleUpdate": "¡Puedes actualizar a esta versión!",
+      "listWithIncompatibleUpdatesTitle": "Mods con actualizaciones incompatibles",
+      "listWithUpdatesTitle": "Mods con actualizaciones",
+      "modsWithIncompatibleUpdatesDescription": "¡Las siguientes mods tienen actualizaciones disponibles que son 90% incompatibles con la versión de Vinatge Story seleccionada!",
+      "modsWithUpdatesDescription": "¡Las siguientes mods tienen actualizaciones disponibles que son 95% compatibles con la versión de Vinatge Story seleccionada!",
+      "modsWithUpdatesDescriptionReport": "Si encuentras algún mod marcado como actualizable erroneamente, por favor, repórtalo en la página <issues /> o en nuestro servidor de <discord />!",
+      "probablyDontWorkOnTheVersion": "¡El autor no lo etiquetó como compatible y hay un 90% de posibilidades de que no funcione en la versión seleccionada de Vinatge Story!",
+      "shouldWorkOnTheVersion": "¡El autor no lo etiquetó como compatible, pero hay un 95% de posibilidades de que funcione en la versión seleccionada de Vintage Story!",
+      "updatesAvailableInstallation": "¡La instalación seleccionada tiene {{amount}} mods con actualizaciones disponibles! ¡Haz clic aquí para verlos!",
+      "worksOnTheVersion": "¡El autor lo etiquetó como compatible con la versión seleccionada de Vintage Story!"
     },
     "versions": {
       "areYouSureUninstall": "¿Estás seguro de que quieres desinstalar esta versión?",
@@ -215,7 +221,14 @@
     "favorite": "Favorito",
     "searching": "Buscando",
     "tryMVL": "¿No te gusta VS Launcher? Prueba <link /> launcher!",
-    "waitingForChanges": "Esperando cambios"
+    "waitingForChanges": "Esperando cambios",
+    "any": "Cualqueira",
+    "both": "Ambos",
+    "client": "Cliente",
+    "notPlayedYet": "Nunca jugada",
+    "server": "Servidor",
+    "tags": "Etiquetas",
+    "totalTime": "{{total}} en total"
   },
   "notifications": {
     "body": {
@@ -233,13 +246,11 @@
       "updateDownloaded": "¡Actualización descargada con éxito! Reinicia VS Launcher para actualizar.",
       "compressError": "¡Error al comprimir: {{compressName}}!",
       "compressed": "¡Compresión terminada: {{compressName}}!",
-      "compressing": "¡Iniciando compresión: {{compressName}}!"
+      "compressing": "¡Iniciando compresión: {{compressName}}!",
+      "folderNotEmpty": "¡La carpeta que has seleccionado no está vacía! Asegúrate de que no tengas nada importante allí."
     },
     "discard": "Descartar notificación",
     "titles": {
-      "error": "Error",
-      "info": "Información",
-      "success": "Éxito",
       "warning": "Advertencia"
     }
   },

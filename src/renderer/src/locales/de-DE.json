@@ -125,10 +125,7 @@
   },
   "notifications": {
     "titles": {
-      "error": "Fehler",
-      "warning": "Warnung",
-      "info": "Information",
-      "success": "Erfolg"
+      "warning": "Warnung"
     },
     "body": {
       "folderDoesntExists": "Der zu öffnende Ordner existiert nicht!",
