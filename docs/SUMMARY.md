@@ -8,6 +8,7 @@
 * [⬇️ Installation](get-started/installation/README.md)
   * [Windows](get-started/installation/windows.md)
   * [Linux](get-started/installation/linux.md)
+  * [NixOS](get-started/installation/nixos.md)
   * [MacOS](get-started/installation/macos.md)
 * [🛠️ Usage](get-started/usage/README.md)
   * [📖 Concepts](get-started/usage/concepts.md)
