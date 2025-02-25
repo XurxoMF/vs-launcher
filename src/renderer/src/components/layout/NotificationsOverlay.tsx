@@ -39,7 +39,7 @@ function NotificationsOverlay(): JSX.Element {
           <motion.div
             key={id}
             className={clsx(
-              "w-[300px] flex items-center justify-between gap-2 p-2 rounded-sm text-center bg-zinc-950/60 backdrop-blur-sm border-l-4",
+              "w-[300px] flex items-center justify-between gap-2 p-2 rounded-sm text-center bg-zinc-950/50 backdrop-blur-sm border-l-4",
               BORDER_COLOR_TYPES[type],
               options?.onClick && "cursor-pointer"
             )}
@@ -53,7 +53,7 @@ function NotificationsOverlay(): JSX.Element {
             }}
           >
             <div className="flex items-center gap-2 text-start">
-              <span className={clsx("text-xl p-2 rounded-full border", BORDER_COLOR_TYPES[type], FONT_COLOR_TYPES[type])}>{ICON_TYPES[type]}</span>
+              <span className={clsx("text-4xl p-1 rounded-full", FONT_COLOR_TYPES[type])}>{ICON_TYPES[type]}</span>
               <div className="flex flex-col items-start justify-center">
                 <p className="font-bold text-sm">{title}</p>
                 <p className="text-xs text-zinc-400">{body}</p>
