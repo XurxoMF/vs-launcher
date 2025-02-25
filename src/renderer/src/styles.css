@@ -37,6 +37,13 @@
   }
 }
 
+@layer utilities {
+  .scrollbar-none {
+    scrollbar-width: none !important;
+    scrollbar-color: transparent transparent !important;
+  }
+}
+
 #root {
   width: 100vw;
   height: 100vh;

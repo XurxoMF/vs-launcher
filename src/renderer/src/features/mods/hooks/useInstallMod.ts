@@ -11,8 +11,8 @@ export function useInstallMod(): ({
   onFinish
 }: {
   path: string
-  mod: DownloadableMod
-  release: DownloadableModRelease
+  mod: DownloadableModType
+  release: DownloadableModReleaseType
   outName: string
   oldMod?: InstalledModType
   onFinish?: () => void
@@ -25,8 +25,8 @@ export function useInstallMod(): ({
    *
    * @param {Object} props
    * @param {string} [props.path] Where to download the mod. /Mods will be added at the end.
-   * @param {DownloadableMod} [props.mod] Mod to download.
-   * @param {DownloadableModRelease} [props.release] Release to download.
+   * @param {DownloadableModType} [props.mod] Mod to download.
+   * @param {DownloadableModReleaseType} [props.release] Release to download.
    * @param {string} [props.outName] Name of the Server or Installations where it'll be downloaded. Shown on the notification.
    * @param {InstalledModType} [props.oldMod] Old mod to delete first.
    * @param {() => void} [props.onFinish] Function to be calles before returning.
@@ -41,8 +41,8 @@ export function useInstallMod(): ({
     onFinish
   }: {
     path: string
-    mod: DownloadableMod
-    release: DownloadableModRelease
+    mod: DownloadableModType
+    release: DownloadableModReleaseType
     outName: string
     oldMod?: InstalledModType
     onFinish?: () => void

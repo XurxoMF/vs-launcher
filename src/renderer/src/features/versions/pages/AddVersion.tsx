@@ -33,8 +33,8 @@ function AddVersion(): JSX.Element {
   const { startDownload, startExtract } = useTaskContext()
   const navigate = useNavigate()
 
-  const [gameVersions, setGameVersions] = useState<DownloadableGameVersionType[]>([])
-  const [version, setVersion] = useState<DownloadableGameVersionType | undefined>()
+  const [gameVersions, setGameVersions] = useState<DownloadableGameVersionTypeType[]>([])
+  const [version, setVersion] = useState<DownloadableGameVersionTypeType | undefined>()
   const [folder, setFolder] = useState<string>("")
   const [folderByUser, setFolderByUser] = useState<boolean>(false)
   const [versionFilters, setVersionFilters] = useState({ stable: true, rc: false, pre: false })
@@ -42,7 +42,7 @@ function AddVersion(): JSX.Element {
   useEffect(() => {
     ;(async (): Promise<void> => {
       try {
-        const { data }: { data: DownloadableGameVersionType[] } = await axios("https://vslapi.xurxomf.xyz/versions")
+        const { data }: { data: DownloadableGameVersionTypeType[] } = await axios("https://vslapi.xurxomf.xyz/versions")
         setGameVersions(data)
       } catch (err) {
         window.api.utils.logMessage("error", `[front] [mods] [features/versions/pages/AddVersion.tsx] [AddVersion] Error fetching game versions.`)

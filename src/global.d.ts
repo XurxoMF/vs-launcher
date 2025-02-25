@@ -56,13 +56,13 @@ declare global {
     contributors?: string[]
     type?: string
     _image?: string
-    _mod?: DownloadableMod
+    _mod?: DownloadableModType
     _updatableTo?: string
   } & Record<string, unknown>
 
   type ErrorInstalledModType = { zipname: string; path: string } & Record<string, unknown>
 
-  type DownloadableModOnList = {
+  type DownloadableModOnListType = {
     modid: number
     assetid: number
     downloads: number
@@ -81,7 +81,7 @@ declare global {
     lastreleased: string
   } & Record<string, unknown>
 
-  type DownloadableMod = {
+  type DownloadableModType = {
     modid: number
     assetid: number
     name: string
@@ -104,11 +104,11 @@ declare global {
     createdat: string
     lasmodified: string
     tags: string[]
-    releases: DownloadableModRelease[]
-    screenshots: DownloadableModScreenshot[]
+    releases: DownloadableModReleaseType[]
+    screenshots: DownloadableModScreenshotType[]
   } & Record<string, unknown>
 
-  type DownloadableModScreenshot = {
+  type DownloadableModScreenshotType = {
     fileid: number
     mainfile: string
     filename: string
@@ -116,7 +116,7 @@ declare global {
     createdat: string
   } & Record<string, unknown>
 
-  type DownloadableModRelease = {
+  type DownloadableModReleaseType = {
     releaseid: number
     mainfile: string
     filename: string
@@ -128,7 +128,7 @@ declare global {
     created: string
   } & Record<string, unknown>
 
-  type DownloadableGameVersionType = {
+  type DownloadableGameVersionTypeType = {
     version: string
     type: "stable" | "rc" | "pre"
     releaseDate: string
@@ -136,13 +136,19 @@ declare global {
     linux: string
   } & Record<string, unknown>
 
-  type DownloadableModAuthor = {
+  type DownloadableModAuthorType = {
     userid: string
     name: string
   } & Record<string, unknown>
 
-  type DownloadableModGameVersion = {
+  type DownloadableModGameVersionType = {
     tagid: string
+    name: string
+    color: string
+  } & Record<string, unknown>
+
+  type DownloadableModTagType = {
+    tagid: number
     name: string
     color: string
   } & Record<string, unknown>

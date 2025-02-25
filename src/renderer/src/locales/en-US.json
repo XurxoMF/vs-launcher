@@ -43,7 +43,12 @@
     "searching": "Searching",
     "waitingForChanges": "Waiting for changes",
     "tryMVL": "Not liking VS Launcher? Try <link /> launcher!",
-    "favorite": "Favorite"
+    "favorite": "Favorite",
+    "any": "Any",
+    "both": "Both",
+    "server": "Server",
+    "client": "Client",
+    "tags": "Tags"
   },
   "features": {
     "generic": {

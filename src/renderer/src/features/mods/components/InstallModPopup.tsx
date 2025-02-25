@@ -46,7 +46,7 @@ function InstallModPopup({
   const installMod = useInstallMod()
   const queryMod = useQueryMod()
 
-  const [downloadableModToInstall, setDownloadableModToInstall] = useState<DownloadableMod | null>(null)
+  const [downloadableModToInstall, setDownloadableModToInstall] = useState<DownloadableModType | null>(null)
 
   useEffect(() => {
     if (!modToInstall) return

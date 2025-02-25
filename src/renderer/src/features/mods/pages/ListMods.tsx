@@ -58,7 +58,7 @@ function ListMods(): JSX.Element {
   const queryMods = useQueryMods()
   const getInstalledMods = useGetInstalledMods()
 
-  const [modsList, setModsList] = useState<DownloadableModOnList[]>([])
+  const [modsList, setModsList] = useState<DownloadableModOnListType[]>([])
   const [visibleMods, setVisibleMods] = useState<number>(20)
 
   const [installation, setInstallation] = useState<InstallationType | undefined>(undefined)
@@ -66,14 +66,16 @@ function ListMods(): JSX.Element {
 
   const [onlyFav, setOnlyFav] = useState<boolean>(false)
   const [textFilter, setTextFilter] = useState<string>("")
-  const [authorFilter, setAuthorFilter] = useState<DownloadableModAuthor>({ userid: "", name: "" })
-  const [versionsFilter, setVersionsFilter] = useState<DownloadableModGameVersion[]>([])
+  const [authorFilter, setAuthorFilter] = useState<DownloadableModAuthorType>({ userid: "", name: "" })
+  const [versionsFilter, setVersionsFilter] = useState<DownloadableModGameVersionType[]>([])
+  const [tagsFilter, setTagsFilter] = useState<DownloadableModTagType[]>([])
+  const [sideFilter, setSideFilter] = useState<string>("any")
   const [orderBy, setOrderBy] = useState<string>("follows")
   const [orderByOrder, setOrderByOrder] = useState<string>("desc")
 
   const [searching, setSearching] = useState<boolean>(true)
 
-  const [modToInstall, setModToInstall] = useState<DownloadableModOnList | null>(null)
+  const [modToInstall, setModToInstall] = useState<DownloadableModOnListType | null>(null)
 
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
   const scrollRef = useRef<HTMLDivElement | null>(null)
@@ -111,7 +113,7 @@ function ListMods(): JSX.Element {
     return (): void => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current)
     }
-  }, [onlyFav, textFilter, authorFilter, versionsFilter, orderBy, orderByOrder])
+  }, [onlyFav, textFilter, authorFilter, versionsFilter, tagsFilter, sideFilter, orderBy, orderByOrder])
 
   useEffect(() => {
     setInstallation(config.installations.find((i) => i.id === config.lastUsedInstallation))
@@ -125,26 +127,25 @@ function ListMods(): JSX.Element {
   async function triggerQueryMods(): Promise<void> {
     setSearching(true)
 
-    const mods = await queryMods({
+    let mods = await queryMods({
       textFilter,
       authorFilter,
       versionsFilter,
+      tagsFilter,
       orderBy,
       orderByOrder,
       onFinish: () => {
-        setSearching(false)
         scrollRef.current?.scrollTo({ top: 0 })
         setVisibleMods(20)
         checkLoadMore()
       }
     })
 
-    if (onlyFav) {
-      const onlyFavMods = mods.filter((mod) => config.favMods.some((fm) => fm === mod.modid))
-      setModsList(onlyFavMods)
-    } else {
-      setModsList(mods)
-    }
+    if (sideFilter !== "any") mods = mods.filter((mod) => mod.side === sideFilter)
+    if (onlyFav) mods = mods.filter((mod) => config.favMods.some((fm) => fm === mod.modid))
+
+    setModsList(mods)
+    setSearching(false)
   }
 
   async function triggerGetCompleteInstalledMods(): Promise<void> {
@@ -176,6 +177,10 @@ function ListMods(): JSX.Element {
             <AuthorFilter authorFilter={authorFilter} setAuthorFilter={setAuthorFilter} />
 
             <VersionsFilter versionsFilter={versionsFilter} setVersionsFilter={setVersionsFilter} />
+
+            <TagsFilter tagsFilter={tagsFilter} setTagsFilter={setTagsFilter} />
+
+            <SideFilter sideFilter={sideFilter} setSideFilter={setSideFilter} />
 
             <FormButton title={t("features.mods.onlyFavMods")} onClick={() => setOnlyFav((prev) => !prev)} className="w-8 h-8 text-lg" type={onlyFav ? "warn" : "normal"}>
               <PiStarFill />
@@ -258,6 +263,24 @@ function ListMods(): JSX.Element {
                         <FiExternalLink />
                       </FormButton>
                     </div>
+
+                    <div className="absolute w-full bottom-0 flex flex-col items-start gap-1 p-1 text-xs">
+                      <div className="w-full flex gap-1 items-center flex-wrap">
+                        <>
+                          <p className="relative rounded-sm backdrop-blur-xs bg-zinc-950/50 border border-zinc-400/5 group overflow-hidden shadow-sm shadow-zinc-950/50 hover:shadow-none duration-200 px-1">
+                            {mod.side}
+                          </p>
+                          {mod.tags.map((tag) => (
+                            <p
+                              className="relative rounded-sm backdrop-blur-xs bg-zinc-950/50 border border-zinc-400/5 group overflow-hidden shadow-sm shadow-zinc-950/50 hover:shadow-none duration-200 before:content-['#'] before:relative px-1"
+                              key={mod.modid + tag}
+                            >
+                              {tag}
+                            </p>
+                          ))}
+                        </>
+                      </div>
+                    </div>
                   </div>
 
                   <div className="w-full flex text-sm">
@@ -309,10 +332,10 @@ function ListMods(): JSX.Element {
   )
 }
 
-function AuthorFilter({ authorFilter, setAuthorFilter }: { authorFilter: DownloadableModAuthor; setAuthorFilter: Dispatch<SetStateAction<DownloadableModAuthor>> }): JSX.Element {
+function AuthorFilter({ authorFilter, setAuthorFilter }: { authorFilter: DownloadableModAuthorType; setAuthorFilter: Dispatch<SetStateAction<DownloadableModAuthorType>> }): JSX.Element {
   const { t } = useTranslation()
 
-  const [authorsList, setAuthorsList] = useState<DownloadableModAuthor[]>([])
+  const [authorsList, setAuthorsList] = useState<DownloadableModAuthorType[]>([])
   const [authorsQuery, setAuthorsQuery] = useState<string>("")
 
   useEffect(() => {
@@ -341,7 +364,7 @@ function AuthorFilter({ authorFilter, setAuthorFilter }: { authorFilter: Downloa
     <Combobox value={authorFilter} onChange={(value) => setAuthorFilter(value || { userid: "", name: "" })} onClose={() => setAuthorsQuery("")}>
       {({ open }) => (
         <>
-          <div className="w-40 h-8 flex items-center justify-between rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none">
+          <div className="w-36 h-8 flex items-center justify-between rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none">
             <ComboboxInput
               placeholder={t("generic.author")}
               displayValue={() => authorFilter?.name || ""}
@@ -355,7 +378,7 @@ function AuthorFilter({ authorFilter, setAuthorFilter }: { authorFilter: Downloa
 
           <AnimatePresence>
             {open && (
-              <ComboboxOptions static anchor="bottom start" className="w-40 z-600 mt-1 select-none rounded-sm overflow-hidden">
+              <ComboboxOptions static anchor="bottom start" className="w-36 z-600 mt-1 select-none rounded-sm overflow-hidden">
                 <motion.ul
                   variants={DROPDOWN_MENU_WRAPPER_VARIANTS}
                   initial="initial"
@@ -398,12 +421,12 @@ function VersionsFilter({
   versionsFilter,
   setVersionsFilter
 }: {
-  versionsFilter: DownloadableModGameVersion[]
-  setVersionsFilter: Dispatch<SetStateAction<DownloadableModGameVersion[]>>
+  versionsFilter: DownloadableModGameVersionType[]
+  setVersionsFilter: Dispatch<SetStateAction<DownloadableModGameVersionType[]>>
 }): JSX.Element {
   const { t } = useTranslation()
 
-  const [gameVersionsList, setGameVersionsList] = useState<DownloadableModGameVersion[]>([])
+  const [gameVersionsList, setGameVersionsList] = useState<DownloadableModGameVersionType[]>([])
 
   useEffect(() => {
     queryGameVersions()
@@ -424,16 +447,25 @@ function VersionsFilter({
     <Listbox value={versionsFilter} onChange={setVersionsFilter} multiple>
       {({ open }) => (
         <>
-          <ListboxButton className="w-40 h-8 px-2 flex items-center justify-between gap-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none cursor-pointer">
-            <p className={clsx("flex gap-2 items-center overflow-hidden whitespace-nowrap text-ellipsis", versionsFilter.length < 1 && "text-zinc-600")}>
-              {versionsFilter.length < 1 ? t("generic.versions") : versionsFilter.map((version) => version.name).join(", ")}
+          <ListboxButton
+            className="w-28 h-8 px-2 flex items-center justify-between gap-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none cursor-pointer"
+            title={versionsFilter.map((v) => v.name).join(" · ")}
+          >
+            <p className={clsx("flex gap-1 items-center overflow-hidden whitespace-nowrap text-ellipsis overflow-x-scroll scrollbar-none", versionsFilter.length < 1 && "text-zinc-600")}>
+              {versionsFilter.length < 1
+                ? t("generic.versions")
+                : versionsFilter.map((v) => (
+                    <span className="text-sm px-1 rounded-sm bg-zinc-850/50" key={v.tagid}>
+                      {v.name}
+                    </span>
+                  ))}
             </p>
             <PiCaretDownBold className={clsx("text-zinc-300 shrink-0 duration-200", open && "-rotate-180")} />
           </ListboxButton>
 
           <AnimatePresence>
             {open && (
-              <ListboxOptions static anchor="bottom" className="w-40 z-600 mt-1 select-none rounded-sm overflow-hidden">
+              <ListboxOptions static anchor="bottom" className="w-[var(--button-width)] z-600 mt-1 select-none rounded-sm overflow-hidden">
                 <motion.ul
                   variants={DROPDOWN_MENU_WRAPPER_VARIANTS}
                   initial="initial"
@@ -441,17 +473,148 @@ function VersionsFilter({
                   exit="exit"
                   className="w-full max-h-40 flex flex-col bg-zinc-950/50 backdrop-blur-md border border-zinc-400/5 shadow-sm shadow-zinc-950/50 hover:shadow-none rounded-sm overflow-y-scroll"
                 >
-                  {gameVersionsList.map((version) => (
+                  {gameVersionsList.map((v) => (
                     <ListboxOption
-                      key={version.tagid}
-                      value={version}
+                      key={v.tagid}
+                      value={v}
                       as={motion.li}
                       variants={DROPDOWN_MENU_ITEM_VARIANTS}
                       className="w-full h-8 px-2 py-1 shrink-0 flex items-center overflow-hidden odd:bg-zinc-800/30 even:bg-zinc-950/30 cursor-pointer whitespace-nowrap text-ellipsis text-sm"
                     >
                       <p className="flex items-center gap-1">
-                        <span className="whitespace-nowrap overflow-hidden text-ellipsis">{version.name}</span>
-                        {versionsFilter.includes(version) && <PiCheckBold className="text-zinc-400" />}
+                        <span className="whitespace-nowrap overflow-hidden text-ellipsis">{v.name}</span>
+                        {versionsFilter.includes(v) && <PiCheckBold className="text-zinc-400" />}
+                      </p>
+                    </ListboxOption>
+                  ))}
+                </motion.ul>
+              </ListboxOptions>
+            )}
+          </AnimatePresence>
+        </>
+      )}
+    </Listbox>
+  )
+}
+
+function TagsFilter({ tagsFilter, setTagsFilter }: { tagsFilter: DownloadableModTagType[]; setTagsFilter: Dispatch<SetStateAction<DownloadableModTagType[]>> }): JSX.Element {
+  const { t } = useTranslation()
+
+  const [tagsList, setTagsList] = useState<DownloadableModTagType[]>([])
+
+  useEffect(() => {
+    queryTags()
+  }, [])
+
+  async function queryTags(): Promise<void> {
+    try {
+      const res = await window.api.netManager.queryURL("https://mods.vintagestory.at/api/tags")
+      const data = await JSON.parse(res)
+      setTagsList(data["tags"])
+    } catch (err) {
+      window.api.utils.logMessage("error", `[front] [mods] [features/mods/pages/ListMods.tsx] [TagsFilter > queryTags] Error fetching tags.`)
+      window.api.utils.logMessage("debug", `[front] [mods] [features/mods/pages/ListMods.tsx] [TagsFilter > queryTags] Error fetching tags: ${err}`)
+    }
+  }
+
+  return (
+    <Listbox value={tagsFilter} onChange={setTagsFilter} multiple>
+      {({ open }) => (
+        <>
+          <ListboxButton
+            className="w-32 h-8 px-2 flex items-center justify-between gap-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none cursor-pointer"
+            title={tagsFilter.map((tag) => tag.name).join(" · ")}
+          >
+            <p className={clsx("flex gap-1 items-center overflow-hidden whitespace-nowrap text-ellipsis overflow-x-scroll scrollbar-none", tagsFilter.length < 1 && "text-zinc-600")}>
+              {tagsFilter.length < 1
+                ? t("generic.tags")
+                : tagsFilter.map((tag) => (
+                    <span className="relative text-sm px-1 rounded-sm bg-zinc-850/50 before:content-['#'] before:relative before:mr-1" key={tag.tagid}>
+                      {tag.name}
+                    </span>
+                  ))}
+            </p>
+            <PiCaretDownBold className={clsx("text-zinc-300 shrink-0 duration-200", open && "-rotate-180")} />
+          </ListboxButton>
+
+          <AnimatePresence>
+            {open && (
+              <ListboxOptions static anchor="bottom" className="w-[var(--button-width)] z-600 mt-1 select-none rounded-sm overflow-hidden">
+                <motion.ul
+                  variants={DROPDOWN_MENU_WRAPPER_VARIANTS}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  className="w-full max-h-40 flex flex-col bg-zinc-950/50 backdrop-blur-md border border-zinc-400/5 shadow-sm shadow-zinc-950/50 hover:shadow-none rounded-sm overflow-y-scroll"
+                >
+                  {tagsList.map((tag) => (
+                    <ListboxOption
+                      key={tag.tagid}
+                      value={tag}
+                      as={motion.li}
+                      variants={DROPDOWN_MENU_ITEM_VARIANTS}
+                      className="w-full h-8 px-2 py-1 shrink-0 flex items-center overflow-hidden odd:bg-zinc-800/30 even:bg-zinc-950/30 cursor-pointer whitespace-nowrap text-ellipsis text-sm before:content-['#'] before:relative before:mr-1"
+                    >
+                      <p className="flex items-center gap-1">
+                        <span className="whitespace-nowrap overflow-hidden text-ellipsis">{tag.name}</span>
+                        {tagsFilter.includes(tag) && <PiCheckBold className="text-zinc-400" />}
+                      </p>
+                    </ListboxOption>
+                  ))}
+                </motion.ul>
+              </ListboxOptions>
+            )}
+          </AnimatePresence>
+        </>
+      )}
+    </Listbox>
+  )
+}
+
+function SideFilter({ sideFilter, setSideFilter }: { sideFilter: string; setSideFilter: Dispatch<SetStateAction<string>> }): JSX.Element {
+  const { t } = useTranslation()
+
+  const SIDE_FILTERS = [
+    { key: "any", value: t("generic.any") },
+    { key: "both", value: t("generic.both") },
+    { key: "server", value: t("generic.server") },
+    { key: "client", value: t("generic.client") }
+  ]
+
+  return (
+    <Listbox value={sideFilter} onChange={setSideFilter}>
+      {({ open }) => (
+        <>
+          {SIDE_FILTERS.filter((side) => side.key === sideFilter).map((lang) => (
+            <ListboxButton
+              key={lang.key}
+              className="w-28 h-8 px-2 py-1 flex items-center justify-between gap-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none cursor-pointer"
+            >
+              <p className="flex gap-2 items-center overflow-hidden whitespace-nowrap text-sm">{lang.value}</p>
+              <PiCaretDownBold className={clsx("text-zinc-300 shrink-0 duration-200", open && "-rotate-180")} />
+            </ListboxButton>
+          ))}
+
+          <AnimatePresence>
+            {open && (
+              <ListboxOptions static anchor="bottom" className="w-[var(--button-width)] z-600 mt-1 select-none rounded-sm overflow-hidden">
+                <motion.ul
+                  variants={DROPDOWN_MENU_WRAPPER_VARIANTS}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  className="flex flex-col bg-zinc-950/50 backdrop-blur-md border border-zinc-400/5 shadow-sm shadow-zinc-950/50 hover:shadow-none rounded-sm"
+                >
+                  {SIDE_FILTERS.map((side) => (
+                    <ListboxOption
+                      key={side.key}
+                      value={side.key}
+                      as={motion.li}
+                      variants={DROPDOWN_MENU_ITEM_VARIANTS}
+                      className="w-full h-8 px-2 py-1 shrink-0 flex items-center overflow-hidden odd:bg-zinc-800/30 even:bg-zinc-950/30 cursor-pointer"
+                    >
+                      <p className="flex gap-2 items-center overflow-hidden whitespace-nowrap text-sm" title={side.value}>
+                        {side.value}
                       </p>
                     </ListboxOption>
                   ))}

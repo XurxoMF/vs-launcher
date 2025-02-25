@@ -1,4 +1,4 @@
-export function useQueryMod(): ({ modid, onFinish }: { modid: number | string; onFinish?: () => void }) => Promise<DownloadableMod | undefined> {
+export function useQueryMod(): ({ modid, onFinish }: { modid: number | string; onFinish?: () => void }) => Promise<DownloadableModType | undefined> {
   /**
    * Makes a query and returns the mod with the passed Mod ID.
    *
@@ -7,7 +7,7 @@ export function useQueryMod(): ({ modid, onFinish }: { modid: number | string; o
    * @param {() => void} [props.onFinish] Optional function that will be called just before returning the mod.
    * @returns {Promise<void>}
    */
-  async function queryMod({ modid, onFinish }: { modid: number | string; onFinish?: () => void }): Promise<DownloadableMod | undefined> {
+  async function queryMod({ modid, onFinish }: { modid: number | string; onFinish?: () => void }): Promise<DownloadableModType | undefined> {
     try {
       const res = await window.api.netManager.queryURL(`https://mods.vintagestory.at/api/mod/${modid}`)
       const data = await JSON.parse(res)
