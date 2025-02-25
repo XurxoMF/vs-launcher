@@ -125,7 +125,7 @@
       "editWhilePlaying": "You can't edit an installation while playing it!",
       "cantDeleteWhileinUse": "You can't delete this installation while it's in use!",
       "restoreBackup": "Restore installation backup",
-      "name": "Installation name",
+      "name": "Name",
       "dataFolder": "Data folder",
       "addNewInstallation": "Add a new Installation"
     },
@@ -178,7 +178,7 @@
     },
     "backups": {
       "backupInProgress": "There is a backup already in progress!",
-      "backupWhilePlaying": "You can't make a backup while playing the installation!",
+      "backupWhilePlaying": "You can't make a backup while playing the Installation!",
       "automaticBackups": "Automatic backups",
       "backupsAuto": "Toggle on to make an automatic backup before playing",
       "backupsLimit": "Backups max ammount",
@@ -209,13 +209,13 @@
       "homeTitle": "Home",
       "homeDesc": "Main page",
       "versionsTitle": "Versions",
-      "versionsDesc": "Manage your game versions",
+      "versionsDesc": "Manage your game Versions",
       "modsTitle": "Mods",
-      "modsDesc": "Manage installed mods",
+      "modsDesc": "Manage installed Mods",
       "changelogTitle": "Changelog",
       "changelogDesc": "Vintage Story changelog",
       "installationsTitle": "Installations",
-      "installationsDesc": "Manage your installations"
+      "installationsDesc": "Manage your Installations"
     },
     "gameRunningOverlay": {},
     "tasksMenu": {
@@ -237,7 +237,7 @@
     "body": {
       "folderDoesntExists": "The folder you're trying to open does not exists!",
       "updateAvailable": "New update available! Downloading...",
-      "updateDownloaded": "Update downloaded succesfully! Restart VS Launcher to update.",
+      "updateDownloaded": "Update downloaded succesfully! Click here to restart VS Launcher and update it!",
       "downloading": "Starting download: {{downloadName}}!",
       "downloaded": "Finished download: {{downloadName}}!",
       "downloadError": "Error downloading: {{downloadName}}!",

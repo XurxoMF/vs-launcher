@@ -34,11 +34,15 @@ const NotificationsProvider = ({ children }: { children: React.ReactNode }): JSX
       firstExecutedNotificationsContext.current = false
 
       window.api.appUpdater.onUpdateAvailable(() => {
-        addNotification(t("notifications.body.updateAvailable"), "info")
+        setTimeout(() => {
+          addNotification(t("notifications.body.updateAvailable"), "info")
+        }, 2_000)
       })
 
       window.api.appUpdater.onUpdateDownloaded(() => {
-        addNotification(t("notifications.body.updateDownloaded"), "success")
+        setTimeout(() => {
+          addNotification(t("notifications.body.updateDownloaded"), "success", { onClick: () => window.api.appUpdater.updateAndRestart(), duration: 60_000 })
+        }, 2_000)
       })
     }
   }, [])

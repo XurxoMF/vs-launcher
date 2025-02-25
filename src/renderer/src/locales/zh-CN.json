@@ -106,6 +106,9 @@
       "extracting": "正在解压",
       "error": "执行任务时出现错误！",
       "noTasksAvailable": "未安排任何任务！"
+    },
+    "loader": {
+      "desc": "我们正在为您准备一切！"
     }
   },
   "notifications": {

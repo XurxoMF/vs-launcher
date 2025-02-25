@@ -77,11 +77,17 @@ export function FormBody({ children, className }: { children: React.ReactNode; c
  *
  * @param {object} props - The component props.
  * @param {string} [props.className] - Additional class names for styling.
- * @param {JSX.Element | string} props.content - The content of the button. Use ONLY with text, t() or <Trans />
+ * @param {string} props.content - The content of the label.
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
-export function FormLabel({ className, content }: { className?: string; content: JSX.Element | string }): JSX.Element {
-  return <div className={clsx("h-8 flex gap-1 items-center flex-wrap justify-end text-right", className)}>{content}</div>
+export function FormLabel({ className, content }: { className?: string; content: string }): JSX.Element {
+  return (
+    <div className={clsx("w-full h-8 flex gap-1 items-center flex-wrap justify-end text-right", className)}>
+      <p className="whitespace-nowrap overflow-hidden text-ellipsis" title={content}>
+        {content}
+      </p>
+    </div>
+  )
 }
 
 /**
