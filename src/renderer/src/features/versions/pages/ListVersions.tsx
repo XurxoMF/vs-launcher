@@ -11,6 +11,7 @@ import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
 import PopupDialogPanel from "@renderer/components/ui/PopupDialogPanel"
 import { LinkButton, NormalButton } from "@renderer/components/ui/Buttons"
 import { FormButton } from "@renderer/components/ui/FormComponents"
+import { ThinSeparator } from "@renderer/components/ui/ListSeparators"
 
 function ListVersions(): JSX.Element {
   const { t } = useTranslation()
@@ -60,10 +61,20 @@ function ListVersions(): JSX.Element {
               .sort((a, b) => semver.rcompare(a.version, b.version))
               .map((gv) => (
                 <ListItem key={gv.version}>
-                  <div className="w-full h-8 flex gap-4 px-2 py-1 justify-between items-center">
-                    <p className="font-bold">{gv.version}</p>
-                    <p className="hidden group-hover:block text-sm text-zinc-400 overflow-hidden text-ellipsis whitespace-nowrap">{gv.path}</p>
-                    <div className="flex gap-1 text-lg">
+                  <div className="w-full h-8 flex gap-2 px-2 py-1 justify-between items-center">
+                    <div className="shrink-0 w-22 flex items-center justify-center text-start font-bold">
+                      <p className="w-full">{gv.version}</p>
+                    </div>
+
+                    <ThinSeparator />
+
+                    <div className="w-full flex items-center justify-center text-sm text-zinc-500 overflow-hidden">
+                      <p className="overflow-hidden text-ellipsis whitespace-nowrap">{gv.path}</p>
+                    </div>
+
+                    <ThinSeparator />
+
+                    <div className="shrink-0 w-fit flex gap-1 text-lg">
                       <NormalButton
                         className="p-1"
                         title={t("generic.delete")}

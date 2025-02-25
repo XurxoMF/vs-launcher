@@ -13,6 +13,7 @@ import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
 import PopupDialogPanel from "@renderer/components/ui/PopupDialogPanel"
 import { FormButton } from "@renderer/components/ui/FormComponents"
 import { LinkButton, NormalButton } from "@renderer/components/ui/Buttons"
+import { ThinSeparator } from "@renderer/components/ui/ListSeparators"
 
 function ListInslallations(): JSX.Element {
   const { t } = useTranslation()
@@ -62,20 +63,29 @@ function ListInslallations(): JSX.Element {
             </ListItem>
             {config.installations.map((installation) => (
               <ListItem key={installation.id}>
-                <div className="w-full h-16 flex gap-4 px-2 py-1 justify-between items-center whitespace-nowrap">
-                  <div className="h-full flex flex-col justify-center items-start gap-1 shrink-0">
+                <div className="h-16 flex gap-2 px-2 py-1 justify-between items-center whitespace-nowrap">
+                  <div className="w-full flex flex-col items-start justify-center gap-1 overflow-hidden">
                     <p className="font-bold">{installation.name}</p>
-                    <div className="flex gap-2 items-center text-sm text-zinc-400">
+                    <div className="w-full flex gap-2 items-center text-sm text-zinc-500" title={installation.path}>
+                      <p className="overflow-hidden text-ellipsis">{installation.path}</p>
+                    </div>
+                  </div>
+
+                  <ThinSeparator />
+
+                  <div className="shrink-0 w-22 flex flex-col items-center justify-center gap-1">
+                    <div className="flex items-center justify-center font-bold">
                       <p>{installation.version}</p>
+                    </div>
+
+                    <div className="flex items-center justify-center text-sm">
                       <p>{t("features.mods.modsCount", { count: installation._modsCount as number })}</p>
                     </div>
                   </div>
 
-                  <div className="w-full text-sm text-zinc-400 text-center overflow-hidden">
-                    <p className="opacity-0 group-hover:opacity-100 duration-200 overflow-hidden text-ellipsis">{installation.path}</p>
-                  </div>
+                  <ThinSeparator />
 
-                  <div className="h-full flex gap-1 items-center shrink-0 text-lg">
+                  <div className="shrink-0 w-fit h-full flex gap-1 items-center text-lg">
                     <div className="flex flex-col gap-1">
                       <NormalButton
                         className="p-1"

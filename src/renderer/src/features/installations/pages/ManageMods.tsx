@@ -16,6 +16,7 @@ import PopupDialogPanel from "@renderer/components/ui/PopupDialogPanel"
 import InstallModPopup from "@renderer/features/mods/components/InstallModPopup"
 import { LinkButton, NormalButton } from "@renderer/components/ui/Buttons"
 import { FormButton } from "@renderer/components/ui/FormComponents"
+import { ThinSeparator } from "@renderer/components/ui/ListSeparators"
 
 function ListMods(): JSX.Element {
   const { t } = useTranslation()
@@ -334,7 +335,7 @@ function InstalledModItem({ iMod, onDeleteClick, onUpdateClick }: { iMod: Instal
 
   return (
     <ListItem key={iMod.modid + iMod.path}>
-      <div className={clsx("flex gap-4 p-2 justify-between items-center whitespace-nowrap", iMod._updatableTo ? "bg-lime-600/25" : iMod._lastVersion && "bg-yellow-400/25")}>
+      <div className={clsx("h-20 flex gap-4 p-2 justify-between items-center whitespace-nowrap", iMod._updatableTo ? "bg-lime-600/25" : iMod._lastVersion && "bg-yellow-400/25")}>
         <div className="shrink-0">
           {iMod._image ? (
             <img src={`cachemodimg:${iMod._image}`} alt={iMod.name} className="w-16 h-16 object-cover rounded-sm" />
@@ -343,9 +344,12 @@ function InstalledModItem({ iMod, onDeleteClick, onUpdateClick }: { iMod: Instal
           )}
         </div>
 
+        <ThinSeparator />
+
         <div className="w-full flex flex-col gap-1 justify-center overflow-hidden">
           <div className="flex gap-2 items-center">
-            <p>{iMod.name}</p>
+            <p className="font-bold">{iMod.name}</p>
+            <span>·</span>
             <p>v{iMod.version}</p>
           </div>
 
@@ -370,6 +374,8 @@ function InstalledModItem({ iMod, onDeleteClick, onUpdateClick }: { iMod: Instal
             </p>
           </div>
         </div>
+
+        <ThinSeparator />
 
         <div className="flex gap-1 justify-end text-lg">
           <NormalButton

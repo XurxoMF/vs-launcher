@@ -49,6 +49,7 @@ import { NormalButton } from "@renderer/components/ui/Buttons"
 import { StickyMenuWrapper, StickyMenuGroup } from "@renderer/components/ui/StickyMenu"
 
 import { DROPDOWN_MENU_ITEM_VARIANTS, DROPDOWN_MENU_WRAPPER_VARIANTS } from "@renderer/utils/animateVariants"
+import { ThinSeparator } from "@renderer/components/ui/ListSeparators"
 
 function ListMods(): JSX.Element {
   const { t } = useTranslation()
@@ -283,8 +284,8 @@ function ListMods(): JSX.Element {
                     </div>
                   </div>
 
-                  <div className="w-full flex text-sm">
-                    <div className="shrink-0 w-26 flex flex-col gap-1 px-2 py-1 border-r-2 border-zinc-400/12 overflow-hidden">
+                  <div className="w-full h-full flex text-sm">
+                    <div className="shrink-0 w-26 flex flex-col gap-1 px-2 py-1 overflow-hidden">
                       <p className="flex items-center gap-1">
                         <PiUserCircleDuotone className="shrink-0 opacity-50" />
                         <span className="overflow-hidden whitespace-nowrap text-ellipsis">{mod.author}asasd asd as</span>
@@ -302,6 +303,8 @@ function ListMods(): JSX.Element {
                         <span>{Number(mod.comments)}</span>
                       </p>
                     </div>
+
+                    <ThinSeparator />
 
                     <div className="w-full flex flex-col gap-1 px-2 py-1 overflow-hidden">
                       <p className="text-base font-bold overflow-hidden whitespace-nowrap text-ellipsis">{mod.name}</p>
