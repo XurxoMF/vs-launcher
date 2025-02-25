@@ -38,7 +38,7 @@ function AddInslallation(): JSX.Element {
   const [name, setName] = useState<string>(t("features.installations.defaultName"))
   const [folder, setFolder] = useState<string>("")
   const [folderByUser, setFolderByUser] = useState<boolean>(false)
-  const [version, setVersion] = useState<GameVersionType>(config.gameVersions[0])
+  const [version, setVersion] = useState<GameVersionType>([...config.gameVersions].sort((a, b) => semver.compare(b.version, a.version))[0])
   const [startParams, setStartParams] = useState<string>("")
   const [backupsLimit, setBackupsLimit] = useState<number>(3)
   const [backupsAuto, setBackupsAuto] = useState<boolean>(false)

@@ -1,7 +1,8 @@
+import { useEffect, useState } from "react"
 import { FiExternalLink } from "react-icons/fi"
 import { useTranslation } from "react-i18next"
 import { Link, useLocation } from "react-router-dom"
-import { PiGearDuotone } from "react-icons/pi"
+import { PiBoxArrowDownDuotone, PiGearDuotone, PiPencilDuotone, PiPlusCircleDuotone } from "react-icons/pi"
 import { v4 as uuidv4 } from "uuid"
 import clsx from "clsx"
 
@@ -18,8 +19,8 @@ import { useMakeInstallationBackup } from "@renderer/features/installations/hook
 import LanguagesMenu from "@renderer/components/ui/LanguagesMenu"
 import InstallationsDropdownMenu from "@renderer/features/installations/components/InstallationsDropdownMenu"
 import TasksMenu from "@renderer/components/ui/TasksMenu"
-import { NormalButton } from "../ui/Buttons"
-import { FormLinkButton } from "../ui/FormComponents"
+import { NormalButton } from "@renderer/components/ui/Buttons"
+import { FormButton, FormLinkButton } from "@renderer/components/ui/FormComponents"
 
 interface MainMenuLinkProps {
   icon: string
@@ -41,6 +42,13 @@ function MainMenu(): JSX.Element {
   const { addNotification } = useNotificationsContext()
 
   const makeInstallationBackup = useMakeInstallationBackup()
+
+  const [seletedInstallation, setSelectedInstallation] = useState<InstallationType | undefined>(undefined)
+
+  useEffect(() => {
+    const si = config.installations.find((i) => i.id === config.lastUsedInstallation)
+    setSelectedInstallation(si)
+  }, [config.lastUsedInstallation, config.installations])
 
   const GROUP_1: MainMenuLinkProps[] = [
     {
@@ -83,26 +91,25 @@ function MainMenu(): JSX.Element {
     window.api.utils.setPreventAppClose("add", id, "Started playing Vintage Story.")
 
     try {
-      const installationToRun = config.installations.find((installation) => installation.id === config.lastUsedInstallation)
-      if (!installationToRun) return addNotification(t("features.installations.noInstallationSelected"), "error")
-      if (installationToRun._playing) return addNotification(t("features.installations.gameAlreadyRunning"), "error")
+      if (!seletedInstallation) return addNotification(t("features.installations.noInstallationSelected"), "error")
+      if (seletedInstallation._playing) return addNotification(t("features.installations.gameAlreadyRunning"), "error")
 
-      const gameVersionToRun = config.gameVersions.find((gv) => gv.version === installationToRun.version)
-      if (!gameVersionToRun) return addNotification(t("features.versions.versionNotInstalled", { version: installationToRun.version }), "error")
-      if (gameVersionToRun._installing) return addNotification(t("features.versions.versionInstalling", { version: installationToRun.version }), "error")
-      if (gameVersionToRun._deleting) return addNotification(t("features.versions.versionDeleting", { version: installationToRun.version }), "error")
-      if (gameVersionToRun._playing) return addNotification(t("features.versions.versionPlaying", { version: installationToRun.version }), "error")
+      const gameVersionToRun = config.gameVersions.find((gv) => gv.version === seletedInstallation.version)
+      if (!gameVersionToRun) return addNotification(t("features.versions.versionNotInstalled", { version: seletedInstallation.version }), "error")
+      if (gameVersionToRun._installing) return addNotification(t("features.versions.versionInstalling", { version: seletedInstallation.version }), "error")
+      if (gameVersionToRun._deleting) return addNotification(t("features.versions.versionDeleting", { version: seletedInstallation.version }), "error")
+      if (gameVersionToRun._playing) return addNotification(t("features.versions.versionPlaying", { version: seletedInstallation.version }), "error")
 
-      configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id: installationToRun.id, updates: { _playing: true } } })
+      configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id: seletedInstallation.id, updates: { _playing: true } } })
       configDispatch({ type: CONFIG_ACTIONS.EDIT_GAME_VERSION, payload: { version: gameVersionToRun.version, updates: { _playing: true } } })
 
-      if (installationToRun.backupsAuto) {
-        const backupMade = await makeInstallationBackup(installationToRun.id)
+      if (seletedInstallation.backupsAuto) {
+        const backupMade = await makeInstallationBackup(seletedInstallation.id)
         if (!backupMade) return
       }
 
-      const closeStatus = await window.api.gameManager.executeGame(gameVersionToRun, installationToRun)
-      configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id: installationToRun.id, updates: { _playing: false } } })
+      const closeStatus = await window.api.gameManager.executeGame(gameVersionToRun, seletedInstallation)
+      configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id: seletedInstallation.id, updates: { _playing: false } } })
       configDispatch({ type: CONFIG_ACTIONS.EDIT_GAME_VERSION, payload: { version: gameVersionToRun.version, updates: { _playing: false } } })
       if (!closeStatus) return addNotification(t("notifications.body.gameExitedWithErrors"), "error")
     } catch (err) {
@@ -137,9 +144,39 @@ function MainMenu(): JSX.Element {
 
       <div className="flex flex-col gap-2">
         <InstallationsDropdownMenu />
-        <NormalButton title={t("generic.play")} onClick={PlayHandler} className="w-full h-14 bg-vs shadow-sm shadow-zinc-950/50 hover:shadow-none">
-          <p className="text-2xl">{t("generic.play")}</p>
-        </NormalButton>
+        <div className="w-full flex gap-2 items-center">
+          <NormalButton
+            title={t("generic.play")}
+            disabled={!seletedInstallation}
+            onClick={PlayHandler}
+            className="w-full h-14 bg-vs disabled:text-zinc-600 disabled:bg-vs/20 shadow-sm shadow-zinc-950/50 hover:shadow-none"
+          >
+            <p className="text-2xl">{t("generic.play")}</p>
+          </NormalButton>
+          {seletedInstallation && (
+            <div className="shrink-0 w-14 h-full grid grid-cols-2 grid-rows-2 gap-1 text-sm">
+              <FormButton
+                className="p-1"
+                title={t("generic.backup")}
+                onClick={async () => {
+                  if (!(await window.api.pathsManager.checkPathExists(seletedInstallation.path))) return addNotification(t("features.backups.folderDoesntExists"), "error")
+                  makeInstallationBackup(seletedInstallation.id)
+                }}
+              >
+                <PiBoxArrowDownDuotone />
+              </FormButton>
+              <FormLinkButton to={`/installations/mods/${seletedInstallation.id}`} title={t("features.mods.manageMods")}>
+                <PiGearDuotone />
+              </FormLinkButton>
+              <FormLinkButton title={t("generic.edit")} to={`/installations/edit/${seletedInstallation.id}`}>
+                <PiPencilDuotone />
+              </FormLinkButton>
+              <FormLinkButton title={t("generic.add")} to="/installations/add">
+                <PiPlusCircleDuotone />
+              </FormLinkButton>
+            </div>
+          )}
+        </div>
       </div>
     </header>
   )

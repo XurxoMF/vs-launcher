@@ -39,7 +39,7 @@ function EditInslallation(): JSX.Element {
   const [installation, setInstallation] = useState<InstallationType | undefined>(config.installations.find((igv) => igv.id === id))
 
   const [name, setName] = useState<string>("")
-  const [version, setVersion] = useState<GameVersionType>(config.gameVersions[0])
+  const [version, setVersion] = useState<GameVersionType>([...config.gameVersions].sort((a, b) => semver.compare(b.version, a.version))[0])
   const [startParams, setStartParams] = useState<string>("")
   const [backupsLimit, setBackupsLimit] = useState<number>(0)
   const [backupsAuto, setBackupsAuto] = useState<boolean>(false)
