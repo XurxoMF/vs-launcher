@@ -48,7 +48,10 @@
     "both": "Both",
     "server": "Server",
     "client": "Client",
-    "tags": "Tags"
+    "tags": "Tags",
+    "neverPlayer": "Never played",
+    "totalTime": "{{total}} total",
+    "notPlayedYet": "Never played"
   },
   "features": {
     "generic": {

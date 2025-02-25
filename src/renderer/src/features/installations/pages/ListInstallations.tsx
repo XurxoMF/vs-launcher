@@ -65,22 +65,23 @@ function ListInslallations(): JSX.Element {
               <ListItem key={installation.id}>
                 <div className="h-16 flex gap-2 px-2 py-1 justify-between items-center whitespace-nowrap">
                   <div className="w-full flex flex-col items-start justify-center gap-1 overflow-hidden">
-                    <p className="font-bold">{installation.name}</p>
-                    <div className="w-full flex gap-2 items-center text-sm text-zinc-500" title={installation.path}>
-                      <p className="overflow-hidden text-ellipsis">{installation.path}</p>
+                    <div className="flex gap-1 items-center justify-center">
+                      <p className="font-bold">{installation.name}</p>
+                      <span>·</span>
+                      <p className="text-sm text-zinc-400">{installation.lastTimePlayed === -1 ? t("generic.notPlayedYet") : new Date(installation.lastTimePlayed).toLocaleString("es")}</p>
+                      <span>·</span>
+                      <p className="text-sm text-zinc-400">{t("generic.totalTime", { total: installation.totalTimePlayed > 1000 ? formatMilliseconds(installation.totalTimePlayed) : "0s" })}</p>
                     </div>
+                    <p className="overflow-hidden text-ellipsis text-sm text-zinc-500" title={installation.path}>
+                      {installation.path}
+                    </p>
                   </div>
 
                   <ThinSeparator />
 
-                  <div className="shrink-0 w-22 flex flex-col items-center justify-center gap-1">
-                    <div className="flex items-center justify-center font-bold">
-                      <p>{installation.version}</p>
-                    </div>
-
-                    <div className="flex items-center justify-center text-sm">
-                      <p>{t("features.mods.modsCount", { count: installation._modsCount as number })}</p>
-                    </div>
+                  <div className="shrink-0 w-22 flex flex-col items-center justify-center gap-1 text-sm">
+                    <p className="font-bold">{installation.version}</p>
+                    <p>{t("features.mods.modsCount", { count: installation._modsCount as number })}</p>
                   </div>
 
                   <ThinSeparator />
@@ -158,6 +159,22 @@ function ListInslallations(): JSX.Element {
       </div>
     </ScrollableContainer>
   )
+}
+
+function formatMilliseconds(milliseconds: number): string {
+  let seconds = Math.floor(milliseconds / 1000)
+
+  const hours = Math.floor(seconds / 3600)
+  seconds %= 3600
+  const minutes = Math.floor(seconds / 60)
+  seconds %= 60
+
+  let result = ""
+  if (hours > 0) result += hours + "h "
+  if (minutes > 0) result += minutes + "m "
+  if (seconds > 0) result += seconds + "s"
+
+  return result.trim()
 }
 
 export default ListInslallations

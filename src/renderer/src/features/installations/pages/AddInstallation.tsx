@@ -69,7 +69,8 @@ function AddInslallation(): JSX.Element {
         backupsLimit,
         backupsAuto,
         backups: [],
-        mods: [],
+        lastTimePlayed: -1,
+        totalTimePlayed: 0,
         _modsCount: 0
       }
 

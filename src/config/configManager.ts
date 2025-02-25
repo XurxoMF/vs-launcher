@@ -29,7 +29,9 @@ const defaultInstallation: InstallationType = {
   startParams: "",
   backupsLimit: 3,
   backupsAuto: false,
-  backups: []
+  backups: [],
+  lastTimePlayed: -1,
+  totalTimePlayed: 0
 }
 
 const defaultGameVersion: GameVersionType = {
@@ -95,7 +97,9 @@ function ensureConfigProperties(config: ConfigType): ConfigType {
     startParams: installation.startParams ?? defaultInstallation.startParams,
     backupsLimit: installation.backupsLimit ?? defaultInstallation.backupsLimit,
     backupsAuto: installation.backupsAuto ?? defaultInstallation.backupsAuto,
-    backups: installation.backups ?? defaultInstallation.backups
+    backups: installation.backups ?? defaultInstallation.backups,
+    lastTimePlayed: installation.lastTimePlayed ?? defaultInstallation.lastTimePlayed,
+    totalTimePlayed: installation.totalTimePlayed ?? defaultInstallation.totalTimePlayed
   }))
 
   const gameVersions: GameVersionType[] = config.gameVersions.map((gameVersion) => ({

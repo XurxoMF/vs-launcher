@@ -6,7 +6,7 @@ declare global {
     defaultVersionsFolder: string
     backupsFolder: string
     _notifiedModUpdatesInstallations?: string[]
-  } & Record<string, unknown>
+  }
 
   type GameVersionType = {
     version: string
@@ -14,7 +14,7 @@ declare global {
     _installing?: boolean
     _deleting?: boolean
     _playing?: boolean
-  } & Record<string, unknown>
+  }
 
   type BackupType = {
     id: string
@@ -22,7 +22,7 @@ declare global {
     path: string
     _deleting?: boolean
     _restoring?: boolean
-  } & Record<string, unknown>
+  }
 
   type InstallationType = {
     id: string
@@ -33,17 +33,19 @@ declare global {
     backupsLimit: number
     backupsAuto: boolean
     backups: BackupType[]
+    lastTimePlayed: number
+    totalTimePlayed: number
     _modsCount?: number
     _playing?: boolean
     _backuping?: boolean
     _restoringBackup?: boolean
-  } & Record<string, unknown>
+  }
 
   type ConfigType = BasicConfigType & {
     installations: InstallationType[]
     gameVersions: GameVersionType[]
     favMods: number[]
-  } & Record<string, unknown>
+  }
 
   type InstalledModType = {
     name: string
@@ -59,9 +61,9 @@ declare global {
     _mod?: DownloadableModType
     _updatableTo?: string
     _lastVersion?: string
-  } & Record<string, unknown>
+  }
 
-  type ErrorInstalledModType = { zipname: string; path: string } & Record<string, unknown>
+  type ErrorInstalledModType = { zipname: string; path: string }
 
   type DownloadableModOnListType = {
     modid: number
@@ -80,7 +82,7 @@ declare global {
     logo: string
     tags: string[]
     lastreleased: string
-  } & Record<string, unknown>
+  }
 
   type DownloadableModType = {
     modid: number
@@ -107,7 +109,7 @@ declare global {
     tags: string[]
     releases: DownloadableModReleaseType[]
     screenshots: DownloadableModScreenshotType[]
-  } & Record<string, unknown>
+  }
 
   type DownloadableModScreenshotType = {
     fileid: number
@@ -115,7 +117,7 @@ declare global {
     filename: string
     thumbnailfile: string
     createdat: string
-  } & Record<string, unknown>
+  }
 
   type DownloadableModReleaseType = {
     releaseid: number
@@ -127,7 +129,7 @@ declare global {
     modidstr: string
     modversion: string
     created: string
-  } & Record<string, unknown>
+  }
 
   type DownloadableGameVersionTypeType = {
     version: string
@@ -135,24 +137,24 @@ declare global {
     releaseDate: string
     windows: string
     linux: string
-  } & Record<string, unknown>
+  }
 
   type DownloadableModAuthorType = {
     userid: string
     name: string
-  } & Record<string, unknown>
+  }
 
   type DownloadableModGameVersionType = {
     tagid: string
     name: string
     color: string
-  } & Record<string, unknown>
+  }
 
   type DownloadableModTagType = {
     tagid: number
     name: string
     color: string
-  } & Record<string, unknown>
+  }
 
   declare module "*.png" {
     const value: string

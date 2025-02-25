@@ -108,8 +108,11 @@ function MainMenu(): JSX.Element {
         if (!backupMade) return
       }
 
+      const startedPlaying = Date.now()
       const closeStatus = await window.api.gameManager.executeGame(gameVersionToRun, seletedInstallation)
-      configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id: seletedInstallation.id, updates: { _playing: false } } })
+      const finishedPlaying = Date.now()
+      const ttp = finishedPlaying - startedPlaying + seletedInstallation.totalTimePlayed
+      configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id: seletedInstallation.id, updates: { _playing: false, lastTimePlayed: finishedPlaying, totalTimePlayed: ttp } } })
       configDispatch({ type: CONFIG_ACTIONS.EDIT_GAME_VERSION, payload: { version: gameVersionToRun.version, updates: { _playing: false } } })
       if (!closeStatus) return addNotification(t("notifications.body.gameExitedWithErrors"), "error")
     } catch (err) {
