@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useTranslation, Trans } from "react-i18next"
 import { v4 as uuidv4 } from "uuid"
-import { PiFloppyDiskBackDuotone, PiXCircleDuotone } from "react-icons/pi"
+import { PiFloppyDiskBackDuotone, PiMagnifyingGlassDuotone, PiXCircleDuotone } from "react-icons/pi"
 import semver from "semver"
 
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
@@ -84,7 +84,7 @@ function AddInslallation(): JSX.Element {
 
   return (
     <ScrollableContainer>
-      <div className="min-h-full flex flex-col justify-center gap-6">
+      <div className="min-h-full flex flex-col justify-center gap-4">
         <h1 className="text-3xl text-center font-bold">{t("features.installations.addTitle")}</h1>
 
         <FromWrapper className="max-w-[800px] w-full">
@@ -174,7 +174,7 @@ function AddInslallation(): JSX.Element {
                     title={t("generic.browse")}
                     className="h-8 px-2 py-1"
                   >
-                    {t("generic.browse")}
+                    <PiMagnifyingGlassDuotone />
                   </FormButton>
                   <FormInputText placeholder={t("features.installations.installationFolder")} value={folder} onChange={(e) => setFolder(e.target.value)} minLength={1} className="w-full" />
                 </FormFieldGroup>

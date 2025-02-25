@@ -169,7 +169,7 @@ function ListMods(): JSX.Element {
 
   return (
     <ScrollableContainer ref={scrollRef}>
-      <div className="w-full min-h-full flex flex-col justify-center gap-6">
+      <div className="w-full min-h-full flex flex-col justify-center gap-4">
         <StickyMenuWrapper scrollRef={scrollRef}>
           <StickyMenuGroup>
             <FormInputText placeholder={t("generic.text")} value={textFilter} onChange={(e) => setTextFilter(e.target.value)} className="w-40" />

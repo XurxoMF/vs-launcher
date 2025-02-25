@@ -4,7 +4,7 @@ import { Input } from "@headlessui/react"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import { FiLoader } from "react-icons/fi"
-import { PiDownloadDuotone, PiXCircleDuotone } from "react-icons/pi"
+import { PiDownloadDuotone, PiMagnifyingGlassDuotone, PiXCircleDuotone } from "react-icons/pi"
 
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 import { CONFIG_ACTIONS, useConfigContext } from "@renderer/features/config/contexts/ConfigContext"
@@ -109,7 +109,7 @@ function AddVersion(): JSX.Element {
 
   return (
     <ScrollableContainer>
-      <div className="min-h-full flex flex-col justify-center gap-6">
+      <div className="min-h-full flex flex-col justify-center gap-4">
         <h1 className="text-3xl text-center font-bold">{t("features.versions.installTitle")}</h1>
 
         <FromWrapper className="max-w-[800px] w-full">
@@ -203,7 +203,7 @@ function AddVersion(): JSX.Element {
                     title={t("generic.browse")}
                     className="px-2 py-1"
                   >
-                    {t("generic.browse")}
+                    <PiMagnifyingGlassDuotone />
                   </FormButton>
                   <FormInputText placeholder={t("features.versions.versionFolder")} value={folder} onChange={(e) => setFolder(e.target.value)} className="w-full" />
                 </FormFieldGroup>

@@ -9,7 +9,7 @@ import clsx from "clsx"
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
 export function FromWrapper({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
-  return <div className={clsx("mx-auto flex flex-col gap-6 items-start justify-center", className)}>{children}</div>
+  return <div className={clsx("mx-auto flex flex-col gap-4 items-start justify-center", className)}>{children}</div>
 }
 
 /**
@@ -22,7 +22,7 @@ export function FromWrapper({ children, className }: { children: React.ReactNode
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
 export function FromGroup({ children, className, alignment = "x" }: { children: React.ReactNode; className?: string; alignment?: "x" | "y" }): JSX.Element {
-  return <div className={clsx("w-full flex gap-4", alignment === "y" && "flex-col", className)}>{children}</div>
+  return <div className={clsx("w-full flex gap-2", alignment === "y" && "flex-col", className)}>{children}</div>
 }
 
 /**
@@ -43,7 +43,7 @@ export function FormGroupWrapper({ children, className }: { children: React.Reac
         className
       )}
     >
-      <div className="relative flex flex-col p-2 gap-4 z-1">{children}</div>
+      <div className="relative flex flex-col p-2 gap-2 z-1">{children}</div>
     </div>
   )
 }
@@ -57,7 +57,7 @@ export function FormGroupWrapper({ children, className }: { children: React.Reac
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
 export function FormHead({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
-  return <div className={clsx("relative w-1/5 flex flex-col gap-4", className)}>{children}</div>
+  return <div className={clsx("relative w-1/5 flex flex-col gap-2", className)}>{children}</div>
 }
 
 /**
@@ -69,7 +69,7 @@ export function FormHead({ children, className }: { children: React.ReactNode; c
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
 export function FormBody({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
-  return <div className={clsx("relative w-4/5 flex flex-col gap-4", className)}>{children}</div>
+  return <div className={clsx("relative w-4/5 flex flex-col gap-2", className)}>{children}</div>
 }
 
 /**
@@ -95,7 +95,7 @@ export function FormLabel({ className, content }: { className?: string; content:
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
 export function FormFieldGroup({ children, className, alignment = "y" }: { children: React.ReactNode; className?: string; alignment?: "x" | "y" }): JSX.Element {
-  return <div className={clsx("flex gap-4", alignment === "y" && "flex-col", className)}>{children}</div>
+  return <div className={clsx("flex gap-2", alignment === "y" && "flex-col", className)}>{children}</div>
 }
 
 /**

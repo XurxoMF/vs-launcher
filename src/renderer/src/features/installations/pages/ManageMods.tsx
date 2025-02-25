@@ -86,7 +86,7 @@ function ListMods(): JSX.Element {
 
   return (
     <ScrollableContainer>
-      <div className="min-h-full flex flex-col justify-center gap-6">
+      <div className="min-h-full flex flex-col justify-center gap-4">
         {installedMods.length < 1 && insatlledModsWithErrors.length < 1 && (
           <ListWrapper className="max-w-[800px] w-full">
             <ListGroup>

@@ -18,7 +18,7 @@ import {
   FormGroupWrapper
 } from "@renderer/components/ui/FormComponents"
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
-import { PiFloppyDiskBackDuotone, PiXCircleDuotone } from "react-icons/pi"
+import { PiFloppyDiskBackDuotone, PiMagnifyingGlassDuotone, PiXCircleDuotone } from "react-icons/pi"
 
 function LookForAVersion(): JSX.Element {
   const { t } = useTranslation()
@@ -54,7 +54,7 @@ function LookForAVersion(): JSX.Element {
 
   return (
     <ScrollableContainer>
-      <div className="min-h-full flex flex-col justify-center gap-6">
+      <div className="min-h-full flex flex-col justify-center gap-4">
         <h1 className="text-3xl text-center font-bold">{t("features.versions.lookForAVersion")}</h1>
 
         <FromWrapper className="max-w-[800px] w-full">
@@ -85,7 +85,7 @@ function LookForAVersion(): JSX.Element {
                     title={t("generic.browse")}
                     className="px-2 py-1"
                   >
-                    {t("generic.browse")}
+                    <PiMagnifyingGlassDuotone />
                   </FormButton>
                   <FormInputTextNotEditable value={folder} placeholder={t("generic.folder")} className="w-full" />
                 </FormFieldGroup>

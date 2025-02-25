@@ -5,6 +5,7 @@ import { useNotificationsContext } from "@renderer/contexts/NotificationsContext
 
 import { FormBody, FormFieldGroup, FormHead, FormLabel, FromGroup, FromWrapper, FormGroupWrapper, FormButton, FormInputTextNotEditable } from "@renderer/components/ui/FormComponents"
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
+import { PiMagnifyingGlassDuotone } from "react-icons/pi"
 
 function ConfigPage(): JSX.Element {
   const { t } = useTranslation()
@@ -14,7 +15,7 @@ function ConfigPage(): JSX.Element {
 
   return (
     <ScrollableContainer>
-      <div className="min-h-full flex flex-col justify-center gap-6">
+      <div className="min-h-full flex flex-col justify-center gap-4">
         <h1 className="text-3xl text-center font-bold">{t("features.config.title")}</h1>
 
         <FromWrapper className="max-w-[800px] w-full">
@@ -36,7 +37,7 @@ function ConfigPage(): JSX.Element {
                     title={t("generic.browse")}
                     className="px-2 py-1"
                   >
-                    {t("generic.browse")}
+                    <PiMagnifyingGlassDuotone />
                   </FormButton>
                   <FormInputTextNotEditable value={config.defaultInstallationsFolder} className="w-full" />
                 </FormFieldGroup>
@@ -60,7 +61,7 @@ function ConfigPage(): JSX.Element {
                     title={t("generic.browse")}
                     className="px-2 py-1"
                   >
-                    {t("generic.browse")}
+                    <PiMagnifyingGlassDuotone />
                   </FormButton>
                   <FormInputTextNotEditable value={config.defaultVersionsFolder} className="w-full" />
                 </FormFieldGroup>
@@ -85,7 +86,7 @@ function ConfigPage(): JSX.Element {
                     title={t("generic.browse")}
                     className="px-2 py-1"
                   >
-                    {t("generic.browse")}
+                    <PiMagnifyingGlassDuotone />
                   </FormButton>
                   <FormInputTextNotEditable value={config.backupsFolder} className="w-full" />
                 </FormFieldGroup>
