@@ -151,7 +151,7 @@ function MiniLinks({ to, text }: { to: string; text: string }): JSX.Element {
       title={text}
       onClick={() => window.api.utils.openOnBrowser(to)}
       className={
-        "backdrop-blur-xs border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none flex items-center justify-center gap-1 rounded-sm cursor-pointer px-1 opacity-50 hover:opacity-100 duration-200"
+        "backdrop-blur-xs border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none flex items-center justify-center gap-1 rounded-sm cursor-pointer px-1 opacity-25 hover:opacity-100 duration-200"
       }
     >
       <span>{text}</span> <FiExternalLink className="text-[.6rem]" />
