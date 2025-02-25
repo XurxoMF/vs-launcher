@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
-import { PiDownloadFill, PiArrowClockwiseFill } from "react-icons/pi"
+import { PiDownloadDuotone, PiArrowClockwiseDuotone } from "react-icons/pi"
 import { FiLoader } from "react-icons/fi"
 
 import { useInstallMod } from "../hooks/useInstallMod"
@@ -111,9 +111,15 @@ function InstallModPopup({
                         }}
                         className="w-7 h-7"
                         type={release.tags.includes(`v${version}`) ? "success" : release.tags.some((tag) => tag.startsWith(`v${version.split(".").slice(0, 2).join(".")}`)) ? "warn" : "error"}
-                        title={oldMod ? t("features.installations.updateOnInstallation") : t("features.installations.installOnInstallation")}
+                        title={
+                          release.tags.includes(`v${version}`)
+                            ? t("features.mods.worksOnTheVersion")
+                            : release.tags.some((tag) => tag.startsWith(`v${version.split(".").slice(0, 2).join(".")}`))
+                              ? t("features.mods.shouldWorkOnTheVersion")
+                              : t("features.mods.probablyDontWorkOnTheVersion")
+                        }
                       >
-                        {oldMod ? <PiArrowClockwiseFill /> : <PiDownloadFill />}
+                        {oldMod ? <PiArrowClockwiseDuotone /> : <PiDownloadDuotone />}
                       </FormButton>
                     </TableCell>
                   </div>

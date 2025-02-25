@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
-import { PiCaretDownBold } from "react-icons/pi"
+import { PiCaretDownDuotone } from "react-icons/pi"
 import { AnimatePresence, motion } from "motion/react"
 import clsx from "clsx"
 
@@ -46,7 +46,7 @@ function LanguagesMenu(): JSX.Element {
                   <span className="font-bold text-sm">{lang.name}</span>
                   <span className="text-ellipsis overflow-hidden text-zinc-500 text-xs">{lang.credits}</span>
                 </p>
-                <PiCaretDownBold className={clsx("text-zinc-300 shrink-0 duration-200", open && "-rotate-180")} />
+                <PiCaretDownDuotone className={clsx("text-zinc-300 shrink-0 duration-200", open && "-rotate-180")} />
               </ListboxButton>
             ))}
 

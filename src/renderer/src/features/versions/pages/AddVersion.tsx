@@ -4,7 +4,7 @@ import { Input } from "@headlessui/react"
 import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import { FiLoader } from "react-icons/fi"
-import { PiDownloadFill, PiXBold } from "react-icons/pi"
+import { PiDownloadDuotone, PiXCircleDuotone } from "react-icons/pi"
 
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 import { CONFIG_ACTIONS, useConfigContext } from "@renderer/features/config/contexts/ConfigContext"
@@ -214,10 +214,10 @@ function AddVersion(): JSX.Element {
 
         <ButtonsWrapper className="text-lg">
           <FormLinkButton to="/versions" title={t("generic.goBack")} className="p-2">
-            <PiXBold />
+            <PiXCircleDuotone />
           </FormLinkButton>
           <FormButton onClick={handleInstallVersion} title={t("generic.install")} className="p-2">
-            <PiDownloadFill />
+            <PiDownloadDuotone />
           </FormButton>
         </ButtonsWrapper>
       </div>

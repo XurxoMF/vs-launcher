@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "motion/react"
-import { PiInfoFill, PiWarningFill, PiCheckCircleFill, PiProhibitInsetFill, PiXBold } from "react-icons/pi"
+import { PiInfoDuotone, PiWarningDuotone, PiCheckCircleDuotone, PiProhibitInsetDuotone, PiXCircleDuotone } from "react-icons/pi"
 import { useTranslation } from "react-i18next"
 
 import clsx from "clsx"
@@ -22,10 +22,10 @@ const FONT_COLOR_TYPES = {
 }
 
 const ICON_TYPES = {
-  success: <PiCheckCircleFill />,
-  info: <PiInfoFill />,
-  error: <PiProhibitInsetFill />,
-  warning: <PiWarningFill />
+  success: <PiCheckCircleDuotone />,
+  info: <PiInfoDuotone />,
+  error: <PiProhibitInsetDuotone />,
+  warning: <PiWarningDuotone />
 }
 
 function NotificationsOverlay(): JSX.Element {
@@ -67,7 +67,7 @@ function NotificationsOverlay(): JSX.Element {
                 removeNotification(id)
               }}
             >
-              <PiXBold />
+              <PiXCircleDuotone />
             </NormalButton>
           </motion.div>
         ))}

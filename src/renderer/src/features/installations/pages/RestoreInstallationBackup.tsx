@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 import { useParams } from "react-router-dom"
-import { PiArrowCounterClockwiseFill, PiFolderFill, PiTrashFill, PiXBold } from "react-icons/pi"
+import { PiArrowCounterClockwiseDuotone, PiFolderOpenDuotone, PiTrashDuotone, PiXCircleDuotone } from "react-icons/pi"
 import { v4 as uuidv4 } from "uuid"
 
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
@@ -105,7 +105,7 @@ function RestoreInstallationBackup(): JSX.Element {
 
         <ListWrapper className="max-w-[800px] w-full">
           {backups && backups.length < 1 && (
-            <div className="w-full flex flex-col items-center justify-center gap-2 rounded-sm bg-zinc-950/50 p-4">
+            <div className="relative w-full flex flex-col items-center justify-center gap-2 rounded-sm bg-zinc-950/50 p-4">
               <p className="text-2xl">{t("features.backups.noBackupsFound")}</p>
             </div>
           )}
@@ -124,10 +124,10 @@ function RestoreInstallationBackup(): JSX.Element {
 
                     <div className="flex gap-1 justify-end text-lg">
                       <NormalButton className="p-1" title={t("features.backups.restoreBackup")} onClick={() => setBackupToRestore(backup)}>
-                        <PiArrowCounterClockwiseFill />
+                        <PiArrowCounterClockwiseDuotone />
                       </NormalButton>
                       <NormalButton onClick={() => setBackupToDelete(backup)} title={t("generic.delete")} className="p-1">
-                        <PiTrashFill />
+                        <PiTrashDuotone />
                       </NormalButton>
                       <NormalButton
                         onClick={async () => {
@@ -138,7 +138,7 @@ function RestoreInstallationBackup(): JSX.Element {
                         title={t("generic.openOnFileExplorer")}
                         className="p-1"
                       >
-                        <PiFolderFill />
+                        <PiFolderOpenDuotone />
                       </NormalButton>
                     </div>
                   </div>
@@ -153,10 +153,10 @@ function RestoreInstallationBackup(): JSX.Element {
             <p className="text-zinc-400">{t("features.backups.restoringNotReversible")}</p>
             <div className="flex gap-4 items-center justify-center text-lg">
               <FormButton title={t("generic.cancel")} className="p-2" onClick={() => setBackupToRestore(null)}>
-                <PiXBold />
+                <PiXCircleDuotone />
               </FormButton>
               <FormButton title={t("generic.restore")} className="p-2" onClick={RestoreBackupHandler} type="error">
-                <PiArrowCounterClockwiseFill />
+                <PiArrowCounterClockwiseDuotone />
               </FormButton>
             </div>
           </>
@@ -168,10 +168,10 @@ function RestoreInstallationBackup(): JSX.Element {
             <p className="text-zinc-400">{t("features.backups.deletingNotReversible")}</p>
             <div className="flex gap-4 items-center justify-center text-lg">
               <NormalButton title={t("generic.cancel")} className="p-2" onClick={() => setBackupToDelete(null)}>
-                <PiXBold />
+                <PiXCircleDuotone />
               </NormalButton>
               <NormalButton title={t("generic.delete")} className="p-2" onClick={DeleteBackupHandler} type="error">
-                <PiTrashFill />
+                <PiTrashDuotone />
               </NormalButton>
             </div>
           </>

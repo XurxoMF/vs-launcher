@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { useParams } from "react-router-dom"
 import { Trans, useTranslation } from "react-i18next"
-import { PiArrowClockwiseFill, PiTrashFill, PiXBold } from "react-icons/pi"
+import { PiArrowClockwiseDuotone, PiTrashDuotone, PiXCircleDuotone } from "react-icons/pi"
 import { FiLoader } from "react-icons/fi"
 import clsx from "clsx"
 
@@ -176,7 +176,7 @@ function ListMods(): JSX.Element {
                           setModToDelete(iModE)
                         }}
                       >
-                        <PiTrashFill />
+                        <PiTrashDuotone />
                       </NormalButton>
                     </div>
                   </div>
@@ -268,10 +268,10 @@ function ListMods(): JSX.Element {
             <p className="text-zinc-400">{t("features.mods.deletingNotReversible")}</p>
             <div className="flex gap-4 items-center justify-center text-lg">
               <FormButton title={t("generic.cancel")} className="p-2" onClick={() => setModToDelete(null)}>
-                <PiXBold />
+                <PiXCircleDuotone />
               </FormButton>
               <FormButton title={t("generic.delete")} className="p-2" onClick={DeleteModHandler} type="error">
-                <PiTrashFill />
+                <PiTrashDuotone />
               </FormButton>
             </div>
           </>
@@ -333,7 +333,7 @@ function InstalledModItem({ iMod, onDeleteClick, onUpdateClick }: { iMod: Instal
               onUpdateClick()
             }}
           >
-            <PiArrowClockwiseFill />
+            <PiArrowClockwiseDuotone />
           </NormalButton>
 
           <NormalButton
@@ -343,7 +343,7 @@ function InstalledModItem({ iMod, onDeleteClick, onUpdateClick }: { iMod: Instal
               onDeleteClick()
             }}
           >
-            <PiTrashFill />
+            <PiTrashDuotone />
           </NormalButton>
         </div>
       </div>

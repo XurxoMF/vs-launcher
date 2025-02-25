@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import { useTranslation, Trans } from "react-i18next"
 import { Button } from "@headlessui/react"
-import { PiFloppyDiskBackFill, PiXBold } from "react-icons/pi"
+import { PiFloppyDiskBackDuotone, PiXCircleDuotone } from "react-icons/pi"
 import semver from "semver"
 
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
@@ -217,10 +217,10 @@ function EditInslallation(): JSX.Element {
 
         <ButtonsWrapper className="text-lg">
           <FormLinkButton to="/installations" title={t("generic.goBack")} className="p-2">
-            <PiXBold />
+            <PiXCircleDuotone />
           </FormLinkButton>
           <FormButton onClick={handleEditInstallation} title={t("generic.save")} className="p-2">
-            <PiFloppyDiskBackFill />
+            <PiFloppyDiskBackDuotone />
           </FormButton>
         </ButtonsWrapper>
       </div>

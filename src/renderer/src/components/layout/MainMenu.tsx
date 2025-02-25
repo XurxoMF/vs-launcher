@@ -1,7 +1,7 @@
 import { FiExternalLink } from "react-icons/fi"
 import { useTranslation } from "react-i18next"
 import { Link, useLocation } from "react-router-dom"
-import { PiGearFill } from "react-icons/pi"
+import { PiGearDuotone } from "react-icons/pi"
 import { v4 as uuidv4 } from "uuid"
 import clsx from "clsx"
 
@@ -116,7 +116,7 @@ function MainMenu(): JSX.Element {
     <header className="z-99 w-[280px] flex flex-col gap-4 p-2 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 backdrop-blur-sm border-r border-zinc-400/5">
       <div className="flex h-7 shrink-0 gap-2">
         <FormLinkButton to="/config" title={t("features.config.title")} className="shrink-0 w-8 h-8">
-          <PiGearFill />
+          <PiGearDuotone />
         </FormLinkButton>
         <TasksMenu />
         <LanguagesMenu />

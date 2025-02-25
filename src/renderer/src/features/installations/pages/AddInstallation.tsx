@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useTranslation, Trans } from "react-i18next"
 import { v4 as uuidv4 } from "uuid"
-import { PiFloppyDiskBackFill, PiXBold } from "react-icons/pi"
+import { PiFloppyDiskBackDuotone, PiXCircleDuotone } from "react-icons/pi"
 import semver from "semver"
 
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
@@ -258,10 +258,10 @@ function AddInslallation(): JSX.Element {
 
         <ButtonsWrapper className="text-lg">
           <FormLinkButton to="/installations" title={t("generic.goBack")} className="p-2">
-            <PiXBold />
+            <PiXCircleDuotone />
           </FormLinkButton>
           <FormButton onClick={handleAddInstallation} title={t("generic.add")} className="p-2">
-            <PiFloppyDiskBackFill />
+            <PiFloppyDiskBackDuotone />
           </FormButton>
         </ButtonsWrapper>
       </div>

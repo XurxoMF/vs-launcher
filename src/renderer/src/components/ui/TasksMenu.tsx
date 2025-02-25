@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "motion/react"
-import { PiDownloadFill, PiFileZipFill, PiXBold } from "react-icons/pi"
+import { PiDownloadDuotone, PiBoxArrowDownDuotone, PiXCircleDuotone, PiBoxArrowUpDuotone } from "react-icons/pi"
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react"
 import clsx from "clsx"
 
@@ -22,9 +22,9 @@ const FONT_COLOR_TYPES = {
 }
 
 const ICON_TYPES = {
-  download: <PiDownloadFill />,
-  extract: <PiFileZipFill />,
-  compress: <PiFileZipFill />
+  download: <PiDownloadDuotone />,
+  extract: <PiBoxArrowUpDuotone />,
+  compress: <PiBoxArrowDownDuotone />
 }
 
 function TasksMenu(): JSX.Element {
@@ -36,7 +36,7 @@ function TasksMenu(): JSX.Element {
       {({ open }) => (
         <>
           <PopoverButton className="w-8 h-8 px-2 py-1 flex items-center justify-between gap-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none cursor-pointer">
-            <PiDownloadFill />
+            <PiDownloadDuotone />
           </PopoverButton>
 
           <AnimatePresence>
@@ -69,7 +69,7 @@ function TasksMenu(): JSX.Element {
                               </div>
                               {(task.status === "completed" || task.status === "failed") && (
                                 <NormalButton className="p-1 text-zinc-400" title={t("generic.discard")} onClick={() => removeTask(task.id)}>
-                                  <PiXBold />
+                                  <PiXCircleDuotone />
                                 </NormalButton>
                               )}
                             </div>

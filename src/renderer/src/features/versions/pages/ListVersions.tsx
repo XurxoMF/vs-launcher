@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { PiFolderFill, PiPlusCircleFill, PiTrashFill, PiMagnifyingGlassFill, PiXBold } from "react-icons/pi"
+import { PiFolderOpenDuotone, PiPlusCircleDuotone, PiTrashDuotone, PiMagnifyingGlassDuotone, PiXCircleDuotone } from "react-icons/pi"
 import { useTranslation } from "react-i18next"
 import semver from "semver"
 
@@ -46,12 +46,12 @@ function ListVersions(): JSX.Element {
             <div className="flex gap-2">
               <ListItem className="group">
                 <LinkButton to="/versions/add" title={t("features.versions.installNewVersion")} className="w-full h-8">
-                  <PiPlusCircleFill className="text-xl text-zinc-400/60 group-hover:scale-95 duration-200" />
+                  <PiPlusCircleDuotone className="text-xl text-zinc-400/60 group-hover:scale-95 duration-200" />
                 </LinkButton>
               </ListItem>
               <ListItem className="group">
                 <LinkButton to="/versions/look-for-a-version" title={t("features.versions.searchForAGameVersion")} className="w-full h-8">
-                  <PiMagnifyingGlassFill className="text-xl text-zinc-400/60 group-hover:scale-95 duration-200" />
+                  <PiMagnifyingGlassDuotone className="text-xl text-zinc-400/60 group-hover:scale-95 duration-200" />
                 </LinkButton>
               </ListItem>
             </div>
@@ -71,7 +71,7 @@ function ListVersions(): JSX.Element {
                           setVersionToDelete(gv)
                         }}
                       >
-                        <PiTrashFill />
+                        <PiTrashDuotone />
                       </NormalButton>
                       <NormalButton
                         onClick={async () => {
@@ -81,7 +81,7 @@ function ListVersions(): JSX.Element {
                         title={t("generic.openOnFileExplorer")}
                         className="p-1"
                       >
-                        <PiFolderFill />
+                        <PiFolderOpenDuotone />
                       </NormalButton>
                     </div>
                   </div>
@@ -96,10 +96,10 @@ function ListVersions(): JSX.Element {
             <p className="text-zinc-400">{t("features.versions.uninstallingNotReversible")}</p>
             <div className="flex gap-4 items-center justify-center text-lg">
               <FormButton title={t("generic.cancel")} className="p-2" onClick={() => setVersionToDelete(null)}>
-                <PiXBold />
+                <PiXCircleDuotone />
               </FormButton>
               <FormButton title={t("generic.uninstall")} className="p-2" onClick={DeleteVersionHandler} type="error">
-                <PiTrashFill />
+                <PiTrashDuotone />
               </FormButton>
             </div>
           </>

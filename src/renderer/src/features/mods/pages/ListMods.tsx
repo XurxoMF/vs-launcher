@@ -1,20 +1,20 @@
 import { useState, useEffect, useRef, Dispatch, SetStateAction } from "react"
 import { useTranslation } from "react-i18next"
 import {
-  PiDownloadFill,
-  PiStarFill,
-  PiChatCenteredDotsFill,
-  PiEraserFill,
-  PiArrowsDownUpFill,
-  PiCaretDownBold,
-  PiCalendarBlankFill,
-  PiUploadFill,
-  PiCheckBold,
-  PiArrowDownBold,
-  PiFireFill,
-  PiUserBold,
-  PiArrowFatUpFill,
-  PiMagnifyingGlassFill
+  PiDownloadDuotone,
+  PiStarDuotone,
+  PiChatCenteredTextDuotone,
+  PiEraserDuotone,
+  PiArrowsDownUpDuotone,
+  PiCaretDownDuotone,
+  PiCalendarDuotone,
+  PiUploadDuotone,
+  PiCheckFatDuotone,
+  PiArrowDownDuotone,
+  PiFireDuotone,
+  PiUserCircleDuotone,
+  PiArrowFatLinesUpDuotone,
+  PiMagnifyingGlassDuotone
 } from "react-icons/pi"
 import { FiExternalLink, FiLoader } from "react-icons/fi"
 import { AnimatePresence, motion } from "motion/react"
@@ -183,7 +183,7 @@ function ListMods(): JSX.Element {
             <SideFilter sideFilter={sideFilter} setSideFilter={setSideFilter} />
 
             <FormButton title={t("features.mods.onlyFavMods")} onClick={() => setOnlyFav((prev) => !prev)} className="w-8 h-8 text-lg" type={onlyFav ? "warn" : "normal"}>
-              <PiStarFill />
+              <PiStarDuotone />
             </FormButton>
 
             <OrderFilter orderBy={orderBy} setOrderBy={setOrderBy} orderByOrder={orderByOrder} setOrderByOrder={setOrderByOrder} />
@@ -195,11 +195,11 @@ function ListMods(): JSX.Element {
               }}
               className="w-8 h-8 text-lg"
             >
-              {searching ? <FiLoader className="animate-spin" /> : <PiMagnifyingGlassFill />}
+              {searching ? <FiLoader className="animate-spin" /> : <PiMagnifyingGlassDuotone />}
             </FormButton>
 
             <FormButton title={t("generic.clearFilter")} onClick={() => clearFilters()} className="w-8 h-8 text-lg">
-              <PiEraserFill />
+              <PiEraserDuotone />
             </FormButton>
 
             <FormButton
@@ -210,7 +210,7 @@ function ListMods(): JSX.Element {
               }}
               className="w-8 h-8 text-lg"
             >
-              <PiArrowFatUpFill />
+              <PiArrowFatLinesUpDuotone />
             </FormButton>
           </StickyMenuGroup>
         </StickyMenuWrapper>
@@ -250,7 +250,7 @@ function ListMods(): JSX.Element {
                         className={clsx("p-1 text-lg", !config.favMods.some((modid) => modid === mod.modid) && "opacity-0 group-hover:opacity-100 duration-200")}
                         type={config.favMods.some((modid) => modid === mod.modid) ? "warn" : "normal"}
                       >
-                        <PiStarFill />
+                        <PiStarDuotone />
                       </FormButton>
                       <FormButton
                         title={t("features.mods.openOnTheModDB")}
@@ -286,19 +286,19 @@ function ListMods(): JSX.Element {
                   <div className="w-full flex text-sm">
                     <div className="shrink-0 w-26 flex flex-col gap-1 px-2 py-1 border-r-2 border-zinc-400/12 overflow-hidden">
                       <p className="flex items-center gap-1">
-                        <PiUserBold className="shrink-0 opacity-50" />
+                        <PiUserCircleDuotone className="shrink-0 opacity-50" />
                         <span className="overflow-hidden whitespace-nowrap text-ellipsis">{mod.author}asasd asd as</span>
                       </p>
                       <p className="flex items-center gap-1">
-                        <PiDownloadFill className="shrink-0 opacity-50" />
+                        <PiDownloadDuotone className="shrink-0 opacity-50" />
                         <span>{Number(mod.downloads) > 1000 ? `${Math.floor(Number(mod.downloads) / 1000)}K` : Number(mod.downloads)}</span>
                       </p>
                       <p className="flex items-center gap-1">
-                        <PiStarFill className="shrink-0 opacity-50" />
+                        <PiStarDuotone className="shrink-0 opacity-50" />
                         <span>{Number(mod.follows)}</span>
                       </p>
                       <p className="flex items-center gap-1">
-                        <PiChatCenteredDotsFill className="shrink-0 opacity-50" />
+                        <PiChatCenteredTextDuotone className="shrink-0 opacity-50" />
                         <span>{Number(mod.comments)}</span>
                       </p>
                     </div>
@@ -372,7 +372,7 @@ function AuthorFilter({ authorFilter, setAuthorFilter }: { authorFilter: Downloa
               className="w-full h-full placeholder:text-zinc-600 bg-transparent outline-hidden pl-2"
             />
             <ComboboxButton className="h-full shrink-0 px-2 cursor-pointer">
-              <PiCaretDownBold className={clsx("text-zinc-300 shrink-0 duration-200", open && "-rotate-180")} />
+              <PiCaretDownDuotone className={clsx("text-zinc-300 shrink-0 duration-200", open && "-rotate-180")} />
             </ComboboxButton>
           </div>
 
@@ -460,7 +460,7 @@ function VersionsFilter({
                     </span>
                   ))}
             </p>
-            <PiCaretDownBold className={clsx("text-zinc-300 shrink-0 duration-200", open && "-rotate-180")} />
+            <PiCaretDownDuotone className={clsx("text-zinc-300 shrink-0 duration-200", open && "-rotate-180")} />
           </ListboxButton>
 
           <AnimatePresence>
@@ -483,7 +483,7 @@ function VersionsFilter({
                     >
                       <p className="flex items-center gap-1">
                         <span className="whitespace-nowrap overflow-hidden text-ellipsis">{v.name}</span>
-                        {versionsFilter.includes(v) && <PiCheckBold className="text-zinc-400" />}
+                        {versionsFilter.includes(v) && <PiCheckFatDuotone className="text-zinc-400" />}
                       </p>
                     </ListboxOption>
                   ))}
@@ -534,7 +534,7 @@ function TagsFilter({ tagsFilter, setTagsFilter }: { tagsFilter: DownloadableMod
                     </span>
                   ))}
             </p>
-            <PiCaretDownBold className={clsx("text-zinc-300 shrink-0 duration-200", open && "-rotate-180")} />
+            <PiCaretDownDuotone className={clsx("text-zinc-300 shrink-0 duration-200", open && "-rotate-180")} />
           </ListboxButton>
 
           <AnimatePresence>
@@ -557,7 +557,7 @@ function TagsFilter({ tagsFilter, setTagsFilter }: { tagsFilter: DownloadableMod
                     >
                       <p className="flex items-center gap-1">
                         <span className="whitespace-nowrap overflow-hidden text-ellipsis">{tag.name}</span>
-                        {tagsFilter.includes(tag) && <PiCheckBold className="text-zinc-400" />}
+                        {tagsFilter.includes(tag) && <PiCheckFatDuotone className="text-zinc-400" />}
                       </p>
                     </ListboxOption>
                   ))}
@@ -591,7 +591,7 @@ function SideFilter({ sideFilter, setSideFilter }: { sideFilter: string; setSide
               className="w-28 h-8 px-2 py-1 flex items-center justify-between gap-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none cursor-pointer"
             >
               <p className="flex gap-2 items-center overflow-hidden whitespace-nowrap text-sm">{lang.value}</p>
-              <PiCaretDownBold className={clsx("text-zinc-300 shrink-0 duration-200", open && "-rotate-180")} />
+              <PiCaretDownDuotone className={clsx("text-zinc-300 shrink-0 duration-200", open && "-rotate-180")} />
             </ListboxButton>
           ))}
 
@@ -642,12 +642,12 @@ function OrderFilter({
   const { t } = useTranslation()
 
   const ORDER_BY = [
-    { key: "trendingpoints", value: t("generic.trending"), icon: <PiFireFill /> },
-    { key: "downloads", value: t("generic.downloads"), icon: <PiDownloadFill /> },
-    { key: "comments", value: t("generic.comments"), icon: <PiChatCenteredDotsFill /> },
-    { key: "lastreleased", value: t("generic.updated"), icon: <PiUploadFill /> },
-    { key: "asset.created", value: t("generic.created"), icon: <PiCalendarBlankFill /> },
-    { key: "follows", value: t("generic.follows"), icon: <PiStarFill /> }
+    { key: "trendingpoints", value: t("generic.trending"), icon: <PiFireDuotone /> },
+    { key: "downloads", value: t("generic.downloads"), icon: <PiDownloadDuotone /> },
+    { key: "comments", value: t("generic.comments"), icon: <PiChatCenteredTextDuotone /> },
+    { key: "lastreleased", value: t("generic.updated"), icon: <PiUploadDuotone /> },
+    { key: "asset.created", value: t("generic.created"), icon: <PiCalendarDuotone /> },
+    { key: "follows", value: t("generic.follows"), icon: <PiStarDuotone /> }
   ]
 
   useEffect(() => {
@@ -679,7 +679,7 @@ function OrderFilter({
             title={t("generic.order")}
             className="w-8 h-8 flex items-center justify-center gap-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none cursor-pointer text-lg"
           >
-            <PiArrowsDownUpFill />
+            <PiArrowsDownUpDuotone />
           </MenuButton>
           <AnimatePresence>
             {open && (
@@ -704,7 +704,7 @@ function OrderFilter({
                             <span>{ob.icon}</span>
                             <span>{ob.value}</span>
                           </p>
-                          <p className="flex items-center gap-1">{orderBy === ob.key && (orderByOrder === "desc" ? <PiArrowDownBold /> : <PiArrowDownBold className="rotate-180" />)}</p>
+                          <p className="flex items-center gap-1">{orderBy === ob.key && (orderByOrder === "desc" ? <PiArrowDownDuotone /> : <PiArrowDownDuotone className="rotate-180" />)}</p>
                         </div>
                       </NormalButton>
                     </MenuItem>

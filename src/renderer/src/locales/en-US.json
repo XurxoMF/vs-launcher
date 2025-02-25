@@ -166,7 +166,10 @@
       "modsWithUpdatesDescription": "The next mods have available updates! Just click on the update button to install them!",
       "modsWithUpdatesDescriptionReport": "If you find any mod missmarked as updatable, please, report it on the <issues /> page or on our <discord /> server!",
       "modsWithUpdatesNextUpdatesDescription": "If there are no reports ina few days I'll start coding the Automatic Mod Udpater Update. If there are some reports I'll fix them first.",
-      "updatesAvailableInstallation": "The selected Installation has {{amount}} mods with available updates! Click here to see them them!"
+      "updatesAvailableInstallation": "The selected Installation has {{amount}} mods with available updates! Click here to see them them!",
+      "worksOnTheVersion": "Author tagged it as compatible with your selected Vintage Story Version!",
+      "shouldWorkOnTheVersion": "Author didn't tagged it as compatible but there is a 95% chance it will work on the selected Vintage Story Version!",
+      "probablyDontWorkOnTheVersion": "Author didn't tagged it as compatible and there is a 90% chance it will not work on the selected Vintage Story Version!"
     },
     "config": {
       "title": "Settings",

@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Input } from "@headlessui/react"
-import { PiFolderFill, PiPlusCircleFill, PiTrashFill, PiPencilFill, PiCaretCircleDoubleDownFill, PiArrowCounterClockwiseFill, PiGearFill, PiXBold } from "react-icons/pi"
+import { PiFolderOpenDuotone, PiPlusCircleDuotone, PiPencilDuotone, PiBoxArrowDownDuotone, PiArrowCounterClockwiseDuotone, PiGearDuotone, PiXCircleDuotone, PiTrashDuotone } from "react-icons/pi"
 import { useTranslation } from "react-i18next"
 
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
@@ -57,7 +57,7 @@ function ListInslallations(): JSX.Element {
           <ListGroup>
             <ListItem className="group">
               <LinkButton to="/installations/add" title={t("features.installations.addNewInstallation")} className="w-full h-12">
-                <PiPlusCircleFill className="text-2xl text-zinc-400/60 group-hover:scale-95 duration-200" />
+                <PiPlusCircleDuotone className="text-2xl text-zinc-400/60 group-hover:scale-95 duration-200" />
               </LinkButton>
             </ListItem>
             {config.installations.map((installation) => (
@@ -85,15 +85,15 @@ function ListInslallations(): JSX.Element {
                           makeInstallationBackup(installation.id)
                         }}
                       >
-                        <PiCaretCircleDoubleDownFill />
+                        <PiBoxArrowDownDuotone />
                       </NormalButton>
                       <LinkButton to={`/installations/backups/${installation.id}`} className="p-1" title={t("features.backups.restoreBackup")}>
-                        <PiArrowCounterClockwiseFill />
+                        <PiArrowCounterClockwiseDuotone />
                       </LinkButton>
                     </div>
                     <div className="flex flex-col gap-1">
                       <LinkButton to={`/installations/mods/${installation.id}`} title={t("features.mods.manageMods")} className="p-1">
-                        <PiGearFill />
+                        <PiGearDuotone />
                       </LinkButton>
                       <NormalButton
                         onClick={async () => {
@@ -103,12 +103,12 @@ function ListInslallations(): JSX.Element {
                         title={t("generic.openOnFileExplorer")}
                         className="p-1"
                       >
-                        <PiFolderFill />
+                        <PiFolderOpenDuotone />
                       </NormalButton>
                     </div>
                     <div className="flex flex-col gap-1">
                       <LinkButton to={`/installations/edit/${installation.id}`} title={t("generic.edit")} className="p-1">
-                        <PiPencilFill />
+                        <PiPencilDuotone />
                       </LinkButton>
                       <NormalButton
                         className="p-1"
@@ -117,7 +117,7 @@ function ListInslallations(): JSX.Element {
                           setInstallationToDelete(installation)
                         }}
                       >
-                        <PiTrashFill />
+                        <PiTrashDuotone />
                       </NormalButton>
                     </div>
                   </div>
@@ -137,10 +137,10 @@ function ListInslallations(): JSX.Element {
             </div>
             <div className="flex gap-4 items-center justify-center text-lg">
               <FormButton title={t("generic.cancel")} className="p-2" onClick={() => setInstallationToDelete(null)}>
-                <PiXBold />
+                <PiXCircleDuotone />
               </FormButton>
               <FormButton title={t("generic.delete")} className="p-2" onClick={DeleteInstallationHandler} type="error">
-                <PiTrashFill />
+                <PiTrashDuotone />
               </FormButton>
             </div>
           </>

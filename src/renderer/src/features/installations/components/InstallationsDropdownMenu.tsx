@@ -1,5 +1,5 @@
 import { useTranslation, Trans } from "react-i18next"
-import { PiCaretUpBold } from "react-icons/pi"
+import { PiCaretUpDuotone } from "react-icons/pi"
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from "@headlessui/react"
 import { AnimatePresence, motion } from "motion/react"
 import clsx from "clsx"
@@ -57,7 +57,7 @@ function InstallationsDropdownMenu(): JSX.Element {
                       </div>
                     </div>
                   ))}
-                <PiCaretUpBold className={clsx("text-zinc-300 duration-200 shrink-0", open && "-rotate-180")} />
+                <PiCaretUpDuotone className={clsx("text-zinc-300 duration-200 shrink-0", open && "-rotate-180")} />
               </ListboxButton>
 
               <AnimatePresence>
