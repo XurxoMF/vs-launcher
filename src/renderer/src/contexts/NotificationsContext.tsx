@@ -6,7 +6,6 @@ type NotificationTypes = "success" | "error" | "info" | "warning"
 
 export interface NotificationType {
   id: string
-  title: string
   body: string
   type: NotificationTypes
   options?: {
@@ -49,14 +48,7 @@ const NotificationsProvider = ({ children }: { children: React.ReactNode }): JSX
     const duration = options?.duration || 6000
     const onClick = options?.onClick
 
-    const title =
-      (type === "error" && t("notifications.titles.error")) ||
-      (type === "warning" && t("notifications.titles.warning")) ||
-      (type === "info" && t("notifications.titles.info")) ||
-      (type === "success" && t("notifications.titles.success")) ||
-      t("notifications.titles.info")
-
-    setNotifications((prev) => [...prev, { id, title, body, type, options: { duration, onClick } }])
+    setNotifications((prev) => [...prev, { id, body, type, options: { duration, onClick } }])
 
     setTimeout(() => {
       removeNotification(id)

@@ -58,6 +58,7 @@ declare global {
     _image?: string
     _mod?: DownloadableModType
     _updatableTo?: string
+    _lastVersion?: string
   } & Record<string, unknown>
 
   type ErrorInstalledModType = { zipname: string; path: string } & Record<string, unknown>

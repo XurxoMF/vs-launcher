@@ -8,7 +8,7 @@ export const DROPDOWN_MENU_WRAPPER_VARIANTS: Variants = {
     opacity: 1,
     transition: {
       delayChildren: 0.1,
-      staggerChildren: 0.1
+      staggerChildren: 0.05
     }
   },
   exit: {
@@ -30,7 +30,7 @@ export const DROPUP_MENU_WRAPPER_VARIANTS: Variants = {
     opacity: 1,
     transition: {
       delayChildren: 0.1,
-      staggerChildren: 0.1,
+      staggerChildren: 0.05,
       staggerDirection: -1
     }
   },
@@ -64,7 +64,7 @@ export const LISTGROUP_VARIANTS: Variants = {
   animate: {
     transition: {
       delayChildren: 0.1,
-      staggerChildren: 0.1
+      staggerChildren: 0.05
     }
   }
 }

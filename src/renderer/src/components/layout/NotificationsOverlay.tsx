@@ -35,7 +35,7 @@ function NotificationsOverlay(): JSX.Element {
   return (
     <div className="w-[300px] h-fit absolute flex flex-col items-end top-2 right-4 z-800 gap-2">
       <AnimatePresence>
-        {notifications.map(({ id, title, body, type, options }) => (
+        {notifications.map(({ id, body, type, options }) => (
           <motion.div
             key={id}
             className={clsx(
@@ -55,7 +55,6 @@ function NotificationsOverlay(): JSX.Element {
             <div className="flex items-center gap-2 text-start">
               <span className={clsx("text-4xl p-1 rounded-full", FONT_COLOR_TYPES[type])}>{ICON_TYPES[type]}</span>
               <div className="flex flex-col items-start justify-center">
-                <p className="font-bold text-sm">{title}</p>
                 <p className="text-xs text-zinc-400">{body}</p>
               </div>
             </div>

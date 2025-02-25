@@ -64,6 +64,7 @@ export function TableBody({ children, className }: { children: React.ReactNode; 
  * @param {string} props.className - Additional class names for styling.
  * @param {boolean} props.selected - If the row is selected or not.
  * @param {boolean} props.disabled - If the row can be selected or not.
+ * @param {string} props.title - If the row can be selected or not.
  * @param {() => void} props.onClick - Function to be called when the row is clicked.
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
@@ -72,12 +73,14 @@ export function TableBodyRow({
   className,
   selected,
   disabled,
+  title,
   onClick
 }: {
   children: React.ReactNode
   className?: string
   selected?: boolean
   disabled?: boolean
+  title?: string
   onClick?: () => void
 }): JSX.Element {
   return (
@@ -86,9 +89,10 @@ export function TableBodyRow({
       className={clsx(
         "flex group border-l-4 border-transparent duration-200",
         selected ? "bg-vs/15 border-vs" : "odd:bg-zinc-800/30 even:bg-zinc-950/30",
-        disabled ? "text-zinc-200/15" : "cursor-pointer",
+        disabled ? "text-zinc-200/15" : onClick && "cursor-pointer",
         className
       )}
+      title={title}
       onClick={onClick}
     >
       {children}

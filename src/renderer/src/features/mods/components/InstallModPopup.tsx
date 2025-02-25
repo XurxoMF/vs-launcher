@@ -85,7 +85,11 @@ function InstallModPopup({
           ) : (
             <TableBody className="max-h-[300px]">
               {downloadableModToInstall.releases.map((release) => (
-                <TableBodyRow key={release.releaseid} disabled={oldMod && oldMod.version === release.modversion}>
+                <TableBodyRow
+                  key={release.releaseid}
+                  disabled={oldMod && oldMod.version === release.modversion}
+                  title={oldMod?._updatableTo === release.modversion ? t("features.mods.compatibleUpdate") : ""}
+                >
                   <div className={clsx("w-full flex", oldMod?._updatableTo === release.modversion && "bg-lime-600/15")}>
                     <TableCell className="w-2/12">{release.modversion}</TableCell>
                     <TableCell className="w-3/12">{new Date(release.created).toLocaleDateString("es")}</TableCell>
