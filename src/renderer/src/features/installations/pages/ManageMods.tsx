@@ -370,18 +370,19 @@ function InstalledModItem({ iMod, onDeleteClick, onUpdateClick }: { iMod: Instal
           )}
 
           <div className="flex gap-2 items-center text-sm text-zinc-400">
-            <p className="overflow-hidden whitespace-nowrap text-ellipsis">
-              {iMod.authors && iMod.authors?.length > 0 && (
-                <span>
-                  {t("generic.authors")}: {iMod.authors?.join(", ")}
-                </span>
-              )}
-              {iMod.contributors && iMod.contributors?.length > 0 && (
-                <span>
-                  {t("generic.contributors")}: {iMod.contributors?.join(", ")}
-                </span>
-              )}
-            </p>
+            {iMod.authors && iMod.authors?.length > 0 && (
+              <p className="shrink-0 overflow-hidden whitespace-nowrap text-ellipsis">
+                {t("generic.authors")}: {iMod.authors?.join(", ")}
+              </p>
+            )}
+
+            {iMod.authors && iMod.contributors && iMod.authors?.length > 0 && iMod.contributors?.length > 0 && <span>·</span>}
+
+            {iMod.contributors && iMod.contributors?.length > 0 && (
+              <p className="overflow-hidden whitespace-nowrap text-ellipsis">
+                {t("generic.contributors")}: {iMod.contributors?.join(", ")}
+              </p>
+            )}
           </div>
         </div>
 

@@ -55,7 +55,7 @@ export function FormButton({
       onClick={onClick}
       title={!disabled ? title : ""}
       className={clsx(
-        "flex items-center justify-center gap-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 enabled:shadow-sm enabled:shadow-zinc-950/50 enabled:hover:shadow-none cursor-pointer",
+        "flex items-center justify-center gap-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 enabled:shadow-sm enabled:shadow-zinc-950/50 enabled:hover:shadow-none enabled:cursor-pointer disabled:opacity-50",
         type && COLOR_BY_TYPE[type],
         className
       )}
