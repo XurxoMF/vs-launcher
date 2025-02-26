@@ -2,7 +2,7 @@
 description: Don't have VS Launcher installed yet?
 ---
 
-# ⬇️ Instalaltion
+# ⬇️ Installation
 
 Installing VS Launcher is easy:
 
@@ -10,5 +10,5 @@ Installing VS Launcher is easy:
 2. Double click it
 3. DONE!
 
-Depending on the operating system you use, the process changes a little, so we are going to separate the explanation into the three available systems: **Windows**, **Linux** and **MacOS**.
+Depending on the operating system you use, the process changes a bit, so we are going to separate the explanation into the three available systems: **Windows**, **Linux** and **MacOS**.
 

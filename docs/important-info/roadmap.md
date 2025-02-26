@@ -20,13 +20,13 @@ description: Page with all the features that will be added to the launcher.
   System to make automatic backups pf your worlds and configs so you don't get your worlds corrupted.
 * [x] **Launch arguments/params**\
   A way to add custom parameters to installations so every time you press play the game launches using this ones.
+* [x] **Mod manager**\
+  A page to install and manage the mods of your installations.
 
 ***
 
 ## Planned for the future
 
-* [ ] **Mod manager**\
-  A page to install and manage the mods of your installations.
 * [ ] **Mod auto-updater**\
   A way to update mods automatically. Mod manager will allow you to see mods with updates but you'll have to manually update them if you want to.\
   Automatic updates will be something similar but it'll download the updated version automatically. This will not be easy and it'll not work as expected because there are mods working on 1.20.X for example but there is no 1.20.X tag on them so... I've no way to know if the mod works on the version you're using or not.
