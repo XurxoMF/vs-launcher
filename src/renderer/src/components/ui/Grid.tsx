@@ -35,13 +35,7 @@ export function GridWrapper({ children, className }: { children: React.ReactNode
  */
 export function GridGroup({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
   return (
-    <motion.ul
-      variants={GRIDGROUP_VARIANTS}
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      className={clsx("relative w-full grid grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 gap-4", className)}
-    >
+    <motion.ul variants={GRIDGROUP_VARIANTS} initial="initial" animate="animate" exit="exit" className={clsx("relative w-full grid grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5 gap-4", className)}>
       <AnimatePresence>{children}</AnimatePresence>
     </motion.ul>
   )

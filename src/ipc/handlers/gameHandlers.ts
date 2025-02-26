@@ -41,7 +41,7 @@ ipcMain.handle(IPC_CHANNELS.GAME_MANAGER.EXECUTE_GAME, async (_event, version: G
     try {
       const files = fse.readdirSync(version.path)
 
-      if (files.includes("Vintagestory")) {
+      if (files.includes("Vintagestory.exe")) {
         logMessage("info", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [EXECUTE_GAME] Vintagestory found.`)
         command = join(version.path, "Vintagestory.exe")
         params = [`--dataPath=${installation.path}`, installation.startParams]

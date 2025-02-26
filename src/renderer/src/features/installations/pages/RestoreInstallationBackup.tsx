@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom"
 import { PiArrowCounterClockwiseDuotone, PiFolderOpenDuotone, PiTrashDuotone, PiXCircleDuotone } from "react-icons/pi"
 import { v4 as uuidv4 } from "uuid"
 
+import { useGetInstalledMods } from "@renderer/features/mods/hooks/useGetInstalledMods"
+
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 import { useTaskContext } from "@renderer/contexts/TaskManagerContext"
@@ -21,6 +23,8 @@ function RestoreInstallationBackup(): JSX.Element {
   const { config, configDispatch } = useConfigContext()
   const { addNotification } = useNotificationsContext()
   const { startExtract } = useTaskContext()
+
+  const getInstalledMods = useGetInstalledMods()
 
   const [backupToRestore, setBackupToRestore] = useState<BackupType | null>(null)
   const [backupToDelete, setBackupToDelete] = useState<BackupType | null>(null)
@@ -52,14 +56,14 @@ function RestoreInstallationBackup(): JSX.Element {
       const deletedPath = await window.api.pathsManager.deletePath(installation.path)
       if (!deletedPath) throw new Error("Error while deleting the installation path")
 
-      startExtract(
+      await startExtract(
         t("features.backups.extractTaskName", { name: installation.name }),
         t("features.backups.extractingBackupDescription", { name: installation.name }),
         "all",
         backupToRestore.path,
         installation.path,
         false,
-        (completed) => {
+        async (completed) => {
           if (!completed) throw new Error("There was an error extracting the backup")
         }
       )
@@ -69,9 +73,13 @@ function RestoreInstallationBackup(): JSX.Element {
     } finally {
       setBackupToRestore(null)
       window.api.utils.setPreventAppClose("remove", id, "Finished backup restoration...")
+
+      const mods = await getInstalledMods({ path: installation.path })
+      const totalMods = mods.mods.length + mods.errors.length
+
       configDispatch({
         type: CONFIG_ACTIONS.EDIT_INSTALLATION,
-        payload: { id: installation.id, updates: { _restoringBackup: false } }
+        payload: { id: installation.id, updates: { _restoringBackup: false, _modsCount: totalMods } }
       })
       configDispatch({
         type: CONFIG_ACTIONS.EDIT_INSTALLATION_BACKUP,
