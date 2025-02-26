@@ -51,7 +51,7 @@ function GlobalActionsWrapper({ children }: { children: ReactNode }): JSX.Elemen
             config._notifiedModUpdatesInstallations.push(lastUsedInstallation.id)
             setTimeout(() => {
               addNotification(t("features.mods.updatesAvailableInstallation", { amount: updates }), "info", { onClick: () => goTo(`/installations/mods/${lastUsedInstallation.id}`) })
-            }, 3_000)
+            }, 2_000)
           }
         }
       })
