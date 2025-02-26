@@ -18,8 +18,8 @@ nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}
-  createDesktopShortcut: always
-  createStartMenuShortcut: always
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
   allowToChangeInstallationDirectory: true
   installerIcon: resources/icon.ico
   oneClick: false

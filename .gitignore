@@ -4,3 +4,6 @@ dist
 out
 .DS_Store
 *.log*
+repo
+.flatpak-builder
+build-dir
