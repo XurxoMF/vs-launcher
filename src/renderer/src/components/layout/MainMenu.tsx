@@ -1,15 +1,10 @@
-import { useEffect, useState } from "react"
+import { ReactNode, useEffect, useState } from "react"
 import { FiExternalLink } from "react-icons/fi"
 import { useTranslation } from "react-i18next"
 import { Link, useLocation } from "react-router-dom"
-import { PiBoxArrowDownDuotone, PiGearDuotone, PiPencilDuotone, PiPlusCircleDuotone } from "react-icons/pi"
+import { PiBoxArrowDownDuotone, PiFolderOpenDuotone, PiGearDuotone, PiGitForkDuotone, PiHouseLineDuotone, PiNoteDuotone, PiPencilDuotone, PiPlusCircleDuotone } from "react-icons/pi"
 import { v4 as uuidv4 } from "uuid"
 import clsx from "clsx"
-
-import icon from "@renderer/assets/icon.png"
-import iconVersions from "@renderer/assets/icon-versions.png"
-import iconMods from "@renderer/assets/icon-moddb.png"
-import iconChangelog from "@renderer/assets/icon-changelog.png"
 
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
@@ -23,14 +18,14 @@ import { NormalButton } from "@renderer/components/ui/Buttons"
 import { FormButton, FormLinkButton } from "@renderer/components/ui/FormComponents"
 
 interface MainMenuLinkProps {
-  icon: string
+  icon: ReactNode
   text: string
   desc: string
   to: string
 }
 
 interface MainMenuAProps {
-  icon: string
+  icon: ReactNode
   text: string
   desc: string
   href: string
@@ -52,25 +47,25 @@ function MainMenu(): JSX.Element {
 
   const GROUP_1: MainMenuLinkProps[] = [
     {
-      icon: icon,
+      icon: <PiHouseLineDuotone />,
       text: t("components.mainMenu.homeTitle"),
       desc: t("components.mainMenu.homeDesc"),
       to: "/"
     },
     {
-      icon: iconVersions,
+      icon: <PiFolderOpenDuotone />,
       text: t("components.mainMenu.installationsTitle"),
       desc: t("components.mainMenu.installationsDesc"),
       to: "/installations"
     },
     {
-      icon: iconVersions,
+      icon: <PiGitForkDuotone />,
       text: t("components.mainMenu.versionsTitle"),
       desc: t("components.mainMenu.versionsDesc"),
       to: "/versions"
     },
     {
-      icon: iconMods,
+      icon: <PiGearDuotone />,
       text: t("components.mainMenu.modsTitle"),
       desc: t("components.mainMenu.modsDesc"),
       to: "/mods"
@@ -79,7 +74,7 @@ function MainMenu(): JSX.Element {
 
   const AS: MainMenuAProps[] = [
     {
-      icon: iconChangelog,
+      icon: <PiNoteDuotone />,
       text: t("components.mainMenu.changelogTitle"),
       desc: t("components.mainMenu.changelogDesc"),
       href: "https://www.vintagestory.at/blog.html/news"
@@ -186,7 +181,7 @@ function MainMenu(): JSX.Element {
 }
 
 interface LinkContentProps {
-  icon: string
+  icon: ReactNode
   text: string
   desc: string
   link: string
@@ -203,7 +198,7 @@ function LinkContent({ icon, text, desc, link, external }: LinkContentProps): JS
 
   return (
     <div className={clsx("w-full flex items-center gap-2 px-2 py-1 rounded-sm duration-100 group hover:pl-3 border-l-4", currentLocation() ? "border-vs bg-vs/15" : "border-transparent")}>
-      <img src={icon} alt={text} className="w-7" />
+      <span className="text-2xl text-zinc-400">{icon}</span>
       <div className="flex flex-col overflow-hidden whitespace-nowrap">
         <div className="font-bold text-sm flex items-center gap-2">
           <p className="overflow-hidden text-ellipsis">{text}</p>
