@@ -118,7 +118,7 @@ async function getMods(path: string): Promise<{ mods: InstalledModType[]; errors
                       }
                     } else {
                       logMessage("error", `[back] [mods] [ipc/handlers/modsHandlers.ts] [getModsInfo] [${file}] Couldn't identify a mod.`)
-                      logMessage("debug", `[back] [mods] [ipc/handlers/modsHandlers.ts] [getModsInfo] [${file}] Couldn't identify a mod: ${json}`)
+                      logMessage("debug", `[back] [mods] [ipc/handlers/modsHandlers.ts] [getModsInfo] [${file}] Couldn't identify a mod: ${JSON.stringify(json)}`)
                       errors.push({ zipname: file, path: zipPath })
                       resolve()
                     }
