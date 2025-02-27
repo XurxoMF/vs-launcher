@@ -50,7 +50,8 @@
     "client": "Client",
     "tags": "Tags",
     "totalTime": "{{total}} total",
-    "notPlayedYet": "Never played"
+    "notPlayedYet": "Never played",
+    "compression": "Compression"
   },
   "features": {
     "generic": {
@@ -127,7 +128,9 @@
       "restoreBackup": "Restore installation backup",
       "name": "Name",
       "dataFolder": "Data folder",
-      "addNewInstallation": "Add a new Installation"
+      "addNewInstallation": "Add a new Installation",
+      "compressionLevel": "Compression level",
+      "compressionLevelDesc": "Higher compression takes longer but creates smaller backups, 0 disables compression."
     },
     "mods": {
       "modsCount": "{{count}} mods",

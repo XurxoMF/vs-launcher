@@ -29,6 +29,7 @@ const defaultInstallation: InstallationType = {
   startParams: "",
   backupsLimit: 3,
   backupsAuto: false,
+  compressionLevel: 0,
   backups: [],
   lastTimePlayed: -1,
   totalTimePlayed: 0
@@ -97,6 +98,7 @@ function ensureConfigProperties(config: ConfigType): ConfigType {
     startParams: installation.startParams ?? defaultInstallation.startParams,
     backupsLimit: installation.backupsLimit ?? defaultInstallation.backupsLimit,
     backupsAuto: installation.backupsAuto ?? defaultInstallation.backupsAuto,
+    compressionLevel: installation.compressionLevel ?? defaultInstallation.compressionLevel,
     backups: installation.backups ?? defaultInstallation.backups,
     lastTimePlayed: installation.lastTimePlayed ?? defaultInstallation.lastTimePlayed,
     totalTimePlayed: installation.totalTimePlayed ?? defaultInstallation.totalTimePlayed

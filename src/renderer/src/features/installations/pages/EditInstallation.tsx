@@ -43,6 +43,7 @@ function EditInslallation(): JSX.Element {
   const [startParams, setStartParams] = useState<string>("")
   const [backupsLimit, setBackupsLimit] = useState<number>(0)
   const [backupsAuto, setBackupsAuto] = useState<boolean>(false)
+  const [compressionLevel, setCompressionLevel] = useState<number>(6)
 
   useEffect(() => {
     setInstallation(config.installations.find((igv) => igv.id === id))
@@ -54,6 +55,7 @@ function EditInslallation(): JSX.Element {
     setStartParams(installation?.startParams ?? "")
     setBackupsLimit(installation?.backupsLimit ?? 0)
     setBackupsAuto(installation?.backupsAuto ?? false)
+    setCompressionLevel(installation?.compressionLevel ?? 6)
   }, [installation])
 
   const handleEditInstallation = async (): Promise<void> => {
@@ -69,7 +71,7 @@ function EditInslallation(): JSX.Element {
     if (startParams.includes("--dataPath")) return addNotification(t("features.installations.cantUseDataPath"), "error")
 
     try {
-      configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id, updates: { name, version: version.version, startParams, backupsAuto, backupsLimit } } })
+      configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id, updates: { name, version: version.version, startParams, backupsAuto, backupsLimit, compressionLevel } } })
       addNotification(t("features.installations.installationSuccessfullyEdited"), "success")
       navigate("/installations")
     } catch (error) {
@@ -179,6 +181,26 @@ function EditInslallation(): JSX.Element {
                     <FormFieldGroupWithDescription alignment="x">
                       <FormToggle title={t("features.backups.backupsAuto")} value={backupsAuto} onChange={setBackupsAuto} />
                       <FormFieldDescription content={t("features.backups.backupsAuto")} />
+                    </FormFieldGroupWithDescription>
+                  </FormBody>
+                </FromGroup>
+
+                <FromGroup>
+                  <FormHead>
+                    <FormLabel content={t("generic.compression")} />
+                  </FormHead>
+
+                  <FormBody>
+                    <FormFieldGroupWithDescription>
+                      <FormInputNumber
+                        placeholder={t("features.installations.compressionLevel")}
+                        value={compressionLevel}
+                        onChange={(e) => setCompressionLevel(Number(e.target.value))}
+                        min={0}
+                        max={9}
+                        className="w-full"
+                      />
+                      <FormFieldDescription content={t("features.installations.compressionLevelDesc")} />
                     </FormFieldGroupWithDescription>
                   </FormBody>
                 </FromGroup>
