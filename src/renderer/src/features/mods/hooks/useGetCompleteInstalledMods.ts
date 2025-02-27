@@ -37,7 +37,7 @@ export function useGetCompleteInstalledMods(): ({ path, version, onFinish }: { p
 
         if (dmod) {
           for (const release of dmod.releases) {
-            if (!mod.version || !release.modversion) continue
+            if (!mod.version || !release.modversion || !semver.valid(release.modversion) || !semver.valid(mod.version)) continue
 
             // If it has the tag of the version selected or a tag of the same patch... Mod: 1.19.6 - Game: 1.19.X
             const compatibleWithVersion = release.tags.some((tag) => tag.startsWith(`v${version.split(".").slice(0, 2).join(".")}`))

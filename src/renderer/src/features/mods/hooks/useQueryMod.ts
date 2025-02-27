@@ -14,7 +14,7 @@ export function useQueryMod(): ({ modid, onFinish }: { modid: number | string; o
 
       if (onFinish) onFinish()
 
-      if (!data["statuscode"] || data["statuscode"] === 200) return
+      if (!data["statuscode"] || data["statuscode"] != 200) return
 
       return data["mod"]
     } catch (err) {
