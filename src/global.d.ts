@@ -32,6 +32,7 @@ declare global {
     startParams: string
     backupsLimit: number
     backupsAuto: boolean
+    compressionLevel: number
     backups: BackupType[]
     lastTimePlayed: number
     totalTimePlayed: number

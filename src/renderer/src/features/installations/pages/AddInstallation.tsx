@@ -42,6 +42,7 @@ function AddInslallation(): JSX.Element {
   const [startParams, setStartParams] = useState<string>("")
   const [backupsLimit, setBackupsLimit] = useState<number>(3)
   const [backupsAuto, setBackupsAuto] = useState<boolean>(false)
+  const [compressionLevel, setCompressionLevel] = useState<number>(6)
 
   useEffect(() => {
     ;(async (): Promise<void> => {
@@ -68,6 +69,7 @@ function AddInslallation(): JSX.Element {
         startParams,
         backupsLimit,
         backupsAuto,
+        compressionLevel,
         backups: [],
         lastTimePlayed: -1,
         totalTimePlayed: 0,
@@ -213,6 +215,26 @@ function AddInslallation(): JSX.Element {
                 <FormFieldGroupWithDescription alignment="x">
                   <FormToggle title={t("features.backups.backupsAuto")} value={backupsAuto} onChange={setBackupsAuto} />
                   <FormFieldDescription content={t("features.backups.backupsAuto")} />
+                </FormFieldGroupWithDescription>
+              </FormBody>
+            </FromGroup>
+
+            <FromGroup>
+              <FormHead>
+                <FormLabel content={t("generic.compression")} />
+              </FormHead>
+
+              <FormBody>
+                <FormFieldGroupWithDescription>
+                  <FormInputNumber
+                    placeholder={t("features.installations.compressionLevel")}
+                    value={compressionLevel}
+                    onChange={(e) => setCompressionLevel(Number(e.target.value))}
+                    min={0}
+                    max={9}
+                    className="w-full"
+                  />
+                  <FormFieldDescription content={t("features.installations.compressionLevelDesc")} />
                 </FormFieldGroupWithDescription>
               </FormBody>
             </FromGroup>

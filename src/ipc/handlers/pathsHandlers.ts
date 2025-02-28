@@ -133,12 +133,12 @@ ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.EXTRACT_ON_PATH, async (event, id: str
   })
 })
 
-ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.COMPRESS_ON_PATH, async (event, id: string, inputPath: string, outputPath: string, outputFileName: string) => {
+ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.COMPRESS_ON_PATH, async (event, id: string, inputPath: string, outputPath: string, outputFileName: string, compressionLevel: number = 6) => {
   return new Promise((resolve, reject) => {
-    logMessage("info", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [COMPRESS_ON_PATH] [${id}] [${outputFileName}] Compressing ${inputPath} to ${outputPath} on file ${outputFileName}.`)
+    logMessage("info", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [COMPRESS_ON_PATH] [${id}] [${outputFileName}] Compressing ${inputPath} to ${outputPath} on file ${outputFileName} with level ${compressionLevel}.`)
 
     const worker = new Worker(compressWorker, {
-      workerData: { inputPath, outputPath, outputFileName }
+      workerData: { inputPath, outputPath, outputFileName, compressionLevel }
     })
 
     worker.on("message", (message) => {
