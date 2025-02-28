@@ -15,12 +15,12 @@ If with this option the game is not working try installing it manually the first
 
 {% stepper %}
 {% step %}
-### Install a Version
+### Install a Vintage Story Version
 
 The first thing you need is the **Version** so let's intall it:
 
-{% embed url="https://www.youtube.com/watch?v=2ukc1o14Mvw" %}
-Install a new Version | VS Launcher Guides
+{% embed url="https://www.youtube.com/watch?v=1IW5Cl3QZqQ" %}
+Install a new Vintage Story Version | VS Launcher Guides
 {% endembed %}
 {% endstep %}
 
@@ -29,7 +29,7 @@ Install a new Version | VS Launcher Guides
 
 Now that you have the **Version** installed you need to create an **Installation** (data folder) to save the world, configs, maps... so let's create one:
 
-{% embed url="https://www.youtube.com/watch?v=DKix0LOk4Xw" %}
+{% embed url="https://www.youtube.com/watch?v=iALICHfAigU" %}
 Add a new Installation | VS Launcher Guides
 {% endembed %}
 {% endstep %}
@@ -39,9 +39,9 @@ Add a new Installation | VS Launcher Guides
 
 Now you've added your already installed Vintage Story Version and Installation the only thing that's left is play the game!
 
-First you'll need to select the **Installation** you want to use on the dropdown on the left menu and then press play like in the video:
+First you'll need to select the **Installation** you want to use on the drop-down on the left menu and then press play like in the video:
 
-{% embed url="https://www.youtube.com/watch?v=Y-SIWT6GscQ" %}
+{% embed url="https://www.youtube.com/watch?v=pwI3wRJwK28" %}
 Play Vintage Story | VS Launcher Guides
 {% endembed %}
 {% endstep %}
@@ -57,7 +57,7 @@ However, you may want to install it the old way or if you're using Linux you may
 
 {% stepper %}
 {% step %}
-### Download the game
+### Download a Vintage Story Version
 
 Go to the [Vintage Story Client Area](https://account.vintagestory.at/) and download `.exe` of the version you want.
 {% endstep %}
@@ -79,7 +79,7 @@ Now you just have to add it to VS Launcher so follow the [Vintage Story is alrea
 
 {% stepper %}
 {% step %}
-### Download the game
+### Download a Vintage Story Version
 
 Go to the [Vintage Story Client Area](https://account.vintagestory.at/) and download `.tar.gz` of the version you want.
 
@@ -113,7 +113,7 @@ Now you just have to add it to VS Launcher so follow the [Vintage Story is alrea
 
 {% stepper %}
 {% step %}
-### Download the game
+### Download a Vintage Story Version
 
 Go to the [Vintage Story Client Area](https://account.vintagestory.at/) and download `.tar.gz` of the version you want.
 

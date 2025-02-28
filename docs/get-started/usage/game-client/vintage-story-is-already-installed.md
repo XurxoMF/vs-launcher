@@ -11,7 +11,7 @@ If you already have the game installed you just need to tell VS Launcher where i
 
 {% stepper %}
 {% step %}
-### Add the Version
+### Add the Vintage Story Version
 
 **Versions** are the base game files like assets, code, executables... By default this ones can be found on the next folder:
 
@@ -22,8 +22,8 @@ If you already have the game installed you just need to tell VS Launcher where i
 Don't confuse it with `VintagestoryData`, that's the Installation(data) folder.
 {% endhint %}
 
-{% embed url="https://www.youtube.com/watch?v=SHrlooIFOXI" %}
-Add an already installed version | VS Launcher Guides
+{% embed url="https://www.youtube.com/watch?v=G61Li2xChJg" %}
+Add an already installed Vintage Story Version | VS Launcher Guides
 {% endembed %}
 {% endstep %}
 
@@ -39,7 +39,7 @@ If you already played the game before then you'll have a data folder with all yo
 Don't confuse it with `Vintagestory`, that's the Version(base game files) folder.
 {% endhint %}
 
-{% embed url="https://www.youtube.com/watch?v=2Dx6TKj1J8g" %}
+{% embed url="https://www.youtube.com/watch?v=iODL3QmheL0" %}
 Add an already created Installation | VS Launcher Guides
 {% endembed %}
 {% endstep %}
@@ -49,9 +49,9 @@ Add an already created Installation | VS Launcher Guides
 
 Now you've added your already installed Vintage Story Version and Installation the only thing that's left is play the game!
 
-First you'll need to select the **Installation** you want to use on the dropdown on the left menu and then press play like in the video:
+First you'll need to select the **Installation** you want to use on the drop-down on the left menu and then press play like in the video:
 
-{% embed url="https://www.youtube.com/watch?v=Y-SIWT6GscQ" %}
+{% embed url="https://www.youtube.com/watch?v=pwI3wRJwK28" %}
 Play Vintage Story | VS Launcher Guides
 {% endembed %}
 {% endstep %}

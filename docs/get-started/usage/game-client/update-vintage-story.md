@@ -11,6 +11,6 @@ Updating is easy, just download the new Version and edit the Installation to cho
 
 Here is a video explaining how to do it:
 
-{% embed url="https://www.youtube.com/watch?v=RgHpJRV2HvE" %}
+{% embed url="https://www.youtube.com/watch?v=Yzo_0RPL_hs" %}
 Update Vintage Story | VS Launcher Guides
 {% endembed %}
