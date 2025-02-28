@@ -22,8 +22,35 @@
     "minMaxAmmount": "Número entre {{min}} e {{max}}",
     "backup": "Backup",
     "edit": "Editar",
-    "donate": "Doar",
-    "restore": "Restaurar"
+    "donate": "Doações",
+    "restore": "Restaurar",
+    "text": "Texto",
+    "author": "Autor",
+    "everyone": "Todos",
+    "versions": "Versões",
+    "clearFilter": "Limpar filtros",
+    "order": "Ordem",
+    "trending": "Populares",
+    "downloads": "Downloads",
+    "comments": "Comentários",
+    "updated": "Atualizado",
+    "created": "Criado",
+    "follows": "Seguidores",
+    "actions": "Ações",
+    "authors": "Autores",
+    "contributors": "Colaboradores",
+    "update": "Atualizar",
+    "searching": "Pesquisando",
+    "waitingForChanges": "Esperando por alterações",
+    "tryMVL": "Não gostou do VS Launcher? \nTente <link /> launcher!",
+    "favorite": "Favorito",
+    "any": "Qualquer",
+    "both": "Ambos",
+    "server": "Servidor",
+    "client": "Cliente",
+    "tags": "Tags",
+    "totalTime": "{{total}} total",
+    "notPlayedYet": "Nunca jogado"
   },
   "features": {
     "generic": {
@@ -64,7 +91,8 @@
       "noVersionsFoundDesc": "Instale uma nova na página <link />!",
       "versionDeleting": "Essa versão está a ser eliminada!",
       "versionPlaying": "Já está a jogar com essa versão!",
-      "deleteWhilePlaying": "Não pode eliminar essa versão enquanto estiver a jogar!"
+      "deleteWhilePlaying": "Não pode eliminar essa versão enquanto estiver a jogar!",
+      "installNewVersion": "Instale uma nova versão"
     },
     "installations": {
       "noInstallationsFound": "Nenhuma instalação encontrada!",
@@ -96,7 +124,10 @@
       "gameAlreadyRunning": "Já está a jogar com essa instalação",
       "editWhilePlaying": "Não é possível editar a instalação enquanto estiver a jogar!",
       "cantDeleteWhileinUse": "Não pode eliminar a instalação enquanto estiver a ser utilizado!",
-      "restoreBackup": "Restaurar backup da instalação"
+      "restoreBackup": "Restaurar backup da instalação",
+      "name": "Nome",
+      "dataFolder": "Pasta de dados",
+      "addNewInstallation": "Adicione uma nova instalação"
     },
     "mods": {
       "modsCount": "{{count}} mods",
@@ -105,7 +136,40 @@
       "modsCount_two": "{{count}} mods",
       "modsCount_few": "{{count}} mods",
       "modsCount_many": "{{count}} mods",
-      "modsCount_other": "{{count}} mods"
+      "modsCount_other": "{{count}} mods",
+      "searching": "Pesquisando mods...",
+      "noMatchingFilters": "Não há mods que correspondam aos filtros!",
+      "installMod": "Instalar mod",
+      "modTaskName": "{{name}} mod {{versão}} em {{out}}",
+      "modDownloadDesc": "Descarregar {{name}} mod {{versão}} em {{out}}!",
+      "installationPopupDesc": "Lista de versões do {{modname}} mod",
+      "manageMods": "Gerir mods",
+      "noModsInstalled": "Não tem mods instalados! Pode instalar alguns na página <link />!",
+      "noModsFound": "Nenhum mods encontrado!",
+      "cantDeleteWhileinUse": "Não pode excluir um mod enquanto estiver em uso!",
+      "modSuccessfullyDeleted": "Mod excluído com sucesso!",
+      "errorDeletingMod": "Ocorreu um erro ao excluir o mod!",
+      "deleteMod": "Excluir mod",
+      "areYouSureDelete": "Tem certeza de que deseja excluir este mod?",
+      "deletingNotReversible": "A exclusão não é reversível, não será possível restaurar os mods, mas poderá sempre descarrega-lo novamente!",
+      "noVersionsFound": "Não foram encontradas versões desse mod!",
+      "openOnTheModDB": "Abrir no ModDB!",
+      "listWithErrorsTitle": "Mods com erros",
+      "modsWithErrorsDescription": "Os próximos mods têm alguns erros e o VS Launcher não consegui identificá-los!",
+      "modsWithErrorsDescriptionReport": "Por favor, relate este incidente na página <Issues /> ou no nosso servidor de <discord />!",
+      "noModSelected": "Nenhum mod selecionado!",
+      "onlyFavMods": "Mostrar apenas mods favoritos",
+      "listWithUpdatesTitle": "Mods com atualizações",
+      "modsWithUpdatesDescription": "Os próximos mods têm atualizações disponíveis que são 95% compatíveis com sua versão de Vintage Story!",
+      "modsWithUpdatesDescriptionReport": "Se você encontrar algum mod erradamente marcado como atualizável, por favor, relate-o na página <Issues /> ou no nosso servidor de <Discord />!",
+      "updatesAvailableInstallation": "A instalação selecionada tem mods {{vale}} com atualizações disponíveis! Clique aqui para vê-los!",
+      "worksOnTheVersion": "O autor a marcou como compatível com sua versão selecionada de Vintage Story!",
+      "shouldWorkOnTheVersion": "O autor não marcou como compatível, mas há 95% de possibilidade de funcionar na versão selecionada da Vintage Story!",
+      "probablyDontWorkOnTheVersion": "O autor não marcou como compatível e há 90% de possibilidade de não funcionar na versão selecionada da Vintage Story!",
+      "compatibleUpdate": "Pode atualizar para esta versão!",
+      "listWithIncompatibleUpdatesTitle": "Mods com atualizações incompatíveis",
+      "modsWithIncompatibleUpdatesDescription": "Os próximos mods têm atualizações disponíveis que são 90% incompatíveis com sua versão selecionada de Vinatge Story!",
+      "cantUpdateWhileinUse": "Não pode atualizar um mod enquanto estiver em uso!"
     },
     "config": {
       "defaultInstallationsFolder": "Instalações",
@@ -135,7 +199,9 @@
       "deleteBackup": "Eliminar backup",
       "areYouSureDelete": "Tem a certeza de que deseja eliminar este backup?",
       "deletingNotReversible": "A eliminação não é reversível, pelo que não será possível restaurar os seus mundos, dados e outras informações usando este backup.",
-      "errorMakingBackup": "Ocorreu um erro ao fazer o backup!"
+      "errorMakingBackup": "Ocorreu um erro ao fazer o backup!",
+      "backupsAmount": "Limite de backups",
+      "folderDoesntExists": "Esta instalação não tem dados, por favor, jogue pelo menos uma vez para gerar os dados!"
     }
   },
   "components": {
@@ -145,7 +211,7 @@
       "versionsTitle": "Versões",
       "versionsDesc": "Gerir as versões do seu jogo",
       "modsTitle": "Mods",
-      "modsDesc": "",
+      "modsDesc": "Procurar e instalar mods",
       "changelogTitle": "Changelog",
       "changelogDesc": "Changelog do Vintage Story",
       "installationsTitle": "Instalações",
@@ -183,8 +249,12 @@
       "missingFields": "Por favor, preencha todos os campos!",
       "compressing": "A iniciar compressão: {{compressName}}!",
       "compressed": "Compressão concluída: {{compressName}}!",
-      "compressError": "Erro a comprimir: {{compressName}}!"
+      "compressError": "Erro a comprimir: {{compressName}}!",
+      "folderNotEmpty": "A pasta que você selecionou não está vazia! Certifique-se de que não tem nada importante lá."
     },
     "discard": "Descartar notificação"
+  },
+  "genetic": {
+    "goToTop": "Vá para o topo"
   }
 }
