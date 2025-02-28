@@ -1,6 +1,6 @@
 # Welcome to VS Launcher
 
-## What's VS Laucnher?
+## What's VS Launcher?
 
 VS Launcher is the unoficial launcher for Vintage Story.
 With this launcher you can easily install multiple version of Vintage Story, create multiple installations with different configs, mods, worlds, etc... with just a few clicks!
