@@ -40,6 +40,7 @@ export const IPC_CHANNELS = {
     EXECUTE_GAME: "execute-game"
   },
   NET_MANAGER: {
-    QUERY_URL: "query-url"
+    QUERY_URL: "query-url",
+    VS_LOGIN: "vs-login"
   }
 }

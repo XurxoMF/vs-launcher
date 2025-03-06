@@ -49,6 +49,7 @@ declare global {
     }
     netManager: {
       queryURL: (url: string) => Promise<string>
+      postUrl: (url: string, body: { email: string; password: string; twofacode?: string; preLoginToken?: string }) => Promise<object>
     }
   }
 

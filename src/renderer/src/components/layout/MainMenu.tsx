@@ -2,7 +2,18 @@ import { ReactNode, useEffect, useState } from "react"
 import { FiExternalLink } from "react-icons/fi"
 import { useTranslation } from "react-i18next"
 import { Link, useLocation } from "react-router-dom"
-import { PiBoxArrowDownDuotone, PiFolderOpenDuotone, PiGearDuotone, PiGitForkDuotone, PiHouseLineDuotone, PiNoteDuotone, PiPencilDuotone, PiPlusCircleDuotone } from "react-icons/pi"
+import {
+  PiBoxArrowDownDuotone,
+  PiFolderOpenDuotone,
+  PiGearDuotone,
+  PiGitForkDuotone,
+  PiHouseLineDuotone,
+  PiNoteDuotone,
+  PiPencilDuotone,
+  PiPlusCircleDuotone,
+  PiUserCheckDuotone,
+  PiUserDuotone
+} from "react-icons/pi"
 import { v4 as uuidv4 } from "uuid"
 import clsx from "clsx"
 
@@ -123,6 +134,28 @@ function MainMenu(): JSX.Element {
         <FormLinkButton to="/config" title={t("features.config.title")} className="shrink-0 w-8 h-8">
           <PiGearDuotone />
         </FormLinkButton>
+        {!config.account.sessionKey || config.account.sessionKey.length === 0 ? (
+          <FormLinkButton to="/login" title={t("features.config.loginTitle")} className="shrink-0 w-8 h-8">
+            <PiUserDuotone />
+          </FormLinkButton>
+        ) : (
+          <FormButton
+            onClick={(e) => {
+              e.stopPropagation()
+
+              configDispatch({
+                type: CONFIG_ACTIONS.SET_ACCOUNT,
+                payload: { email: "", password: "", playerName: "", playerUid: "", playerEntitlements: "", sessionKey: "", sessionSignature: "", hostGameServer: false }
+              })
+
+              addNotification("Logged out", "success")
+            }}
+            title={`${t("features.config.logoutTitle")} · ${config.account.playerName}`}
+            className="shrink-0 w-8 h-8"
+          >
+            <PiUserCheckDuotone />
+          </FormButton>
+        )}
         <TasksMenu />
         <LanguagesMenu />
       </div>

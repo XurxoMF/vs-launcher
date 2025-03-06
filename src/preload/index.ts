@@ -51,7 +51,8 @@ const api: BridgeAPI = {
     executeGame: (version: GameVersionType, installation: InstallationType): Promise<boolean> => ipcRenderer.invoke(IPC_CHANNELS.GAME_MANAGER.EXECUTE_GAME, version, installation)
   },
   netManager: {
-    queryURL: (url: string): Promise<string> => ipcRenderer.invoke(IPC_CHANNELS.NET_MANAGER.QUERY_URL, url)
+    queryURL: (url: string): Promise<string> => ipcRenderer.invoke(IPC_CHANNELS.NET_MANAGER.QUERY_URL, url),
+    postUrl: (url: string, body: { email: string; password: string; twofacode?: string; preLoginToken?: string }): Promise<object> => ipcRenderer.invoke(IPC_CHANNELS.NET_MANAGER.VS_LOGIN, url, body)
   }
 }
 

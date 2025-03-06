@@ -51,7 +51,10 @@
     "tags": "Tags",
     "totalTime": "{{total}} total",
     "notPlayedYet": "Never played",
-    "compression": "Compression"
+    "compression": "Compression",
+    "email": "Email",
+    "password": "Password",
+    "twofacode": "2FA Code"
   },
   "features": {
     "generic": {
@@ -178,7 +181,9 @@
       "title": "Settings",
       "defaultInstallationsFolder": "Installations folder",
       "defaultVersionsFolder": "Versions folder",
-      "backupsFolder": "Backups folder"
+      "backupsFolder": "Backups folder",
+      "loginTitle": "Login",
+      "logoutTitle": "Logout"
     },
     "backups": {
       "backupInProgress": "There is a backup already in progress!",

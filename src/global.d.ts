@@ -5,7 +5,20 @@ declare global {
     defaultInstallationsFolder: string
     defaultVersionsFolder: string
     backupsFolder: string
+    favMods: number[]
     _notifiedModUpdatesInstallations?: string[]
+  }
+
+  type AccountType = {
+    email: string
+    password: string
+    playerName: string
+    playerUid: string
+    playerEntitlements: string
+    sessionKey: string
+    sessionSignature: string
+    mptoken: string | null
+    hostGameServer: boolean
   }
 
   type GameVersionType = {
@@ -43,9 +56,9 @@ declare global {
   }
 
   type ConfigType = BasicConfigType & {
+    account: AccountType
     installations: InstallationType[]
     gameVersions: GameVersionType[]
-    favMods: number[]
   }
 
   type InstalledModType = {

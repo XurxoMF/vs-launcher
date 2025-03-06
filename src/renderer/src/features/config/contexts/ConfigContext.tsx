@@ -10,6 +10,7 @@ export enum CONFIG_ACTIONS {
   SET_DEFAULT_INSTALLATIONS_FOLDER = "SET_DEFAULT_INSTALLATIONS_FOLDER",
   SET_DEFAULT_VERSIONS_FOLDER = "SET_DEFAULT_VERSIONS_FOLDER",
   SET_DEFAULT_BACKUPS_FOLDER = "SET_DEFAULT_BACKUPS_FOLDER",
+  SET_ACCOUNT = "SET_ACCOUNT",
 
   ADD_INSTALLATION = "ADD_INSTALLATION",
   DELETE_INSTALLATION = "DELETE_INSTALLATION",
@@ -54,6 +55,11 @@ export interface SetDefaultVersionsFolder {
 export interface SetDefaultBackupsFolder {
   type: CONFIG_ACTIONS.SET_DEFAULT_BACKUPS_FOLDER
   payload: string
+}
+
+export interface SetAccount {
+  type: CONFIG_ACTIONS.SET_ACCOUNT
+  payload: AccountType
 }
 
 export interface AddInstallation {
@@ -138,6 +144,7 @@ export type ConfigAction =
   | SetDefaultInstllationsFolder
   | SetDefaultVersionsFolder
   | SetDefaultBackupsFolder
+  | SetAccount
   | AddInstallation
   | DeleteInstallation
   | EditInstallation
@@ -164,6 +171,8 @@ const configReducer = (config: ConfigType, action: ConfigAction): ConfigType => 
       return { ...config, defaultVersionsFolder: action.payload }
     case CONFIG_ACTIONS.SET_DEFAULT_BACKUPS_FOLDER:
       return { ...config, backupsFolder: action.payload }
+    case CONFIG_ACTIONS.SET_ACCOUNT:
+      return { ...config, account: action.payload }
     case CONFIG_ACTIONS.ADD_INSTALLATION:
       return { ...config, installations: [action.payload, ...config.installations] }
     case CONFIG_ACTIONS.DELETE_INSTALLATION:
@@ -240,6 +249,17 @@ export const initialState: ConfigType = {
   defaultInstallationsFolder: "",
   defaultVersionsFolder: "",
   backupsFolder: "",
+  account: {
+    email: "",
+    password: "",
+    playerName: "",
+    playerUid: "",
+    playerEntitlements: "",
+    sessionKey: "",
+    sessionSignature: "",
+    mptoken: null,
+    hostGameServer: false
+  },
   installations: [],
   gameVersions: [],
   favMods: []
