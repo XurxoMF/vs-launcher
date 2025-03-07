@@ -115,7 +115,7 @@ function MainMenu(): JSX.Element {
       }
 
       const startedPlaying = Date.now()
-      const closeStatus = await window.api.gameManager.executeGame(gameVersionToRun, seletedInstallation)
+      const closeStatus = await window.api.gameManager.executeGame(gameVersionToRun, seletedInstallation, config.account)
       const finishedPlaying = Date.now()
       const ttp = finishedPlaying - startedPlaying + seletedInstallation.totalTimePlayed
       configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id: seletedInstallation.id, updates: { _playing: false, lastTimePlayed: finishedPlaying, totalTimePlayed: ttp } } })
@@ -134,7 +134,7 @@ function MainMenu(): JSX.Element {
         <FormLinkButton to="/config" title={t("features.config.title")} className="shrink-0 w-8 h-8">
           <PiGearDuotone />
         </FormLinkButton>
-        {!config.account.sessionKey || config.account.sessionKey.length === 0 ? (
+        {!config.account ? (
           <FormLinkButton to="/login" title={t("features.config.loginTitle")} className="shrink-0 w-8 h-8">
             <PiUserDuotone />
           </FormLinkButton>
@@ -142,14 +142,10 @@ function MainMenu(): JSX.Element {
           <FormButton
             onClick={(e) => {
               e.stopPropagation()
-
-              configDispatch({
-                type: CONFIG_ACTIONS.SET_ACCOUNT,
-                payload: { email: "", password: "", playerName: "", playerUid: "", playerEntitlements: "", sessionKey: "", sessionSignature: "", hostGameServer: false }
-              })
-
-              addNotification("Logged out", "success")
+              configDispatch({ type: CONFIG_ACTIONS.SET_ACCOUNT, payload: null })
+              addNotification(t("features.config.loggedout"), "success")
             }}
+            type={config.account ? "success" : "normal"}
             title={`${t("features.config.logoutTitle")} · ${config.account.playerName}`}
             className="shrink-0 w-8 h-8"
           >

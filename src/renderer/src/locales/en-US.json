@@ -54,7 +54,8 @@
     "compression": "Compression",
     "email": "Email",
     "password": "Password",
-    "twofacode": "2FA Code"
+    "twofacode": "2FA Code",
+    "goToTop": "Go to top"
   },
   "features": {
     "generic": {
@@ -182,8 +183,14 @@
       "defaultInstallationsFolder": "Installations folder",
       "defaultVersionsFolder": "Versions folder",
       "backupsFolder": "Backups folder",
-      "loginTitle": "Login",
-      "logoutTitle": "Logout"
+      "loginTitle": "Log in",
+      "logoutTitle": "Log out",
+      "loggedout": "Logged out!",
+      "loggingin": "Logging in!",
+      "wrongtwofa": "Wrong 2FA code!",
+      "invalidEmailPass": "Invalid email or password!",
+      "loggedin": "Logged in as {{user}}!",
+      "onlyIfEnabledTwoFA": "Add this ony if you have 2FA enabled!"
     },
     "backups": {
       "backupInProgress": "There is a backup already in progress!",
@@ -210,8 +217,7 @@
       "errorMakingBackup": "There was an error making a backup!",
       "backupsAmount": "Backups limit",
       "folderDoesntExists": "This Installation has no data, please, play on it at least one time to generate the base data!"
-    },
-    "servers": {}
+    }
   },
   "components": {
     "mainMenu": {
@@ -226,7 +232,6 @@
       "installationsTitle": "Installations",
       "installationsDesc": "Manage your Installations"
     },
-    "gameRunningOverlay": {},
     "tasksMenu": {
       "downloading": "Downloading",
       "extracting": "Extracting",
@@ -240,9 +245,6 @@
     }
   },
   "notifications": {
-    "titles": {
-      "warning": "Warning"
-    },
     "body": {
       "folderDoesntExists": "The folder you're trying to open does not exists!",
       "updateAvailable": "New update available! Downloading...",
@@ -262,8 +264,5 @@
       "folderNotEmpty": "The folder you've selected is not empty! Make sure you've nothing important on there."
     },
     "discard": "Discard notification"
-  },
-  "genetic": {
-    "goToTop": "Go to top"
   }
 }

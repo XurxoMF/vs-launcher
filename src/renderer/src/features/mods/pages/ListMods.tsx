@@ -205,7 +205,7 @@ function ListMods(): JSX.Element {
             </FormButton>
 
             <FormButton
-              title={t("genetic.goToTop")}
+              title={t("generic.goToTop")}
               onClick={(e) => {
                 e.stopPropagation()
                 scrollRef.current?.scrollTo({ top: 0, behavior: "smooth" })

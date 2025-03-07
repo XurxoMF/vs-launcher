@@ -27,15 +27,17 @@ export function FormInputText({
   minLength,
   maxLength,
   placeholder,
-  disabled
+  disabled,
+  readOnly = false
 }: {
   className?: string
   value: string
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
   minLength?: number
   maxLength?: number
   placeholder?: string
   disabled?: boolean
+  readOnly?: boolean
 }): JSX.Element {
   return (
     <Input
@@ -47,44 +49,7 @@ export function FormInputText({
       minLength={minLength}
       maxLength={maxLength}
       disabled={disabled}
-    />
-  )
-}
-
-/**
- * Input with type text and validation for minimum and maximum length but disabled.
- *
- * @param {object} props - The component props.
- * @param {string} [props.className] - Additional class names for styling.
- * @param {string} props.value - The text to be displayed within the non-editable input field.
- * @param {boolean} [props.disabled] - If the input is disabled.
- * @returns {JSX.Element} A JSX element representing the non-editable input field with specified styles.
- */
-export function FormInputTextNotEditable({
-  className,
-  value,
-  minLength,
-  maxLength,
-  placeholder,
-  disabled
-}: {
-  className?: string
-  value: string
-  minLength?: number
-  maxLength?: number
-  placeholder?: string
-  disabled?: boolean
-}): JSX.Element {
-  return (
-    <Input
-      type="text"
-      className={clsx(INPUT_BASE_STYLES, INPUT_INVALID_STYLES, INPUT_VALID_STYLES, INPUT_DISABLED_STYLES, INPUT_ENABLED_STYLES, className)}
-      value={value}
-      placeholder={placeholder}
-      minLength={minLength}
-      maxLength={maxLength}
-      disabled={disabled}
-      readOnly
+      readOnly={readOnly}
     />
   )
 }
@@ -109,15 +74,17 @@ export function FormInputNumber({
   min,
   max,
   placeholder,
-  disabled
+  disabled,
+  readOnly = false
 }: {
   className?: string
   value: number
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
   min?: number
   max?: number
   placeholder?: string
   disabled?: boolean
+  readOnly?: boolean
 }): JSX.Element {
   return (
     <Input
@@ -129,47 +96,7 @@ export function FormInputNumber({
       min={min}
       max={max}
       disabled={disabled}
-    />
-  )
-}
-
-/**
- * Input with type number and validation for minimum and maximum value but disabled.
- *
- * @param {object} props - The component props.
- * @param {string} [props.className] - Additional class names for styling.
- * @param {number} props.value - The current value of the input field.
- * @param {number} [props.min] - The minimum valie of the input value.
- * @param {number} [props.max] - The maximum value of the input value.
- * @param {string} [props.placeholder] - Placeholder text to display when the input is empty.
- * @param {boolean} [props.disabled] - If the input is disabled.
- * @returns {JSX.Element} A JSX element representing the input field with specified styles and validation.
- */
-export function FormInputNumberNotEditable({
-  className,
-  value,
-  min,
-  max,
-  placeholder,
-  disabled
-}: {
-  className?: string
-  value: number
-  min?: number
-  max?: number
-  placeholder?: string
-  disabled?: boolean
-}): JSX.Element {
-  return (
-    <Input
-      type="number"
-      className={clsx(INPUT_BASE_STYLES, INPUT_INVALID_STYLES, INPUT_VALID_STYLES, INPUT_DISABLED_STYLES, INPUT_ENABLED_STYLES, className)}
-      value={value}
-      placeholder={placeholder}
-      min={min}
-      max={max}
-      disabled={disabled}
-      readOnly
+      readOnly={readOnly}
     />
   )
 }
@@ -194,15 +121,17 @@ export function FormInputPassword({
   minLength,
   maxLength,
   placeholder,
-  disabled
+  disabled,
+  readOnly = false
 }: {
   className?: string
   value: string
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
   minLength?: number
   maxLength?: number
   placeholder?: string
   disabled?: boolean
+  readOnly?: boolean
 }): JSX.Element {
   return (
     <Input
@@ -214,44 +143,7 @@ export function FormInputPassword({
       minLength={minLength}
       maxLength={maxLength}
       disabled={disabled}
-    />
-  )
-}
-
-/**
- * Input with type password and validation for minimum and maximum length but disabled.
- *
- * @param {object} props - The component props.
- * @param {string} [props.className] - Additional class names for styling.
- * @param {string} props.value - The text to be displayed within the non-editable input field.
- * @param {boolean} [props.disabled] - If the input is disabled.
- * @returns {JSX.Element} A JSX element representing the non-editable input field with specified styles.
- */
-export function FormInputPasswordNotEditable({
-  className,
-  value,
-  minLength,
-  maxLength,
-  placeholder,
-  disabled
-}: {
-  className?: string
-  value: string
-  minLength?: number
-  maxLength?: number
-  placeholder?: string
-  disabled?: boolean
-}): JSX.Element {
-  return (
-    <Input
-      type="text"
-      className={clsx(INPUT_BASE_STYLES, INPUT_INVALID_STYLES, INPUT_VALID_STYLES, INPUT_DISABLED_STYLES, INPUT_ENABLED_STYLES, className)}
-      value={value}
-      placeholder={placeholder}
-      minLength={minLength}
-      maxLength={maxLength}
-      disabled={disabled}
-      readOnly
+      readOnly={readOnly}
     />
   )
 }

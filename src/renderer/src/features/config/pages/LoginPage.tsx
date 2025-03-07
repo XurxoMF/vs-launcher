@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next"
 import { useState } from "react"
 import { PiFloppyDiskBackDuotone, PiXCircleDuotone } from "react-icons/pi"
+import { useNavigate } from "react-router-dom"
 
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
@@ -25,6 +26,7 @@ import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
 function LoginPage(): JSX.Element {
   const { t } = useTranslation()
   const { addNotification } = useNotificationsContext()
+  const navigate = useNavigate()
 
   const { configDispatch } = useConfigContext()
 
@@ -32,10 +34,13 @@ function LoginPage(): JSX.Element {
   const [password, setPassword] = useState("")
   const [twofacode, setTwofacode] = useState("")
 
-  async function handleLogin(): Promise<void> {
-    addNotification(`Logging in`, "info")
+  const [loggingIn, setLoggingIn] = useState(false)
 
-    // Thanks a lot to https://github.com/scgm0 for teaching me how to loging using the Vintage Story Game Account
+  async function handleLogin(): Promise<void> {
+    setLoggingIn(true)
+    addNotification(t("features.config.loggingin"), "info")
+
+    // Thanks a lot to https://github.com/scgm0 for teaching me how to login using the Vintage Story Game Account
     // If you're reading this, make sure to check out MVL https://github.com/scgm0/MVL
 
     const preLogin = await window.api.netManager.postUrl("https://auth3.vintagestory.at/v2/gamelogin", { email, password })
@@ -46,23 +51,20 @@ function LoginPage(): JSX.Element {
       if (reason == "requiretotpcode") {
         const fullLogin = await window.api.netManager.postUrl("https://auth3.vintagestory.at/v2/gamelogin", { email, password, preLoginToken: preLogin["prelogintoken"], twofacode })
 
-        if (fullLogin["valid"] == 0 && fullLogin["reason"] == "wrongtotpcode") return addNotification("Wrong 2FA Code", "error")
+        if (fullLogin["valid"] == 0 && fullLogin["reason"] == "wrongtotpcode") return addNotification(t("features.config.wrongtwofa"), "error")
 
         saveLogin(fullLogin)
       } else if (reason == "invalidemailorpassword") {
-        addNotification(`Invalid mail or password`, "error")
+        addNotification(t("features.config.invalidEmailPass"), "error")
       }
     } else {
-      const fullLogin = await window.api.netManager.postUrl("https://auth3.vintagestory.at/v2/gamelogin", { email, password, preLoginToken: preLogin["prelogintoken"], twofacode })
-
-      saveLogin(fullLogin)
+      saveLogin(preLogin)
     }
   }
 
   async function saveLogin(data: object): Promise<void> {
     const newAccount: AccountType = {
       email: email,
-      password: password,
       playerName: data["playername"],
       playerUid: data["uid"],
       playerEntitlements: data["entitlements"],
@@ -77,7 +79,9 @@ function LoginPage(): JSX.Element {
       payload: newAccount
     })
 
-    addNotification(`Logged in as ${newAccount.playerName}`, "success")
+    addNotification(t("features.config.loggedin", { user: newAccount.playerName }), "success")
+    setLoggingIn(false)
+    navigate("/")
   }
 
   return (
@@ -102,6 +106,7 @@ function LoginPage(): JSX.Element {
                     placeholder={t("generic.email")}
                     minLength={1}
                     maxLength={100}
+                    readOnly={loggingIn}
                   />
                   <FormFieldDescription content={t("generic.minMaxLength", { min: 1, max: 100 })} />
                 </FormFieldGroupWithDescription>
@@ -123,6 +128,7 @@ function LoginPage(): JSX.Element {
                     placeholder={t("generic.password")}
                     minLength={1}
                     maxLength={100}
+                    readOnly={loggingIn}
                   />
                   <FormFieldDescription content={t("generic.minMaxLength", { min: 1, max: 100 })} />
                 </FormFieldGroupWithDescription>
@@ -144,8 +150,9 @@ function LoginPage(): JSX.Element {
                     placeholder={t("generic.twofacode")}
                     minLength={6}
                     maxLength={6}
+                    readOnly={loggingIn}
                   />
-                  <FormFieldDescription content={t("generic.minMaxLength", { min: 1, max: 100 })} />
+                  <FormFieldDescription content={t("features.config.onlyIfEnabledTwoFA")} />
                 </FormFieldGroupWithDescription>
               </FormBody>
             </FromGroup>

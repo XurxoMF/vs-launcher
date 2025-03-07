@@ -50,7 +50,8 @@
     "client": "Cliente",
     "tags": "Tags",
     "totalTime": "{{total}} total",
-    "notPlayedYet": "Nunca jogado"
+    "notPlayedYet": "Nunca jogado",
+    "goToTop": "Vá para o topo"
   },
   "features": {
     "generic": {
@@ -217,7 +218,6 @@
       "installationsTitle": "Instalações",
       "installationsDesc": "Gerir as suas instalações"
     },
-    "gameRunningOverlay": {},
     "tasksMenu": {
       "downloading": "A descarregar",
       "extracting": "A extrair",
@@ -231,9 +231,6 @@
     }
   },
   "notifications": {
-    "titles": {
-      "warning": "Aviso"
-    },
     "body": {
       "folderDoesntExists": "A pasta que está a tentar abrir não existe!",
       "updateAvailable": "Nova atualização disponível! A descarregar...",
@@ -253,8 +250,5 @@
       "folderNotEmpty": "A pasta que você selecionou não está vazia! Certifique-se de que não tem nada importante lá."
     },
     "discard": "Descartar notificação"
-  },
-  "genetic": {
-    "goToTop": "Vá para o topo"
   }
 }

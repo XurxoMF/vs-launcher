@@ -11,7 +11,6 @@ declare global {
 
   type AccountType = {
     email: string
-    password: string
     playerName: string
     playerUid: string
     playerEntitlements: string
@@ -56,7 +55,7 @@ declare global {
   }
 
   type ConfigType = BasicConfigType & {
-    account: AccountType
+    account: AccountType | null
     installations: InstallationType[]
     gameVersions: GameVersionType[]
   }

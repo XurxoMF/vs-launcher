@@ -1,6 +1,5 @@
 {
   "components": {
-    "gameRunningOverlay": {},
     "mainMenu": {
       "changelogDesc": "Changelog de Vintage Story",
       "changelogTitle": "Changelog",
@@ -175,8 +174,7 @@
       "errorMakingBackup": "¡Ha ocurrido un error mientras se hacía una copia de seguridad!",
       "backupsAmount": "Límite de copias de seguridad",
       "folderDoesntExists": "¡Esta instalación no tiene datos, por favor, juegua al menos una vez para generar los datos básicos!"
-    },
-    "servers": {}
+    }
   },
   "generic": {
     "add": "Añadir",
@@ -229,7 +227,8 @@
     "notPlayedYet": "Nunca jugada",
     "server": "Servidor",
     "tags": "Etiquetas",
-    "totalTime": "{{total}} en total"
+    "totalTime": "{{total}} en total",
+    "goToTop": "Ir al principio"
   },
   "notifications": {
     "body": {
@@ -250,12 +249,6 @@
       "compressing": "¡Iniciando compresión: {{compressName}}!",
       "folderNotEmpty": "¡La carpeta que has seleccionado no está vacía! Asegúrate de que no tengas nada importante allí."
     },
-    "discard": "Descartar notificación",
-    "titles": {
-      "warning": "Advertencia"
-    }
-  },
-  "genetic": {
-    "goToTop": "Ir al principio"
+    "discard": "Descartar notificación"
   }
 }

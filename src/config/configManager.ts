@@ -17,17 +17,7 @@ const defaultConfig: ConfigType = {
   defaultInstallationsFolder: join(app.getPath("appData"), "VSLInstallations"),
   defaultVersionsFolder: join(app.getPath("appData"), "VSLGameVersions"),
   backupsFolder: join(app.getPath("appData"), "VSLBackups"),
-  account: {
-    email: "",
-    password: "",
-    playerName: "",
-    playerUid: "",
-    playerEntitlements: "",
-    sessionKey: "",
-    sessionSignature: "",
-    mptoken: null,
-    hostGameServer: false
-  },
+  account: null,
   installations: [],
   gameVersions: [],
   favMods: []

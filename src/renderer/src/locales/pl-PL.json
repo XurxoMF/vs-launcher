@@ -56,7 +56,6 @@
       "defaultInstallationsFolder": "Instancje",
       "defaultVersionsFolder": "Wersje gry",
       "title": "Ustawienia",
-      "desc": "Konfiguracja VS Launcher",
       "loginTitle": "Zaloguj się",
       "logoutTitle": "Wyloguj"
     },
@@ -236,7 +235,8 @@
     "update": "Aktualizuj",
     "updated": "Zaktualizowano",
     "versions": "Wersje",
-    "waitingForChanges": "Oczekiwanie na zmiany"
+    "waitingForChanges": "Oczekiwanie na zmiany",
+    "goToTop": "Na początek"
   },
   "notifications": {
     "body": {
@@ -257,12 +257,6 @@
       "updateDownloaded": "Aktualizacja została pobrana pomyślnie! Uruchom ponownie VS Launcher, aby dokończyć aktualizację.",
       "folderNotEmpty": "Wybrany folder nie jest pusty! Upewnij się, że nie ma tam nic ważnego."
     },
-    "discard": "Wyczyść powiadomienia",
-    "titles": {
-      "warning": "Uwaga"
-    }
-  },
-  "genetic": {
-    "goToTop": "Na początek"
+    "discard": "Wyczyść powiadomienia"
   }
 }

@@ -13,7 +13,7 @@ import {
   FormLinkButton,
   FromGroup,
   FromWrapper,
-  FormInputTextNotEditable,
+  FormInputText,
   FormFieldGroup,
   FormGroupWrapper
 } from "@renderer/components/ui/FormComponents"
@@ -70,7 +70,7 @@ function LookForAVersion(): JSX.Element {
                     onClick={async () => {
                       const path = await window.api.utils.selectFolderDialog()
                       if (path && path.length > 0) {
-                        const res = await window.api.pathsManager.lookForAGameVersion(path)
+                        const res = await window.api.gameManager.lookForAGameVersion(path)
 
                         if (!res.exists) {
                           setFolder("")
@@ -87,7 +87,7 @@ function LookForAVersion(): JSX.Element {
                   >
                     <PiMagnifyingGlassDuotone />
                   </FormButton>
-                  <FormInputTextNotEditable value={folder} placeholder={t("generic.folder")} className="w-full" />
+                  <FormInputText value={folder} placeholder={t("generic.folder")} readOnly className="w-full" />
                 </FormFieldGroup>
               </FormBody>
             </FromGroup>
@@ -98,7 +98,7 @@ function LookForAVersion(): JSX.Element {
               </FormHead>
 
               <FormBody>
-                <FormInputTextNotEditable value={versionFound} placeholder={t("features.versions.versionFound")} />
+                <FormInputText value={versionFound} readOnly placeholder={t("features.versions.versionFound")} />
               </FormBody>
             </FromGroup>
           </FormGroupWrapper>

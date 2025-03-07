@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next"
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 
-import { FormBody, FormFieldGroup, FormHead, FormLabel, FromGroup, FromWrapper, FormGroupWrapper, FormButton, FormInputTextNotEditable } from "@renderer/components/ui/FormComponents"
+import { FormBody, FormFieldGroup, FormHead, FormLabel, FromGroup, FromWrapper, FormGroupWrapper, FormButton, FormInputText } from "@renderer/components/ui/FormComponents"
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
 import { PiMagnifyingGlassDuotone } from "react-icons/pi"
 
@@ -39,7 +39,7 @@ function ConfigPage(): JSX.Element {
                   >
                     <PiMagnifyingGlassDuotone />
                   </FormButton>
-                  <FormInputTextNotEditable value={config.defaultInstallationsFolder} className="w-full" />
+                  <FormInputText value={config.defaultInstallationsFolder} readOnly className="w-full" />
                 </FormFieldGroup>
               </FormBody>
             </FromGroup>
@@ -63,7 +63,7 @@ function ConfigPage(): JSX.Element {
                   >
                     <PiMagnifyingGlassDuotone />
                   </FormButton>
-                  <FormInputTextNotEditable value={config.defaultVersionsFolder} className="w-full" />
+                  <FormInputText value={config.defaultVersionsFolder} readOnly className="w-full" />
                 </FormFieldGroup>
               </FormBody>
             </FromGroup>
@@ -88,7 +88,7 @@ function ConfigPage(): JSX.Element {
                   >
                     <PiMagnifyingGlassDuotone />
                   </FormButton>
-                  <FormInputTextNotEditable value={config.backupsFolder} className="w-full" />
+                  <FormInputText value={config.backupsFolder} readOnly className="w-full" />
                 </FormFieldGroup>
               </FormBody>
             </FromGroup>

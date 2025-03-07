@@ -59,7 +59,7 @@ export interface SetDefaultBackupsFolder {
 
 export interface SetAccount {
   type: CONFIG_ACTIONS.SET_ACCOUNT
-  payload: AccountType
+  payload: AccountType | null
 }
 
 export interface AddInstallation {
@@ -249,17 +249,7 @@ export const initialState: ConfigType = {
   defaultInstallationsFolder: "",
   defaultVersionsFolder: "",
   backupsFolder: "",
-  account: {
-    email: "",
-    password: "",
-    playerName: "",
-    playerUid: "",
-    playerEntitlements: "",
-    sessionKey: "",
-    sessionSignature: "",
-    mptoken: null,
-    hostGameServer: false
-  },
+  account: null,
   installations: [],
   gameVersions: [],
   favMods: []

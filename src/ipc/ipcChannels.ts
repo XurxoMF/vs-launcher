@@ -9,7 +9,8 @@ export const IPC_CHANNELS = {
   },
   APP_UPDATER: {
     UPDATE_AVAILABLE: "update-available",
-    UPDATE_DOWNLOADED: "update-downloaded"
+    UPDATE_DOWNLOADED: "update-downloaded",
+    UPDATE_AND_RESTART: "update-and-restart"
   },
   CONFIG_MANAGER: {
     GET_CONFIG: "get-config",
@@ -33,11 +34,11 @@ export const IPC_CHANNELS = {
     DOWNLOAD_PROGRESS: "download-progress",
     EXTRACT_PROGRESS: "extract-progress",
     COMPRESS_PROGRESS: "compress-progress",
-    CHANGE_PERMS: "change-perms",
-    LOOK_FOR_A_GAME_VERSION: "look-for-a-game-version"
+    CHANGE_PERMS: "change-perms"
   },
   GAME_MANAGER: {
-    EXECUTE_GAME: "execute-game"
+    EXECUTE_GAME: "execute-game",
+    LOOK_FOR_A_GAME_VERSION: "look-for-a-game-version"
   },
   NET_MANAGER: {
     QUERY_URL: "query-url",

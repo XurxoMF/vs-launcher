@@ -2,7 +2,6 @@ import { ipcMain, app, shell } from "electron"
 import fse from "fs-extra"
 import { join, sep } from "path"
 import os from "os"
-import { spawn } from "child_process"
 import { Worker } from "worker_threads"
 
 import { logMessage } from "@src/utils/logManager"
@@ -135,7 +134,10 @@ ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.EXTRACT_ON_PATH, async (event, id: str
 
 ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.COMPRESS_ON_PATH, async (event, id: string, inputPath: string, outputPath: string, outputFileName: string, compressionLevel: number = 6) => {
   return new Promise((resolve, reject) => {
-    logMessage("info", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [COMPRESS_ON_PATH] [${id}] [${outputFileName}] Compressing ${inputPath} to ${outputPath} on file ${outputFileName} with level ${compressionLevel}.`)
+    logMessage(
+      "info",
+      `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [COMPRESS_ON_PATH] [${id}] [${outputFileName}] Compressing ${inputPath} to ${outputPath} on file ${outputFileName} with level ${compressionLevel}.`
+    )
 
     const worker = new Worker(compressWorker, {
       workerData: { inputPath, outputPath, outputFileName, compressionLevel }
@@ -202,101 +204,4 @@ ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.CHANGE_PERMS, async (_event, paths: st
   }
 
   return Promise.reject(true)
-})
-
-ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.LOOK_FOR_A_GAME_VERSION, async (_event, path: string) => {
-  logMessage("info", `[component] [look-for-a-game-version] Looking for the game at ${path}`)
-
-  let command: string
-  let params: string[]
-
-  const res: { exists: boolean; installedGameVersion: string | undefined } = { exists: false, installedGameVersion: undefined }
-
-  if (os.platform() === "linux") {
-    logMessage("info", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [LOOK_FOR_A_GAME_VERSION] Linux platform detected.`)
-
-    try {
-      const files = fse.readdirSync(path)
-
-      if (files.includes("Vintagestory")) {
-        logMessage("info", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [LOOK_FOR_A_GAME_VERSION] Vintagestory found.`)
-        command = join(path, "Vintagestory")
-        params = [`-v`]
-      } else if (files.includes("Vintagestory.exe")) {
-        logMessage("info", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [LOOK_FOR_A_GAME_VERSION] Vintagestory.exe found.`)
-        command = "mono"
-        params = [join(path, "Vintagestory.exe"), `-v`]
-      } else {
-        logMessage("info", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [LOOK_FOR_A_GAME_VERSION] Couldn't find Vintage Story on that folder.`)
-        return false
-      }
-    } catch (err) {
-      logMessage("error", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [LOOK_FOR_A_GAME_VERSION] Error looking for Vintage Story.`)
-      logMessage("verbose", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [LOOK_FOR_A_GAME_VERSION] Error looking for Vintage Story: ${err}`)
-      return false
-    }
-  } else if (os.platform() === "win32") {
-    logMessage("info", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [LOOK_FOR_A_GAME_VERSION] Windows platform detected.`)
-
-    try {
-      const files = fse.readdirSync(path)
-
-      if (files.includes("Vintagestory.exe")) {
-        logMessage("info", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [LOOK_FOR_A_GAME_VERSION] Vintagestory found.`)
-        command = join(path, "Vintagestory.exe")
-        params = [`-v`]
-      } else {
-        logMessage("info", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [LOOK_FOR_A_GAME_VERSION] Couldn't find Vintage Story on that folder.`)
-        return false
-      }
-    } catch (err) {
-      logMessage("error", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [LOOK_FOR_A_GAME_VERSION] Error looking for Vintage Story.`)
-      logMessage("verbose", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [LOOK_FOR_A_GAME_VERSION] Error looking for Vintage Story: ${err}`)
-      return false
-    }
-  } else if (os.platform() === "darwin") {
-    logMessage("info", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [LOOK_FOR_A_GAME_VERSION] MacOS platform detected. Not yet supported.`)
-    return false
-  } else {
-    logMessage("info", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [LOOK_FOR_A_GAME_VERSION] Not platform detected.`)
-    return false
-  }
-
-  if (command && params) {
-    const checkGameVersion = await new Promise<string | undefined>((resolve, reject) => {
-      logMessage("info", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [LOOK_FOR_A_GAME_VERSION] Checking Vintage Story version with ${command} + ${params.join(" + ")}.`)
-
-      const externalApp = spawn(command, params)
-      let versionResult: string
-
-      externalApp.stdout.on("data", (data) => {
-        logMessage("info", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [LOOK_FOR_A_GAME_VERSION] ${data}`)
-        versionResult = data.toString().trim()
-        resolve(versionResult)
-      })
-
-      externalApp.stderr.on("data", (data) => {
-        logMessage("error", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [LOOK_FOR_A_GAME_VERSION] Vintage Story threw an error! Check verbose logs for more info.`)
-        logMessage("verbose", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [LOOK_FOR_A_GAME_VERSION] ${data}`)
-      })
-
-      externalApp.on("close", (code) => {
-        logMessage("info", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [LOOK_FOR_A_GAME_VERSION] Vintage Story closed: ${code}`)
-        resolve(versionResult)
-      })
-
-      externalApp.on("error", (error) => {
-        logMessage("error", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [LOOK_FOR_A_GAME_VERSION] Error looking for the Vintage Story version.`)
-        logMessage("verbose", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [LOOK_FOR_A_GAME_VERSION] ${error}`)
-        reject(undefined)
-      })
-    })
-
-    res.exists = true
-    res.installedGameVersion = checkGameVersion
-    return res
-  } else {
-    logMessage("error", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [LOOK_FOR_A_GAME_VERSION] No command or params found.`)
-    return res
-  }
 })

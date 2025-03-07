@@ -100,7 +100,6 @@
       "installationsTitle": "安装",
       "installationsDesc": "管理您的游戏安装"
     },
-    "gameRunningOverlay": {},
     "tasksMenu": {
       "downloading": "正在下载",
       "extracting": "正在解压",
@@ -112,9 +111,6 @@
     }
   },
   "notifications": {
-    "titles": {
-      "warning": "警告"
-    },
     "body": {
       "folderDoesntExists": "您尝试打开的文件夹不存在！",
       "updateAvailable": "有更新可用! 正在下载...",

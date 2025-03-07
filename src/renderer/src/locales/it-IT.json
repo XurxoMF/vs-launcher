@@ -224,9 +224,6 @@
       "updateAvailable": "Nuovo aggiornamento disponibile! Scaricando...",
       "updateDownloaded": "Aggiornamento scaricato con successo! Riavvia VS Launcher per aggiornarlo."
     },
-    "discard": "Scarta notifica",
-    "titles": {
-      "warning": "Avvertenza"
-    }
+    "discard": "Scarta notifica"
   }
 }

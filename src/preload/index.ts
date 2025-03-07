@@ -1,5 +1,4 @@
 import { contextBridge, ipcRenderer } from "electron"
-import { autoUpdater } from "electron-updater"
 import { IPC_CHANNELS } from "@src/ipc/ipcChannels"
 
 import { electronAPI } from "@electron-toolkit/preload"
@@ -18,7 +17,7 @@ const api: BridgeAPI = {
   appUpdater: {
     onUpdateAvailable: (callback) => ipcRenderer.on(IPC_CHANNELS.APP_UPDATER.UPDATE_AVAILABLE, callback),
     onUpdateDownloaded: (callback) => ipcRenderer.on(IPC_CHANNELS.APP_UPDATER.UPDATE_DOWNLOADED, callback),
-    updateAndRestart: () => autoUpdater.quitAndInstall()
+    updateAndRestart: () => ipcRenderer.send(IPC_CHANNELS.APP_UPDATER.UPDATE_AND_RESTART)
   },
   configManager: {
     getConfig: (): Promise<ConfigType> => ipcRenderer.invoke(IPC_CHANNELS.CONFIG_MANAGER.GET_CONFIG),
@@ -44,11 +43,12 @@ const api: BridgeAPI = {
     onDownloadProgress: (callback: ProgressCallback) => ipcRenderer.on(IPC_CHANNELS.PATHS_MANAGER.DOWNLOAD_PROGRESS, callback),
     onExtractProgress: (callback: ProgressCallback) => ipcRenderer.on(IPC_CHANNELS.PATHS_MANAGER.EXTRACT_PROGRESS, callback),
     onCompressProgress: (callback: ProgressCallback) => ipcRenderer.on(IPC_CHANNELS.PATHS_MANAGER.COMPRESS_PROGRESS, callback),
-    changePerms: (paths: string[], perms: number): Promise<boolean> => ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.CHANGE_PERMS, paths, perms),
-    lookForAGameVersion: (path: string): Promise<{ exists: boolean; installedGameVersion: string | undefined }> => ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.LOOK_FOR_A_GAME_VERSION, path)
+    changePerms: (paths: string[], perms: number): Promise<boolean> => ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.CHANGE_PERMS, paths, perms)
   },
   gameManager: {
-    executeGame: (version: GameVersionType, installation: InstallationType): Promise<boolean> => ipcRenderer.invoke(IPC_CHANNELS.GAME_MANAGER.EXECUTE_GAME, version, installation)
+    executeGame: (version: GameVersionType, installation: InstallationType, account: AccountType | null): Promise<boolean> =>
+      ipcRenderer.invoke(IPC_CHANNELS.GAME_MANAGER.EXECUTE_GAME, version, installation, account),
+    lookForAGameVersion: (path: string): Promise<{ exists: boolean; installedGameVersion: string | undefined }> => ipcRenderer.invoke(IPC_CHANNELS.GAME_MANAGER.LOOK_FOR_A_GAME_VERSION, path)
   },
   netManager: {
     queryURL: (url: string): Promise<string> => ipcRenderer.invoke(IPC_CHANNELS.NET_MANAGER.QUERY_URL, url),

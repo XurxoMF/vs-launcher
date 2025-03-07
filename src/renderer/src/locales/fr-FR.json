@@ -42,7 +42,8 @@
     "update": "Mettre à jour",
     "searching": "Recherche",
     "waitingForChanges": "En attente de modifications",
-    "tryMVL": "Vous n'aimez pas VS Launcher ? Essayez <link /> !"
+    "tryMVL": "Vous n'aimez pas VS Launcher ? Essayez <link /> !",
+    "goToTop": "Haut de la page"
   },
   "features": {
     "generic": {
@@ -182,8 +183,7 @@
       "errorMakingBackup": "Une erreur est survenue lors de la création de la sauvegarde !",
       "backupsAmount": "Limite de sauvegardes",
       "folderDoesntExists": "Cette installation n'a pas de données. Veuillez y jouer au moins une fois pour générer les données de base !"
-    },
-    "servers": {}
+    }
   },
   "components": {
     "mainMenu": {
@@ -198,7 +198,6 @@
       "installationsTitle": "Installations",
       "installationsDesc": "Gérer vos installations"
     },
-    "gameRunningOverlay": {},
     "tasksMenu": {
       "downloading": "Téléchargement",
       "extracting": "Extraction",
@@ -212,9 +211,6 @@
     }
   },
   "notifications": {
-    "titles": {
-      "warning": "Avertissement"
-    },
     "body": {
       "folderDoesntExists": "Le dossier que vous essayez d'ouvrir n'existe pas!",
       "updateAvailable": "Nouvelle mise à jour disponible! Téléchargement en cours...",
@@ -233,8 +229,5 @@
       "compressError": "Erreur lors de la compression : {{compressName}} !"
     },
     "discard": "Ignorer la notification"
-  },
-  "genetic": {
-    "goToTop": "Haut de la page"
   }
 }

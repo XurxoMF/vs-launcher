@@ -111,7 +111,6 @@
       "installationsDesc": "Installationen verwalten",
       "installationsTitle": "Installationen"
     },
-    "gameRunningOverlay": {},
     "tasksMenu": {
       "downloading": "Herunterladend",
       "extracting": "Extrahierend",
@@ -124,9 +123,6 @@
     }
   },
   "notifications": {
-    "titles": {
-      "warning": "Warnung"
-    },
     "body": {
       "folderDoesntExists": "Der zu öffnende Ordner existiert nicht!",
       "updateAvailable": "Eine Aktualisierung ist verfügbar und wird im Hintergrund heruntergeladen.",
