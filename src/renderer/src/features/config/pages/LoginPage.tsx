@@ -155,10 +155,10 @@ function LoginPage(): JSX.Element {
         </FromWrapper>
 
         <ButtonsWrapper className="text-lg">
-          <FormLinkButton to="/" title={t("generic.goBack")} className="p-2">
+          <FormLinkButton to="/" title={t("generic.goBack")} type="error" className="p-2">
             <PiXCircleDuotone />
           </FormLinkButton>
-          <FormButton onClick={handleLogin} title={t("generic.add")} className="p-2">
+          <FormButton onClick={handleLogin} title={t("generic.add")} type="success" className="p-2">
             <PiFloppyDiskBackDuotone />
           </FormButton>
         </ButtonsWrapper>

@@ -253,10 +253,10 @@ function EditInslallation(): JSX.Element {
         </FromWrapper>
 
         <ButtonsWrapper className="text-lg">
-          <FormLinkButton to="/installations" title={t("generic.goBack")} className="p-2">
+          <FormLinkButton to="/installations" title={t("generic.goBack")} type="error" className="p-2">
             <PiXCircleDuotone />
           </FormLinkButton>
-          <FormButton onClick={handleEditInstallation} title={t("generic.save")} className="p-2">
+          <FormButton onClick={handleEditInstallation} title={t("generic.save")} type="success" className="p-2">
             <PiFloppyDiskBackDuotone />
           </FormButton>
         </ButtonsWrapper>

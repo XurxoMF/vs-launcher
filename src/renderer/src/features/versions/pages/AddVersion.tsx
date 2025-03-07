@@ -213,10 +213,10 @@ function AddVersion(): JSX.Element {
         </FromWrapper>
 
         <ButtonsWrapper className="text-lg">
-          <FormLinkButton to="/versions" title={t("generic.goBack")} className="p-2">
+          <FormLinkButton to="/versions" title={t("generic.goBack")} type="error" className="p-2">
             <PiXCircleDuotone />
           </FormLinkButton>
-          <FormButton onClick={handleInstallVersion} title={t("generic.install")} className="p-2">
+          <FormButton onClick={handleInstallVersion} title={t("generic.install")} type="success" className="p-2">
             <PiDownloadDuotone />
           </FormButton>
         </ButtonsWrapper>

@@ -105,10 +105,10 @@ function LookForAVersion(): JSX.Element {
         </FromWrapper>
 
         <ButtonsWrapper className="text-lg">
-          <FormLinkButton to="/versions" title={t("generic.cancel")} className="p-2">
+          <FormLinkButton to="/versions" title={t("generic.cancel")} type="error" className="p-2">
             <PiXCircleDuotone />
           </FormLinkButton>
-          <FormButton onClick={handleAddVersion} title={t("generic.add")} className="p-2">
+          <FormButton onClick={handleAddVersion} title={t("generic.add")} type="success" className="p-2">
             <PiFloppyDiskBackDuotone />
           </FormButton>
         </ButtonsWrapper>

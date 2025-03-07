@@ -135,7 +135,7 @@ function MainMenu(): JSX.Element {
           <PiGearDuotone />
         </FormLinkButton>
         {!config.account ? (
-          <FormLinkButton to="/login" title={t("features.config.loginTitle")} className="shrink-0 w-8 h-8">
+          <FormLinkButton to="/login" type="warn" title={t("features.config.loginTitle")} className="shrink-0 w-8 h-8">
             <PiUserDuotone />
           </FormLinkButton>
         ) : (
@@ -145,7 +145,7 @@ function MainMenu(): JSX.Element {
               configDispatch({ type: CONFIG_ACTIONS.SET_ACCOUNT, payload: null })
               addNotification(t("features.config.loggedout"), "success")
             }}
-            type={config.account ? "success" : "normal"}
+            type="success"
             title={`${t("features.config.logoutTitle")} · ${config.account.playerName}`}
             className="shrink-0 w-8 h-8"
           >

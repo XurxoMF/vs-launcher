@@ -295,10 +295,10 @@ function AddInslallation(): JSX.Element {
         </FromWrapper>
 
         <ButtonsWrapper className="text-lg">
-          <FormLinkButton to="/installations" title={t("generic.goBack")} className="p-2">
+          <FormLinkButton to="/installations" title={t("generic.goBack")} type="error" className="p-2">
             <PiXCircleDuotone />
           </FormLinkButton>
-          <FormButton onClick={handleAddInstallation} title={t("generic.add")} className="p-2">
+          <FormButton onClick={handleAddInstallation} title={t("generic.add")} type="success" className="p-2">
             <PiFloppyDiskBackDuotone />
           </FormButton>
         </ButtonsWrapper>
