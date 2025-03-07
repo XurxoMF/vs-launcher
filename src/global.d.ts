@@ -48,6 +48,7 @@ declare global {
     backups: BackupType[]
     lastTimePlayed: number
     totalTimePlayed: number
+    mesaGlThread: boolean
     _modsCount?: number
     _playing?: boolean
     _backuping?: boolean

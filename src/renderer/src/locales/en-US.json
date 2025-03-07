@@ -133,7 +133,9 @@
       "restoreBackup": "Restore Installation Backup",
       "name": "Name",
       "dataFolder": "Data folder",
-      "addNewInstallation": "Add a new Installation"
+      "addNewInstallation": "Add a new Installation",
+      "mesaGlThread": "mesa_glthread",
+      "mesaGlThreadDesc": "Enable to run the game with mesa_glthread. This may boost the performance on some Linux systems."
     },
     "mods": {
       "modsCount": "{{count}} Mods",

@@ -34,7 +34,8 @@ const defaultInstallation: InstallationType = {
   compressionLevel: 0,
   backups: [],
   lastTimePlayed: -1,
-  totalTimePlayed: 0
+  totalTimePlayed: 0,
+  mesaGlThread: false
 }
 
 const defaultGameVersion: GameVersionType = {
@@ -103,7 +104,8 @@ function ensureConfigProperties(config: ConfigType): ConfigType {
     compressionLevel: installation.compressionLevel ?? defaultInstallation.compressionLevel,
     backups: installation.backups ?? defaultInstallation.backups,
     lastTimePlayed: installation.lastTimePlayed ?? defaultInstallation.lastTimePlayed,
-    totalTimePlayed: installation.totalTimePlayed ?? defaultInstallation.totalTimePlayed
+    totalTimePlayed: installation.totalTimePlayed ?? defaultInstallation.totalTimePlayed,
+    mesaGlThread: installation.mesaGlThread ?? defaultInstallation.mesaGlThread
   }))
 
   const gameVersions: GameVersionType[] = config.gameVersions.map((gameVersion) => ({

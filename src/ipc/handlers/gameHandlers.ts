@@ -11,6 +11,7 @@ ipcMain.handle(IPC_CHANNELS.GAME_MANAGER.EXECUTE_GAME, async (_event, version: G
 
   let command: string
   let params: string[]
+  let env: NodeJS.ProcessEnv = { ...process.env }
 
   if (os.platform() === "linux") {
     logMessage("info", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [EXECUTE_GAME] Linux platform detected.`)
@@ -22,6 +23,7 @@ ipcMain.handle(IPC_CHANNELS.GAME_MANAGER.EXECUTE_GAME, async (_event, version: G
         logMessage("info", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [EXECUTE_GAME] Vintagestory found.`)
         command = join(version.path, "Vintagestory")
         params = [`--dataPath=${installation.path}`, installation.startParams]
+        if (installation.mesaGlThread) env = { ...env, MESA_GLTHREAD: "true" }
       } else if (files.includes("Vintagestory.exe")) {
         logMessage("info", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [EXECUTE_GAME] Vintagestory.exe found.`)
         command = "mono"
@@ -108,7 +110,7 @@ ipcMain.handle(IPC_CHANNELS.GAME_MANAGER.EXECUTE_GAME, async (_event, version: G
 
       logMessage("info", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [EXECUTE_GAME] Running Vintagestory with ${command} + ${params.join(" + ")}.`)
 
-      const externalApp = spawn(command, params)
+      const externalApp = spawn(command, params, { env })
 
       externalApp.stdout.on("data", (data) => {
         logMessage("verbose", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [EXECUTE_GAME] ${data}`)

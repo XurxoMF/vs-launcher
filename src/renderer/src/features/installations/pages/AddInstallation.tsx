@@ -43,6 +43,7 @@ function AddInslallation(): JSX.Element {
   const [backupsLimit, setBackupsLimit] = useState<number>(3)
   const [backupsAuto, setBackupsAuto] = useState<boolean>(false)
   const [compressionLevel, setCompressionLevel] = useState<number>(6)
+  const [mesaGlThread, setMEsaGlThread] = useState<boolean>(false)
 
   useEffect(() => {
     ;(async (): Promise<void> => {
@@ -73,6 +74,7 @@ function AddInslallation(): JSX.Element {
         backups: [],
         lastTimePlayed: -1,
         totalTimePlayed: 0,
+        mesaGlThread,
         _modsCount: 0
       }
 
@@ -273,6 +275,19 @@ function AddInslallation(): JSX.Element {
                       />
                     }
                   />
+                </FormFieldGroupWithDescription>
+              </FormBody>
+            </FromGroup>
+
+            <FromGroup>
+              <FormHead>
+                <FormLabel content={t("features.installations.mesaGlThread")} className="max-h-6" />
+              </FormHead>
+
+              <FormBody>
+                <FormFieldGroupWithDescription alignment="x">
+                  <FormToggle title={t("features.installations.mesaGlThreadDesc")} value={mesaGlThread} onChange={setMEsaGlThread} />
+                  <FormFieldDescription content={t("features.installations.mesaGlThreadDesc")} />
                 </FormFieldGroupWithDescription>
               </FormBody>
             </FromGroup>

@@ -44,6 +44,7 @@ function EditInslallation(): JSX.Element {
   const [backupsLimit, setBackupsLimit] = useState<number>(0)
   const [backupsAuto, setBackupsAuto] = useState<boolean>(false)
   const [compressionLevel, setCompressionLevel] = useState<number>(6)
+  const [mesaGlThread, setMEsaGlThread] = useState<boolean>(false)
 
   useEffect(() => {
     setInstallation(config.installations.find((igv) => igv.id === id))
@@ -56,6 +57,7 @@ function EditInslallation(): JSX.Element {
     setBackupsLimit(installation?.backupsLimit ?? 0)
     setBackupsAuto(installation?.backupsAuto ?? false)
     setCompressionLevel(installation?.compressionLevel ?? 6)
+    setMEsaGlThread(installation?.mesaGlThread ?? false)
   }, [installation])
 
   const handleEditInstallation = async (): Promise<void> => {
@@ -71,7 +73,7 @@ function EditInslallation(): JSX.Element {
     if (startParams.includes("--dataPath")) return addNotification(t("features.installations.cantUseDataPath"), "error")
 
     try {
-      configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id, updates: { name, version: version.version, startParams, backupsAuto, backupsLimit, compressionLevel } } })
+      configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id, updates: { name, version: version.version, startParams, backupsAuto, backupsLimit, compressionLevel, mesaGlThread } } })
       addNotification(t("features.installations.installationSuccessfullyEdited"), "success")
       navigate("/installations")
     } catch (error) {
@@ -229,6 +231,19 @@ function EditInslallation(): JSX.Element {
                           />
                         }
                       />
+                    </FormFieldGroupWithDescription>
+                  </FormBody>
+                </FromGroup>
+
+                <FromGroup>
+                  <FormHead>
+                    <FormLabel content={t("features.installations.mesaGlThread")} className="max-h-6" />
+                  </FormHead>
+
+                  <FormBody>
+                    <FormFieldGroupWithDescription alignment="x">
+                      <FormToggle title={t("features.installations.mesaGlThreadDesc")} value={mesaGlThread} onChange={setMEsaGlThread} />
+                      <FormFieldDescription content={t("features.installations.mesaGlThreadDesc")} />
                     </FormFieldGroupWithDescription>
                   </FormBody>
                 </FromGroup>
