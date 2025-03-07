@@ -215,7 +215,7 @@
       "backupsAmount": "Backups limit",
       "folderDoesntExists": "This Installation has no data, please, play on it at least one time to generate the base data!",
       "compressionLevel": "Compression level",
-      "compressionLevelDesc": "Higher compression takes longer but creates smaller Backups, 0 disables compression."
+      "compressionLevelDesc": "Higher compression takes longer but creates smaller Backups."
     }
   },
   "components": {

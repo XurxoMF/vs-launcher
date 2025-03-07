@@ -38,8 +38,8 @@ const api: BridgeAPI = {
     downloadOnPath: (id: string, url: string, outputPath: string, fileName: string): Promise<string> => ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.DOWNLOAD_ON_PATH, id, url, outputPath, fileName),
     extractOnPath: (id: string, filePath: string, outputPath: string, deleteZip: boolean): Promise<boolean> =>
       ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.EXTRACT_ON_PATH, id, filePath, outputPath, deleteZip),
-    compressOnPath: (id: string, inputPath: string, outputPath: string, outputFileName: string): Promise<boolean> =>
-      ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.COMPRESS_ON_PATH, id, inputPath, outputPath, outputFileName),
+    compressOnPath: (id: string, inputPath: string, outputPath: string, outputFileName: string, compressionLevel?: number): Promise<boolean> =>
+      ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.COMPRESS_ON_PATH, id, inputPath, outputPath, outputFileName, compressionLevel),
     onDownloadProgress: (callback: ProgressCallback) => ipcRenderer.on(IPC_CHANNELS.PATHS_MANAGER.DOWNLOAD_PROGRESS, callback),
     onExtractProgress: (callback: ProgressCallback) => ipcRenderer.on(IPC_CHANNELS.PATHS_MANAGER.EXTRACT_PROGRESS, callback),
     onCompressProgress: (callback: ProgressCallback) => ipcRenderer.on(IPC_CHANNELS.PATHS_MANAGER.COMPRESS_PROGRESS, callback),

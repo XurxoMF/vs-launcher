@@ -81,7 +81,8 @@ export interface TaskContextType {
     inputPath: string,
     outputPath: string,
     backupName: string,
-    onFinish: (status: boolean, error: Error | null) => void
+    onFinish: (status: boolean, error: Error | null) => void,
+    compressionLevel?: number
   ): Promise<void>
   removeTask(id: string): void
 }
@@ -198,7 +199,8 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }): JSX.E
     inputPath: string,
     outputPath: string,
     fileName: string,
-    onFinish: (status: boolean, error: Error | null) => void
+    onFinish: (status: boolean, error: Error | null) => void,
+    compressionLevel?: number
   ): Promise<void> {
     const id = uuidv4()
 
@@ -209,7 +211,7 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }): JSX.E
 
       window.api.utils.logMessage("info", `[front] [tasks] [contexts/TaskManagercontext.tsx] [TaskProvider > startCompress] [${id}] [${fileName}] Compressing...`)
       if (notifications === "all" || notifications === "start") addNotification(t("notifications.body.compressing", { compressName: name }), "info")
-      const result = await window.api.pathsManager.compressOnPath(id, inputPath, outputPath, fileName)
+      const result = await window.api.pathsManager.compressOnPath(id, inputPath, outputPath, fileName, compressionLevel)
 
       if (!result) throw new Error("Compression failed")
 

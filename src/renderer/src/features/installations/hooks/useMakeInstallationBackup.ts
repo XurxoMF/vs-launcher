@@ -84,7 +84,8 @@ export function useMakeInstallationBackup(): (installationId: string) => Promise
               type: CONFIG_ACTIONS.ADD_INSTALLATION_BACKUP,
               payload: { id: installation.id, backup: { date: backupDate, id: uuidv4(), path: outBackupPath } }
             })
-          }
+          },
+          installation.compressionLevel
         )
       } catch (err) {
         window.api.utils.logMessage(

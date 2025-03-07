@@ -19,7 +19,8 @@ import {
   ButtonsWrapper,
   FormLinkButton,
   FormButton,
-  FormInputPassword
+  FormInputPassword,
+  FormFieldGroup
 } from "@renderer/components/ui/FormComponents"
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
 
@@ -97,19 +98,16 @@ function LoginPage(): JSX.Element {
               </FormHead>
 
               <FormBody>
-                <FormFieldGroupWithDescription>
+                <FormFieldGroup>
                   <FormInputText
                     value={email}
                     onChange={(e) => {
                       setEmail(e.target.value)
                     }}
                     placeholder={t("generic.email")}
-                    minLength={1}
-                    maxLength={100}
                     readOnly={loggingIn}
                   />
-                  <FormFieldDescription content={t("generic.minMaxLength", { min: 1, max: 100 })} />
-                </FormFieldGroupWithDescription>
+                </FormFieldGroup>
               </FormBody>
             </FromGroup>
 
@@ -119,19 +117,16 @@ function LoginPage(): JSX.Element {
               </FormHead>
 
               <FormBody>
-                <FormFieldGroupWithDescription>
+                <FormFieldGroup>
                   <FormInputPassword
                     value={password}
                     onChange={(e) => {
                       setPassword(e.target.value)
                     }}
                     placeholder={t("generic.password")}
-                    minLength={1}
-                    maxLength={100}
                     readOnly={loggingIn}
                   />
-                  <FormFieldDescription content={t("generic.minMaxLength", { min: 1, max: 100 })} />
-                </FormFieldGroupWithDescription>
+                </FormFieldGroup>
               </FormBody>
             </FromGroup>
 

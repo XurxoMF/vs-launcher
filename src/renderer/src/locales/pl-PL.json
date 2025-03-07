@@ -51,7 +51,7 @@
       "backupsAmount": "Limit kopii zapasowych",
       "folderDoesntExists": "Ta instalacja nie ma danych, zagraj na niej przynajmniej raz, aby utworzyć podstawowe dane!",
       "compressionLevel": "Poziom kompresji",
-      "compressionLevelDesc": "Im wyższy poziom kompresji, tym dłużej trwa tworzenie kopii, ale są one mniejsze. Ustawienie 0 wyłącza kompresję."
+      "compressionLevelDesc": "Im wyższy poziom kompresji, tym dłużej trwa tworzenie kopii, ale są one mniejsze."
     },
     "config": {
       "backupsFolder": "Kopie zapasowe",

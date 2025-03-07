@@ -234,7 +234,7 @@ function AddInslallation(): JSX.Element {
                     max={9}
                     className="w-full"
                   />
-                  <FormFieldDescription content={t("features.backups.compressionLevelDesc")} />
+                  <FormFieldDescription content={`${t("generic.minMaxAmmount", { min: 0, max: 9 })} · ${t("features.backups.compressionLevelDesc")}`} />
                 </FormFieldGroupWithDescription>
               </FormBody>
             </FromGroup>

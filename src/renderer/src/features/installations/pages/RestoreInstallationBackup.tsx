@@ -15,6 +15,7 @@ import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
 import PopupDialogPanel from "@renderer/components/ui/PopupDialogPanel"
 import { NormalButton } from "@renderer/components/ui/Buttons"
 import { FormButton } from "@renderer/components/ui/FormComponents"
+import { ThinSeparator } from "@renderer/components/ui/ListSeparators"
 
 function RestoreInstallationBackup(): JSX.Element {
   const { id } = useParams()
@@ -121,16 +122,14 @@ function RestoreInstallationBackup(): JSX.Element {
             {backups &&
               backups.map((backup) => (
                 <ListItem key={backup.id}>
-                  <div className="flex gap-4 px-2 py-1 justify-between items-center whitespace-nowrap">
-                    <div className="flex gap-2 items-center font-bold">
-                      <p>{new Date(backup.date).toLocaleString("es")}</p>
+                  <div className="w-full h-8 flex gap-2 px-2 py-1 justify-between items-center">
+                    <div className="w-full flex items-center justify-center text-start font-bold">
+                      <p className="w-full">{new Date(backup.date).toLocaleString("es")}</p>
                     </div>
 
-                    <div className="w-full text-sm text-zinc-400  text-center overflow-hidden">
-                      <p className="hidden group-hover:block overflow-hidden text-ellipsis">{backup.path}</p>
-                    </div>
+                    <ThinSeparator />
 
-                    <div className="flex gap-1 justify-end text-lg">
+                    <div className="shrink-0 w-fit flex gap-1 text-lg">
                       <NormalButton className="p-1" title={t("features.backups.restoreBackup")} onClick={() => setBackupToRestore(backup)}>
                         <PiArrowCounterClockwiseDuotone />
                       </NormalButton>
@@ -143,7 +142,7 @@ function RestoreInstallationBackup(): JSX.Element {
                           if (!(await window.api.pathsManager.checkPathExists(folder))) return addNotification(t("notifications.body.folderDoesntExists"), "error")
                           window.api.pathsManager.openPathOnFileExplorer(folder)
                         }}
-                        title={t("generic.openOnFileExplorer")}
+                        title={`${t("generic.openOnFileExplorer")} · ${backup.path}`}
                         className="p-1"
                       >
                         <PiFolderOpenDuotone />
