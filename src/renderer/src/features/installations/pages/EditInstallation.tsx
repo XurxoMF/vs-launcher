@@ -193,14 +193,14 @@ function EditInslallation(): JSX.Element {
                   <FormBody>
                     <FormFieldGroupWithDescription>
                       <FormInputNumber
-                        placeholder={t("features.installations.compressionLevel")}
+                        placeholder={t("features.backups.compressionLevel")}
                         value={compressionLevel}
                         onChange={(e) => setCompressionLevel(Number(e.target.value))}
                         min={0}
                         max={9}
                         className="w-full"
                       />
-                      <FormFieldDescription content={t("features.installations.compressionLevelDesc")} />
+                      <FormFieldDescription content={t("features.backups.compressionLevelDesc")} />
                     </FormFieldGroupWithDescription>
                   </FormBody>
                 </FromGroup>

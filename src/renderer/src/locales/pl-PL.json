@@ -18,7 +18,7 @@
       "homeTitle": "Start",
       "installationsDesc": "Zarządzaj instancjami",
       "installationsTitle": "Instancje",
-      "modsDesc": "Szukaj i instaluj mody",
+      "modsDesc": "Szukaj i instaluj Mody",
       "modsTitle": "Mody",
       "versionsDesc": "Zarządzaj wersjami gry",
       "versionsTitle": "Wersje gry"
@@ -49,7 +49,9 @@
       "restoreInProgress": "Przywracanie kopii zapasowej jest już w toku!",
       "restoringNotReversible": "Przywrócenie kopii zapasowej spowoduje trwałe usunięcie obecnych danych i zastąpienie ich kopią zapasową!",
       "backupsAmount": "Limit kopii zapasowych",
-      "folderDoesntExists": "Ta instalacja nie ma danych, zagraj na niej przynajmniej raz, aby utworzyć podstawowe dane!"
+      "folderDoesntExists": "Ta instalacja nie ma danych, zagraj na niej przynajmniej raz, aby utworzyć podstawowe dane!",
+      "compressionLevel": "Poziom kompresji",
+      "compressionLevelDesc": "Im wyższy poziom kompresji, tym dłużej trwa tworzenie kopii, ale są one mniejsze. Ustawienie 0 wyłącza kompresję."
     },
     "config": {
       "backupsFolder": "Kopie zapasowe",
@@ -100,22 +102,19 @@
       "startParamsLink": "Vintage Story Wiki",
       "addNewInstallation": "Dodaj nową instancję",
       "dataFolder": "Folder danych",
-      "name": "Nazwa instancji",
-      "compressionLevel": "Poziom kompresji",
-      "compressionLevelDesc": "Im wyższy poziom kompresji, tym dłużej trwa tworzenie kopii, ale są one mniejsze. Ustawienie 0 wyłącza kompresję."
+      "name": "Nazwa instancji"
     },
     "mods": {
       "modsCount": "{{count}} modów",
-      "modsCount_few": "{{count}} mody",
+      "modsCount_few": "{{count}} Mods",
       "modsCount_many": "{{count}} modów",
-      "modsCount_one": "{{count}} mod",
+      "modsCount_one": "{{count}} Mod",
       "modsCount_other": "{{count}} modów",
-      "modsCount_two": "{{count}} mody",
+      "modsCount_two": "{{count}} Mods",
       "modsCount_zero": "{{count}} modów",
       "areYouSureDelete": "Czy na pewno chcesz usunąć ten mod?",
       "cantDeleteWhileinUse": "Nie możesz usunąć moda, gdy jest w użyciu!",
       "cantUpdateWhileinUse": "Nie możesz zaktualizować moda, gdy jest w użyciu!",
-      "compatibleUpdate": "Możesz zaktualizować do tej wersji!",
       "deleteMod": "Usuń mod",
       "deletingNotReversible": "Usunięcie jest nieodwracalne, więc nie będziesz w stanie przywrócić moda, ale zawsze możesz pobrać go ponownie!",
       "errorDeletingMod": "Wystąpił błąd podczas usuwania moda!",
@@ -137,7 +136,6 @@
       "noModSelected": "Nie wybrano żadnego moda!",
       "noModsFound": "Nie znaleziono żadnych modów!",
       "noModsInstalled": "Nie zainstalowano tutaj żadnych modów! Możesz je zainstalować na stronie <link />!",
-      "noVersionsFound": "Nie znaleziono żadnych wersji tego moda!",
       "onlyFavMods": "Pokaż tylko ulubione mody",
       "openOnTheModDB": "Otwórz na ModDB!",
       "probablyDontWorkOnTheVersion": "Autor nie oznaczył jej jako kompatybilnej i istnieje 90% szans, że nie będzie działać na wybranej wersji Vintage Story!",

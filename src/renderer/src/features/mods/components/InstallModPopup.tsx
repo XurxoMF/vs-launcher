@@ -76,7 +76,7 @@ function InstallModPopup({
             <TableHeadRow>
               <TableCell className="w-2/12">{t("generic.version")}</TableCell>
               <TableCell className="w-3/12">{t("generic.releaseDate")}</TableCell>
-              <TableCell className="w-5/12">{t("generic.versions")}</TableCell>
+              <TableCell className="w-5/12">{t("features.versions.labelGameVersions")}</TableCell>
               <TableCell className="w-2/12">{t("generic.actions")}</TableCell>
             </TableHeadRow>
           </TableHead>

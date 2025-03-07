@@ -84,13 +84,13 @@
       "startParamsLink": "Vintage Story Wiki"
     },
     "mods": {
-      "modsCount": "{{count}} mods",
-      "modsCount_zero": "{{count}} mods",
-      "modsCount_one": "{{count}} mod",
-      "modsCount_two": "{{count}} mods",
-      "modsCount_few": "{{count}} mods",
-      "modsCount_many": "{{count}} mods",
-      "modsCount_other": "{{count}} mods"
+      "modsCount": "{{count}} Mods",
+      "modsCount_zero": "{{count}} Mods",
+      "modsCount_one": "{{count}} Mod",
+      "modsCount_two": "{{count}} Mods",
+      "modsCount_few": "{{count}} Mods",
+      "modsCount_many": "{{count}} Mods",
+      "modsCount_other": "{{count}} Mods"
     },
     "config": {
       "title": "Instellingen",

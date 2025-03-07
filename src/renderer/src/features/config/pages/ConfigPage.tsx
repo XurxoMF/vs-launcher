@@ -31,6 +31,7 @@ function ConfigPage(): JSX.Element {
                     onClick={async () => {
                       const path = await window.api.utils.selectFolderDialog()
                       if (path && path.length > 0) {
+                        if (!(await window.api.pathsManager.checkPathEmpty(path))) addNotification(t("notifications.body.folderNotEmpty"), "warning")
                         configDispatch({ type: CONFIG_ACTIONS.SET_DEFAULT_INSTALLATIONS_FOLDER, payload: path })
                       }
                     }}
@@ -55,6 +56,7 @@ function ConfigPage(): JSX.Element {
                     onClick={async () => {
                       const path = await window.api.utils.selectFolderDialog()
                       if (path && path.length > 0) {
+                        if (!(await window.api.pathsManager.checkPathEmpty(path))) addNotification(t("notifications.body.folderNotEmpty"), "warning")
                         configDispatch({ type: CONFIG_ACTIONS.SET_DEFAULT_VERSIONS_FOLDER, payload: path })
                       }
                     }}
