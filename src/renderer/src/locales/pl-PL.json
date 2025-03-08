@@ -151,11 +151,11 @@
       "shouldWorkOnTheVersion": "Autor nie oznaczył jej jako kompatybilnej, ale istnieje 95% szans, że będzie działać z wybraną wersją Vintage Story!",
       "updatesAvailableInstallation": "Wybrana instancja zawiera {{count}} modów z dostępnymi aktualizacjami! Kliknij tutaj, aby je zobaczyć!",
       "updatesAvailableInstallation_many": "Wybrana instancja zawiera {{count}} modów z dostępnymi aktualizacjami! Kliknij tutaj, aby je zobaczyć!",
-      "updatesAvailableInstallation_one": "Wybrana instancja zawiera {{count}} modów z dostępnymi aktualizacjami! Kliknij tutaj, aby je zobaczyć!",
+      "updatesAvailableInstallation_one": "Wybrana instancja zawiera {{count}} mod z dostępnymi aktualizacjami! Kliknij tutaj, aby je zobaczyć!",
       "updatesAvailableInstallation_other": "Wybrana instancja zawiera {{count}} modów z dostępnymi aktualizacjami! Kliknij tutaj, aby je zobaczyć!",
-      "updatesAvailableInstallation_two": "Wybrana instancja zawiera {{count}} modów z dostępnymi aktualizacjami! Kliknij tutaj, aby je zobaczyć!",
+      "updatesAvailableInstallation_two": "Wybrana instancja zawiera {{count}} mody z dostępnymi aktualizacjami! Kliknij tutaj, aby je zobaczyć!",
       "updatesAvailableInstallation_zero": "Wybrana instancja zawiera {{count}} modów z dostępnymi aktualizacjami! Kliknij tutaj, aby je zobaczyć!",
-      "updatesAvailableInstallation_few": "Wybrana instancja zawiera {{count}} modów z dostępnymi aktualizacjami! Kliknij tutaj, aby je zobaczyć!",
+      "updatesAvailableInstallation_few": "Wybrana instancja zawiera {{count}} mody z dostępnymi aktualizacjami! Kliknij tutaj, aby je zobaczyć!",
       "worksOnTheVersion": "Autor oznaczył ją jako kompatybilną z wybraną wersją Vintage Story!"
     },
     "versions": {
