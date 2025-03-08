@@ -152,7 +152,6 @@
       "deleteMod": "Mod törlése",
       "areYouSureDelete": "Biztosan törölni szeretnéd ezt a modot?",
       "deletingNotReversible": "A törlés végleges! A törölt modot nem tudod majd visszaállítani de bármikor újra letöltheted !",
-      "noVersionsFound": "Nem találtunk elérhető verziót a modból!",
       "openOnTheModDB": "Nyisd meg a ModDB-n!",
       "listWithErrorsTitle": "Hibás modok",
       "modsWithErrorsDescription": "Az alábbi modokkal kapcsolatban valamilyen hiba lépett fel így a VS Launcher nem tudja azonosítani ezeket!",
@@ -162,14 +161,19 @@
       "listWithUpdatesTitle": "Frissíthető modok",
       "modsWithUpdatesDescription": "Az alábbi modokhoz frissítés jelent meg és 95%, hogy kompatibilisek a Vintage Story verzióddal!",
       "modsWithUpdatesDescriptionReport": "Ha találsz olyan modot ami tévesen frissíthetőnek lett jelölve kérlek jelezd a <issues /> oldalon vagy a <discord /> szerverünkön!",
-      "updatesAvailableInstallation": "A kiválaszott Telepítés {{amount}} frissíthető modot tartalmaz! Kattints ide ha át akarod nézni őket!",
+      "updatesAvailableInstallation": "A kiválaszott Telepítés {{count}} frissíthető modot tartalmaz! Kattints ide ha át akarod nézni őket!",
       "worksOnTheVersion": "A mod készítője bejelölte, hogy ez a mod kompatibilis a kiválasztott Vintage Story verzióddal!",
       "shouldWorkOnTheVersion": "A készítő nem jelölte kompatibilisnek a modot de 95% esély van rá, hogy működni fog a kiválasztott Vintage Story verzión!",
       "probablyDontWorkOnTheVersion": "A készítő nem jelölte kompatibilisnek a modot és 90% esély van rá, hogy nem fog működni a kiválasztott Vintage Story verzión!",
-      "compatibleUpdate": "Nyugodtan frissíthetsz erre a verzióra!",
       "listWithIncompatibleUpdatesTitle": "Modok nem kompatibilis frissítésekkel",
       "modsWithIncompatibleUpdatesDescription": "Az alábbi modoknak elérhető frissítései vannak de 90% esély van rá, hogy nem fognak működni a kiválasztott Vintage Story verzión!",
-      "cantUpdateWhileinUse": "Nem frissíthetsz egy modot miközben az használatban van!"
+      "cantUpdateWhileinUse": "Nem frissíthetsz egy modot miközben az használatban van!",
+      "updatesAvailableInstallation_few": "A kiválaszott Telepítés {{count}} frissíthető modot tartalmaz! Kattints ide ha át akarod nézni őket!",
+      "updatesAvailableInstallation_many": "A kiválaszott Telepítés {{count}} frissíthető modot tartalmaz! Kattints ide ha át akarod nézni őket!",
+      "updatesAvailableInstallation_one": "A kiválaszott Telepítés {{count}} frissíthető modot tartalmaz! Kattints ide ha át akarod nézni őket!",
+      "updatesAvailableInstallation_other": "A kiválaszott Telepítés {{count}} frissíthető modot tartalmaz! Kattints ide ha át akarod nézni őket!",
+      "updatesAvailableInstallation_two": "A kiválaszott Telepítés {{count}} frissíthető modot tartalmaz! Kattints ide ha át akarod nézni őket!",
+      "updatesAvailableInstallation_zero": "A kiválaszott Telepítés {{count}} frissíthető modot tartalmaz! Kattints ide ha át akarod nézni őket!"
     },
     "config": {
       "title": "Beállítások",
@@ -202,8 +206,7 @@
       "errorMakingBackup": "Hiba törént a biztonsági mentés létrehozása közben!",
       "backupsAmount": "Biztonsági mentés korlátja",
       "folderDoesntExists": "Ez a Telepítés nem tartalmaz adatokat. Legalább egyszer játszanod kell vele, hogy a játék legenerálja az alapvető adatokat!"
-    },
-    "servers": {}
+    }
   },
   "components": {
     "mainMenu": {
@@ -218,7 +221,6 @@
       "installationsTitle": "Telepítések",
       "installationsDesc": "Itt kezelheted a Telepítéseidet"
     },
-    "gameRunningOverlay": {},
     "tasksMenu": {
       "downloading": "Letöltés",
       "extracting": "Kicsomagolás",
@@ -232,9 +234,6 @@
     }
   },
   "notifications": {
-    "titles": {
-      "warning": "Figyelmeztetés"
-    },
     "body": {
       "folderDoesntExists": "A könyvtár amit meg szeretnél nyitni, nem létezik!",
       "updateAvailable": "Új frissítés érhető el! Letöltés...",
@@ -254,8 +253,5 @@
       "folderNotEmpty": "A könyvtár amit kiválasztottál nem üres! Ellenőrizd, hogy nincsenek-e fontos fájljaid a könyvtárban."
     },
     "discard": "Értesítés elvetése"
-  },
-  "genetic": {
-    "goToTop": "Ugrás a tetejére"
   }
 }

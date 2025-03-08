@@ -162,13 +162,19 @@
       "listWithUpdatesTitle": "Mods com atualizações",
       "modsWithUpdatesDescription": "Os próximos mods têm atualizações disponíveis que são 95% compatíveis com sua versão de Vintage Story!",
       "modsWithUpdatesDescriptionReport": "Se você encontrar algum mod erradamente marcado como atualizável, por favor, relate-o na página <Issues /> ou no nosso servidor de <Discord />!",
-      "updatesAvailableInstallation": "A instalação selecionada tem mods {{vale}} com atualizações disponíveis! Clique aqui para vê-los!",
+      "updatesAvailableInstallation": "A instalação selecionada tem mods {{count}} com atualizações disponíveis! Clique aqui para vê-los!",
       "worksOnTheVersion": "O autor a marcou como compatível com sua versão selecionada de Vintage Story!",
       "shouldWorkOnTheVersion": "O autor não marcou como compatível, mas há 95% de possibilidade de funcionar na versão selecionada da Vintage Story!",
       "probablyDontWorkOnTheVersion": "O autor não marcou como compatível e há 90% de possibilidade de não funcionar na versão selecionada da Vintage Story!",
       "listWithIncompatibleUpdatesTitle": "Mods com atualizações incompatíveis",
       "modsWithIncompatibleUpdatesDescription": "Os próximos mods têm atualizações disponíveis que são 90% incompatíveis com sua versão selecionada de Vinatge Story!",
-      "cantUpdateWhileinUse": "Não pode atualizar um mod enquanto estiver em uso!"
+      "cantUpdateWhileinUse": "Não pode atualizar um mod enquanto estiver em uso!",
+      "updatesAvailableInstallation_few": "A instalação selecionada tem mods {{count}} com atualizações disponíveis! Clique aqui para vê-los!",
+      "updatesAvailableInstallation_many": "A instalação selecionada tem mods {{count}} com atualizações disponíveis! Clique aqui para vê-los!",
+      "updatesAvailableInstallation_one": "A instalação selecionada tem mods {{count}} com atualizações disponíveis! Clique aqui para vê-los!",
+      "updatesAvailableInstallation_other": "A instalação selecionada tem mods {{count}} com atualizações disponíveis! Clique aqui para vê-los!",
+      "updatesAvailableInstallation_two": "A instalação selecionada tem mods {{count}} com atualizações disponíveis! Clique aqui para vê-los!",
+      "updatesAvailableInstallation_zero": "A instalação selecionada tem mods {{count}} com atualizações disponíveis! Clique aqui para vê-los!"
     },
     "config": {
       "defaultInstallationsFolder": "Instalações",

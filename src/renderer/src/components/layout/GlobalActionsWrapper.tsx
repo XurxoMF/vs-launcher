@@ -50,7 +50,7 @@ function GlobalActionsWrapper({ children }: { children: ReactNode }): JSX.Elemen
           if (updates > 0 && !config._notifiedModUpdatesInstallations.some((numi) => numi === lastUsedInstallation.id)) {
             config._notifiedModUpdatesInstallations.push(lastUsedInstallation.id)
             setTimeout(() => {
-              addNotification(t("features.mods.updatesAvailableInstallation", { amount: updates }), "info", { onClick: () => goTo(`/installations/mods/${lastUsedInstallation.id}`) })
+              addNotification(t("features.mods.updatesAvailableInstallation", { count: updates }), "info", { onClick: () => goTo(`/installations/mods/${lastUsedInstallation.id}`) })
             }, 2_000)
           }
         }
