@@ -43,6 +43,18 @@
     "searching": "Recherche",
     "waitingForChanges": "En attente de modifications",
     "tryMVL": "Vous n'aimez pas VS Launcher ? Essayez <link /> !",
+    "favorite": "Favorite",
+    "any": "Tout",
+    "both": "Les deux",
+    "server": "Serveur",
+    "client": "Client",
+    "tags": "Étiquettes",
+    "totalTime": "{{total}} total",
+    "notPlayedYet": "Jamais joué",
+    "compression": "Compression",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "twofacode": "Code 2FA",
     "goToTop": "Haut de la page"
   },
   "features": {
@@ -85,7 +97,8 @@
       "versionDeleting": "Cette version est en cours de suppression !",
       "versionPlaying": "Vous jouez déjà à cette version !",
       "deleteWhilePlaying": "Vous ne pouvez pas supprimer une version pendant que vous y jouez !",
-      "installNewVersion": "Installer une nouvelle version"
+      "installNewVersion": "Installer une nouvelle version",
+      "labelGameVersions": "Versions de VS"
     },
     "installations": {
       "noInstallationsFound": "Aucune installation trouvée!",
@@ -120,7 +133,9 @@
       "restoreBackup": "Restaurer la sauvegarde de l'installation",
       "name": "Nom",
       "dataFolder": "Dossier de données",
-      "addNewInstallation": "Ajouter une nouvelle installation"
+      "addNewInstallation": "Ajouter une nouvelle installation",
+      "mesaGlThread": "mesa_glthread",
+      "mesaGlThreadDesc": "Activez pour exécuter le jeu avec mesa_glthread. Cela peut améliorer les performances sur certains systèmes Linux."
     },
     "mods": {
       "modsCount": "{{count}} Mods",
@@ -149,13 +164,38 @@
       "listWithErrorsTitle": "Mods avec erreurs",
       "modsWithErrorsDescription": "Les mods suivants ont des erreurs et VS Launcher ne peut pas les identifier !",
       "modsWithErrorsDescriptionReport": "Veuillez signaler cet incident sur la page <issues /> ou sur notre serveur <discord /> !",
-      "noModSelected": "Aucun mod sélectionné !"
+      "noModSelected": "Aucun mod sélectionné !",
+      "onlyFavMods": "Afficher uniquement les mods favoris",
+      "listWithUpdatesTitle": "Mods avec des mises à jour",
+      "modsWithUpdatesDescription": "Les mods suivants ont des mises à jour disponibles qui sont compatibles à 95 % avec votre version de Vintage Story !",
+      "modsWithUpdatesDescriptionReport": "Si vous trouvez un mod mal marqué comme étant mis à jour, veuillez le signaler sur la page <issues /> ou sur notre serveur <discord /> !",
+      "updatesAvailableInstallation": "L'installation sélectionnée a {{count}} mods avec des mises à jour disponibles ! Cliquez ici pour les voir !",
+      "updatesAvailableInstallation_zero": "L'installation sélectionnée a {{count}} mods avec des mises à jour disponibles ! Cliquez ici pour les voir !",
+      "updatesAvailableInstallation_one": "L'installation sélectionnée a {{count}} mod avec une mise à jour disponible ! Cliquez ici pour le voir !",
+      "updatesAvailableInstallation_two": "L'installation sélectionnée a {{count}} mods avec des mises à jour disponibles ! Cliquez ici pour les voir !",
+      "updatesAvailableInstallation_few": "L'installation sélectionnée a {{count}} mods avec des mises à jour disponibles ! Cliquez ici pour les voir !",
+      "updatesAvailableInstallation_many": "L'installation sélectionnée a {{count}} mods avec des mises à jour disponibles ! Cliquez ici pour les voir !",
+      "updatesAvailableInstallation_other": "L'installation sélectionnée a {{count}} mods avec des mises à jour disponibles ! Cliquez ici pour les voir !",
+      "worksOnTheVersion": "L'auteur l'a marqué comme compatible avec la version de Vintage Story sélectionnée !",
+      "shouldWorkOnTheVersion": "L'auteur ne l'a pas marqué comme compatible, mais il y a 95 % de chances que cela fonctionne avec la version sélectionnée de Vintage Story !",
+      "probablyDontWorkOnTheVersion": "L'auteur ne l'a pas marqué comme compatible et il y a 90 % de chances que cela ne fonctionne pas avec la version sélectionnée de Vintage Story !",
+      "listWithIncompatibleUpdatesTitle": "Mods avec des mises à jour incompatibles",
+      "modsWithIncompatibleUpdatesDescription": "Les mods suivants ont des mises à jour disponibles qui sont incompatibles à 90 % avec votre version sélectionnée de Vintage Story !",
+      "cantUpdateWhileinUse": "Vous ne pouvez pas mettre à jour un mod pendant qu'il est utilisé !"
     },
     "config": {
       "title": "Paramètres",
       "defaultInstallationsFolder": "Dossier des installations",
       "defaultVersionsFolder": "Dossier des versions",
-      "backupsFolder": "Dossier des sauvegardes"
+      "backupsFolder": "Dossier des sauvegardes",
+      "loginTitle": "Se connecter",
+      "logoutTitle": "Se déconnecter",
+      "loggedout": "Déconnecté !",
+      "loggingin": "Connexion en cours !",
+      "wrongtwofa": "Code 2FA incorrect !",
+      "invalidEmailPass": "E-mail ou mot de passe invalide !",
+      "loggedin": "Connecté en tant que {{user}} !",
+      "onlyIfEnabledTwoFA": "Remplissez ce champ uniquement si vous avez activé la 2FA !"
     },
     "backups": {
       "backupInProgress": "Une sauvegarde est déjà en cours !",
@@ -181,7 +221,9 @@
       "deletingNotReversible": "La suppression est irréversible, vous ne pourrez plus restaurer vos mondes, données et autres informations à partir de cette sauvegarde.",
       "errorMakingBackup": "Une erreur est survenue lors de la création de la sauvegarde !",
       "backupsAmount": "Limite de sauvegardes",
-      "folderDoesntExists": "Cette installation n'a pas de données. Veuillez y jouer au moins une fois pour générer les données de base !"
+      "folderDoesntExists": "Cette installation n'a pas de données. Veuillez y jouer au moins une fois pour générer les données de base !",
+      "compressionLevel": "Niveau de compression",
+      "compressionLevelDesc": "Une compression plus élevée prend plus de temps mais crée des sauvegardes plus petites."
     }
   },
   "components": {
@@ -191,7 +233,7 @@
       "versionsTitle": "Versions",
       "versionsDesc": "Gérer les versions de votre jeu",
       "modsTitle": "Mods",
-      "modsDesc": "",
+      "modsDesc": "Rechercher et installer des mods",
       "changelogTitle": "Journal des modifications",
       "changelogDesc": "Journal des modifications de Vintage Story",
       "installationsTitle": "Installations",
@@ -225,7 +267,8 @@
       "missingFields": "Veuillez remplir tous les champs!",
       "compressing": "Compression en cours : {{compressName}} !",
       "compressed": "Compression terminée : {{compressName}} !",
-      "compressError": "Erreur lors de la compression : {{compressName}} !"
+      "compressError": "Erreur lors de la compression : {{compressName}} !",
+      "folderNotEmpty": "Le dossier que vous avez sélectionné n'est pas vide ! Assurez-vous qu'il n'y a rien d'important dedans."
     },
     "discard": "Ignorer la notification"
   }
