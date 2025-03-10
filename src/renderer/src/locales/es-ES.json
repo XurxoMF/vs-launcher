@@ -66,7 +66,9 @@
       "restoreBackup": "Restaurar Copia de Seguridad de la Instalación",
       "addNewInstallation": "Añadir una nueva Instalación",
       "dataFolder": "Carpeta de datos",
-      "name": "Nombre"
+      "name": "Nombre",
+      "mesaGlThreadDesc": "Habilitalo para ejecutar el juego con mesa_glthread. Esto puede mejorar el rendimiento en algunos sistemas Linux.",
+      "mesaGlThread": "mesa_glthread"
     },
     "mods": {
       "modsCount": "{{count}} Mods",
@@ -145,7 +147,8 @@
       "versionDeleting": "¡Esa versión está siendo eliminada!",
       "versionInstalling": "¡La Versión {{version}} de VS está siendo instalada. ¡Por favor, espera a que termine antes de jugar!",
       "versionPlaying": "¡Ya estás jugando esa Versión de VS!",
-      "installNewVersion": "Instalar una nueva Versión de VS"
+      "installNewVersion": "Instalar una nueva Versión de VS",
+      "labelGameVersions": "VS Versions"
     },
     "config": {
       "title": "Ajustes",
@@ -153,7 +156,7 @@
       "defaultVersionsFolder": "Carpeta de Versiones de VS",
       "backupsFolder": "Carpeta de Copias de Seguridad",
       "invalidEmailPass": "¡Correo electrónico o contraseña incorrectos!",
-      "loggedin": "¡Iniciada sesión como {{user}}!",
+      "loggedin": "¡Sesión iniciada como {{user}}!",
       "loggedout": "¡Sesión cerrada!",
       "loggingin": "¡Iniciando sesión!",
       "loginTitle": "Iniciar sesión",
@@ -185,7 +188,9 @@
       "errorDeletingBackup": "¡Ha ocurrido un error eliminando la Copia de Seguridad!",
       "errorMakingBackup": "¡Ha ocurrido un error mientras se hacía una Copia de Seguridad!",
       "backupsAmount": "Límite de Copias de Seguridad",
-      "folderDoesntExists": "¡Esta Instalación no tiene datos, por favor, juegua al menos una vez para generar los datos básicos!"
+      "folderDoesntExists": "¡Esta Instalación no tiene datos, por favor, juegua al menos una vez para generar los datos básicos!",
+      "compressionLevelDesc": "Una compresión más alta lleva más tiempo pero crea copias de seguridad más pequeñas.",
+      "compressionLevel": "Nivel de compresión"
     }
   },
   "generic": {
@@ -240,7 +245,11 @@
     "server": "Servidor",
     "tags": "Etiquetas",
     "totalTime": "{{total}} en total",
-    "goToTop": "Ir al principio"
+    "goToTop": "Ir al principio",
+    "twofacode": "Código 2FA",
+    "password": "Contraseña",
+    "email": "Email",
+    "compression": "Compresión"
   },
   "notifications": {
     "body": {
