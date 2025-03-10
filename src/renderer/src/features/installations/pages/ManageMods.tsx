@@ -70,7 +70,7 @@ function ListMods(): JSX.Element {
 
       if (!installation) return addNotification(t("features.installations.noInstallationFound"), "error")
 
-      if (installation._playing || installation._backuping || installation._restoringBackup) return addNotification(t("features.mods.cantDeleteWhileinUse"), "error")
+      if (installation._backuping || installation._restoringBackup) return addNotification(t("features.mods.cantDeleteWhileinUse"), "error")
 
       const deleted = await window.api.pathsManager.deletePath(modToDelete.path)
       if (!deleted) throw "There was an error deleting the mod!"

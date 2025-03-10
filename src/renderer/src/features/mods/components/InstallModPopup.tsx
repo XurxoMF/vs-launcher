@@ -100,8 +100,7 @@ function InstallModPopup({
                         disabled={installation.oldMod && installation.oldMod.version === release.modversion}
                         onClick={async () => {
                           if (!installation) return addNotification(t("features.installations.noInstallationFound"), "error")
-                          if (installation.installation._playing || installation.installation._backuping || installation.installation._restoringBackup)
-                            return addNotification(t("features.mods.cantUpdateWhileinUse"), "error")
+                          if (installation.installation._backuping || installation.installation._restoringBackup) return addNotification(t("features.mods.cantUpdateWhileinUse"), "error")
 
                           installMod({
                             mod: downloadableModToInstall,
