@@ -3,9 +3,9 @@ icon: rotate-left
 description: If you want to make some backups of your Installations just follow this guide.
 ---
 
-# Backups
+# Installation Backups
 
-Backups will save a compressed copy of your data on a separated folder so if your wolrds got corrupted you can just restore a backup and continue playing.
+**Backups** will save a compressed copy of your data on a separated folder so if your worlds got corrupted you can just restore a backup and continue playing.
 
 {% hint style="warning" %}
 Backups are not a 100% secure, if the world was already damaged there is nothing you can do about it. I have tried them many times and they have never failed but they may fail at some point, I hope they don't.
@@ -13,7 +13,7 @@ Backups are not a 100% secure, if the world was already damaged there is nothing
 
 ## Configuring Backups
 
-Backups are easy to configure and use. You just have to change, if you want, the folder where you want your backups to go and then configure the Installations you want to backup. Check out the video:
+**Backups** are easy to configure and use. You just have to change, if you want, the folder where you want your backups to go and then configure the **Installations** you want to backup. Check out the video:
 
 {% embed url="https://www.youtube.com/watch?v=ciWQOHkwGoE" %}
 Configure Installation Backups | VS Launcher Guides

@@ -5,9 +5,9 @@ description: >-
   this how to guide.
 ---
 
-# Mods
+# Install/Manage Mods
 
-Mods are amazing. With them you can change everything you want to make the game perfect for you, but installing them was not the funniest thing to do. Now with VS Launcher you can install, update and uninstall all the mods you want with just a few clicks!
+**Mods** are amazing. With them you can change everything you want to make the game perfect for you, but installing them was not the funniest thing to do. Now with VS Launcher you can install, update and uninstall all the mods you want with just a few clicks!
 
 {% hint style="info" %}
 Mods will be downloaded from the official ModDB!
@@ -15,7 +15,9 @@ Mods will be downloaded from the official ModDB!
 
 ## Installing Mods
 
-Installing mods is sooo easy. Just go to the Mods page, click on the mod you want to install and press the install button!
+Installing mods is sooo easy. Just go to the **Mods** page, click on the mod you want to install and then on the install button!
+
+This will install the **Mod** on the **Installation** you've selected on the left menu.
 
 Check out this little guide explaining how to do it:
 
@@ -31,7 +33,7 @@ To make it easy for you to find the version you need I made the install/update b
 
 ## Updating Mods
 
-You can update mods from the [#installing-mods](mods.md#installing-mods "mention") page but the easiest way is to use the Mod Manager page of your desired Installation as there you'll have them separated if they have updates. Check out this video:
+You can update mods from the [#installing-mods](install-manage-mods.md#installing-mods "mention") page but the easiest way is to use the **Mod Manager** page of your desired **Installation** as there you'll have them separated if they have updates. Check out this video:
 
 {% embed url="https://www.youtube.com/watch?v=IcCPuhCltw8" %}
 Update Mods on Installations | VS Launcher Guides
@@ -39,7 +41,7 @@ Update Mods on Installations | VS Launcher Guides
 
 ## Delete Mods
 
-This is another easy thing to do. Just open the Mod Manager page on your installation and follow this little guide:
+This is another easy thing to do. Just open the **Mod Manager** page on your **Installation** and follow this little guide:
 
 {% embed url="https://www.youtube.com/watch?v=hKtgR6bsqE8" %}
 Delete Mods on Installations | VS Launcher Guides

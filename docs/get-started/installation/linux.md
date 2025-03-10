@@ -125,10 +125,6 @@ sudo sysctl -w vm.max_map_count=262144
 
 ### Arch and its derivatives
 
-{% hint style="info" %}
-If you installed Vintage Story using Flatpak you can skip the rest of this guide, as any dependencies will come pre-installed in the sandbox.
-{% endhint %}
-
 {% stepper %}
 {% step %}
 ### Install your graphics driver
@@ -144,6 +140,52 @@ sudo pacman -S dotnet-runtime-7.0 glibc openal opengl-driver mono
 ```
 {% endstep %}
 {% endstepper %}
+
+### SteamOS
+
+{% stepper %}
+{% step %}
+### Disable readonly mode
+
+SteamOS is protected so you can't make changes by accident. To install the dependencies you need to disable this:
+
+```sh
+sudo steamos-readonly disable
+```
+{% endstep %}
+
+{% step %}
+### Configure pacman
+
+Sometimes you'll need to do some steps to configure everything:
+
+```sh
+sudo pacman-key --init
+sudo pacman-key --populate archlinux
+sudo pacman-key --populate holo
+```
+{% endstep %}
+
+{% step %}
+### Install all the dependencies
+
+```sh
+sudo pacman -S dotnet-runtime-7.0 glibc openal opengl-driver mono
+```
+{% endstep %}
+
+{% step %}
+### Enable readonly mode again
+
+```sh
+sudo steamos-readonly enable
+```
+{% endstep %}
+{% endstepper %}
+
+{% hint style="info" %}
+This SteamOS guide was sent by an user that got it working with this. I don't know what each stem does and didn't tested it.
+{% endhint %}
 
 ***
 

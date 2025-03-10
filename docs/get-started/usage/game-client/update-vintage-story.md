@@ -7,7 +7,7 @@ description: >-
 
 # Update Vintage Story
 
-Updating is easy, just download the new Version and edit the Installation to choose the new Version to use.
+Updating is easy, just download the new **VS Version** and edit the **Installation** to choose the new **VS Version** to use.
 
 Here is a video explaining how to do it:
 

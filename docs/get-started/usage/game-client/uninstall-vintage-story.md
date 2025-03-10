@@ -7,9 +7,9 @@ description: >-
 
 # Uninstall Vintage Story
 
-## Uninstall a Vintage Story Version
+## Uninstall a VS Version
 
-Uninstalling a **Version** is as easy as clicking a button. Just check this video:
+Uninstalling a **VS Version** is as easy as clicking a button. Just check this video:
 
 {% embed url="https://www.youtube.com/watch?v=LJFy7mb1ztw" %}
 Uninstall a Vintage Story Version | VS Launcher Guides

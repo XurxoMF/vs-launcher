@@ -11,9 +11,9 @@ If you already have the game installed you just need to tell VS Launcher where i
 
 {% stepper %}
 {% step %}
-### Add the Vintage Story Version
+### Add the VS Version
 
-**Versions** are the base game files like assets, code, executables... By default this ones can be found on the next folder:
+**VS Versions** are the base game files like assets, code, executables... By default this ones can be found on the next folder:
 
 * **Windows:** `C:/Users/YourUsername/AppData/Roaming/Vintagestory`
 * **Linux:** The folder where you extracted the `.tat.gz` or `/home/YourUsername/.local/share/Vintagestory/`
@@ -47,13 +47,9 @@ Add an already created Installation | VS Launcher Guides
 {% step %}
 ### Play the game
 
-Now you've added your already installed Vintage Story Version and Installation the only thing that's left is play the game!
+Check the next guide on how to play Vintage Story:
 
-First you'll need to select the **Installation** you want to use on the drop-down on the left menu and then press play like in the video:
-
-{% embed url="https://www.youtube.com/watch?v=pwI3wRJwK28" %}
-Play Vintage Story | VS Launcher Guides
-{% endembed %}
+[play-vintage-story.md](play-vintage-story.md "mention")
 {% endstep %}
 {% endstepper %}
 
