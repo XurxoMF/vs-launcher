@@ -28,7 +28,7 @@ export function StickyMenuWrapper({ children, scrollRef, className }: { children
         className={clsx(
           "relative rounded-sm border border-zinc-400/5 shadow-sm shadow-zinc-950/50 p-1 duration-200",
           "before:absolute before:left-0 before:top-0 before:w-full before:h-full before:backdrop-blur-xs",
-          scrTop > 20 ? "bg-zinc-800" : "bg-zinc-950/25",
+          scrTop > 20 ? "bg-zinc-800" : "bg-zinc-950/15",
           className
         )}
       >

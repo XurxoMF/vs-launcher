@@ -39,7 +39,7 @@ function NotificationsOverlay(): JSX.Element {
           <motion.div
             key={id}
             className={clsx(
-              "w-[300px] flex items-center justify-between gap-2 p-2 rounded-sm text-center bg-zinc-950/50 backdrop-blur-sm border-l-4",
+              "w-[300px] flex items-center justify-between gap-2 p-2 rounded-sm text-center bg-zinc-950/60 backdrop-blur-sm border-l-4",
               BORDER_COLOR_TYPES[type],
               options?.onClick && "cursor-pointer"
             )}

@@ -15,7 +15,7 @@ export function ListWrapper({ children, className }: { children: React.ReactNode
     <div
       className={clsx(
         "relative mx-auto flex flex-col rounded-md p-2",
-        "before:absolute before:left-0 before:top-0 before:w-full before:h-full before:rounded-md before:backdrop-blur-sm before:bg-zinc-950/25 before:shadow-sm before:shadow-zinc-950/50 before:border before:border-zinc-400/5",
+        "before:absolute before:left-0 before:top-0 before:w-full before:h-full before:rounded-md before:backdrop-blur-sm before:bg-zinc-950/15 before:shadow-sm before:shadow-zinc-950/50 before:border before:border-zinc-400/5",
         className
       )}
     >

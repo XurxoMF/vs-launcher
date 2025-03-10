@@ -55,8 +55,6 @@ function LookForAVersion(): JSX.Element {
   return (
     <ScrollableContainer>
       <div className="min-h-full flex flex-col justify-center gap-4">
-        <h1 className="text-3xl text-center font-bold">{t("features.versions.lookForAVersion")}</h1>
-
         <FromWrapper className="max-w-[800px] w-full">
           <FormGroupWrapper>
             <FromGroup>
@@ -102,16 +100,16 @@ function LookForAVersion(): JSX.Element {
               </FormBody>
             </FromGroup>
           </FormGroupWrapper>
-        </FromWrapper>
 
-        <ButtonsWrapper className="text-lg">
-          <FormLinkButton to="/versions" title={t("generic.cancel")} type="error" className="p-2">
-            <PiXCircleDuotone />
-          </FormLinkButton>
-          <FormButton onClick={handleAddVersion} title={t("generic.add")} type="success" className="p-2">
-            <PiFloppyDiskBackDuotone />
-          </FormButton>
-        </ButtonsWrapper>
+          <ButtonsWrapper className="text-lg">
+            <FormLinkButton to="/versions" title={t("generic.cancel")} type="error" className="p-2">
+              <PiXCircleDuotone />
+            </FormLinkButton>
+            <FormButton onClick={handleAddVersion} title={t("generic.add")} type="success" className="p-2">
+              <PiFloppyDiskBackDuotone />
+            </FormButton>
+          </ButtonsWrapper>
+        </FromWrapper>
       </div>
     </ScrollableContainer>
   )

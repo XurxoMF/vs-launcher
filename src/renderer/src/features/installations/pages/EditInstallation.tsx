@@ -84,8 +84,6 @@ function EditInslallation(): JSX.Element {
   return (
     <ScrollableContainer>
       <div className="min-h-full flex flex-col justify-center gap-4">
-        <h1 className="text-3xl text-center font-bold">{t("features.installations.editTitle")}</h1>
-
         <FromWrapper className="max-w-[800px] w-full">
           {!installation ? (
             <div className="w-full flex flex-col items-center justify-center gap-2 rounded-sm bg-zinc-950/50 p-4">
@@ -248,18 +246,18 @@ function EditInslallation(): JSX.Element {
                   </FormBody>
                 </FromGroup>
               </FormGroupWrapper>
+
+              <ButtonsWrapper className="text-lg">
+                <FormLinkButton to="/installations" title={t("generic.goBack")} type="error" className="p-2">
+                  <PiXCircleDuotone />
+                </FormLinkButton>
+                <FormButton onClick={handleEditInstallation} title={t("generic.save")} type="success" className="p-2">
+                  <PiFloppyDiskBackDuotone />
+                </FormButton>
+              </ButtonsWrapper>
             </>
           )}
         </FromWrapper>
-
-        <ButtonsWrapper className="text-lg">
-          <FormLinkButton to="/installations" title={t("generic.goBack")} type="error" className="p-2">
-            <PiXCircleDuotone />
-          </FormLinkButton>
-          <FormButton onClick={handleEditInstallation} title={t("generic.save")} type="success" className="p-2">
-            <PiFloppyDiskBackDuotone />
-          </FormButton>
-        </ButtonsWrapper>
       </div>
     </ScrollableContainer>
   )

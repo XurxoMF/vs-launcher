@@ -31,7 +31,6 @@ import LookForAVersion from "@renderer/features/versions/pages/LookForAVersion"
 import ListMods from "@renderer/features/mods/pages/ListMods"
 
 import ConfigPage from "@renderer/features/config/pages/ConfigPage"
-import LoginPage from "@renderer/features/config/pages/LoginPage"
 
 import { NormalButton } from "./components/ui/Buttons"
 import GlobalActionsWrapper from "./components/layout/GlobalActionsWrapper"
@@ -54,7 +53,7 @@ function App(): JSX.Element {
                   "before:absolute before:left-0 before:top-0 before:w-full before:h-full before:backdrop-blur-[2px]"
                 )}
               >
-                <div className="w-full h-full flex bg-zinc-950/25">
+                <div className="w-full h-full flex bg-zinc-950/10">
                   <Loader />
 
                   <MainMenu />
@@ -93,7 +92,6 @@ function AnimatedRoutes(): JSX.Element {
         <Route path="/versions/look-for-a-version" element={<AnimatedRoute element={<LookForAVersion />} />} />
         <Route path="/mods" element={<AnimatedRoute element={<ListMods />} />} />
         <Route path="/config" element={<AnimatedRoute element={<ConfigPage />} />} />
-        <Route path="/login" element={<AnimatedRoute element={<LoginPage />} />} />
       </Routes>
     </AnimatePresence>
   )

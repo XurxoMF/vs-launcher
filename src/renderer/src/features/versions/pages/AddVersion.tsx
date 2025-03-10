@@ -110,8 +110,6 @@ function AddVersion(): JSX.Element {
   return (
     <ScrollableContainer>
       <div className="min-h-full flex flex-col justify-center gap-4">
-        <h1 className="text-3xl text-center font-bold">{t("features.versions.installTitle")}</h1>
-
         <FromWrapper className="max-w-[800px] w-full">
           <FormGroupWrapper>
             <FromGroup>
@@ -210,16 +208,16 @@ function AddVersion(): JSX.Element {
               </FormBody>
             </FromGroup>
           </FormGroupWrapper>
-        </FromWrapper>
 
-        <ButtonsWrapper className="text-lg">
-          <FormLinkButton to="/versions" title={t("generic.goBack")} type="error" className="p-2">
-            <PiXCircleDuotone />
-          </FormLinkButton>
-          <FormButton onClick={handleInstallVersion} title={t("generic.install")} type="success" className="p-2">
-            <PiDownloadDuotone />
-          </FormButton>
-        </ButtonsWrapper>
+          <ButtonsWrapper className="text-lg">
+            <FormLinkButton to="/versions" title={t("generic.goBack")} type="error" className="p-2">
+              <PiXCircleDuotone />
+            </FormLinkButton>
+            <FormButton onClick={handleInstallVersion} title={t("generic.install")} type="success" className="p-2">
+              <PiDownloadDuotone />
+            </FormButton>
+          </ButtonsWrapper>
+        </FromWrapper>
       </div>
     </ScrollableContainer>
   )

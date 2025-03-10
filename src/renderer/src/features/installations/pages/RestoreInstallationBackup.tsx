@@ -110,8 +110,6 @@ function RestoreInstallationBackup(): JSX.Element {
   return (
     <ScrollableContainer>
       <div className="min-h-full flex flex-col justify-center gap-4">
-        <h1 className="text-3xl text-center font-bold">{t("features.installations.restoreBackup")}</h1>
-
         <ListWrapper className="max-w-[800px] w-full">
           {backups && backups.length < 1 && (
             <div className="relative w-full flex flex-col items-center justify-center gap-2 rounded-sm bg-zinc-950/50 p-4">

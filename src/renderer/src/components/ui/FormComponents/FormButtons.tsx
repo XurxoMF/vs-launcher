@@ -16,10 +16,22 @@ const COLOR_BY_TYPE = {
  * @param {object} props - The component props.
  * @param {React.ReactNode} props.children - The content to be wrapped.
  * @param {string} props.className - Additional class names for styling.
+ * @param {boolean} [props.bgDark] - Add or not the darker background.
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
-export function ButtonsWrapper({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
-  return <div className={clsx("flex gap-4 justify-center items-center", className)}>{children}</div>
+export function ButtonsWrapper({ children, className, bgDark = true }: { children: React.ReactNode; className?: string; bgDark?: boolean }): JSX.Element {
+  return (
+    <div
+      className={clsx(
+        "relative w-fit",
+        bgDark &&
+          "before:absolute before:left-0 before:top-0 before:w-full before:h-full before:rounded-md before:backdrop-blur-sm before:bg-zinc-950/15 before:shadow-sm before:shadow-zinc-950/50 before:border before:border-zinc-400/5",
+        className
+      )}
+    >
+      <div className={clsx("relative flex gap-4 p-2 justify-center items-center", className)}>{children}</div>
+    </div>
+  )
 }
 
 /**

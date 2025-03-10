@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next"
 import { Link, useLocation } from "react-router-dom"
 import {
   PiBoxArrowDownDuotone,
+  PiFloppyDiskBackDuotone,
   PiFolderOpenDuotone,
   PiGearDuotone,
   PiGitForkDuotone,
@@ -12,7 +13,8 @@ import {
   PiPencilDuotone,
   PiPlusCircleDuotone,
   PiUserCheckDuotone,
-  PiUserDuotone
+  PiUserDuotone,
+  PiXCircleDuotone
 } from "react-icons/pi"
 import { v4 as uuidv4 } from "uuid"
 import clsx from "clsx"
@@ -26,7 +28,23 @@ import LanguagesMenu from "@renderer/components/ui/LanguagesMenu"
 import InstallationsDropdownMenu from "@renderer/features/installations/components/InstallationsDropdownMenu"
 import TasksMenu from "@renderer/components/ui/TasksMenu"
 import { NormalButton } from "@renderer/components/ui/Buttons"
-import { FormButton, FormLinkButton } from "@renderer/components/ui/FormComponents"
+import {
+  ButtonsWrapper,
+  FormBody,
+  FormButton,
+  FormFieldDescription,
+  FormFieldGroup,
+  FormFieldGroupWithDescription,
+  FormGroupWrapper,
+  FormHead,
+  FormInputPassword,
+  FormInputText,
+  FormLabel,
+  FormLinkButton,
+  FromGroup,
+  FromWrapper
+} from "@renderer/components/ui/FormComponents"
+import PopupDialogPanel from "../ui/PopupDialogPanel"
 
 interface MainMenuLinkProps {
   icon: ReactNode
@@ -50,6 +68,14 @@ function MainMenu(): JSX.Element {
   const makeInstallationBackup = useMakeInstallationBackup()
 
   const [seletedInstallation, setSelectedInstallation] = useState<InstallationType | undefined>(undefined)
+
+  // Log In states
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [twofacode, setTwofacode] = useState("")
+
+  const [loggingIn, setLoggingIn] = useState(false)
+  const [logInOpen, setLogInOpen] = useState<boolean>(false)
 
   useEffect(() => {
     const si = config.installations.find((i) => i.id === config.lastUsedInstallation)
@@ -128,16 +154,64 @@ function MainMenu(): JSX.Element {
     }
   }
 
+  async function handleLogin(): Promise<void> {
+    setLoggingIn(true)
+    addNotification(t("features.config.loggingin"), "info")
+
+    // Thanks a lot to https://github.com/scgm0 for teaching me how to login using the Vintage Story Game Account
+    // If you're reading this, make sure to check out MVL https://github.com/scgm0/MVL
+
+    const preLogin = await window.api.netManager.postUrl("https://auth3.vintagestory.at/v2/gamelogin", { email, password })
+
+    if (preLogin["valid"] == 0) {
+      const reason = preLogin["reason"]
+
+      if (reason == "requiretotpcode") {
+        const fullLogin = await window.api.netManager.postUrl("https://auth3.vintagestory.at/v2/gamelogin", { email, password, preLoginToken: preLogin["prelogintoken"], twofacode })
+
+        if (fullLogin["valid"] == 0 && fullLogin["reason"] == "wrongtotpcode") return addNotification(t("features.config.wrongtwofa"), "error")
+
+        saveLogin(fullLogin)
+      } else if (reason == "invalidemailorpassword") {
+        addNotification(t("features.config.invalidEmailPass"), "error")
+      }
+    } else {
+      saveLogin(preLogin)
+    }
+  }
+
+  async function saveLogin(data: object): Promise<void> {
+    const newAccount: AccountType = {
+      email: email,
+      playerName: data["playername"],
+      playerUid: data["uid"],
+      playerEntitlements: data["entitlements"],
+      sessionKey: data["sessionkey"],
+      sessionSignature: data["sessionsignature"],
+      mptoken: data["mptoken"],
+      hostGameServer: data["hasgameserver"]
+    }
+
+    configDispatch({
+      type: CONFIG_ACTIONS.SET_ACCOUNT,
+      payload: newAccount
+    })
+
+    addNotification(t("features.config.loggedin", { user: newAccount.playerName }), "success")
+    setLoggingIn(false)
+    setLogInOpen(false)
+  }
+
   return (
-    <header className="z-99 w-[280px] flex flex-col gap-4 p-2 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 backdrop-blur-sm border-r border-zinc-400/5">
+    <header className="z-99 w-[280px] flex flex-col gap-4 p-2 bg-zinc-950/30 shadow-sm shadow-zinc-950/50 backdrop-blur-sm border-r border-zinc-400/5">
       <div className="flex h-7 shrink-0 gap-2">
         <FormLinkButton to="/config" title={t("features.config.title")} className="shrink-0 w-8 h-8">
           <PiGearDuotone />
         </FormLinkButton>
         {!config.account ? (
-          <FormLinkButton to="/login" type="warn" title={t("features.config.loginTitle")} className="shrink-0 w-8 h-8">
+          <FormButton onClick={() => setLogInOpen(true)} type="warn" title={t("features.config.loginTitle")} className="shrink-0 w-8 h-8">
             <PiUserDuotone />
-          </FormLinkButton>
+          </FormButton>
         ) : (
           <FormButton
             onClick={(e) => {
@@ -205,6 +279,81 @@ function MainMenu(): JSX.Element {
           )}
         </div>
       </div>
+
+      <PopupDialogPanel title={t("features.config.loginTitle")} isOpen={logInOpen} close={() => setLogInOpen(false)} maxWidth={false} bgDark={false}>
+        <FromWrapper className="w-[500px]">
+          <FormGroupWrapper bgDark={false}>
+            <FromGroup>
+              <FormHead>
+                <FormLabel content={t("generic.email")} />
+              </FormHead>
+
+              <FormBody>
+                <FormFieldGroup>
+                  <FormInputText
+                    value={email}
+                    onChange={(e) => {
+                      setEmail(e.target.value)
+                    }}
+                    placeholder={t("generic.email")}
+                    readOnly={loggingIn}
+                  />
+                </FormFieldGroup>
+              </FormBody>
+            </FromGroup>
+
+            <FromGroup>
+              <FormHead>
+                <FormLabel content={t("generic.password")} />
+              </FormHead>
+
+              <FormBody>
+                <FormFieldGroup>
+                  <FormInputPassword
+                    value={password}
+                    onChange={(e) => {
+                      setPassword(e.target.value)
+                    }}
+                    placeholder={t("generic.password")}
+                    readOnly={loggingIn}
+                  />
+                </FormFieldGroup>
+              </FormBody>
+            </FromGroup>
+
+            <FromGroup>
+              <FormHead>
+                <FormLabel content={t("generic.twofacode")} />
+              </FormHead>
+
+              <FormBody>
+                <FormFieldGroupWithDescription>
+                  <FormInputText
+                    value={twofacode}
+                    onChange={(e) => {
+                      setTwofacode(e.target.value)
+                    }}
+                    placeholder={t("generic.twofacode")}
+                    minLength={6}
+                    maxLength={6}
+                    readOnly={loggingIn}
+                  />
+                  <FormFieldDescription content={t("features.config.onlyIfEnabledTwoFA")} />
+                </FormFieldGroupWithDescription>
+              </FormBody>
+            </FromGroup>
+          </FormGroupWrapper>
+
+          <ButtonsWrapper className="text-lg" bgDark={false}>
+            <FormButton onClick={() => setLogInOpen(false)} title={t("generic.goBack")} type="error" className="p-2">
+              <PiXCircleDuotone />
+            </FormButton>
+            <FormButton onClick={handleLogin} title={t("generic.add")} type="success" className="p-2">
+              <PiFloppyDiskBackDuotone />
+            </FormButton>
+          </ButtonsWrapper>
+        </FromWrapper>
+      </PopupDialogPanel>
     </header>
   )
 }

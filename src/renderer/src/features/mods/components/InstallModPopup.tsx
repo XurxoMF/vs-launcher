@@ -68,6 +68,7 @@ function InstallModPopup({
         setDownloadableModToInstall(null)
       }}
       maxWidth={false}
+      bgDark={false}
     >
       <>
         <p>{t("features.mods.installationPopupDesc", { modName: downloadableModToInstall?.name || "MOD NOT FOUND" })}</p>

@@ -9,7 +9,7 @@ import clsx from "clsx"
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
 export function FromWrapper({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
-  return <div className={clsx("mx-auto flex flex-col gap-4 items-start justify-center", className)}>{children}</div>
+  return <div className={clsx("mx-auto flex flex-col gap-4 items-center justify-center", className)}>{children}</div>
 }
 
 /**
@@ -31,15 +31,16 @@ export function FromGroup({ children, className, alignment = "x" }: { children: 
  * @param {object} props - The component props.
  * @param {React.ReactNode} props.children - The content to be wrapped.
  * @param {string} [props.className] - Additional class names for styling.
- * @param {string} [props.title] - The title of the FormGroupWrapper.
+ * @param {boolean} [props.bgDark] - Add or not the darker background.
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
-export function FormGroupWrapper({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
+export function FormGroupWrapper({ children, className, bgDark = true }: { children: React.ReactNode; className?: string; bgDark?: boolean }): JSX.Element {
   return (
     <div
       className={clsx(
         "relative w-full",
-        "before:absolute before:left-0 before:top-0 before:w-full before:h-full before:rounded-md before:backdrop-blur-sm before:bg-zinc-950/25 before:shadow-sm before:shadow-zinc-950/50 before:border before:border-zinc-400/5",
+        bgDark &&
+          "before:absolute before:left-0 before:top-0 before:w-full before:h-full before:rounded-md before:backdrop-blur-sm before:bg-zinc-950/15 before:shadow-sm before:shadow-zinc-950/50 before:border before:border-zinc-400/5",
         className
       )}
     >
