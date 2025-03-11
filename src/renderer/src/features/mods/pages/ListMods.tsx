@@ -220,7 +220,9 @@ function ListMods(): JSX.Element {
         <GridWrapper>
           {modsList.length < 1 ? (
             <div className="flex flex-col items-center justify-center gap-2">
-              <p className="relative p-6 text-center text-2xl">{searching ? t("features.mods.searching") : t("features.mods.noMatchingFilters")}</p>
+              <p className="p-6 text-center text-2xl rounded-sm bg-zinc-950/50 backdrop-blur-xs shadow-sm shadow-zinc-950/50">
+                {searching ? t("features.mods.searching") : t("features.mods.noMatchingFilters")}
+              </p>
             </div>
           ) : (
             <GridGroup key={modsList.length + modsList[0].assetid + modsList[modsList.length - 1].assetid}>
@@ -316,21 +318,19 @@ function ListMods(): JSX.Element {
           )}
         </GridWrapper>
 
-        {modToInstall && (
-          <InstallModPopup
-            modToInstall={modToInstall.modid}
-            setModToInstall={() => setModToInstall(null)}
-            installation={
-              installation && {
-                installation: installation,
-                oldMod: installationInstalledMods.find((iMod) => modToInstall.modidstrs.some((modidstr) => modidstr === iMod.modid))
-              }
+        <InstallModPopup
+          modToInstall={modToInstall?.modid || null}
+          setModToInstall={() => setModToInstall(null)}
+          installation={
+            installation && {
+              installation: installation,
+              oldMod: installationInstalledMods.find((iMod) => modToInstall?.modidstrs.some((modidstr) => modidstr === iMod.modid))
             }
-            onFinishInstallation={() => {
-              triggerGetCompleteInstalledMods()
-            }}
-          />
-        )}
+          }
+          onFinishInstallation={() => {
+            triggerGetCompleteInstalledMods()
+          }}
+        />
       </div>
     </ScrollableContainer>
   )

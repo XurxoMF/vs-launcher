@@ -310,16 +310,19 @@ function ListMods(): JSX.Element {
           </ListWrapper>
         )}
 
-        {installation && modToUpdate !== null && (
-          <InstallModPopup
-            modToInstall={modToUpdate.modid}
-            setModToInstall={() => setModToUpdate(null)}
-            installation={{ installation: installation, oldMod: installedMods.find((iMod) => iMod.modid === modToUpdate.modid) }}
-            onFinishInstallation={() => {
-              triggerGetCompleteInstalledMods()
-            }}
-          />
-        )}
+        <InstallModPopup
+          modToInstall={modToUpdate?.modid || null}
+          setModToInstall={() => setModToUpdate(null)}
+          installation={
+            installation && {
+              installation: installation,
+              oldMod: installedMods.find((iMod) => iMod.modid === modToUpdate?.modid)
+            }
+          }
+          onFinishInstallation={() => {
+            triggerGetCompleteInstalledMods()
+          }}
+        />
 
         <PopupDialogPanel title={t("features.mods.deleteMod")} isOpen={modToDelete !== null} close={() => setModToDelete(null)}>
           <>
