@@ -55,7 +55,11 @@
     "email": "Email",
     "password": "Password",
     "twofacode": "2FA Code",
-    "goToTop": "Go to top"
+    "goToTop": "Go to top",
+    "addIcon": "Add icon",
+    "selectIcon": "Select icon",
+    "icon": "Icon",
+    "iconName": "Icon name"
   },
   "features": {
     "generic": {
@@ -83,13 +87,11 @@
       "gameVersionDownloadDesc": "Downloading VS Version {{version}}!",
       "gameVersionTaskName": "VS Version {{version}}",
       "gameVersionExtractDesc": "Extracting VS Version {{version}}!",
-      "installTitle": "Install a new VS Version",
       "labelStables": "Stables",
       "labelRCs": "Release Candidates",
       "labelPreReleases": "Pre Releases",
       "searchForAGameVersion": "Add an already installed VS Version",
       "missingFolderOrVersion": "You've no folder selected or there is no VS Version installed on the one you've selected!",
-      "lookForAVersion": "Look for a VS Version",
       "versionFound": "VS Version found",
       "versionInstalling": "VS Version {{version}} is installing. Please wait for it to finish before playing!",
       "folderAlreadyInUse": "That folder is already in use!",
@@ -113,10 +115,8 @@
       "folderAlreadyInUse": "That folder is already in use!",
       "installationSuccessfullyAdded": "Installation added successfully!",
       "errorAddingInstallation": "An error has ocurred while adding the Installation!",
-      "addTitle": "Add a new Installation",
       "installationSuccessfullyEdited": "Installation edited succesfully!",
       "errorEditingInstallation": "An error has ocurred while editing the Installation!",
-      "editTitle": "Edit Installation",
       "noInstallationFoundDesc": "The Installation you've selected does not exists!",
       "deleteData": "Delete data",
       "installationSuccessfullyDeleted": "Installation deleted succesfully!",
@@ -130,7 +130,6 @@
       "gameAlreadyRunning": "Already playing that Installation!",
       "editWhilePlaying": "You can't edit an Installation while playing it!",
       "cantDeleteWhileinUse": "You can't delete this Installation while it's in use!",
-      "restoreBackup": "Restore Installation Backup",
       "name": "Name",
       "dataFolder": "Data folder",
       "addNewInstallation": "Add a new Installation",
@@ -268,7 +267,9 @@
       "compressing": "Starting compression: {{compressName}}!",
       "compressed": "Finished compression: {{compressName}}!",
       "compressError": "Error compressing: {{compressName}}!",
-      "folderNotEmpty": "The folder you've selected is not empty! Make sure you've nothing important on there."
+      "folderNotEmpty": "The folder you've selected is not empty! Make sure you've nothing important on there.",
+      "noFileSelected": "No file selected!",
+      "coulndtCopyIcon": "That icon couldn't be copied to the icons folder!"
     },
     "discard": "Discard notification"
   }

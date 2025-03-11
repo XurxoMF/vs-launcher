@@ -12,7 +12,7 @@ declare global {
       logMessage: (mode: ErrorTypes, message: string) => void
       setPreventAppClose: (action: "add" | "remove", id: string, desc: string) => void
       openOnBrowser: (url: string) => void
-      selectFolderDialog: () => Promise<string>
+      selectFolderDialog: (options?: { type?: "file" | "folder"; mode?: "single" | "multi"; extensions?: string[] }) => Promise<string[]>
     }
     appUpdater: {
       onUpdateAvailable: (callback) => void
@@ -42,6 +42,7 @@ declare global {
       onExtractProgress: (callback: ProgressCallback) => void
       onCompressProgress: (callback: ProgressCallback) => void
       changePerms: (paths: string[], perms: number) => void
+      copyToIcons: (path: string, name: string) => Promise<{ status: true; file: string } | { status: false }>
     }
     gameManager: {
       executeGame: (version: GameVersionType, installation: InstallationType, account: AccountType | null) => Promise<boolean>

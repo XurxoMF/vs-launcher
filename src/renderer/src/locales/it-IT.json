@@ -67,7 +67,6 @@
     },
     "installations": {
       "addNewInstallation": "Aggiungi nuova Installazione",
-      "addTitle": "Aggiungi una nuova installazione",
       "areYouSureDelete": "Sei sicuro di voler eliminare questa installazione?",
       "cantDeleteWhileinUse": "Non puoi eliminare questa installazione mentre è in uso!",
       "cantUseDataPath": "Parametro di avvio --dataPath non può essere usato da VS Launcher. Se vuoi usare un'altra cartella cambiala dall'installazione.",
@@ -76,7 +75,6 @@
       "deleteData": "Elimina dati",
       "deleteInstallation": "Elimina installazione",
       "deletingNotReversible": "L'eliminazione non è reversibile quindi, se controlli l'opzione elimina dati, non potrai recuperare i tuoi mondi, dati e altre informazioni. ",
-      "editTitle": "Modifica installazione",
       "editWhilePlaying": "Non puoi modificare un'installazione mentre ci stai giocando!",
       "errorAddingInstallation": "C'è stato un errore durante l'aggiunta dell'installazione!",
       "errorDeletingInstallation": "C'è stato un errore nell'eliminazione dell'installazione!",
@@ -95,7 +93,6 @@
       "noInstallationSelected": "Nessuna installazione selezionata!",
       "noInstallationsFound": "Nessuna installazione trovata!",
       "noInstallationsFoundDesc": "Aggiungine una nuova nella pagina <link />",
-      "restoreBackup": "Recupera il backup dell'installazione",
       "startParams": "Parametri di avvio",
       "startParamsDesc": "Lista di tutti i parametri di avvio disponibili: <link />",
       "startParamsLink": "Wiki di Vintage Story"
@@ -139,9 +136,7 @@
       "installNewVersion": "Installa una nuova Versione",
       "labelGameVersion": "Versione del gioco",
       "labelPreReleases": "Pre Rilascio",
-      "installTitle": "Installa una nuova versione",
       "labelRCs": "Candidate al Rilascio",
-      "lookForAVersion": "Cerca una versione",
       "labelStables": "Stabili",
       "noVersionFoundOnThatFolder": "Nessuna versione trovata nella cartella selezionata!",
       "missingFolderOrVersion": "Non hai selezionato nessuna cartella o non ci sono versioni di gioco installate nella cartella selezionata!",

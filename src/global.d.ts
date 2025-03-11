@@ -39,6 +39,7 @@ declare global {
   type InstallationType = {
     id: string
     name: string
+    icon: string
     path: string
     version: string
     startParams: string
@@ -59,6 +60,7 @@ declare global {
     account: AccountType | null
     installations: InstallationType[]
     gameVersions: GameVersionType[]
+    customIcons: IconType[]
   }
 
   type InstalledModType = {
@@ -168,6 +170,13 @@ declare global {
     tagid: number
     name: string
     color: string
+  }
+
+  type IconType = {
+    id: string
+    name: string
+    icon: string
+    custom?: boolean
   }
 
   declare module "*.png" {

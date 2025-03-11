@@ -203,7 +203,7 @@ function MainMenu(): JSX.Element {
   }
 
   return (
-    <header className="z-99 w-[280px] flex flex-col gap-4 p-2 bg-zinc-950/30 shadow-sm shadow-zinc-950/50 backdrop-blur-sm border-r border-zinc-400/5">
+    <header className="z-99 w-[300px] flex flex-col gap-4 p-2 bg-zinc-950/30 shadow-sm shadow-zinc-950/50 backdrop-blur-sm border-r border-zinc-400/5">
       <div className="flex h-7 shrink-0 gap-2">
         <FormLinkButton to="/config" title={t("features.config.title")} className="shrink-0 w-8 h-8">
           <PiGearDuotone />

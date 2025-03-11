@@ -34,7 +34,8 @@ export const IPC_CHANNELS = {
     DOWNLOAD_PROGRESS: "download-progress",
     EXTRACT_PROGRESS: "extract-progress",
     COMPRESS_PROGRESS: "compress-progress",
-    CHANGE_PERMS: "change-perms"
+    CHANGE_PERMS: "change-perms",
+    COPY_TO_ICONS: "copy-to-icons"
   },
   GAME_MANAGER: {
     EXECUTE_GAME: "execute-game",

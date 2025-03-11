@@ -120,8 +120,8 @@ function RestoreInstallationBackup(): JSX.Element {
             {backups &&
               backups.map((backup) => (
                 <ListItem key={backup.id}>
-                  <div className="w-full h-8 flex gap-2 px-2 py-1 justify-between items-center">
-                    <div className="w-full flex items-center justify-center text-start font-bold">
+                  <div className="w-full h-8 flex gap-2 p-1 justify-between items-center">
+                    <div className="w-full flex items-center justify-center text-start font-bold pl-1">
                       <p className="w-full">{new Date(backup.date).toLocaleString("es")}</p>
                     </div>
 

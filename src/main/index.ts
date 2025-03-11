@@ -83,7 +83,15 @@ app.whenReady().then(async () => {
 
   // Handler for mod icons
   protocol.handle("cachemodimg", (req) => {
-    const srcPath = join(app.getPath("userData"), "Cache", "Images")
+    const srcPath = join(app.getPath("userData"), "Cache", "Images", "Mods")
+    const reqURL = new URL(req.url)
+    const fileToPathURL = pathToFileURL(join(srcPath, reqURL.pathname)).toString()
+    return net.fetch(fileToPathURL)
+  })
+
+  // Handler for custom icons
+  protocol.handle("icons", (req) => {
+    const srcPath = join(app.getPath("userData"), "Icons")
     const reqURL = new URL(req.url)
     const fileToPathURL = pathToFileURL(join(srcPath, reqURL.pathname)).toString()
     return net.fetch(fileToPathURL)

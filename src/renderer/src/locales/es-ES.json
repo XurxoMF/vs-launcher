@@ -34,13 +34,11 @@
       "title": "Bienvenid@ a VS Launcher"
     },
     "installations": {
-      "addTitle": "Añade una nueva Instalación",
       "areYouSureDelete": "¿Estás seguro de que quieres eliminar esta Instalación?",
       "defaultName": "Mi Nueva Instalación",
       "deleteData": "Eliminar datos",
       "deleteInstallation": "Eliminar Instalación",
       "deletingNotReversible": "La eliminación no es reversible, por lo que, si marcas la opción de eliminar datos, no podrás restaurar tus mundos, datos y otra información.",
-      "editTitle": "Editar Instalación",
       "errorAddingInstallation": "¡Ha ocurrido un error al añadir la Instalación!",
       "errorDeletingInstallation": "¡Ha ocurrido un error al eliminar la Instalación!",
       "errorEditingInstallation": "¡Ha ocurrido un error al editar la Instalación!",
@@ -63,7 +61,6 @@
       "startParams": "Parámetros de inicio",
       "startParamsDesc": "Lista de todos los parámetros de inicio disponibles: <link />",
       "startParamsLink": "Wiki de Vintage Story",
-      "restoreBackup": "Restaurar Copia de Seguridad de la Instalación",
       "addNewInstallation": "Añadir una nueva Instalación",
       "dataFolder": "Carpeta de datos",
       "name": "Nombre",
@@ -121,12 +118,10 @@
       "gameVersionDownloadDesc": "¡Descargando la Versión {{version}} de VS!",
       "gameVersionExtractDesc": "¡Extrayendo la Versión {{version}} de VS!",
       "gameVersionTaskName": "Versión {{version}} de VS ",
-      "installTitle": "Instala una nueva Versión de VS",
       "labelGameVersion": "Versión de VS",
       "labelPreReleases": "Prelanzamientos",
       "labelRCs": "Candidatas a estables",
       "labelStables": "Estables",
-      "lookForAVersion": "Busca una Versión de VS",
       "missingFolderOrVersion": "¡No has seleccionado ninguna carpeta o no hay ninguna Versión de VS en la que has seleccionado!",
       "noVersionFoundOnThatFolder": "¡No se encontró ninguna Versión de VS en la carpeta que has seleccionado!",
       "noVersionSelected": "¡No se seleccionó ninguna Versión de VS!",
@@ -249,7 +244,11 @@
     "twofacode": "Código 2FA",
     "password": "Contraseña",
     "email": "Email",
-    "compression": "Compresión"
+    "compression": "Compresión",
+    "addIcon": "Añadir icono",
+    "icon": "Icono",
+    "iconName": "Nombre del icono",
+    "selectIcon": "Seleccionar icono"
   },
   "notifications": {
     "body": {
@@ -268,7 +267,9 @@
       "compressError": "¡Error al comprimir: {{compressName}}!",
       "compressed": "¡Compresión terminada: {{compressName}}!",
       "compressing": "¡Iniciando compresión: {{compressName}}!",
-      "folderNotEmpty": "¡La carpeta que has seleccionado no está vacía! Asegúrate de que no tengas nada importante allí."
+      "folderNotEmpty": "¡La carpeta que has seleccionado no está vacía! Asegúrate de que no tengas nada importante allí.",
+      "coulndtCopyIcon": "¡Ese ícono no se pudo copiar en la carpeta de iconos!",
+      "noFileSelected": "¡No seleccionaste ningún archivo!"
     },
     "discard": "Descartar notificación"
   }

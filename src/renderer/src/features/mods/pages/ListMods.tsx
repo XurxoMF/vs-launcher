@@ -235,8 +235,8 @@ function ListMods(): JSX.Element {
                   }}
                   className="group overflow-hidden"
                 >
-                  <div className="relative w-full aspect-video">
-                    <img src={mod.logo ? `${mod.logo}` : "https://mods.vintagestory.at/web/img/mod-default.png"} alt={mod.name} className="w-full h-full object-cover object-center" />
+                  <div className="relative w-full aspect-[3/2]">
+                    <img src={mod.logo ? `${mod.logo}` : "https://mods.vintagestory.at/web/img/mod-default.png"} alt={mod.name} className="w-full h-full object-cover object-top" />
 
                     <div className="absolute w-full top-0 flex items-center justify-between p-1">
                       <FormButton

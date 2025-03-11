@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import { useTranslation, Trans } from "react-i18next"
-import { Button } from "@headlessui/react"
-import { PiFloppyDiskBackDuotone, PiXCircleDuotone } from "react-icons/pi"
+import { Button, Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react"
+import { PiCaretDownDuotone, PiFloppyDiskBackDuotone, PiPlusCircleDuotone, PiXCircleDuotone } from "react-icons/pi"
 import semver from "semver"
+import clsx from "clsx"
+import { AnimatePresence, motion } from "motion/react"
+
+import { INSTALLATION_ICONS } from "@renderer/utils/installationIcons"
+import { DROPDOWN_MENU_ITEM_VARIANTS, DROPDOWN_MENU_WRAPPER_VARIANTS } from "@renderer/utils/animateVariants"
 
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
@@ -27,6 +32,7 @@ import {
 import { TableBody, TableBodyRow, TableCell, TableHead, TableHeadRow, TableWrapper } from "@renderer/components/ui/Table"
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
 import { LinkButton } from "@renderer/components/ui/Buttons"
+import { AddCustomIconPupup } from "@renderer/components/ui/AddCustomIconPupup"
 
 function EditInslallation(): JSX.Element {
   const { t } = useTranslation()
@@ -38,6 +44,7 @@ function EditInslallation(): JSX.Element {
 
   const [installation, setInstallation] = useState<InstallationType | undefined>(config.installations.find((igv) => igv.id === id))
 
+  const [icon, setIcon] = useState<IconType>(INSTALLATION_ICONS[0])
   const [name, setName] = useState<string>("")
   const [version, setVersion] = useState<GameVersionType>([...config.gameVersions].sort((a, b) => semver.compare(b.version, a.version))[0])
   const [startParams, setStartParams] = useState<string>("")
@@ -46,11 +53,14 @@ function EditInslallation(): JSX.Element {
   const [compressionLevel, setCompressionLevel] = useState<number>(6)
   const [mesaGlThread, setMEsaGlThread] = useState<boolean>(false)
 
+  const [addIcon, setAddIcon] = useState<boolean>(false)
+
   useEffect(() => {
     setInstallation(config.installations.find((igv) => igv.id === id))
   }, [id])
 
   useEffect(() => {
+    setIcon(INSTALLATION_ICONS.find((ii) => ii.id === installation?.icon) ?? config.customIcons.find((ii) => ii.id === installation?.icon) ?? INSTALLATION_ICONS[0])
     setName(installation?.name ?? "")
     setVersion(config.gameVersions.find((gv) => gv.version === installation?.version) ?? config.gameVersions[0])
     setStartParams(installation?.startParams ?? "")
@@ -73,7 +83,10 @@ function EditInslallation(): JSX.Element {
     if (startParams.includes("--dataPath")) return addNotification(t("features.installations.cantUseDataPath"), "error")
 
     try {
-      configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id, updates: { name, version: version.version, startParams, backupsAuto, backupsLimit, compressionLevel, mesaGlThread } } })
+      configDispatch({
+        type: CONFIG_ACTIONS.EDIT_INSTALLATION,
+        payload: { id, updates: { name, icon: icon.id, version: version.version, startParams, backupsAuto, backupsLimit, compressionLevel, mesaGlThread } }
+      })
       addNotification(t("features.installations.installationSuccessfullyEdited"), "success")
       navigate("/installations")
     } catch (error) {
@@ -104,6 +117,84 @@ function EditInslallation(): JSX.Element {
                       <FormFieldDescription content={t("generic.minMaxLength", { min: 5, max: 50 })} />
                     </FormFieldGroupWithDescription>
                   </FormBody>
+                  <Listbox
+                    value={icon}
+                    onChange={(seletedIcon: IconType) => {
+                      setIcon(seletedIcon)
+                    }}
+                  >
+                    {({ open }) => (
+                      <>
+                        <ListboxButton className="w-1/3 h-13 p-1 pr-2 flex items-center justify-between gap-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none text-sm text-start cursor-pointer">
+                          <div className="w-full h-full flex items-center gap-1">
+                            <img src={icon.custom ? `icons:${icon.icon}` : icon.icon} alt={t("generic.icon")} className="h-full aspect-square object-cover rounded-sm" />
+                            <p>{icon.name}</p>
+                          </div>
+                          <PiCaretDownDuotone className={clsx("text-zinc-300 duration-200 shrink-0", open && "rotate-180")} />
+                        </ListboxButton>
+
+                        <AnimatePresence>
+                          {open && (
+                            <ListboxOptions static anchor="bottom" className="w-[var(--button-width)] z-600 translate-y-1 select-none rounded-sm overflow-hidden">
+                              <motion.ul
+                                variants={DROPDOWN_MENU_WRAPPER_VARIANTS}
+                                initial="initial"
+                                animate="animate"
+                                exit="exit"
+                                className="max-h-80 flex flex-col bg-zinc-950/50 backdrop-blur-md border border-zinc-400/5 shadow-sm shadow-zinc-950/50 hover:shadow-none rounded-sm overflow-y-scroll text-sm"
+                              >
+                                <ListboxOption
+                                  onClick={(e) => {
+                                    e.stopPropagation()
+                                    setAddIcon(true)
+                                  }}
+                                  value={icon}
+                                  as={motion.li}
+                                  variants={DROPDOWN_MENU_ITEM_VARIANTS}
+                                  className="w-full h-13 p-1 shrink-0 flex items-center gap-1 overflow-hidden odd:bg-zinc-800/30 even:bg-zinc-950/30 cursor-pointer text-start"
+                                >
+                                  <div className="w-full h-full flex items-center gap-2">
+                                    <span className="h-full aspect-square flex items-center justify-center">
+                                      <PiPlusCircleDuotone className="text-3xl text-zinc-400/25 group-hover:scale-95 duration-200" />
+                                    </span>
+                                    <p>{t("generic.addIcon")}</p>
+                                  </div>
+                                </ListboxOption>
+                                {config.customIcons.map((current) => (
+                                  <ListboxOption
+                                    key={current.id}
+                                    value={current}
+                                    as={motion.li}
+                                    variants={DROPDOWN_MENU_ITEM_VARIANTS}
+                                    className="w-full h-13 p-1 shrink-0 flex items-center gap-1 overflow-hidden odd:bg-zinc-800/30 even:bg-zinc-950/30 cursor-pointer text-start"
+                                  >
+                                    <div className="w-full h-full flex items-center gap-2">
+                                      <img src={`icons:${current.icon}`} alt={t("generic.icon")} className="h-full aspect-square object-cover rounded-sm" />
+                                      <p>{current.name}</p>
+                                    </div>
+                                  </ListboxOption>
+                                ))}
+                                {INSTALLATION_ICONS.map((current) => (
+                                  <ListboxOption
+                                    key={current.id}
+                                    value={current}
+                                    as={motion.li}
+                                    variants={DROPDOWN_MENU_ITEM_VARIANTS}
+                                    className="w-full h-13 p-1 shrink-0 flex items-center gap-1 overflow-hidden odd:bg-zinc-800/30 even:bg-zinc-950/30 cursor-pointer text-start"
+                                  >
+                                    <div className="w-full h-full flex items-center gap-2">
+                                      <img src={current.icon} alt={t("generic.icon")} className="h-full aspect-square object-cover rounded-sm" />
+                                      <p>{current.name}</p>
+                                    </div>
+                                  </ListboxOption>
+                                ))}
+                              </motion.ul>
+                            </ListboxOptions>
+                          )}
+                        </AnimatePresence>
+                      </>
+                    )}
+                  </Listbox>
                 </FromGroup>
 
                 <FromGroup>
@@ -172,7 +263,7 @@ function EditInslallation(): JSX.Element {
                   </FormBody>
                 </FromGroup>
 
-                <FromGroup>
+                <FromGroup className="items-center">
                   <FormHead>
                     <FormLabel content={t("features.backups.automaticBackups")} className="max-h-6" />
                   </FormHead>
@@ -233,7 +324,7 @@ function EditInslallation(): JSX.Element {
                   </FormBody>
                 </FromGroup>
 
-                <FromGroup>
+                <FromGroup className="items-center">
                   <FormHead>
                     <FormLabel content={t("features.installations.mesaGlThread")} className="max-h-6" />
                   </FormHead>
@@ -258,6 +349,8 @@ function EditInslallation(): JSX.Element {
             </>
           )}
         </FromWrapper>
+
+        <AddCustomIconPupup open={addIcon} setOpen={setAddIcon} />
       </div>
     </ScrollableContainer>
   )

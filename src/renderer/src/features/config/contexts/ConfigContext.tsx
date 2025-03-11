@@ -24,7 +24,10 @@ export enum CONFIG_ACTIONS {
   EDIT_GAME_VERSION = "EDIT_GAME_VERSION",
 
   ADD_FAV_MOD = "ADD_FAV_MOD",
-  REMOVE_FAV_MOD = "REMOVE_FAV_MOD"
+  REMOVE_FAV_MOD = "REMOVE_FAV_MOD",
+
+  ADD_CUSTOM_ICON = "ADD_CUSTOM_ICON",
+  DELETE_CUSTOM_ICON = "DELETE_CUSTOM_ICON"
 }
 
 export interface SetConfig {
@@ -96,6 +99,18 @@ export interface DeleteInstallationBackup {
   }
 }
 
+export interface AddCustomIcon {
+  type: CONFIG_ACTIONS.ADD_CUSTOM_ICON
+  payload: IconType
+}
+
+export interface DeleteCustomIcon {
+  type: CONFIG_ACTIONS.DELETE_CUSTOM_ICON
+  payload: {
+    id: string
+  }
+}
+
 export interface EditInslallationBackup {
   type: CONFIG_ACTIONS.EDIT_INSTALLATION_BACKUP
   payload: {
@@ -151,6 +166,8 @@ export type ConfigAction =
   | AddInstallationBackup
   | DeleteInstallationBackup
   | EditInslallationBackup
+  | AddCustomIcon
+  | DeleteCustomIcon
   | AddGameVersion
   | DeleteGameVersion
   | EditGameVersion
@@ -216,6 +233,13 @@ const configReducer = (config: ConfigType, action: ConfigAction): ConfigType => 
             : installation
         )
       }
+    case CONFIG_ACTIONS.ADD_CUSTOM_ICON:
+      return { ...config, customIcons: [...config.customIcons, action.payload] }
+    case CONFIG_ACTIONS.DELETE_CUSTOM_ICON:
+      return {
+        ...config,
+        customIcons: config.customIcons.filter((customIcon) => customIcon.id !== action.payload.id)
+      }
     case CONFIG_ACTIONS.ADD_GAME_VERSION:
       return { ...config, gameVersions: [action.payload, ...config.gameVersions] }
     case CONFIG_ACTIONS.DELETE_GAME_VERSION:
@@ -252,7 +276,8 @@ export const initialState: ConfigType = {
   account: null,
   installations: [],
   gameVersions: [],
-  favMods: []
+  favMods: [],
+  customIcons: []
 }
 
 interface ConfigContextType {

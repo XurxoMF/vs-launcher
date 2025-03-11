@@ -10,9 +10,10 @@ import { logMessage } from "@src/utils/logManager"
  * 1.2: 1.1.0 -> 1.2.3
  * 1.3: 1.3.0 -> 1.3.2
  * 1.4: 1.4.0
+ * 1.5: 1.4.1
  */
 const defaultConfig: ConfigType = {
-  version: 1.4,
+  version: 1.5,
   lastUsedInstallation: null,
   defaultInstallationsFolder: join(app.getPath("appData"), "VSLInstallations"),
   defaultVersionsFolder: join(app.getPath("appData"), "VSLGameVersions"),
@@ -20,12 +21,14 @@ const defaultConfig: ConfigType = {
   account: null,
   installations: [],
   gameVersions: [],
-  favMods: []
+  favMods: [],
+  customIcons: []
 }
 
 const defaultInstallation: InstallationType = {
   id: "",
   name: "",
+  icon: "",
   path: "",
   version: "",
   startParams: "",
@@ -96,6 +99,7 @@ function ensureConfigProperties(config: ConfigType): ConfigType {
   const installations: InstallationType[] = config.installations.map((installation) => ({
     id: installation.id ?? defaultInstallation.id,
     name: installation.name ?? defaultInstallation.name,
+    icon: installation.icon ?? defaultInstallation.icon,
     path: installation.path ?? defaultInstallation.path,
     version: installation.version ?? defaultInstallation.version,
     startParams: installation.startParams ?? defaultInstallation.startParams,
@@ -113,6 +117,8 @@ function ensureConfigProperties(config: ConfigType): ConfigType {
     path: gameVersion.path ?? defaultGameVersion.path
   }))
 
+  const customIcons: IconType[] = config.customIcons.filter((icon) => icon.id && icon.id.length > 0 && icon.icon && icon.icon.endsWith(".png") && icon.name && icon.name.length > 0)
+
   const fixedConfig: ConfigType = {
     version: !config.version || config.version < defaultConfig.version ? defaultConfig.version : config.version,
     lastUsedInstallation: config.lastUsedInstallation ?? defaultConfig.lastUsedInstallation,
@@ -122,7 +128,8 @@ function ensureConfigProperties(config: ConfigType): ConfigType {
     account: config.account ?? defaultConfig.account,
     installations,
     gameVersions,
-    favMods: config.favMods ?? defaultConfig.favMods
+    favMods: config.favMods ?? defaultConfig.favMods,
+    customIcons
   }
 
   return fixedConfig

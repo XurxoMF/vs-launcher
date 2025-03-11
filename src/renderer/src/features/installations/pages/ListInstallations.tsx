@@ -14,6 +14,7 @@ import PopupDialogPanel from "@renderer/components/ui/PopupDialogPanel"
 import { FormButton } from "@renderer/components/ui/FormComponents"
 import { LinkButton, NormalButton } from "@renderer/components/ui/Buttons"
 import { ThinSeparator } from "@renderer/components/ui/ListSeparators"
+import { INSTALLATION_ICONS } from "@renderer/utils/installationIcons"
 
 function ListInslallations(): JSX.Element {
   const { t } = useTranslation()
@@ -58,12 +59,26 @@ function ListInslallations(): JSX.Element {
           <ListGroup>
             <ListItem className="group">
               <LinkButton to="/installations/add" title={t("features.installations.addNewInstallation")} className="w-full h-12">
-                <PiPlusCircleDuotone className="text-2xl text-zinc-400/60 group-hover:scale-95 duration-200" />
+                <PiPlusCircleDuotone className="text-3xl text-zinc-400/25 group-hover:scale-95 duration-200" />
               </LinkButton>
             </ListItem>
             {config.installations.map((installation) => (
               <ListItem key={installation.id}>
-                <div className="h-16 flex gap-2 px-2 py-1 justify-between items-center whitespace-nowrap">
+                <div className="h-16 flex gap-2 p-1 justify-between items-center whitespace-nowrap">
+                  <img
+                    src={
+                      INSTALLATION_ICONS.some((ii) => ii.id === installation.icon)
+                        ? INSTALLATION_ICONS.find((ii) => ii.id === installation.icon)?.icon
+                        : config.customIcons.some((ii) => ii.id === installation.icon)
+                          ? `icons:${config.customIcons.find((ii) => ii.id === installation.icon)?.icon}`
+                          : INSTALLATION_ICONS[0].icon
+                    }
+                    alt={t("generic.icon")}
+                    className="h-full aspect-square object-cover rounded-sm"
+                  />
+
+                  <ThinSeparator />
+
                   <div className="w-full flex flex-col items-start justify-center gap-1 overflow-hidden">
                     <div className="w-full flex gap-1 items-center justify-start">
                       <p className="font-bold">{installation.name}</p>

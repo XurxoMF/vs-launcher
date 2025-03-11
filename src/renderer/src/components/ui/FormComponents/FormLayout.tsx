@@ -58,7 +58,7 @@ export function FormGroupWrapper({ children, className, bgDark = true }: { child
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
 export function FormHead({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
-  return <div className={clsx("relative w-1/5 flex flex-col gap-2", className)}>{children}</div>
+  return <div className={clsx("relative w-1/5 flex flex-col gap-2 shrink-0", className)}>{children}</div>
 }
 
 /**

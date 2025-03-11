@@ -47,12 +47,12 @@ function ListVersions(): JSX.Element {
             <div className="flex gap-2">
               <ListItem className="group">
                 <LinkButton to="/versions/add" title={t("features.versions.installNewVersion")} className="w-full h-8">
-                  <PiPlusCircleDuotone className="text-xl text-zinc-400/60 group-hover:scale-95 duration-200" />
+                  <PiPlusCircleDuotone className="text-xl text-zinc-400/25 group-hover:scale-95 duration-200" />
                 </LinkButton>
               </ListItem>
               <ListItem className="group">
                 <LinkButton to="/versions/look-for-a-version" title={t("features.versions.searchForAGameVersion")} className="w-full h-8">
-                  <PiMagnifyingGlassDuotone className="text-xl text-zinc-400/60 group-hover:scale-95 duration-200" />
+                  <PiMagnifyingGlassDuotone className="text-xl text-zinc-400/25 group-hover:scale-95 duration-200" />
                 </LinkButton>
               </ListItem>
             </div>
@@ -61,8 +61,8 @@ function ListVersions(): JSX.Element {
               .sort((a, b) => semver.rcompare(a.version, b.version))
               .map((gv) => (
                 <ListItem key={gv.version}>
-                  <div className="w-full h-8 flex gap-2 px-2 py-1 justify-between items-center">
-                    <div className="w-full flex items-center justify-center text-start font-bold">
+                  <div className="w-full h-8 flex gap-2 p-1 justify-between items-center">
+                    <div className="w-full flex items-center justify-center text-start font-bold pl-1">
                       <p className="w-full">{gv.version}</p>
                     </div>
 

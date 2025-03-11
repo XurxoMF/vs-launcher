@@ -205,3 +205,16 @@ ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.CHANGE_PERMS, async (_event, paths: st
 
   return Promise.reject(true)
 })
+
+ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.COPY_TO_ICONS, async (_event, path: string, name: string): Promise<{ status: true; file: string } | { status: false }> => {
+  try {
+    const dest = join(app.getPath("userData"), "Icons")
+    const file = `${name}.png`
+    const filePath = join(dest, file)
+    fse.ensureDirSync(dest)
+    fse.copyFileSync(path, filePath)
+    return { status: true, file }
+  } catch (err) {
+    return { status: false }
+  }
+})
