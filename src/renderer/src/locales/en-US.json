@@ -96,7 +96,7 @@
       "versionInstalling": "VS Version {{version}} is installing. Please wait for it to finish before playing!",
       "folderAlreadyInUse": "That folder is already in use!",
       "noVersionsFoundDesc": "Install a new one on the <link /> page!",
-      "versionDeleting": "That VS Version is been deleted!",
+      "versionDeleting": "That VS Version is being deleted!",
       "versionPlaying": "You're already playing that VS Version!",
       "deleteWhilePlaying": "You can't delete a VS Version while you're playing it!",
       "installNewVersion": "Install a new VS Version",
