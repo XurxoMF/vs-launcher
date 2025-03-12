@@ -55,7 +55,11 @@
     "email": "E-mail",
     "password": "Mot de passe",
     "twofacode": "Code 2FA",
-    "goToTop": "Haut de la page"
+    "goToTop": "Haut de la page",
+    "addIcon": "Ajouter l'icône",
+    "selectIcon": "Sélectionner l'icône",
+    "icon": "Icône",
+    "iconName": "Nom de l'icône"
   },
   "features": {
     "generic": {
@@ -263,7 +267,9 @@
       "compressing": "Compression en cours : {{compressName}} !",
       "compressed": "Compression terminée : {{compressName}} !",
       "compressError": "Erreur lors de la compression : {{compressName}} !",
-      "folderNotEmpty": "Le dossier que vous avez sélectionné n'est pas vide ! Assurez-vous qu'il n'y a rien d'important dedans."
+      "folderNotEmpty": "Le dossier que vous avez sélectionné n'est pas vide ! Assurez-vous qu'il n'y a rien d'important dedans.",
+      "noFileSelected": "Pas de fichier sélectionné !",
+      "coulndtCopyIcon": "L'icône n'a pas pu être copiée dans le dossier des icônes !"
     },
     "discard": "Ignorer la notification"
   }
