@@ -28,7 +28,7 @@ This page is the Hall of Fame with the name of all the contributors this project
 * [**BradyThe**](https://github.com/BradyThe)**,** [**GrimFred**](https://github.com/GrimFred) - German
 * [**bruno-cabrita**](https://github.com/bruno-cabrita) - Portuguese
 * **Dennisjeee** - Dutch (Netherlands)
-* [**Runo Hawk**](https://github.com/RunoHawk), [**Mateusz Pawłowski**](https://github.com/zsuatem) **-** Polish
+* [**Runo Hawk**](https://github.com/RunoHawk), [**Zsuatem**](https://github.com/zsuatem) **-** Polish
 * [**Pingoda**](https://github.com/Pingoda) - Italian
 * **magyar** - Hungarian
 
