@@ -117,7 +117,9 @@ function ensureConfigProperties(config: ConfigType): ConfigType {
     path: gameVersion.path ?? defaultGameVersion.path
   }))
 
-  const customIcons: IconType[] = config.customIcons.filter((icon) => icon.id && icon.id.length > 0 && icon.icon && icon.icon.endsWith(".png") && icon.name && icon.name.length > 0)
+  const customIcons: IconType[] = !config.customIcons
+    ? defaultConfig.customIcons
+    : config.customIcons.filter((icon) => icon.id && icon.id.length > 0 && icon.icon && icon.icon.endsWith(".png") && icon.name && icon.name.length > 0)
 
   const fixedConfig: ConfigType = {
     version: !config.version || config.version < defaultConfig.version ? defaultConfig.version : config.version,
