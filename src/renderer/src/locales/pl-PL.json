@@ -244,7 +244,11 @@
     "updated": "Zaktualizowany",
     "versions": "Wersje",
     "waitingForChanges": "Oczekiwanie na zmiany",
-    "goToTop": "Na początek"
+    "goToTop": "Na początek",
+    "addIcon": "Dodaj ikonę",
+    "icon": "Ikona",
+    "selectIcon": "Wybierz ikonę",
+    "iconName": "Nazwa ikony"
   },
   "notifications": {
     "body": {
@@ -263,7 +267,9 @@
       "missingFields": "Wypełnij wszystkie pola!",
       "updateAvailable": "Nowa aktualizacja dostępna! Pobieranie...",
       "updateDownloaded": "Aktualizacja została pobrana pomyślnie! Uruchom ponownie VS Launcher, aby dokończyć aktualizację!",
-      "folderNotEmpty": "Wybrany folder nie jest pusty! Upewnij się, że nie ma tam nic ważnego."
+      "folderNotEmpty": "Wybrany folder nie jest pusty! Upewnij się, że nie ma tam nic ważnego.",
+      "noFileSelected": "Nie wybrano pliku!",
+      "coulndtCopyIcon": "Ta ikona nie mogła zostać skopiowana do folderu ikon!"
     },
     "discard": "Wyczyść powiadomienia"
   }
