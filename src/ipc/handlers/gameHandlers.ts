@@ -9,9 +9,15 @@ import { IPC_CHANNELS } from "@src/ipc/ipcChannels"
 ipcMain.handle(IPC_CHANNELS.GAME_MANAGER.EXECUTE_GAME, async (_event, version: GameVersionType, installation: InstallationType, account: AccountType | null): Promise<boolean> => {
   logMessage("info", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [EXECUTE_GAME] Trying to run Vintage Story ${version.version} from ${version.path} on ${installation.path}.`)
 
+  const processEnv = installation.envVars.split(",").reduce((acc, entry) => {
+    const [key, value] = entry.trim().split("=")
+    if (key && value) acc[key] = value
+    return acc
+  }, {})
+
   let command: string
   let params: string[]
-  let env: NodeJS.ProcessEnv = { ...process.env }
+  let env: NodeJS.ProcessEnv = { ...process.env, ...processEnv }
 
   if (os.platform() === "linux") {
     logMessage("info", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [EXECUTE_GAME] Linux platform detected.`)

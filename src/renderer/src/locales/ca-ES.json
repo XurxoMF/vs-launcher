@@ -134,7 +134,10 @@
       "dataFolder": "Carpeta de dades",
       "addNewInstallation": "Afegir nova instal·lació",
       "mesaGlThread": "mesa_glthread",
-      "mesaGlThreadDesc": "Permetre que el joc s'executi amb mesa_glthread. Això pot millorar el rendiment del joc en alguns sistemes Linux."
+      "mesaGlThreadDesc": "Permetre que el joc s'executi amb mesa_glthread. Això pot millorar el rendiment del joc en alguns sistemes Linux.",
+      "envVars": "Variables de entorno",
+      "envVarsDesc": "Lista de variables de entorno separadas por ,",
+      "envVarsPlaceholder": "EN_1=algo, ENV_2=otroalgo"
     },
     "mods": {
       "modsCount": "{{count}} mods",

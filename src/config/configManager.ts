@@ -38,7 +38,8 @@ const defaultInstallation: InstallationType = {
   backups: [],
   lastTimePlayed: -1,
   totalTimePlayed: 0,
-  mesaGlThread: false
+  mesaGlThread: false,
+  envVars: ""
 }
 
 const defaultGameVersion: GameVersionType = {
@@ -109,7 +110,8 @@ function ensureConfigProperties(config: ConfigType): ConfigType {
     backups: installation.backups ?? defaultInstallation.backups,
     lastTimePlayed: installation.lastTimePlayed ?? defaultInstallation.lastTimePlayed,
     totalTimePlayed: installation.totalTimePlayed ?? defaultInstallation.totalTimePlayed,
-    mesaGlThread: installation.mesaGlThread ?? defaultInstallation.mesaGlThread
+    mesaGlThread: installation.mesaGlThread ?? defaultInstallation.mesaGlThread,
+    envVars: installation.envVars ?? defaultInstallation.envVars
   }))
 
   const gameVersions: GameVersionType[] = config.gameVersions.map((gameVersion) => ({

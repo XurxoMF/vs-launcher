@@ -51,7 +51,8 @@ function EditInslallation(): JSX.Element {
   const [backupsLimit, setBackupsLimit] = useState<number>(0)
   const [backupsAuto, setBackupsAuto] = useState<boolean>(false)
   const [compressionLevel, setCompressionLevel] = useState<number>(6)
-  const [mesaGlThread, setMEsaGlThread] = useState<boolean>(false)
+  const [mesaGlThread, setMesaGlThread] = useState<boolean>(false)
+  const [envVars, setEnvVars] = useState<string>("")
 
   const [addIcon, setAddIcon] = useState<boolean>(false)
 
@@ -67,7 +68,8 @@ function EditInslallation(): JSX.Element {
     setBackupsLimit(installation?.backupsLimit ?? 0)
     setBackupsAuto(installation?.backupsAuto ?? false)
     setCompressionLevel(installation?.compressionLevel ?? 6)
-    setMEsaGlThread(installation?.mesaGlThread ?? false)
+    setMesaGlThread(installation?.mesaGlThread ?? false)
+    setEnvVars(installation?.envVars ?? "")
   }, [installation])
 
   const handleEditInstallation = async (): Promise<void> => {
@@ -85,7 +87,7 @@ function EditInslallation(): JSX.Element {
     try {
       configDispatch({
         type: CONFIG_ACTIONS.EDIT_INSTALLATION,
-        payload: { id, updates: { name, icon: icon.id, version: version.version, startParams, backupsAuto, backupsLimit, compressionLevel, mesaGlThread } }
+        payload: { id, updates: { name, icon: icon.id, version: version.version, startParams, backupsAuto, backupsLimit, compressionLevel, mesaGlThread, envVars } }
       })
       addNotification(t("features.installations.installationSuccessfullyEdited"), "success")
       navigate("/installations")
@@ -331,8 +333,27 @@ function EditInslallation(): JSX.Element {
 
                   <FormBody>
                     <FormFieldGroupWithDescription alignment="x">
-                      <FormToggle title={t("features.installations.mesaGlThreadDesc")} value={mesaGlThread} onChange={setMEsaGlThread} />
+                      <FormToggle title={t("features.installations.mesaGlThreadDesc")} value={mesaGlThread} onChange={setMesaGlThread} />
                       <FormFieldDescription content={t("features.installations.mesaGlThreadDesc")} />
+                    </FormFieldGroupWithDescription>
+                  </FormBody>
+                </FromGroup>
+
+                <FromGroup>
+                  <FormHead>
+                    <FormLabel content={t("features.installations.envVars")} />
+                  </FormHead>
+
+                  <FormBody>
+                    <FormFieldGroupWithDescription>
+                      <FormInputText
+                        value={envVars}
+                        onChange={(e) => {
+                          setEnvVars(e.target.value)
+                        }}
+                        placeholder={t("features.installations.envVarsPlaceholder")}
+                      />
+                      <FormFieldDescription content={t("features.installations.envVarsDesc")} />
                     </FormFieldGroupWithDescription>
                   </FormBody>
                 </FromGroup>

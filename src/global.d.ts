@@ -50,6 +50,7 @@ declare global {
     lastTimePlayed: number
     totalTimePlayed: number
     mesaGlThread: boolean
+    envVars: string
     _modsCount?: number
     _playing?: boolean
     _backuping?: boolean

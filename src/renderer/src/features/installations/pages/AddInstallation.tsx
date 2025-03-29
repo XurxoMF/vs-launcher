@@ -44,7 +44,7 @@ function AddInslallation(): JSX.Element {
 
   const [icon, setIcon] = useState<IconType>(INSTALLATION_ICONS[0])
   const [name, setName] = useState<string>(t("features.installations.defaultName"))
-  const [folder, setFolder] = useState<string>("")
+  const [path, setPath] = useState<string>("")
   const [folderByUser, setFolderByUser] = useState<boolean>(false)
   const [version, setVersion] = useState<GameVersionType>([...config.gameVersions].sort((a, b) => semver.compare(b.version, a.version))[0])
   const [startParams, setStartParams] = useState<string>("")
@@ -52,21 +52,22 @@ function AddInslallation(): JSX.Element {
   const [backupsAuto, setBackupsAuto] = useState<boolean>(false)
   const [compressionLevel, setCompressionLevel] = useState<number>(6)
   const [mesaGlThread, setMEsaGlThread] = useState<boolean>(false)
+  const [envVars, setEnvVars] = useState<string>("")
 
   const [addIcon, setAddIcon] = useState<boolean>(false)
 
   useEffect(() => {
     ;(async (): Promise<void> => {
-      if (name && !folderByUser) setFolder(await window.api.pathsManager.formatPath([config.defaultInstallationsFolder, name.replace(/[^a-zA-Z0-9]/g, "-")]))
+      if (name && !folderByUser) setPath(await window.api.pathsManager.formatPath([config.defaultInstallationsFolder, name.replace(/[^a-zA-Z0-9]/g, "-")]))
     })()
   }, [name])
 
   const handleAddInstallation = async (): Promise<void> => {
-    if (!name || !folder || !version || !backupsLimit || backupsAuto === undefined) return addNotification(t("notifications.body.missingFields"), "error")
+    if (!name || !path || !version || !backupsLimit || backupsAuto === undefined) return addNotification(t("notifications.body.missingFields"), "error")
 
     if (name.length < 5 || name.length > 50) return addNotification(t("features.installations.installationNameMinMaxCharacters", { min: 5, max: 50 }), "error")
 
-    if (folder === config.backupsFolder || config.installations.some((i) => i.path === folder) || config.gameVersions.some((gv) => gv.path === folder))
+    if (path === config.backupsFolder || config.installations.some((i) => i.path === path) || config.gameVersions.some((gv) => gv.path === path))
       return addNotification(t("features.installations.folderAlreadyInUse"), "error")
 
     if (startParams.includes("--dataPath")) return addNotification(t("features.installations.cantUseDataPath"), "error")
@@ -76,7 +77,7 @@ function AddInslallation(): JSX.Element {
         id: uuidv4(),
         name,
         icon: icon.id,
-        path: folder,
+        path,
         version: version.version,
         startParams,
         backupsLimit,
@@ -86,11 +87,12 @@ function AddInslallation(): JSX.Element {
         lastTimePlayed: -1,
         totalTimePlayed: 0,
         mesaGlThread,
+        envVars,
         _modsCount: 0
       }
 
       configDispatch({ type: CONFIG_ACTIONS.ADD_INSTALLATION, payload: newInstallation })
-      window.api.pathsManager.ensurePathExists(folder)
+      window.api.pathsManager.ensurePathExists(path)
       addNotification(t("features.installations.installationSuccessfullyAdded"), "success")
       navigate("/installations")
     } catch (error) {
@@ -261,7 +263,7 @@ function AddInslallation(): JSX.Element {
                       if (path && path.length > 0 && path[0].length > 0) {
                         if (!(await window.api.pathsManager.checkPathEmpty(path[0]))) addNotification(t("notifications.body.folderNotEmpty"), "warning")
 
-                        setFolder(path[0])
+                        setPath(path[0])
                         setFolderByUser(true)
                       }
                     }}
@@ -270,7 +272,7 @@ function AddInslallation(): JSX.Element {
                   >
                     <PiMagnifyingGlassDuotone />
                   </FormButton>
-                  <FormInputText placeholder={t("features.installations.installationFolder")} value={folder} onChange={(e) => setFolder(e.target.value)} minLength={1} className="w-full" />
+                  <FormInputText placeholder={t("features.installations.installationFolder")} value={path} onChange={(e) => setPath(e.target.value)} minLength={1} className="w-full" />
                 </FormFieldGroup>
               </FormBody>
             </FromGroup>
@@ -377,6 +379,25 @@ function AddInslallation(): JSX.Element {
                 <FormFieldGroupWithDescription alignment="x">
                   <FormToggle title={t("features.installations.mesaGlThreadDesc")} value={mesaGlThread} onChange={setMEsaGlThread} />
                   <FormFieldDescription content={t("features.installations.mesaGlThreadDesc")} />
+                </FormFieldGroupWithDescription>
+              </FormBody>
+            </FromGroup>
+
+            <FromGroup>
+              <FormHead>
+                <FormLabel content={t("features.installations.envVars")} />
+              </FormHead>
+
+              <FormBody>
+                <FormFieldGroupWithDescription>
+                  <FormInputText
+                    value={envVars}
+                    onChange={(e) => {
+                      setEnvVars(e.target.value)
+                    }}
+                    placeholder={t("features.installations.envVarsPlaceholder")}
+                  />
+                  <FormFieldDescription content={t("features.installations.envVarsDesc")} />
                 </FormFieldGroupWithDescription>
               </FormBody>
             </FromGroup>

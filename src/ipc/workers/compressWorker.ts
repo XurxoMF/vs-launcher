@@ -31,7 +31,7 @@ try {
   }
 
   archive.on("progress", ({ entries }) => {
-    const progress = Math.round((entries.processed / totalFiles) * 100)
+    const progress = Math.floor((entries.processed / totalFiles) * 100)
     if (progress > lastReportedProgress) {
       lastReportedProgress = progress
       parentPort?.postMessage({
