@@ -179,8 +179,8 @@
       "updatesAvailableInstallation_many": "The selected Installation has {{count}} Mods with available updates! Click here to see them!",
       "updatesAvailableInstallation_other": "The selected Installation has {{count}} Mods with available updates! Click here to see them!",
       "worksOnTheVersion": "Author tagged it as compatible with your selected Vintage Story Version!",
-      "shouldWorkOnTheVersion": "Author didn't tagged it as compatible but there is a 95% chance it will work on the selected Vintage Story Version!",
-      "probablyDontWorkOnTheVersion": "Author didn't tagged it as compatible and there is a 90% chance it will not work on the selected Vintage Story Version!",
+      "shouldWorkOnTheVersion": "Author didn't tag it as compatible but there is a 95% chance that it will work on the selected Vintage Story Version!",
+      "probablyDontWorkOnTheVersion": "Author didn't tag it as compatible and there is a 90% chance that it will not work on the selected Vintage Story Version!",
       "listWithIncompatibleUpdatesTitle": "Mods with incompatible updates",
       "modsWithIncompatibleUpdatesDescription": "The next Mods have available updates that are 90% incompatible with your selected Vintage Story Version!",
       "cantUpdateWhileinUse": "You can't update a Mod while it's in use!"
@@ -197,7 +197,7 @@
       "wrongtwofa": "Wrong 2FA code!",
       "invalidEmailPass": "Invalid email or password!",
       "loggedin": "Logged in as {{user}}!",
-      "onlyIfEnabledTwoFA": "Fill this field ony if you have 2FA enabled!"
+      "onlyIfEnabledTwoFA": "Fill this field only if you have 2FA enabled!"
     },
     "backups": {
       "backupInProgress": "There is a backup already in progress!",
