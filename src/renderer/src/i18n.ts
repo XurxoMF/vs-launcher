@@ -13,7 +13,6 @@ import nlNL from "@renderer/locales/nl-NL.json"
 import plPL from "@renderer/locales/pl-PL.json"
 import itIT from "@renderer/locales/it-IT.json"
 import huHU from "@renderer/locales/hu-HU.json"
-import caES from "@renderer/locales/ca-ES.json"
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -28,8 +27,7 @@ i18n.use(initReactI18next).init({
     "nl-NL": { translation: nlNL, name: "Dutch (Netherlands)", credits: "by Dennisjeee" },
     "pl-PL": { translation: plPL, name: "Polski", credits: "by Runo Hawk, Zsuatem" },
     "it-IT": { translation: itIT, name: "Italiano", credits: "by Pingoda" },
-    "hu-HU": { trasnlation: huHU, name: "Magyar", credits: "by dobisan" },
-    "ca-ES": { translation: caES, name: "Català", credits: "by Janeator" }
+    "hu-HU": { trasnlation: huHU, name: "Magyar", credits: "by dobisan" }
   },
   lng: "en-US",
   fallbackLng: "en-US"
