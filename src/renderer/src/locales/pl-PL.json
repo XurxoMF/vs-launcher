@@ -107,7 +107,10 @@
       "dataFolder": "Folder danych",
       "name": "Nazwa",
       "mesaGlThread": "mesa_glthread",
-      "mesaGlThreadDesc": "Włącz, aby uruchomić grę z mesa_glthread. Może to zwiększyć wydajność w niektórych systemach Linux."
+      "mesaGlThreadDesc": "Włącz, aby uruchomić grę z mesa_glthread. Może to zwiększyć wydajność w niektórych systemach Linux.",
+      "envVars": "Zmienne ENV",
+      "envVarsDesc": "Lista zmiennych ENV oddzielonych znakiem ,",
+      "envVarsPlaceholder": "ENV_1=coś, ENV_2=cośinnego"
     },
     "mods": {
       "modsCount": "{{count}} modów",
