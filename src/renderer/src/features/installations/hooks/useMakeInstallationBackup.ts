@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid"
 
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
+import { useCleanFolderName } from "@renderer/hooks/useCleanFolderName"
 import { useTaskContext } from "@renderer/contexts/TaskManagerContext"
 
 export function useMakeInstallationBackup(): (installationId: string) => Promise<boolean> {
@@ -10,6 +11,7 @@ export function useMakeInstallationBackup(): (installationId: string) => Promise
   const { addNotification } = useNotificationsContext()
   const { config, configDispatch } = useConfigContext()
   const { startCompress } = useTaskContext()
+  const cleanFolderName = useCleanFolderName()
 
   /**
    * Make a backup of the selected Installation.
@@ -53,10 +55,7 @@ export function useMakeInstallationBackup(): (installationId: string) => Promise
           const backupToDelete = installation.backups[backupsLength - 1]
           const res = await window.api.pathsManager.deletePath(backupToDelete.path)
           if (!res) throw new Error("There was an error deleting old backups!")
-          configDispatch({
-            type: CONFIG_ACTIONS.DELETE_INSTALLATION_BACKUP,
-            payload: { id: installation.id, backupId: backupToDelete.id }
-          })
+          configDispatch({ type: CONFIG_ACTIONS.DELETE_INSTALLATION_BACKUP, payload: { id: installation.id, backupId: backupToDelete.id } })
           backupsLength--
           window.api.utils.logMessage(
             "info",
@@ -65,9 +64,11 @@ export function useMakeInstallationBackup(): (installationId: string) => Promise
         }
 
         const backupDate = Date.now()
+        const cleanInstallationName = await cleanFolderName({ folderName: installation.name })
+        const cleanDateName = await cleanFolderName({ folderName: backupDate.toLocaleString("es") })
 
-        const fileName = `${installation.name.replace(/[^a-zA-Z0-9]/g, "-")}_${backupDate.toLocaleString("es").replace(/[^a-zA-Z0-9]/g, "-")}.zip`
-        const backupPath = await window.api.pathsManager.formatPath([config.backupsFolder, "Installations", installation.name.replace(/[^a-zA-Z0-9]/g, "-")])
+        const fileName = `${cleanInstallationName}_${cleanDateName}.zip`
+        const backupPath = await window.api.pathsManager.formatPath([config.backupsFolder, "Installations", cleanInstallationName])
         const outBackupPath = await window.api.pathsManager.formatPath([backupPath, fileName])
 
         await startCompress(
@@ -80,10 +81,7 @@ export function useMakeInstallationBackup(): (installationId: string) => Promise
           (status) => {
             if (!status) throw new Error("Error compressing installation!")
 
-            configDispatch({
-              type: CONFIG_ACTIONS.ADD_INSTALLATION_BACKUP,
-              payload: { id: installation.id, backup: { date: backupDate, id: uuidv4(), path: outBackupPath } }
-            })
+            configDispatch({ type: CONFIG_ACTIONS.ADD_INSTALLATION_BACKUP, payload: { id: installation.id, backup: { date: backupDate, id: uuidv4(), path: outBackupPath } } })
           },
           installation.compressionLevel
         )

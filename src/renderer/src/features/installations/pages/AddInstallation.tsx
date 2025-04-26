@@ -12,6 +12,7 @@ import { INSTALLATION_ICONS } from "@renderer/utils/installationIcons"
 
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
+import { useCleanFolderName } from "@renderer/hooks/useCleanFolderName"
 
 import {
   FormBody,
@@ -41,6 +42,7 @@ function AddInslallation(): JSX.Element {
   const { addNotification } = useNotificationsContext()
   const { config, configDispatch } = useConfigContext()
   const navigate = useNavigate()
+  const cleanFolderName = useCleanFolderName()
 
   const [icon, setIcon] = useState<IconType>(INSTALLATION_ICONS[0])
   const [name, setName] = useState<string>(t("features.installations.defaultName"))
@@ -58,7 +60,7 @@ function AddInslallation(): JSX.Element {
 
   useEffect(() => {
     ;(async (): Promise<void> => {
-      if (name && !folderByUser) setPath(await window.api.pathsManager.formatPath([config.defaultInstallationsFolder, name.replace(/[^a-zA-Z0-9]/g, "-")]))
+      if (name && !folderByUser) setPath(await window.api.pathsManager.formatPath([config.defaultInstallationsFolder, await cleanFolderName({ folderName: name })]))
     })()
   }, [name])
 
