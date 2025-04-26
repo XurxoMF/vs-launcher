@@ -67,7 +67,7 @@ function MainMenu(): JSX.Element {
 
   const makeInstallationBackup = useMakeInstallationBackup()
 
-  const [seletedInstallation, setSelectedInstallation] = useState<InstallationType | undefined>(undefined)
+  const [selectedInstallation, setSelectedInstallation] = useState<InstallationType | undefined>(undefined)
 
   // Log In states
   const [email, setEmail] = useState("")
@@ -83,39 +83,14 @@ function MainMenu(): JSX.Element {
   }, [config.lastUsedInstallation, config.installations])
 
   const GROUP_1: MainMenuLinkProps[] = [
-    {
-      icon: <PiHouseLineDuotone />,
-      text: t("components.mainMenu.homeTitle"),
-      desc: t("components.mainMenu.homeDesc"),
-      to: "/"
-    },
-    {
-      icon: <PiFolderOpenDuotone />,
-      text: t("components.mainMenu.installationsTitle"),
-      desc: t("components.mainMenu.installationsDesc"),
-      to: "/installations"
-    },
-    {
-      icon: <PiGitForkDuotone />,
-      text: t("components.mainMenu.versionsTitle"),
-      desc: t("components.mainMenu.versionsDesc"),
-      to: "/versions"
-    },
-    {
-      icon: <PiGearDuotone />,
-      text: t("components.mainMenu.modsTitle"),
-      desc: t("components.mainMenu.modsDesc"),
-      to: "/mods"
-    }
+    { icon: <PiHouseLineDuotone />, text: t("components.mainMenu.homeTitle"), desc: t("components.mainMenu.homeDesc"), to: "/" },
+    { icon: <PiFolderOpenDuotone />, text: t("components.mainMenu.installationsTitle"), desc: t("components.mainMenu.installationsDesc"), to: "/installations" },
+    { icon: <PiGitForkDuotone />, text: t("components.mainMenu.versionsTitle"), desc: t("components.mainMenu.versionsDesc"), to: "/versions" },
+    { icon: <PiGearDuotone />, text: t("components.mainMenu.modsTitle"), desc: t("components.mainMenu.modsDesc"), to: "/mods" }
   ]
 
   const AS: MainMenuAProps[] = [
-    {
-      icon: <PiNoteDuotone />,
-      text: t("components.mainMenu.changelogTitle"),
-      desc: t("components.mainMenu.changelogDesc"),
-      href: "https://www.vintagestory.at/blog.html/news"
-    }
+    { icon: <PiNoteDuotone />, text: t("components.mainMenu.changelogTitle"), desc: t("components.mainMenu.changelogDesc"), href: "https://www.vintagestory.at/blog.html/news" }
   ]
 
   async function PlayHandler(): Promise<void> {
@@ -123,28 +98,28 @@ function MainMenu(): JSX.Element {
     window.api.utils.setPreventAppClose("add", id, "Started playing Vintage Story.")
 
     try {
-      if (!seletedInstallation) return addNotification(t("features.installations.noInstallationSelected"), "error")
-      if (seletedInstallation._playing) return addNotification(t("features.installations.gameAlreadyRunning"), "error")
+      if (!selectedInstallation) return addNotification(t("features.installations.noInstallationSelected"), "error")
+      if (selectedInstallation._playing) return addNotification(t("features.installations.gameAlreadyRunning"), "error")
 
-      const gameVersionToRun = config.gameVersions.find((gv) => gv.version === seletedInstallation.version)
-      if (!gameVersionToRun) return addNotification(t("features.versions.versionNotInstalled", { version: seletedInstallation.version }), "error")
-      if (gameVersionToRun._installing) return addNotification(t("features.versions.versionInstalling", { version: seletedInstallation.version }), "error")
-      if (gameVersionToRun._deleting) return addNotification(t("features.versions.versionDeleting", { version: seletedInstallation.version }), "error")
-      if (gameVersionToRun._playing) return addNotification(t("features.versions.versionPlaying", { version: seletedInstallation.version }), "error")
+      const gameVersionToRun = config.gameVersions.find((gv) => gv.version === selectedInstallation.version)
+      if (!gameVersionToRun) return addNotification(t("features.versions.versionNotInstalled", { version: selectedInstallation.version }), "error")
+      if (gameVersionToRun._installing) return addNotification(t("features.versions.versionInstalling", { version: selectedInstallation.version }), "error")
+      if (gameVersionToRun._deleting) return addNotification(t("features.versions.versionDeleting", { version: selectedInstallation.version }), "error")
+      if (gameVersionToRun._playing) return addNotification(t("features.versions.versionPlaying", { version: selectedInstallation.version }), "error")
 
-      configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id: seletedInstallation.id, updates: { _playing: true } } })
+      configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id: selectedInstallation.id, updates: { _playing: true } } })
       configDispatch({ type: CONFIG_ACTIONS.EDIT_GAME_VERSION, payload: { version: gameVersionToRun.version, updates: { _playing: true } } })
 
-      if (seletedInstallation.backupsAuto) {
-        const backupMade = await makeInstallationBackup(seletedInstallation.id)
+      if (selectedInstallation.backupsAuto) {
+        const backupMade = await makeInstallationBackup(selectedInstallation.id)
         if (!backupMade) return
       }
 
       const startedPlaying = Date.now()
-      const closeStatus = await window.api.gameManager.executeGame(gameVersionToRun, seletedInstallation, config.account)
+      const closeStatus = await window.api.gameManager.executeGame(gameVersionToRun, selectedInstallation, config.account)
       const finishedPlaying = Date.now()
-      const ttp = finishedPlaying - startedPlaying + seletedInstallation.totalTimePlayed
-      configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id: seletedInstallation.id, updates: { _playing: false, lastTimePlayed: finishedPlaying, totalTimePlayed: ttp } } })
+      const ttp = finishedPlaying - startedPlaying + selectedInstallation.totalTimePlayed
+      configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id: selectedInstallation.id, updates: { _playing: false, lastTimePlayed: finishedPlaying, totalTimePlayed: ttp } } })
       configDispatch({ type: CONFIG_ACTIONS.EDIT_GAME_VERSION, payload: { version: gameVersionToRun.version, updates: { _playing: false } } })
       if (!closeStatus) return addNotification(t("notifications.body.gameExitedWithErrors"), "error")
     } catch (err) {
@@ -171,13 +146,15 @@ function MainMenu(): JSX.Element {
 
         if (fullLogin["valid"] == 0 && fullLogin["reason"] == "wrongtotpcode") return addNotification(t("features.config.wrongtwofa"), "error")
 
-        saveLogin(fullLogin)
+        await saveLogin(fullLogin)
       } else if (reason == "invalidemailorpassword") {
         addNotification(t("features.config.invalidEmailPass"), "error")
       }
     } else {
-      saveLogin(preLogin)
+      await saveLogin(preLogin)
     }
+
+    setLoggingIn(false)
   }
 
   async function saveLogin(data: object): Promise<void> {
@@ -192,10 +169,7 @@ function MainMenu(): JSX.Element {
       hostGameServer: data["hasgameserver"]
     }
 
-    configDispatch({
-      type: CONFIG_ACTIONS.SET_ACCOUNT,
-      payload: newAccount
-    })
+    configDispatch({ type: CONFIG_ACTIONS.SET_ACCOUNT, payload: newAccount })
 
     addNotification(t("features.config.loggedin", { user: newAccount.playerName }), "success")
     setLoggingIn(false)
@@ -245,31 +219,33 @@ function MainMenu(): JSX.Element {
 
       <div className="flex flex-col gap-2">
         <InstallationsDropdownMenu />
+
         <div className="w-full flex gap-2 items-center">
           <NormalButton
             title={t("generic.play")}
-            disabled={!seletedInstallation}
+            disabled={!selectedInstallation}
             onClick={PlayHandler}
-            className="w-full h-14 bg-vs disabled:text-zinc-600 disabled:bg-vs/20 shadow-sm shadow-zinc-950/50 hover:shadow-none"
+            className="w-full h-14 bg-vs disabled:opacity-50 shadow-sm shadow-zinc-950/50 hover:shadow-none"
           >
             <p className="text-2xl">{t("generic.play")}</p>
           </NormalButton>
-          {seletedInstallation && (
+
+          {selectedInstallation && (
             <div className="shrink-0 w-14 h-full grid grid-cols-2 grid-rows-2 gap-1 text-sm">
               <FormButton
                 className="p-1"
                 title={t("generic.backup")}
                 onClick={async () => {
-                  if (!(await window.api.pathsManager.checkPathExists(seletedInstallation.path))) return addNotification(t("features.backups.folderDoesntExists"), "error")
-                  makeInstallationBackup(seletedInstallation.id)
+                  if (!(await window.api.pathsManager.checkPathExists(selectedInstallation.path))) return addNotification(t("features.backups.folderDoesntExists"), "error")
+                  makeInstallationBackup(selectedInstallation.id)
                 }}
               >
                 <PiBoxArrowDownDuotone />
               </FormButton>
-              <FormLinkButton to={`/installations/mods/${seletedInstallation.id}`} title={t("features.mods.manageMods")}>
+              <FormLinkButton to={`/installations/mods/${selectedInstallation.id}`} title={t("features.mods.manageMods")}>
                 <PiGearDuotone />
               </FormLinkButton>
-              <FormLinkButton title={t("generic.edit")} to={`/installations/edit/${seletedInstallation.id}`}>
+              <FormLinkButton title={t("generic.edit")} to={`/installations/edit/${selectedInstallation.id}`}>
                 <PiPencilDuotone />
               </FormLinkButton>
               <FormLinkButton title={t("generic.add")} to="/installations/add">
