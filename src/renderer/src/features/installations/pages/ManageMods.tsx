@@ -329,7 +329,7 @@ function ListMods(): JSX.Element {
                 <p>{t("features.mods.areYouSureDelete")}</p>
                 <p className="text-zinc-400">{t("features.mods.deletingNotReversible")}</p>
                 <div className="flex gap-4 items-center justify-center text-lg">
-                  <FormButton title={t("generic.cancel")} className="p-2" onClick={() => setModToDelete(null)}>
+                  <FormButton title={t("generic.cancel")} className="p-2" onClick={() => setModToDelete(null)} type="success">
                     <PiXCircleDuotone />
                   </FormButton>
                   <FormButton title={t("generic.delete")} className="p-2" onClick={DeleteModHandler} type="error">

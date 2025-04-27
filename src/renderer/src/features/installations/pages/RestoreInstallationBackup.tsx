@@ -172,7 +172,7 @@ function RestoreInstallationBackup(): JSX.Element {
             <p>{t("features.backups.areYouSureDelete")}</p>
             <p className="text-zinc-400">{t("features.backups.deletingNotReversible")}</p>
             <div className="flex gap-4 items-center justify-center text-lg">
-              <NormalButton title={t("generic.cancel")} className="p-2" onClick={() => setBackupToDelete(null)}>
+              <NormalButton title={t("generic.cancel")} className="p-2" onClick={() => setBackupToDelete(null)} type="success">
                 <PiXCircleDuotone />
               </NormalButton>
               <NormalButton title={t("generic.delete")} className="p-2" onClick={DeleteBackupHandler} type="error">

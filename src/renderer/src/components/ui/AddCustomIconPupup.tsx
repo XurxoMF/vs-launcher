@@ -19,7 +19,7 @@ export function AddCustomIconPupup({ open, setOpen }: { open: boolean; setOpen: 
   const [name, setName] = useState<string>("")
 
   return (
-    <PopupDialogPanel title={t("generic.addIcon")} isOpen={open} close={() => setOpen(false)} bgDark={false}>
+    <PopupDialogPanel title={t("generic.addIcon")} isOpen={open} close={() => setOpen(false)}>
       <FromWrapper className="w-[500px]">
         <FormGroupWrapper bgDark={false}>
           <FromGroup className="items-center">

@@ -8,15 +8,13 @@ function PopupDialogPanel({
   title,
   isOpen,
   close,
-  maxWidth = true,
-  bgDark = true
+  maxWidth = true
 }: {
   children: React.ReactElement
   title: JSX.Element | string
   isOpen: boolean
   close: (value: boolean) => void
   maxWidth?: boolean
-  bgDark?: boolean
 }): JSX.Element {
   return (
     <AnimatePresence>
@@ -42,13 +40,7 @@ function PopupDialogPanel({
                 "before:absolute before:left-0 before:top-0 before:w-full before:h-full before:rounded-md before:backdrop-blur-sm before:bg-zinc-950/15 before:shadow-sm before:shadow-zinc-950/50 before:border before:border-zinc-400/5"
               )}
             >
-              <DialogPanel
-                className={clsx(
-                  "relative flex flex-col gap-4 text-center p-6 rounded-lg backdrop-blur-x",
-                  bgDark && "bg-zinc-950/50 border border-zinc-400/5 group overflow-hidden group shadow-sm shadow-zinc-950/50",
-                  maxWidth && "max-w-[600px]"
-                )}
-              >
+              <DialogPanel className={clsx("relative flex flex-col gap-4 text-center p-6 rounded-lg backdrop-blur-x", maxWidth && "max-w-[600px]")}>
                 <>
                   <DialogTitle className="text-2xl font-bold">{title}</DialogTitle>
                   {children}

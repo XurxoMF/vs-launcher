@@ -163,7 +163,7 @@ function ListInslallations(): JSX.Element {
               <label htmlFor="delete-data">{t("features.installations.deleteData")}</label>
             </div>
             <div className="flex gap-4 items-center justify-center text-lg">
-              <FormButton title={t("generic.cancel")} className="p-2" onClick={() => setInstallationToDelete(null)}>
+              <FormButton title={t("generic.cancel")} className="p-2" onClick={() => setInstallationToDelete(null)} type="success">
                 <PiXCircleDuotone />
               </FormButton>
               <FormButton title={t("generic.delete")} className="p-2" onClick={DeleteInstallationHandler} type="error">

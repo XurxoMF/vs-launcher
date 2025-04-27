@@ -256,7 +256,7 @@ function MainMenu(): JSX.Element {
         </div>
       </div>
 
-      <PopupDialogPanel title={t("features.config.loginTitle")} isOpen={logInOpen} close={() => setLogInOpen(false)} maxWidth={false} bgDark={false}>
+      <PopupDialogPanel title={t("features.config.loginTitle")} isOpen={logInOpen} close={() => setLogInOpen(false)} maxWidth={false}>
         <FromWrapper className="w-[500px]">
           <FormGroupWrapper bgDark={false}>
             <FromGroup>

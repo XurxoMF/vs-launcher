@@ -100,7 +100,7 @@ function ListVersions(): JSX.Element {
             <p>{t("features.versions.areYouSureUninstall")}</p>
             <p className="text-zinc-400">{t("features.versions.uninstallingNotReversible")}</p>
             <div className="flex gap-4 items-center justify-center text-lg">
-              <FormButton title={t("generic.cancel")} className="p-2" onClick={() => setVersionToDelete(null)}>
+              <FormButton title={t("generic.cancel")} className="p-2" onClick={() => setVersionToDelete(null)} type="success">
                 <PiXCircleDuotone />
               </FormButton>
               <FormButton title={t("generic.uninstall")} className="p-2" onClick={DeleteVersionHandler} type="error">
