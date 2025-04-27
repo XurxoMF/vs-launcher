@@ -13,6 +13,7 @@ declare global {
       setPreventAppClose: (action: "add" | "remove", id: string, desc: string) => void
       openOnBrowser: (url: string) => void
       selectFolderDialog: (options?: { type?: "file" | "folder"; mode?: "single" | "multi"; extensions?: string[] }) => Promise<string[]>
+      onPreventedAppClose: (callback: (event: Electron.IpcRendererEvent) => void) => void
     }
     appUpdater: {
       onUpdateAvailable: (callback) => void

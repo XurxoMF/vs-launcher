@@ -272,7 +272,8 @@
       "compressError": "Error compressing: {{compressName}}!",
       "folderNotEmpty": "The folder you've selected is not empty! Make sure you've nothing important on there.",
       "noFileSelected": "No file selected!",
-      "coulndtCopyIcon": "That icon couldn't be copied to the icons folder!"
+      "coulndtCopyIcon": "That icon couldn't be copied to the icons folder!",
+      "appClosePrevented": "You can't close VS Launcher either because you're playing Vintage Story or because there's an action in progress!"
     },
     "discard": "Discard notification"
   }

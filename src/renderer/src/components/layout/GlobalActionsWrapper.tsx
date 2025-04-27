@@ -1,4 +1,4 @@
-import { ReactNode, useEffect } from "react"
+import { ReactNode, useEffect, useRef } from "react"
 import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router-dom"
 
@@ -25,7 +25,13 @@ function GlobalActionsWrapper({ children }: { children: ReactNode }): JSX.Elemen
 
   const getCompleteInstalledMods = useGetCompleteInstalledMods()
 
-  //  const GAWMemory = useRef<GlobalActionsWrapperMemoryType>({})
+  const firstExecutedPreventedAppCloseEventStarter = useRef(true)
+  useEffect((): void => {
+    if (firstExecutedPreventedAppCloseEventStarter) {
+      firstExecutedPreventedAppCloseEventStarter.current = false
+      window.api.utils.onPreventedAppClose(() => addNotification(t("notifications.body.appClosePrevented"), "warning"))
+    }
+  }, [])
 
   useEffect((): void => {
     // If the user selects a new Installation check if there are mod updates.
@@ -60,7 +66,5 @@ function GlobalActionsWrapper({ children }: { children: ReactNode }): JSX.Elemen
 
   return <>{children}</>
 }
-
-// type GlobalActionsWrapperMemoryType = {}
 
 export default GlobalActionsWrapper

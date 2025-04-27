@@ -46,35 +46,36 @@ function InstallationsDropdownMenu(): JSX.Element {
         >
           {({ open }) => (
             <>
-              <ListboxButton className="w-full h-14 p-1 pr-2 flex items-center justify-between gap-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none text-sm text-start cursor-pointer">
-                {config.installations
-                  .filter((i) => i.id === config.lastUsedInstallation)
-                  .map((current) => (
-                    <>
-                      <img
-                        src={
-                          INSTALLATION_ICONS.some((ii) => ii.id === current.icon)
-                            ? INSTALLATION_ICONS.find((ii) => ii.id === current.icon)?.icon
-                            : config.customIcons.some((ii) => ii.id === current.icon)
-                              ? `icons:${config.customIcons.find((ii) => ii.id === current.icon)?.icon}`
-                              : INSTALLATION_ICONS[0].icon
-                        }
-                        alt={t("generic.icon")}
-                        className="h-full aspect-square object-cover rounded-sm"
-                      />
+              {config.installations
+                .filter((i) => i.id === config.lastUsedInstallation)
+                .map((current) => (
+                  <ListboxButton
+                    key={current.id}
+                    className="w-full h-14 p-1 pr-2 flex items-center justify-between gap-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none text-sm text-start cursor-pointer"
+                  >
+                    <img
+                      src={
+                        INSTALLATION_ICONS.some((ii) => ii.id === current.icon)
+                          ? INSTALLATION_ICONS.find((ii) => ii.id === current.icon)?.icon
+                          : config.customIcons.some((ii) => ii.id === current.icon)
+                            ? `icons:${config.customIcons.find((ii) => ii.id === current.icon)?.icon}`
+                            : INSTALLATION_ICONS[0].icon
+                      }
+                      alt={t("generic.icon")}
+                      className="h-full aspect-square object-cover rounded-sm"
+                    />
 
-                      <div key={current.id} className="w-full flex flex-col justify-around overflow-hidden">
-                        <p className="font-bold overflow-hidden whitespace-nowrap text-ellipsis">{current.name}</p>
+                    <div key={current.id} className="w-full flex flex-col justify-around overflow-hidden">
+                      <p className="font-bold overflow-hidden whitespace-nowrap text-ellipsis">{current.name}</p>
 
-                        <div className="shrink-0 text-zinc-400 flex gap-2 items-start">
-                          <p>{current.version}</p>
-                          <p>{t("features.mods.modsCount", { count: current._modsCount })}</p>
-                        </div>
+                      <div className="shrink-0 text-zinc-400 flex gap-2 items-start">
+                        <p>{current.version}</p>
+                        <p>{t("features.mods.modsCount", { count: current._modsCount })}</p>
                       </div>
-                    </>
-                  ))}
-                <PiCaretUpDuotone className={clsx("text-zinc-300 duration-200 shrink-0", open && "-rotate-180")} />
-              </ListboxButton>
+                    </div>
+                    <PiCaretUpDuotone className={clsx("text-zinc-300 duration-200 shrink-0", open && "-rotate-180")} />
+                  </ListboxButton>
+                ))}
 
               <AnimatePresence>
                 {open && (

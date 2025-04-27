@@ -13,7 +13,8 @@ const api: BridgeAPI = {
     setPreventAppClose: (action: "add" | "remove", id: string, desc: string): void => ipcRenderer.send(IPC_CHANNELS.UTILS.SET_PREVENT_APP_CLOSE, action, id, desc),
     openOnBrowser: (url: string): void => ipcRenderer.send(IPC_CHANNELS.UTILS.OPEN_ON_BROWSER, url),
     selectFolderDialog: (options?: { type?: "file" | "folder"; mode?: "single" | "multi"; extensions?: string[] }): Promise<string[]> =>
-      ipcRenderer.invoke(IPC_CHANNELS.UTILS.SELECT_FOLDER_DIALOG, options)
+      ipcRenderer.invoke(IPC_CHANNELS.UTILS.SELECT_FOLDER_DIALOG, options),
+    onPreventedAppClose: (callback: (event: Electron.IpcRendererEvent, desc: string) => void) => ipcRenderer.on(IPC_CHANNELS.UTILS.PREVENTED_APP_CLOSE, callback)
   },
   appUpdater: {
     onUpdateAvailable: (callback) => ipcRenderer.on(IPC_CHANNELS.APP_UPDATER.UPDATE_AVAILABLE, callback),

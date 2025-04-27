@@ -58,8 +58,9 @@ function createWindow(): void {
 
   mainWindow.on("close", (e) => {
     if (getShouldPreventClose()) {
-      logMessage("info", "[back] [index] [main/index.ts] [createWindow] Main window prevented from closing.")
       e.preventDefault()
+      mainWindow.webContents.send(IPC_CHANNELS.UTILS.PREVENTED_APP_CLOSE)
+      logMessage("info", "[back] [index] [main/index.ts] [createWindow] Main window prevented from closing.")
       return false
     }
     logMessage("info", "[back] [index] [main/index.ts] [createWindow] Main window closing.")
@@ -131,7 +132,10 @@ app.whenReady().then(async () => {
 
 // Quit when all windows are closed, except on macOS.
 app.on("window-all-closed", () => {
-  if (getShouldPreventClose()) return logMessage("info", "[back] [index] [main/index.ts] [window-all-closed] Main window prevented from closing.")
+  if (getShouldPreventClose()) {
+    mainWindow.webContents.send(IPC_CHANNELS.UTILS.PREVENTED_APP_CLOSE)
+    return logMessage("info", "[back] [index] [main/index.ts] [window-all-closed] Main window prevented from closing.")
+  }
 
   logMessage("info", "[back] [index] [main/index.ts] [window-all-closed] All windows closed.")
   if (process.platform !== "darwin") {
