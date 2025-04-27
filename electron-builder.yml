@@ -37,8 +37,9 @@ dmg:
 linux:
   target:
     - AppImage
-    - flatpak
     - deb
+    - rpm
+    - flatpak
   maintainer: XurxoMF
   category: Game
   icon: resources/icon.icns
