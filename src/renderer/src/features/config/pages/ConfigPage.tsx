@@ -142,7 +142,7 @@ function UIScale(): JSX.Element {
   const [selectedScale, setSelectedScale] = useState<number>(Number(window.localStorage.getItem("uiScale")) || 100)
 
   useEffect(() => {
-    document.documentElement.setAttribute("data-zoom", selectedScale.toString())
+    document.documentElement.setAttribute("data-uiscale", selectedScale.toString())
     window.localStorage.setItem("uiScale", selectedScale.toString())
   }, [selectedScale])
 

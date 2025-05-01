@@ -45,19 +45,19 @@
 }
 
 /* Custom scale options */
-html[data-zoom="50"] {
+html[data-uiscale="50"] {
   font-size: 8px;
 }
-html[data-zoom="75"] {
+html[data-uiscale="75"] {
   font-size: 12px;
 }
-html[data-zoom="100"] {
+html[data-uiscale="100"] {
   font-size: 16px;
 }
-html[data-zoom="125"] {
+html[data-uiscale="125"] {
   font-size: 20px;
 }
-html[data-zoom="150"] {
+html[data-uiscale="150"] {
   font-size: 24px;
 }
 
