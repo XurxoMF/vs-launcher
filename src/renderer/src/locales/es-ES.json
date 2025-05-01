@@ -195,7 +195,7 @@
     },
     "infoAndHelp": {
       "debugInfoTitle": "Información debug",
-      "includeLogs": "¡Envíanos los archivos log que puedrás encontrar en <folderlink /> para ayudarnos aún más!",
+      "includeLogs": "¡Envíanos los archivos log que podrás encontrar en <folderlink /> para ayudarnos aún más!",
       "logsFolderTitle": "Carpeta de logs",
       "thisFolder": "esta carpeta",
       "title": "Info y Ayuda de VS Launcher"
