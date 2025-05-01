@@ -32,7 +32,7 @@ function createWindow(): void {
     center: true,
     width: 1280,
     height: 720,
-    title: `VS Launcher`,
+    title: `VS Launcher - ${app.getVersion()}`,
     show: false,
     autoHideMenuBar: true,
     fullscreenable: false,
