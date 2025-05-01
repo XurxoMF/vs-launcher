@@ -111,7 +111,7 @@ function AddVersion(): JSX.Element {
     <ScrollableContainer>
       <div className="min-h-full flex flex-col justify-center gap-4">
         <FromWrapper className="max-w-[50rem] w-full">
-          <FormGroupWrapper>
+          <FormGroupWrapper title={t("generic.basics")}>
             <FromGroup>
               <FormHead>
                 <FormLabel content={t("features.versions.labelGameVersion")} />

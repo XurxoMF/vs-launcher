@@ -106,7 +106,7 @@ function AddInslallation(): JSX.Element {
     <ScrollableContainer>
       <div className="min-h-full flex flex-col justify-center gap-4">
         <FromWrapper className="max-w-[50rem] w-full">
-          <FormGroupWrapper>
+          <FormGroupWrapper title={t("generic.basics")}>
             <FromGroup>
               <FormHead>
                 <FormLabel content={t("features.installations.name")} />
@@ -280,7 +280,7 @@ function AddInslallation(): JSX.Element {
             </FromGroup>
           </FormGroupWrapper>
 
-          <FormGroupWrapper>
+          <FormGroupWrapper title={t("generic.backups")}>
             <FromGroup>
               <FormHead>
                 <FormLabel content={t("features.backups.backupsAmount")} />
@@ -335,7 +335,7 @@ function AddInslallation(): JSX.Element {
             </FromGroup>
           </FormGroupWrapper>
 
-          <FormGroupWrapper>
+          <FormGroupWrapper title={t("generic.advanced")}>
             <FromGroup>
               <FormHead>
                 <FormLabel content={t("features.installations.labelStartParams")} />

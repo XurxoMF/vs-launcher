@@ -107,7 +107,7 @@ function EditInslallation(): JSX.Element {
             </div>
           ) : (
             <>
-              <FormGroupWrapper>
+              <FormGroupWrapper title={t("generic.basics")}>
                 <FromGroup>
                   <FormHead>
                     <FormLabel content={t("features.installations.name")} />
@@ -244,7 +244,7 @@ function EditInslallation(): JSX.Element {
                 </FromGroup>
               </FormGroupWrapper>
 
-              <FormGroupWrapper>
+              <FormGroupWrapper title={t("generic.backups")}>
                 <FromGroup>
                   <FormHead>
                     <FormLabel content={t("features.backups.backupsAmount")} />
@@ -299,7 +299,7 @@ function EditInslallation(): JSX.Element {
                 </FromGroup>
               </FormGroupWrapper>
 
-              <FormGroupWrapper>
+              <FormGroupWrapper title={t("generic.advanced")}>
                 <FromGroup>
                   <FormHead>
                     <FormLabel content={t("features.installations.labelStartParams")} />

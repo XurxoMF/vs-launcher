@@ -24,7 +24,7 @@ function ConfigPage(): JSX.Element {
     <ScrollableContainer>
       <div className="min-h-full flex flex-col justify-center gap-4">
         <FromWrapper className="max-w-[50rem] w-full">
-          <FormGroupWrapper>
+          <FormGroupWrapper title={t("generic.general")}>
             <FromGroup>
               <FormHead>
                 <FormLabel content={t("features.config.language")} />
@@ -46,7 +46,7 @@ function ConfigPage(): JSX.Element {
             </FromGroup>
           </FormGroupWrapper>
 
-          <FormGroupWrapper>
+          <FormGroupWrapper title={t("generic.folders")}>
             <FromGroup>
               <FormHead>
                 <FormLabel content={t("features.config.defaultInstallationsFolder")} />

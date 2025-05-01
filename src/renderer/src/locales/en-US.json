@@ -60,7 +60,12 @@
     "selectIcon": "Select icon",
     "icon": "Icon",
     "iconName": "Icon name",
-    "default": "Default"
+    "default": "Default",
+    "general": "General",
+    "folders": "Folders",
+    "basics": "Basics",
+    "backups": "Backups",
+    "advanced": "Advanced"
   },
   "features": {
     "generic": {

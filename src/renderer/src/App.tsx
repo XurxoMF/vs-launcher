@@ -37,7 +37,7 @@ import GlobalActionsWrapper from "./components/layout/GlobalActionsWrapper"
 
 function App(): JSX.Element {
   useEffect(() => {
-    document.documentElement.setAttribute("data-zoom", window.localStorage.getItem("uiScale") || "100")
+    document.documentElement.setAttribute("data-uiscale", window.localStorage.getItem("uiScale") || "100")
 
     const lang = window.localStorage.getItem("lang")
     if (lang) i18n.changeLanguage(lang)
