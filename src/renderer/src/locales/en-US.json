@@ -59,7 +59,8 @@
     "addIcon": "Add icon",
     "selectIcon": "Select icon",
     "icon": "Icon",
-    "iconName": "Icon name"
+    "iconName": "Icon name",
+    "default": "Default"
   },
   "features": {
     "generic": {
@@ -197,7 +198,9 @@
       "wrongtwofa": "Wrong 2FA code!",
       "invalidEmailPass": "Invalid email or password!",
       "loggedin": "Logged in as {{user}}!",
-      "onlyIfEnabledTwoFA": "Fill this field only if you have 2FA enabled!"
+      "onlyIfEnabledTwoFA": "Fill this field only if you have 2FA enabled!",
+      "uiScale": "UI Scale",
+      "language": "Language"
     },
     "backups": {
       "backupInProgress": "There is a backup already in progress!",

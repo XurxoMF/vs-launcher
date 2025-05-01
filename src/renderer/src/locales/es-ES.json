@@ -157,7 +157,9 @@
       "loginTitle": "Iniciar sesión",
       "logoutTitle": "Cerrar sesión",
       "onlyIfEnabledTwoFA": "¡Completa este campo solo si tienes 2FA activado!",
-      "wrongtwofa": "¡Código 2FA incorrecto!"
+      "wrongtwofa": "¡Código 2FA incorrecto!",
+      "language": "Idioma",
+      "uiScale": "Escalado de UI"
     },
     "backups": {
       "automaticBackups": "Copias de Seguridad automáticas",
@@ -248,7 +250,8 @@
     "addIcon": "Añadir icono",
     "icon": "Icono",
     "iconName": "Nombre del icono",
-    "selectIcon": "Seleccionar icono"
+    "selectIcon": "Seleccionar icono",
+    "default": "Por defecto"
   },
   "notifications": {
     "body": {

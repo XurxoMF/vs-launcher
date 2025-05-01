@@ -55,7 +55,7 @@ function LookForAVersion(): JSX.Element {
   return (
     <ScrollableContainer>
       <div className="min-h-full flex flex-col justify-center gap-4">
-        <FromWrapper className="max-w-[800px] w-full">
+        <FromWrapper className="max-w-[50rem] w-full">
           <FormGroupWrapper>
             <FromGroup>
               <FormHead>

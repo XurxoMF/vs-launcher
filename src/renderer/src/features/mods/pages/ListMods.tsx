@@ -56,11 +56,13 @@ function ListMods(): JSX.Element {
   const { config, configDispatch } = useConfigContext()
   const { addNotification } = useNotificationsContext()
 
+  const DEFAULT_LOADED_MODS = 45
+
   const queryMods = useQueryMods()
   const getInstalledMods = useGetInstalledMods()
 
   const [modsList, setModsList] = useState<DownloadableModOnListType[]>([])
-  const [visibleMods, setVisibleMods] = useState<number>(20)
+  const [visibleMods, setVisibleMods] = useState<number>(DEFAULT_LOADED_MODS)
 
   const [installation, setInstallation] = useState<InstallationType | undefined>(undefined)
 
@@ -88,22 +90,14 @@ function ListMods(): JSX.Element {
     if (scrollTop + clientHeight >= scrollHeight - (clientHeight / 2 + 100)) setVisibleMods((prev) => prev + 10)
   }
 
-  const checkLoadMore = (): void => {
-    if (scrollRef.current && scrollRef.current.scrollHeight <= scrollRef.current.clientHeight) setVisibleMods((prev) => prev + 20)
-  }
-
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.addEventListener("scroll", handleScroll)
-      checkLoadMore()
-    }
+    if (scrollRef.current) scrollRef.current.addEventListener("scroll", handleScroll)
 
     return (): void => {
       if (scrollRef.current) scrollRef.current.removeEventListener("scroll", handleScroll)
     }
   }, [])
 
-  // Query mods when filters change.
   useEffect(() => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current)
 
@@ -138,8 +132,7 @@ function ListMods(): JSX.Element {
       orderByOrder,
       onFinish: () => {
         scrollRef.current?.scrollTo({ top: 0 })
-        setVisibleMods(20)
-        checkLoadMore()
+        setVisibleMods(DEFAULT_LOADED_MODS)
       }
     })
 
@@ -171,7 +164,7 @@ function ListMods(): JSX.Element {
 
   return (
     <ScrollableContainer ref={scrollRef}>
-      <div className="w-full min-h-full flex flex-col justify-center gap-4">
+      <div className="w-full min-h-[101%] flex flex-col justify-center gap-4">
         <StickyMenuWrapper scrollRef={scrollRef}>
           <StickyMenuGroup>
             <FormInputText placeholder={t("generic.text")} value={textFilter} onChange={(e) => setTextFilter(e.target.value)} className="w-40" />
@@ -225,7 +218,7 @@ function ListMods(): JSX.Element {
               </p>
             </div>
           ) : (
-            <GridGroup key={modsList.length + modsList[0].assetid + modsList[modsList.length - 1].assetid}>
+            <GridGroup>
               {modsList.slice(0, visibleMods).map((mod) => (
                 <GridItem
                   key={mod.modid}
@@ -233,7 +226,8 @@ function ListMods(): JSX.Element {
                     if (!installation) return addNotification(t("features.installations.noInstallationSelected"), "error")
                     setModToInstall(mod)
                   }}
-                  className="group overflow-hidden"
+                  size="basis-[22rem] max-w-[28rem] overflow-hidden"
+                  className="group"
                 >
                   <div className="relative w-full aspect-[3/2]">
                     <img src={mod.logo ? `${mod.logo}` : "https://mods.vintagestory.at/web/img/mod-default.png"} alt={mod.name} className="w-full h-full object-cover object-top" />
@@ -254,6 +248,7 @@ function ListMods(): JSX.Element {
                       >
                         <PiStarDuotone />
                       </FormButton>
+
                       <FormButton
                         title={t("features.mods.openOnTheModDB")}
                         onClick={(e) => {
@@ -265,43 +260,25 @@ function ListMods(): JSX.Element {
                         <FiExternalLink />
                       </FormButton>
                     </div>
-
-                    <div className="absolute w-full bottom-0 flex flex-col items-start gap-1 p-1 text-xs">
-                      <div className="w-full flex gap-1 items-center flex-wrap">
-                        <>
-                          <p className="relative rounded-sm backdrop-blur-xs bg-zinc-950/50 border border-zinc-400/5 group overflow-hidden shadow-sm shadow-zinc-950/50 hover:shadow-none duration-200 px-1">
-                            {mod.side}
-                          </p>
-                          {mod.tags.map((tag) => (
-                            <p
-                              className="relative rounded-sm backdrop-blur-xs bg-zinc-950/50 border border-zinc-400/5 group overflow-hidden shadow-sm shadow-zinc-950/50 hover:shadow-none duration-200 before:content-['#'] before:relative px-1"
-                              key={mod.modid + tag}
-                            >
-                              {tag}
-                            </p>
-                          ))}
-                        </>
-                      </div>
-                    </div>
                   </div>
 
                   <div className="w-full h-full flex text-sm">
-                    <div className="shrink-0 w-26 flex flex-col gap-1 px-2 py-1 overflow-hidden">
+                    <div className="shrink-0 w-1/3 flex flex-col gap-1 px-2 py-1 overflow-hidden">
                       <p className="flex items-center gap-1">
                         <PiUserCircleDuotone className="shrink-0 opacity-50" />
-                        <span className="overflow-hidden whitespace-nowrap text-ellipsis">{mod.author}asasd asd as</span>
+                        <span className="overflow-hidden whitespace-nowrap text-ellipsis">{mod.author}</span>
                       </p>
                       <p className="flex items-center gap-1">
                         <PiDownloadDuotone className="shrink-0 opacity-50" />
-                        <span>{Number(mod.downloads) > 1000 ? `${Math.floor(Number(mod.downloads) / 1000)}K` : Number(mod.downloads)}</span>
+                        <span>{Number(mod.downloads) > 10000 ? `${Math.floor(Number(mod.downloads) / 1000)}K` : Number(mod.downloads)}</span>
                       </p>
                       <p className="flex items-center gap-1">
                         <PiStarDuotone className="shrink-0 opacity-50" />
-                        <span>{Number(mod.follows)}</span>
+                        <span>{Number(mod.follows) > 10000 ? `${Math.floor(Number(mod.follows) / 1000)}K` : Number(mod.follows)}</span>
                       </p>
                       <p className="flex items-center gap-1">
                         <PiChatCenteredTextDuotone className="shrink-0 opacity-50" />
-                        <span>{Number(mod.comments)}</span>
+                        <span>{Number(mod.comments) > 10000 ? `${Math.floor(Number(mod.comments) / 1000)}K` : Number(mod.comments)}</span>
                       </p>
                     </div>
 

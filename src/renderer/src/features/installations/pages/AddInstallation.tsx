@@ -105,7 +105,7 @@ function AddInslallation(): JSX.Element {
   return (
     <ScrollableContainer>
       <div className="min-h-full flex flex-col justify-center gap-4">
-        <FromWrapper className="max-w-[800px] w-full">
+        <FromWrapper className="max-w-[50rem] w-full">
           <FormGroupWrapper>
             <FromGroup>
               <FormHead>
@@ -221,7 +221,7 @@ function AddInslallation(): JSX.Element {
                     </TableHeadRow>
                   </TableHead>
 
-                  <TableBody className="max-h-[250px]">
+                  <TableBody className="max-h-[14rem]">
                     {config.gameVersions.length < 1 && (
                       <div className="w-full p-1 flex flex-col items-center justify-center">
                         <p>{t("features.versions.noVersionsFound")}</p>

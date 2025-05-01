@@ -39,5 +39,5 @@ export function StickyMenuWrapper({ children, scrollRef, className }: { children
 }
 
 export function StickyMenuGroup({ children, className }: { children: ReactNode; className?: string }): JSX.Element {
-  return <div className={clsx("relative flex items-center justify-center gap-2", className)}>{children}</div>
+  return <div className={clsx("relative flex flex-row flex-wrap items-center justify-center gap-2", className)}>{children}</div>
 }

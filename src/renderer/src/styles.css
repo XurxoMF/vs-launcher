@@ -44,6 +44,23 @@
   }
 }
 
+/* Custom scale options */
+html[data-zoom="50"] {
+  font-size: 8px;
+}
+html[data-zoom="75"] {
+  font-size: 12px;
+}
+html[data-zoom="100"] {
+  font-size: 16px;
+}
+html[data-zoom="125"] {
+  font-size: 20px;
+}
+html[data-zoom="150"] {
+  font-size: 24px;
+}
+
 #root {
   width: 100vw;
   height: 100vh;

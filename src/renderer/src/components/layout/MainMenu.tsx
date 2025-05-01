@@ -24,7 +24,6 @@ import { useNotificationsContext } from "@renderer/contexts/NotificationsContext
 
 import { useMakeInstallationBackup } from "@renderer/features/installations/hooks/useMakeInstallationBackup"
 
-import LanguagesMenu from "@renderer/components/ui/LanguagesMenu"
 import InstallationsDropdownMenu from "@renderer/features/installations/components/InstallationsDropdownMenu"
 import TasksMenu from "@renderer/components/ui/TasksMenu"
 import { NormalButton } from "@renderer/components/ui/Buttons"
@@ -177,7 +176,7 @@ function MainMenu(): JSX.Element {
   }
 
   return (
-    <header className="z-99 w-[300px] flex flex-col gap-4 p-2 bg-zinc-950/30 shadow-sm shadow-zinc-950/50 backdrop-blur-sm border-r border-zinc-400/5">
+    <header className="z-99 w-72 shrink-0 flex flex-col gap-4 p-2 bg-zinc-950/30 shadow-sm shadow-zinc-950/50 backdrop-blur-sm border-r border-zinc-400/5">
       <div className="flex h-7 shrink-0 gap-2">
         <FormLinkButton to="/config" title={t("features.config.title")} className="shrink-0 w-8 h-8">
           <PiGearDuotone />
@@ -201,7 +200,6 @@ function MainMenu(): JSX.Element {
           </FormButton>
         )}
         <TasksMenu />
-        <LanguagesMenu />
       </div>
 
       <div className="h-full flex flex-col gap-2">
@@ -256,8 +254,8 @@ function MainMenu(): JSX.Element {
         </div>
       </div>
 
-      <PopupDialogPanel title={t("features.config.loginTitle")} isOpen={logInOpen} close={() => setLogInOpen(false)} maxWidth={false}>
-        <FromWrapper className="w-[500px]">
+      <PopupDialogPanel title={t("features.config.loginTitle")} isOpen={logInOpen} close={() => setLogInOpen(false)}>
+        <FromWrapper className="w-full">
           <FormGroupWrapper bgDark={false}>
             <FromGroup>
               <FormHead>

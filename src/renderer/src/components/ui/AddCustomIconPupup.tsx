@@ -20,7 +20,7 @@ export function AddCustomIconPupup({ open, setOpen }: { open: boolean; setOpen: 
 
   return (
     <PopupDialogPanel title={t("generic.addIcon")} isOpen={open} close={() => setOpen(false)}>
-      <FromWrapper className="w-[500px]">
+      <FromWrapper className="w-full">
         <FormGroupWrapper bgDark={false}>
           <FromGroup className="items-center">
             <FormHead>

@@ -110,7 +110,7 @@ function AddVersion(): JSX.Element {
   return (
     <ScrollableContainer>
       <div className="min-h-full flex flex-col justify-center gap-4">
-        <FromWrapper className="max-w-[800px] w-full">
+        <FromWrapper className="max-w-[50rem] w-full">
           <FormGroupWrapper>
             <FromGroup>
               <FormHead>
@@ -159,7 +159,7 @@ function AddVersion(): JSX.Element {
                       <FiLoader className="animate-spin text-3xl text-zinc-400" />
                     </div>
                   ) : (
-                    <TableBody className="max-h-[250px]">
+                    <TableBody className="max-h-[14rem]">
                       {gameVersions.map(
                         (gv) =>
                           versionFilters[gv.type] && (

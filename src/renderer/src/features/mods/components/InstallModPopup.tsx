@@ -67,11 +67,11 @@ function InstallModPopup({
         setModToInstall(null)
         setDownloadableModToInstall(null)
       }}
-      maxWidth={false}
+      fixedWidth={false}
     >
       <>
         <p>{t("features.mods.installationPopupDesc", { modName: downloadableModToInstall?.name || "MOD NOT FOUND" })}</p>
-        <TableWrapper className="w-[800px]">
+        <TableWrapper className="w-[50rem]">
           <TableHead>
             <TableHeadRow>
               <TableCell className="w-2/12">{t("generic.version")}</TableCell>
@@ -86,7 +86,7 @@ function InstallModPopup({
               <FiLoader className="animate-spin text-3xl text-zinc-400" />
             </div>
           ) : (
-            <TableBody className="max-h-[300px]">
+            <TableBody className="max-h-[18rem]">
               {downloadableModToInstall.releases.map((release) => (
                 <TableBodyRow key={release.releaseid}>
                   <TableCell className="w-2/12">{release.modversion}</TableCell>

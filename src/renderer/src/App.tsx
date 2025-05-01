@@ -37,6 +37,8 @@ import GlobalActionsWrapper from "./components/layout/GlobalActionsWrapper"
 
 function App(): JSX.Element {
   useEffect(() => {
+    document.documentElement.setAttribute("data-zoom", window.localStorage.getItem("uiScale") || "100")
+
     const lang = window.localStorage.getItem("lang")
     if (lang) i18n.changeLanguage(lang)
   }, [])
@@ -118,7 +120,7 @@ function AppInfo(): JSX.Element {
   }, [])
 
   return (
-    <div className="w-full absolute z-100 top-0 left-0 py-1 p-3 flex justify-between items-center text-xs">
+    <div className="w-full absolute z-100 top-0 left-0 py-1 p-[10px] flex justify-between items-center text-xs">
       <div className="shrink-0 flex flex-nowrap gap-2">
         <MiniLinks to="https://github.com/XurxoMF/vs-launcher/issues" text={t("generic.issues")} />
         <MiniLinks to="https://vsldocs.xurxomf.xyz/" text={t("generic.guides")} />

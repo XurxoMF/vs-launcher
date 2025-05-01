@@ -99,7 +99,7 @@ function EditInslallation(): JSX.Element {
   return (
     <ScrollableContainer>
       <div className="min-h-full flex flex-col justify-center gap-4">
-        <FromWrapper className="max-w-[800px] w-full">
+        <FromWrapper className="max-w-[50rem] w-full">
           {!installation ? (
             <div className="w-full flex flex-col items-center justify-center gap-2 rounded-sm bg-zinc-950/50 p-4">
               <p className="text-2xl">{t("features.installations.noInstallationFound")}</p>
@@ -212,7 +212,7 @@ function EditInslallation(): JSX.Element {
                         </TableHeadRow>
                       </TableHead>
 
-                      <TableBody className="max-h-[250px]">
+                      <TableBody className="max-h-[14rem]">
                         {config.gameVersions.length < 1 && (
                           <div className="w-full p-1 flex flex-col items-center justify-center">
                             <p>{t("features.versions.noVersionsFound")}</p>

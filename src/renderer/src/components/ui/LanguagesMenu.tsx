@@ -43,7 +43,7 @@ function LanguagesMenu(): JSX.Element {
                 className="w-full h-8 px-2 py-1 flex items-center justify-between gap-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none cursor-pointer"
               >
                 <p className="flex gap-2 items-center overflow-hidden whitespace-nowrap">
-                  <span className="font-bold text-sm">{lang.name}</span>
+                  <span className="text-sm">{lang.name}</span>
                   <span className="text-ellipsis overflow-hidden text-zinc-500 text-xs">{lang.credits}</span>
                 </p>
                 <PiCaretDownDuotone className={clsx("text-zinc-300 shrink-0 duration-200", open && "-rotate-180")} />
@@ -68,8 +68,8 @@ function LanguagesMenu(): JSX.Element {
                       variants={DROPDOWN_MENU_ITEM_VARIANTS}
                       className="w-full h-8 px-2 py-1 shrink-0 flex items-center overflow-hidden odd:bg-zinc-800/30 even:bg-zinc-950/30 cursor-pointer"
                     >
-                      <p className="flex gap-2 items-center overflow-hidden whitespace-nowrap" title={`${lang.name} - ${lang.credits}`}>
-                        <span className="font-bold text-sm">{lang.name}</span>
+                      <p className="flex gap-2 items-center overflow-hidden whitespace-nowrap">
+                        <span className="text-sm">{lang.name}</span>
                         <span className="text-ellipsis overflow-hidden text-zinc-500 text-xs">{lang.credits}</span>
                       </p>
                     </ListboxOption>

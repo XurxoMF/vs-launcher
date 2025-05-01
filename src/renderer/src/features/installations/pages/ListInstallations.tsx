@@ -55,7 +55,7 @@ function ListInslallations(): JSX.Element {
   return (
     <ScrollableContainer>
       <div className="min-h-full flex flex-col items-center justify-center">
-        <ListWrapper className="max-w-[800px] w-full">
+        <ListWrapper className="max-w-[50rem] w-full">
           <ListGroup>
             <ListItem className="group">
               <LinkButton to="/installations/add" title={t("features.installations.addNewInstallation")} className="w-full h-12">

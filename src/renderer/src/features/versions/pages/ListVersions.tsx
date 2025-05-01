@@ -42,7 +42,7 @@ function ListVersions(): JSX.Element {
   return (
     <ScrollableContainer>
       <div className="min-h-full flex flex-col items-center justify-center">
-        <ListWrapper className="max-w-[800px] w-full">
+        <ListWrapper className="max-w-[50rem] w-full">
           <ListGroup>
             <div className="flex gap-2">
               <ListItem className="group">
