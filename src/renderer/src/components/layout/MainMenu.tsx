@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Link, useLocation } from "react-router-dom"
-import { PiBoxArrowDownDuotone, PiFolderOpenDuotone, PiGearDuotone, PiWrenchDuotone, PiGitForkDuotone, PiHouseLineDuotone, PiPencilDuotone, PiPlusCircleDuotone } from "react-icons/pi"
+import { PiBoxArrowDownDuotone, PiFolderOpenDuotone, PiGearDuotone, PiWrenchDuotone, PiGitForkDuotone, PiHouseLineDuotone, PiPencilDuotone, PiPlusCircleDuotone, PiInfoDuotone } from "react-icons/pi"
 import { v4 as uuidv4 } from "uuid"
 import clsx from "clsx"
 
@@ -42,7 +42,8 @@ function MainMenu(): JSX.Element {
     { icon: <PiFolderOpenDuotone />, text: t("components.mainMenu.installationsTitle"), desc: t("components.mainMenu.installationsDesc"), to: "/installations" },
     { icon: <PiGitForkDuotone />, text: t("components.mainMenu.versionsTitle"), desc: t("components.mainMenu.versionsDesc"), to: "/versions" },
     { icon: <PiWrenchDuotone />, text: t("components.mainMenu.modsTitle"), desc: t("components.mainMenu.modsDesc"), to: "/mods" },
-    { icon: <PiGearDuotone />, text: t("components.mainMenu.configTitle"), desc: t("components.mainMenu.configDesc"), to: "/config" }
+    { icon: <PiGearDuotone />, text: t("components.mainMenu.configTitle"), desc: t("components.mainMenu.configDesc"), to: "/config" },
+    { icon: <PiInfoDuotone />, text: t("components.mainMenu.infoAndHelpTitle"), desc: t("components.mainMenu.infoAndHelpDesc"), to: "/info-and-help" }
   ]
 
   async function PlayHandler(): Promise<void> {

@@ -65,7 +65,12 @@
     "folders": "Folders",
     "basics": "Basics",
     "backups": "Backups",
-    "advanced": "Advanced"
+    "advanced": "Advanced",
+    "help": "Help",
+    "github": "GitHub",
+    "guide": "guide",
+    "discord": "Discord",
+    "source": "Source"
   },
   "features": {
     "generic": {
@@ -233,6 +238,19 @@
       "folderDoesntExists": "This Installation has no data, please, play on it at least one time to generate the base data!",
       "compressionLevel": "Compression level",
       "compressionLevelDesc": "Higher compression takes longer but creates smaller Backups."
+    },
+    "infoAndHelp": {
+      "issues": "If you've found a bug or want to request a new feature, please, let us know on the VS Launcher <ghlink/> page!",
+      "guides": "If you don't know how to use VS Launcher you can check the <guidelink /> or ask on our <discordlink /> server!",
+      "title": "VS Launcher Info & Help",
+      "codeContributorsTitle": "Developers & Code contributors",
+      "contribOwnerAndMainDevDesc": "Owner and main developer",
+      "contribReverseEngeneerLogingDesc": "Reverse engineering VS to learn how to log in with the VS account",
+      "contribBackupsCompressionDesc": "Backups compression level code contribution",
+      "translatorsTitle": "Translators"
+    },
+    "localization": {
+      "es-ES": "Spanish"
     }
   },
   "components": {
@@ -246,7 +264,9 @@
       "installationsTitle": "Installations",
       "installationsDesc": "Manage your Installations",
       "configTitle": "Config",
-      "configDesc": "Configure VS Launcher"
+      "configDesc": "Configure VS Launcher",
+      "infoAndHelpTitle": "Info & Help",
+      "infoAndHelpDesc": "VS Launcher help and info"
     },
     "tasksMenu": {
       "downloading": "Downloading",
