@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Input } from "@headlessui/react"
-import { PiFolderOpenDuotone, PiPlusCircleDuotone, PiPencilDuotone, PiBoxArrowDownDuotone, PiArrowCounterClockwiseDuotone, PiGearDuotone, PiXCircleDuotone, PiTrashDuotone } from "react-icons/pi"
+import { PiFolderOpenDuotone, PiPlusCircleDuotone, PiPencilDuotone, PiBoxArrowDownDuotone, PiArrowCounterClockwiseDuotone, PiWrenchDuotone, PiXCircleDuotone, PiTrashDuotone } from "react-icons/pi"
 import { useTranslation } from "react-i18next"
 
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
@@ -120,7 +120,7 @@ function ListInslallations(): JSX.Element {
                     </div>
                     <div className="flex flex-col gap-1">
                       <LinkButton to={`/installations/mods/${installation.id}`} title={t("features.mods.manageMods")} className="p-1">
-                        <PiGearDuotone />
+                        <PiWrenchDuotone />
                       </LinkButton>
                       <NormalButton
                         onClick={async () => {

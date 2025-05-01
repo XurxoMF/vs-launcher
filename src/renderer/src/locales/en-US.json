@@ -60,7 +60,8 @@
     "selectIcon": "Select icon",
     "icon": "Icon",
     "iconName": "Icon name",
-    "default": "Default"
+    "default": "Default",
+    "clickToLogIn": "Click here to login"
   },
   "features": {
     "generic": {
@@ -200,7 +201,8 @@
       "loggedin": "Logged in as {{user}}!",
       "onlyIfEnabledTwoFA": "Fill this field only if you have 2FA enabled!",
       "uiScale": "UI Scale",
-      "language": "Language"
+      "language": "Language",
+      "vintageStoryAccount": "Vintage Story account"
     },
     "backups": {
       "backupInProgress": "There is a backup already in progress!",
@@ -242,7 +244,9 @@
       "changelogTitle": "Changelog",
       "changelogDesc": "Vintage Story changelog",
       "installationsTitle": "Installations",
-      "installationsDesc": "Manage your Installations"
+      "installationsDesc": "Manage your Installations",
+      "configTitle": "Config",
+      "configDesc": "Configure VS Launcher"
     },
     "tasksMenu": {
       "downloading": "Downloading",
