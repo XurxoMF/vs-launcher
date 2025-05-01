@@ -5,8 +5,6 @@
       "title": "Benvenuto in VS Launcher!"
     },
     "mainMenu": {
-      "changelogDesc": "Lista dei Cambiamenti di Vintage Story",
-      "changelogTitle": "Lista dei cambiamenti",
       "homeDesc": "Pagina principale",
       "homeTitle": "Home",
       "installationsDesc": "Gestisci le tue installazioni",
@@ -54,8 +52,7 @@
     "config": {
       "backupsFolder": "Cartella dei backups",
       "defaultInstallationsFolder": "Cartella delle installazioni",
-      "defaultVersionsFolder": "Cartella delle versioni",
-      "title": "Impostazioni"
+      "defaultVersionsFolder": "Cartella delle versioni"
     },
     "generic": {
       "notImplemented": "Questa pagina non è ancora pronta!",

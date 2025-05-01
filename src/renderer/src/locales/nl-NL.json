@@ -89,7 +89,6 @@
       "modsCount_other": "{{count}} Mods"
     },
     "config": {
-      "title": "Instellingen",
       "defaultInstallationsFolder": "Installaties:",
       "defaultVersionsFolder": "Versies:"
     }
@@ -102,8 +101,6 @@
       "versionsDesc": "Beheer je spel versies",
       "modsTitle": "Mods",
       "modsDesc": "",
-      "changelogTitle": "Wijzigingenlogboek",
-      "changelogDesc": "Wijzigingenlogboek voor Vintage Story",
       "installationsTitle": "Installaties",
       "installationsDesc": "Beheer geinstalleerde versies"
     },

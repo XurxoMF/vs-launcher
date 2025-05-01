@@ -186,7 +186,6 @@
       "cantUpdateWhileinUse": "Vous ne pouvez pas mettre à jour un mod pendant qu'il est utilisé !"
     },
     "config": {
-      "title": "Paramètres",
       "defaultInstallationsFolder": "Dossier des installations",
       "defaultVersionsFolder": "Dossier des versions",
       "backupsFolder": "Dossier des sauvegardes",
@@ -236,8 +235,6 @@
       "versionsDesc": "Gérer les versions de votre jeu",
       "modsTitle": "Mods",
       "modsDesc": "Rechercher et installer des mods",
-      "changelogTitle": "Journal des modifications",
-      "changelogDesc": "Journal des modifications de Vintage Story",
       "installationsTitle": "Installations",
       "installationsDesc": "Gérer vos installations"
     },

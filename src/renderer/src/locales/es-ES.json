@@ -1,8 +1,6 @@
 {
   "components": {
     "mainMenu": {
-      "changelogDesc": "Changelog de Vintage Story",
-      "changelogTitle": "Changelog",
       "homeDesc": "Página principal",
       "homeTitle": "Inicio",
       "installationsDesc": "Gestiona tus Instalaciones",
@@ -10,7 +8,9 @@
       "modsDesc": "Busca e instala Mods",
       "modsTitle": "Mods",
       "versionsDesc": "Gestiona tus Versiones de VS",
-      "versionsTitle": "Versiones de VS"
+      "versionsTitle": "Versiones de VS",
+      "configDesc": "Configura VS Launcher",
+      "configTitle": "Configuración"
     },
     "tasksMenu": {
       "downloading": "Descargando",
@@ -65,7 +65,10 @@
       "dataFolder": "Carpeta de datos",
       "name": "Nombre",
       "mesaGlThreadDesc": "Habilitalo para ejecutar el juego con mesa_glthread. Esto puede mejorar el rendimiento en algunos sistemas Linux.",
-      "mesaGlThread": "mesa_glthread"
+      "mesaGlThread": "mesa_glthread",
+      "envVars": "Variables de entorno",
+      "envVarsDesc": "Lista de variables de entorno separadas por ,",
+      "envVarsPlaceholder": "ENV_1=algo, ENT_2=otro_algo"
     },
     "mods": {
       "modsCount": "{{count}} Mods",
@@ -146,7 +149,6 @@
       "labelGameVersions": "VS Versions"
     },
     "config": {
-      "title": "Ajustes",
       "defaultInstallationsFolder": "Carpeta de Instalaciones",
       "defaultVersionsFolder": "Carpeta de Versiones de VS",
       "backupsFolder": "Carpeta de Copias de Seguridad",
@@ -272,7 +274,8 @@
       "compressing": "¡Iniciando compresión: {{compressName}}!",
       "folderNotEmpty": "¡La carpeta que has seleccionado no está vacía! Asegúrate de que no tengas nada importante allí.",
       "coulndtCopyIcon": "¡Ese ícono no se pudo copiar en la carpeta de iconos!",
-      "noFileSelected": "¡No seleccionaste ningún archivo!"
+      "noFileSelected": "¡No seleccionaste ningún archivo!",
+      "appClosePrevented": "¡No puedes cerrar VS Launcher o porque estás jugando Vintage Story o porque hay una tarea en progreso!"
     },
     "discard": "Descartar notificación"
   }

@@ -183,7 +183,6 @@
       "cantUpdateWhileinUse": "Du kannst einen Mod nicht aktualisieren, während er in Benutzung ist!"
     },
     "config": {
-      "title": "Einstellungen",
       "defaultInstallationsFolder": "Installationen",
       "defaultVersionsFolder": "Versionen",
       "backupsFolder": "Datensicherungen",
@@ -233,8 +232,6 @@
       "versionsDesc": "Spielversionen verwalten",
       "modsTitle": "Modifikationen",
       "modsDesc": "",
-      "changelogTitle": "Versionshistorie",
-      "changelogDesc": "Vintage Story Versionshistorie",
       "installationsDesc": "Installationen verwalten",
       "installationsTitle": "Installationen"
     },

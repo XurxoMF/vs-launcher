@@ -171,7 +171,6 @@
       "updatesAvailableInstallation_zero": "A kiválaszott Telepítés {{count}} frissíthető modot tartalmaz! Kattints ide ha át akarod nézni őket!"
     },
     "config": {
-      "title": "Beállítások",
       "defaultInstallationsFolder": "Telepítések könyvtára",
       "defaultVersionsFolder": "Verziók könyvtára",
       "backupsFolder": "Biztonsági mentések könyvtára"
@@ -211,8 +210,6 @@
       "versionsDesc": "Itt kezelheted a játék Verzióidat",
       "modsTitle": "Modok",
       "modsDesc": "Keress és telepíts modokat",
-      "changelogTitle": "Fejlesztési napló",
-      "changelogDesc": "Vintage Story változásainak naplója",
       "installationsTitle": "Telepítések",
       "installationsDesc": "Itt kezelheted a Telepítéseidet"
     },

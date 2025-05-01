@@ -60,8 +60,7 @@
     "selectIcon": "Select icon",
     "icon": "Icon",
     "iconName": "Icon name",
-    "default": "Default",
-    "clickToLogIn": "Click here to login"
+    "default": "Default"
   },
   "features": {
     "generic": {
@@ -188,7 +187,6 @@
       "cantUpdateWhileinUse": "You can't update a Mod while it's in use!"
     },
     "config": {
-      "title": "Settings",
       "defaultInstallationsFolder": "Installations folder",
       "defaultVersionsFolder": "VS Versions folder",
       "backupsFolder": "Backups folder",
@@ -201,8 +199,7 @@
       "loggedin": "Logged in as {{user}}!",
       "onlyIfEnabledTwoFA": "Fill this field only if you have 2FA enabled!",
       "uiScale": "UI Scale",
-      "language": "Language",
-      "vintageStoryAccount": "Vintage Story account"
+      "language": "Language"
     },
     "backups": {
       "backupInProgress": "There is a backup already in progress!",
@@ -241,8 +238,6 @@
       "versionsDesc": "Manage your VS Versions",
       "modsTitle": "Mods",
       "modsDesc": "Search and install Mods",
-      "changelogTitle": "Changelog",
-      "changelogDesc": "Vintage Story changelog",
       "installationsTitle": "Installations",
       "installationsDesc": "Manage your Installations",
       "configTitle": "Config",
@@ -280,7 +275,7 @@
       "folderNotEmpty": "The folder you've selected is not empty! Make sure you've nothing important on there.",
       "noFileSelected": "No file selected!",
       "coulndtCopyIcon": "That icon couldn't be copied to the icons folder!",
-      "appClosePrevented": "You can't close VS Launcher either because you're playing Vintage Story or because there's an action in progress!"
+      "appClosePrevented": "You can't close VS Launcher either because you're playing Vintage Story or because there's a task in progress!"
     },
     "discard": "Discard notification"
   }

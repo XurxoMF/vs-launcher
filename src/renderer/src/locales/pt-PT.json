@@ -174,7 +174,6 @@
     "config": {
       "defaultInstallationsFolder": "Instalações",
       "defaultVersionsFolder": "Versões",
-      "title": "Definições",
       "backupsFolder": "Backups"
     },
     "backups": {
@@ -212,8 +211,6 @@
       "versionsDesc": "Gerir as versões do seu jogo",
       "modsTitle": "Mods",
       "modsDesc": "Procurar e instalar Mods",
-      "changelogTitle": "Changelog",
-      "changelogDesc": "Changelog do Vintage Story",
       "installationsTitle": "Instalações",
       "installationsDesc": "Gerir as suas instalações"
     },

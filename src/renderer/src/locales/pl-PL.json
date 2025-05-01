@@ -12,8 +12,6 @@
       "title": "Witaj w VS Launcher!"
     },
     "mainMenu": {
-      "changelogDesc": "Lista zmian Vintage Story",
-      "changelogTitle": "Lista zmian",
       "homeDesc": "Strona główna",
       "homeTitle": "Start",
       "installationsDesc": "Zarządzaj instancjami",
@@ -57,7 +55,6 @@
       "backupsFolder": "Folder kopii zapasowych",
       "defaultInstallationsFolder": "Folder instancji",
       "defaultVersionsFolder": "Folder wersji VS",
-      "title": "Ustawienia",
       "loginTitle": "Zaloguj się",
       "logoutTitle": "Wyloguj",
       "invalidEmailPass": "Nieprawidłowy adres e-mail lub hasło!",
