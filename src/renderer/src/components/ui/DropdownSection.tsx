@@ -12,12 +12,25 @@ import { PiCaretDownDuotone } from "react-icons/pi"
  * @param {string} props.title - The title of the FormGroupWrapper
  * @param {string} [props.className] - Additional class names for styling.
  * @param {boolean} [props.bgDark] - Add or not the darker background.
+ * @param {boolean} [props.startOpen] - True to show it open by default and false to show it closed by default.
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
-function DropdownSection({ children, title, className, bgDark = true }: { children: React.ReactNode; title?: string; className?: string; bgDark?: boolean }): JSX.Element {
-  const [open, setOpen] = useState(true)
+function DropdownSection({
+  children,
+  title,
+  className,
+  bgDark = true,
+  startOpen = true
+}: {
+  children: React.ReactNode
+  title?: string
+  className?: string
+  bgDark?: boolean
+  startOpen?: boolean
+}): JSX.Element {
+  const [open, setOpen] = useState(startOpen)
 
-  const hasMounted = useRef(false)
+  const hasMounted = useRef(!startOpen)
 
   return (
     <div className="flex flex-col gap-1 w-full items-center justify-center">
@@ -33,7 +46,7 @@ function DropdownSection({ children, title, className, bgDark = true }: { childr
             className="relative w-full flex items-center justify-between gap-2 px-2 py-1 z-1 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none border border-zinc-400/5 rounded-sm cursor-pointer"
             onClick={() => setOpen((prev) => !prev)}
           >
-            <h2 className="shrink-0 font-bold font-lg">{title}</h2>
+            <h2 className="shrink-0 font-lg">{title}</h2>
             <PiCaretDownDuotone className={clsx("text-zinc-300 shrink-0 duration-200", open && "-rotate-180")} />
           </Button>
         )}

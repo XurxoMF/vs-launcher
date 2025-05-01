@@ -10,7 +10,9 @@
       "versionsDesc": "Gestiona tus Versiones de VS",
       "versionsTitle": "Versiones de VS",
       "configDesc": "Configura VS Launcher",
-      "configTitle": "Configuración"
+      "configTitle": "Configuración",
+      "infoAndHelpDesc": "Ayuda e info de VS Launcher",
+      "infoAndHelpTitle": "Información y Ayuda"
     },
     "tasksMenu": {
       "downloading": "Descargando",
@@ -190,6 +192,13 @@
       "folderDoesntExists": "¡Esta Instalación no tiene datos, por favor, juegua al menos una vez para generar los datos básicos!",
       "compressionLevelDesc": "Una compresión más alta lleva más tiempo pero crea copias de seguridad más pequeñas.",
       "compressionLevel": "Nivel de compresión"
+    },
+    "infoAndHelp": {
+      "debugInfoTitle": "Información debug",
+      "includeLogs": "¡Envíanos los archivos log que puedrás encontrar en <folderlink /> para ayudarnos aún más!",
+      "logsFolderTitle": "Carpeta de logs",
+      "thisFolder": "esta carpeta",
+      "title": "Info y Ayuda de VS Launcher"
     }
   },
   "generic": {
@@ -253,7 +262,14 @@
     "icon": "Icono",
     "iconName": "Nombre del icono",
     "selectIcon": "Seleccionar icono",
-    "default": "Por defecto"
+    "default": "Por defecto",
+    "advanced": "Avanzado",
+    "backups": "Copias de seguridad",
+    "basics": "Esenciales",
+    "discord": "Discord",
+    "folders": "Carpetas",
+    "general": "General",
+    "source": "Fuente"
   },
   "notifications": {
     "body": {
@@ -278,5 +294,10 @@
       "appClosePrevented": "¡No puedes cerrar VS Launcher o porque estás jugando Vintage Story o porque hay una tarea en progreso!"
     },
     "discard": "Descartar notificación"
+  },
+  "featurs": {
+    "infoAndHelp": {
+      "debugInfoDesc": "¡Copia la siguiente información y envíala con tu informe de errores para ayudarnos a encontrar el problema!"
+    }
   }
 }

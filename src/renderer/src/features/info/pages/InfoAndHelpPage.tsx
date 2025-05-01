@@ -1,5 +1,6 @@
+import { useEffect, useState } from "react"
 import { Trans, useTranslation } from "react-i18next"
-import { PiGithubLogoFill, PiDiscordLogoDuotone, PiCoinsDuotone, PiInfoDuotone, PiCodeDuotone } from "react-icons/pi"
+import { PiDiscordLogoDuotone, PiCoinsDuotone, PiInfoDuotone, PiCodeDuotone, PiUsersThreeDuotone, PiGithubLogoDuotone } from "react-icons/pi"
 
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
 import { FormButton } from "@renderer/components/ui/FormComponents"
@@ -9,36 +10,53 @@ import DropdownSection from "@renderer/components/ui/DropdownSection"
 function InfoAndHelpPage(): JSX.Element {
   const { t } = useTranslation()
 
+  const [vslVersion, setVslVersion] = useState("")
+  const [os, setOs] = useState("")
+  const [logsFolder, setLogsFolder] = useState("")
+
+  useEffect(() => {
+    ;(async (): Promise<void> => {
+      setVslVersion(await window.api.utils.getAppVersion())
+      setOs(await window.api.utils.getOs())
+      setLogsFolder(await window.api.pathsManager.formatPath([await window.api.pathsManager.getCurrentUserDataPath(), "VSLauncher", "Logs"]))
+    })()
+  }, [])
+
   return (
     <ScrollableContainer>
       <div className="min-h-full flex flex-col justify-center items-center gap-4">
         <div className="w-[50rem] flex flex-col justify-center gap-6">
           <h1 className="text-center text-4xl font-bold">{t("features.infoAndHelp.title")}</h1>
 
-          <div className="w-full shrink-0 flex flex-nowrap items-center justify-center gap-2">
-            <SocialButtons icon={<PiCodeDuotone />} to="https://github.com/XurxoMF/vs-launcher" text={t("generic.source")} />
-            <SocialButtons icon={<PiGithubLogoFill />} to="https://github.com/XurxoMF/vs-launcher/issues" text={t("generic.issues")} />
+          <div className="w-full shrink-0 flex flex-wrap items-center justify-center gap-2">
+            <SocialButtons icon={<PiGithubLogoDuotone />} to="https://github.com/XurxoMF/vs-launcher/issues" text={t("generic.issues")} />
             <SocialButtons icon={<PiInfoDuotone />} to="https://vsldocs.xurxomf.xyz/" text={t("generic.guides")} />
             <SocialButtons icon={<PiDiscordLogoDuotone />} to="https://discord.gg/RtWpYBRRUz" text={t("generic.discord")} />
             <SocialButtons icon={<PiCoinsDuotone />} to="https://ko-fi.com/xurxomf" text={t("generic.donate")} />
+            <SocialButtons icon={<PiUsersThreeDuotone />} to="https://vsldocs.xurxomf.xyz/important-info/contributors" text={t("generic.contributors")} />
+            <SocialButtons icon={<PiCodeDuotone />} to="https://github.com/XurxoMF/vs-launcher" text={t("generic.source")} />
           </div>
 
-          <DropdownSection title={t("generic.contributors")}>
-            <DropdownSection title={t("features.infoAndHelp.codeContributorsTitle")}>
-              <Contributors
-                users={[
-                  { name: "XurxoMF", link: "https://github.com/XurxoMF", desc: t("features.infoAndHelp.contribOwnerAndMainDevDesc") },
-                  { name: "scgm0", link: "https://github.com/scgm0", desc: t("features.infoAndHelp.contribReverseEngeneerLogingDesc") },
-                  { name: "Tipsy The Cat", link: "https://github.com/TipsyTheCat", desc: t("features.infoAndHelp.contribBackupsCompressionDesc") }
-                ]}
-              />
-            </DropdownSection>
+          <DropdownSection title={t("features.infoAndHelp.debugInfoTitle")} startOpen={false}>
+            <p>{t("featurs.infoAndHelp.debugInfoDesc")}</p>
 
-            <DropdownSection title={t("features.infoAndHelp.translatorsTitle")}>
-              <DropdownSection title={t("features.localization.es-ES")}>
-                <Contributors users={[{ name: "XurxoMF", link: "https://github.com/XurxoMF" }]} />
-              </DropdownSection>
-            </DropdownSection>
+            <div className="select-all p-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 enabled:shadow-sm enabled:shadow-zinc-950/50 enabled:hover:shadow-none enabled:cursor-pointer disabled:opacity-50">
+              <p>VS Launcher Version - v{vslVersion}</p>
+              <p>OS Type - {os}</p>
+            </div>
+
+            <p className="flex gap-1 items-center flex-wrap">
+              <Trans
+                i18nKey="features.infoAndHelp.includeLogs"
+                components={{
+                  folderlink: (
+                    <NormalButton title={t("features.infoAndHelp.logsFolderTitle")} onClick={() => window.api.pathsManager.openPathOnFileExplorer(logsFolder)} className="text-vsl">
+                      {t("features.infoAndHelp.thisFolder")}
+                    </NormalButton>
+                  )
+                }}
+              />
+            </p>
           </DropdownSection>
 
           <span className="flex gap-1 items-center flex-wrap justify-center animate-pulse">
@@ -56,26 +74,6 @@ function InfoAndHelpPage(): JSX.Element {
         </div>
       </div>
     </ScrollableContainer>
-  )
-}
-
-function Contributors({ users }: { users: { name: string; link: string; desc?: string }[] }): JSX.Element {
-  return (
-    <div>
-      {users.map((user) => (
-        <p key={user.name + user.desc} className="flex gap-1 items-center flex-wrap">
-          <a href={user.link} className="text-vsl">
-            {user.name}
-          </a>
-          {user.desc && (
-            <>
-              <span>-</span>
-              {user.desc}
-            </>
-          )}
-        </p>
-      ))}
-    </div>
   )
 }
 

@@ -66,9 +66,6 @@
     "basics": "Basics",
     "backups": "Backups",
     "advanced": "Advanced",
-    "help": "Help",
-    "github": "GitHub",
-    "guide": "guide",
     "discord": "Discord",
     "source": "Source"
   },
@@ -240,18 +237,13 @@
       "compressionLevelDesc": "Higher compression takes longer but creates smaller Backups."
     },
     "infoAndHelp": {
-      "issues": "If you've found a bug or want to request a new feature, please, let us know on the VS Launcher <ghlink/> page!",
-      "guides": "If you don't know how to use VS Launcher you can check the <guidelink /> or ask on our <discordlink /> server!",
       "title": "VS Launcher Info & Help",
-      "codeContributorsTitle": "Developers & Code contributors",
-      "contribOwnerAndMainDevDesc": "Owner and main developer",
-      "contribReverseEngeneerLogingDesc": "Reverse engineering VS to learn how to log in with the VS account",
-      "contribBackupsCompressionDesc": "Backups compression level code contribution",
-      "translatorsTitle": "Translators"
+      "debugInfoTitle": "Debug info",
+      "includeLogs": "Send us the log files you can find on <folderlink /> to help us even more!",
+      "logsFolderTitle": "Logs folder",
+      "thisFolder": "this folder"
     },
-    "localization": {
-      "es-ES": "Spanish"
-    }
+    "localization": {}
   },
   "components": {
     "mainMenu": {
@@ -303,5 +295,10 @@
       "appClosePrevented": "You can't close VS Launcher either because you're playing Vintage Story or because there's a task in progress!"
     },
     "discard": "Discard notification"
+  },
+  "featurs": {
+    "infoAndHelp": {
+      "debugInfoDesc": "Copy the next info and send it with your bug report to help us find the issue!"
+    }
   }
 }

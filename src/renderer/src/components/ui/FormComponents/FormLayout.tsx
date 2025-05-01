@@ -35,11 +35,24 @@ export function FromGroup({ children, className, alignment = "x" }: { children: 
  * @param {string} props.title - The title of the FormGroupWrapper
  * @param {string} [props.className] - Additional class names for styling.
  * @param {boolean} [props.bgDark] - Add or not the darker background.
+ * @param {boolean} [props.startOpen] - True to show it open by default and false to show it closed by default.
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
-export function FormGroupWrapper({ children, title, className, bgDark = true }: { children: React.ReactNode; title?: string; className?: string; bgDark?: boolean }): JSX.Element {
+export function FormGroupWrapper({
+  children,
+  title,
+  className,
+  bgDark = true,
+  startOpen = true
+}: {
+  children: React.ReactNode
+  title?: string
+  className?: string
+  bgDark?: boolean
+  startOpen?: boolean
+}): JSX.Element {
   return (
-    <DropdownSection title={title} className={className} bgDark={bgDark}>
+    <DropdownSection title={title} className={className} bgDark={bgDark} startOpen={startOpen}>
       {children}
     </DropdownSection>
   )

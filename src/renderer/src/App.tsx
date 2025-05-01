@@ -54,7 +54,7 @@ function App(): JSX.Element {
                   "before:absolute before:left-0 before:top-0 before:w-full before:h-full before:backdrop-blur-[2px]"
                 )}
               >
-                <div className="w-full h-full flex bg-zinc-950/25">
+                <div className="w-full h-full flex bg-zinc-950/15">
                   <Loader />
 
                   <MainMenu />

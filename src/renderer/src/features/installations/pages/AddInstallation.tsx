@@ -335,7 +335,7 @@ function AddInslallation(): JSX.Element {
             </FromGroup>
           </FormGroupWrapper>
 
-          <FormGroupWrapper title={t("generic.advanced")}>
+          <FormGroupWrapper title={t("generic.advanced")} startOpen={false}>
             <FromGroup>
               <FormHead>
                 <FormLabel content={t("features.installations.labelStartParams")} />
