@@ -38,7 +38,7 @@ function ListMods(): JSX.Element {
 
   const [installation, setInstallation] = useState<InstallationType | undefined>(undefined)
 
-  const [installationInstalledMods, setInstallationInstalledMods] = useState<InstalledModType[] | null>([])
+  const [installationInstalledMods, setInstallationInstalledMods] = useState<InstalledModType[] | undefined>([])
 
   const [onlyFav, setOnlyFav] = useState<boolean>(false)
   const [textFilter, setTextFilter] = useState<string>("")
@@ -82,7 +82,7 @@ function ListMods(): JSX.Element {
     return (): void => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current)
     }
-  }, [installationInstalledMods, textFilter, authorFilter, versionsFilter, tagsFilter, sideFilter, installedFilter, onlyFav, orderBy, orderByOrder])
+  }, [textFilter, authorFilter, versionsFilter, tagsFilter, sideFilter, installedFilter, onlyFav, orderBy, orderByOrder])
 
   useEffect(() => {
     setInstallation(config.installations.find((i) => i.id === config.lastUsedInstallation))
@@ -93,9 +93,13 @@ function ListMods(): JSX.Element {
     triggerGetInstalledMods()
   }, [installation])
 
-  async function triggerQueryMods(): Promise<void> {
+  useEffect(() => {
+    if (installedFilter !== "all") triggerQueryMods(false)
+  }, [installationInstalledMods])
+
+  async function triggerQueryMods(resetScroll: boolean = true): Promise<void> {
     // If the installed mods are not loaded yet, skip, it'll be run again when the mods are loaded
-    if (installationInstalledMods === null) {
+    if (!installationInstalledMods) {
       window.api.utils.logMessage("info", "[front] [mods] [features/mods/pages/ListMods.tsx] [triggerQueryMods] Installed mods not loaded yet, skipping query")
       return
     }
@@ -112,20 +116,17 @@ function ListMods(): JSX.Element {
       orderBy,
       orderByOrder,
       onFinish: () => {
-        scrollRef.current?.scrollTo({ top: 0 })
-        setVisibleMods(DEFAULT_LOADED_MODS)
+        if (resetScroll) {
+          scrollRef.current?.scrollTo({ top: 0 })
+          setVisibleMods(DEFAULT_LOADED_MODS)
+        }
       }
-    })
-
-    mods = mods.map((mod) => {
-      mod._installed = installationInstalledMods.some((iMod) => mod.modidstrs.some((modidstr) => modidstr === iMod.modid))
-      return mod
     })
 
     if (sideFilter !== "any") mods = mods.filter((mod) => mod.side === sideFilter)
 
-    if (installedFilter === "installed") mods = mods.filter((mod) => mod._installed)
-    if (installedFilter === "not-installed") mods = mods.filter((mod) => !mod._installed)
+    if (installedFilter === "installed") mods = mods.filter((mod) => installationInstalledMods.some((iMod) => mod.modidstrs.some((modidstr) => modidstr === iMod.modid)))
+    if (installedFilter === "not-installed") mods = mods.filter((mod) => !installationInstalledMods.some((iMod) => mod.modidstrs.some((modidstr) => modidstr === iMod.modid)))
 
     if (onlyFav) mods = mods.filter((mod) => config.favMods.some((fm) => fm === mod.modid))
 
@@ -204,7 +205,7 @@ function ListMods(): JSX.Element {
         </StickyMenuWrapper>
 
         <GridWrapper className="my-auto">
-          {modsList.length < 1 || searching ? (
+          {modsList.length < 1 ? (
             <div className="flex flex-col items-center justify-center gap-2">
               <p className="p-6 text-center text-2xl rounded-sm bg-zinc-950/50 backdrop-blur-xs shadow-sm shadow-zinc-950/50">
                 {searching ? t("features.mods.searching") : t("features.mods.noMatchingFilters")}
@@ -219,7 +220,7 @@ function ListMods(): JSX.Element {
                     if (!installation) return addNotification(t("features.installations.noInstallationSelected"), "error")
                     setModToInstall(mod)
                   }}
-                  selected={mod._installed}
+                  selected={installationInstalledMods?.some((iMod) => mod.modidstrs.some((modidstr) => modidstr === iMod.modid))}
                   size="w-[18rem] max-w-[26rem]"
                   className="group overflow-hidden"
                 >
