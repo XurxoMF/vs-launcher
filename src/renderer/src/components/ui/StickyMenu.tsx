@@ -26,7 +26,7 @@ export function StickyMenuWrapper({ children, scrollRef, className }: { children
     <div className="sticky top-0 z-50 w-full flex items-center justify-center">
       <div
         className={clsx(
-          "relative rounded-sm border border-zinc-400/5 shadow-sm shadow-zinc-950/50 p-1 duration-200",
+          "relative w-full flex flex-col gap-2 rounded-sm border border-zinc-400/5 shadow-sm shadow-zinc-950/50 p-1 duration-200",
           "before:absolute before:left-0 before:top-0 before:w-full before:h-full before:backdrop-blur-xs",
           scrTop > 20 ? "bg-zinc-800" : "bg-zinc-950/15",
           className
@@ -39,5 +39,5 @@ export function StickyMenuWrapper({ children, scrollRef, className }: { children
 }
 
 export function StickyMenuGroup({ children, className }: { children: ReactNode; className?: string }): JSX.Element {
-  return <div className={clsx("relative flex flex-row flex-wrap items-center justify-center gap-2", className)}>{children}</div>
+  return <div className={clsx("relative flex flex-row flex-wrap items-center justify-between gap-2", className)}>{children}</div>
 }

@@ -167,46 +167,48 @@ function ListMods(): JSX.Element {
       <div className="w-full min-h-[101%] flex flex-col justify-center gap-4">
         <StickyMenuWrapper scrollRef={scrollRef}>
           <StickyMenuGroup>
-            <FormInputText placeholder={t("generic.text")} value={textFilter} onChange={(e) => setTextFilter(e.target.value)} className="w-40" />
+            <div className="w-full flex items-center justify-center flex-wrap gap-2">
+              <FormInputText placeholder={t("generic.text")} value={textFilter} onChange={(e) => setTextFilter(e.target.value)} className="w-40" />
 
-            <AuthorFilter authorFilter={authorFilter} setAuthorFilter={setAuthorFilter} />
+              <AuthorFilter authorFilter={authorFilter} setAuthorFilter={setAuthorFilter} />
 
-            <VersionsFilter versionsFilter={versionsFilter} setVersionsFilter={setVersionsFilter} />
+              <VersionsFilter versionsFilter={versionsFilter} setVersionsFilter={setVersionsFilter} />
 
-            <TagsFilter tagsFilter={tagsFilter} setTagsFilter={setTagsFilter} />
+              <TagsFilter tagsFilter={tagsFilter} setTagsFilter={setTagsFilter} />
 
-            <SideFilter sideFilter={sideFilter} setSideFilter={setSideFilter} />
+              <SideFilter sideFilter={sideFilter} setSideFilter={setSideFilter} />
 
-            <FormButton title={t("features.mods.onlyFavMods")} onClick={() => setOnlyFav((prev) => !prev)} className="w-8 h-8 text-lg" type={onlyFav ? "warn" : "normal"}>
-              <PiStarDuotone />
-            </FormButton>
+              <FormButton title={t("features.mods.onlyFavMods")} onClick={() => setOnlyFav((prev) => !prev)} className="w-8 h-8 text-lg" type={onlyFav ? "warn" : "normal"}>
+                <PiStarDuotone />
+              </FormButton>
 
-            <OrderFilter orderBy={orderBy} setOrderBy={setOrderBy} orderByOrder={orderByOrder} setOrderByOrder={setOrderByOrder} />
+              <OrderFilter orderBy={orderBy} setOrderBy={setOrderBy} orderByOrder={orderByOrder} setOrderByOrder={setOrderByOrder} />
 
-            <FormButton
-              title={searching ? t("generic.searching") : t("generic.waitingForChanges")}
-              onClick={() => {
-                if (!searching) triggerQueryMods()
-              }}
-              className="w-8 h-8 text-lg"
-            >
-              {searching ? <FiLoader className="animate-spin" /> : <PiMagnifyingGlassDuotone />}
-            </FormButton>
+              <FormButton
+                title={searching ? t("generic.searching") : t("generic.waitingForChanges")}
+                onClick={() => {
+                  if (!searching) triggerQueryMods()
+                }}
+                className="w-8 h-8 text-lg"
+              >
+                {searching ? <FiLoader className="animate-spin" /> : <PiMagnifyingGlassDuotone />}
+              </FormButton>
 
-            <FormButton title={t("generic.clearFilter")} onClick={() => clearFilters()} className="w-8 h-8 text-lg">
-              <PiEraserDuotone />
-            </FormButton>
+              <FormButton title={t("generic.clearFilter")} onClick={() => clearFilters()} className="w-8 h-8 text-lg">
+                <PiEraserDuotone />
+              </FormButton>
 
-            <FormButton
-              title={t("generic.goToTop")}
-              onClick={(e) => {
-                e.stopPropagation()
-                scrollRef.current?.scrollTo({ top: 0, behavior: "smooth" })
-              }}
-              className="w-8 h-8 text-lg"
-            >
-              <PiArrowFatLinesUpDuotone />
-            </FormButton>
+              <FormButton
+                title={t("generic.goToTop")}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  scrollRef.current?.scrollTo({ top: 0, behavior: "smooth" })
+                }}
+                className="w-8 h-8 text-lg"
+              >
+                <PiArrowFatLinesUpDuotone />
+              </FormButton>
+            </div>
           </StickyMenuGroup>
         </StickyMenuWrapper>
 
@@ -226,8 +228,8 @@ function ListMods(): JSX.Element {
                     if (!installation) return addNotification(t("features.installations.noInstallationSelected"), "error")
                     setModToInstall(mod)
                   }}
-                  size="basis-[22rem] max-w-[28rem] overflow-hidden"
-                  className="group"
+                  size="basis-[18rem] max-w-[24rem]"
+                  className="group overflow-hidden"
                 >
                   <div className="relative w-full aspect-[3/2]">
                     <img src={mod.logo ? `${mod.logo}` : "https://mods.vintagestory.at/web/img/mod-default.png"} alt={mod.name} className="w-full h-full object-cover object-top" />
@@ -262,7 +264,7 @@ function ListMods(): JSX.Element {
                     </div>
                   </div>
 
-                  <div className="w-full h-full flex text-sm">
+                  <div className="w-full aspect-[3/1] flex text-sm">
                     <div className="shrink-0 w-1/3 flex flex-col gap-1 px-2 py-1 overflow-hidden">
                       <p className="flex items-center gap-1">
                         <PiUserCircleDuotone className="shrink-0 opacity-50" />
