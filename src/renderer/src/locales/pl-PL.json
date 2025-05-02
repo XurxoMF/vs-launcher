@@ -19,7 +19,11 @@
       "modsDesc": "Szukaj i instaluj mody",
       "modsTitle": "Mody",
       "versionsDesc": "Zarządzaj wersjami VS",
-      "versionsTitle": "Wersje VS"
+      "versionsTitle": "Wersje VS",
+      "configDesc": "Konfiguracja VS Launcher",
+      "configTitle": "Konfiguracja",
+      "infoAndHelpDesc": "Pomoc i informacje o VS Launcher",
+      "infoAndHelpTitle": "Informacje i pomoc"
     }
   },
   "features": {
@@ -62,7 +66,9 @@
       "loggedout": "Wylogowano!",
       "loggingin": "Zalogowano!",
       "onlyIfEnabledTwoFA": "Wypełnij to pole tylko wtedy, gdy masz włączone 2FA!",
-      "wrongtwofa": "Błędny kod 2FA!"
+      "wrongtwofa": "Błędny kod 2FA!",
+      "language": "Język",
+      "uiScale": "Skala UI"
     },
     "generic": {
       "notImplemented": "Strona w trakcie budowy!",
@@ -186,6 +192,13 @@
       "versionUninstalledSuccesfully": "Wersja VS {{version}} została odinstalowana pomyślnie!",
       "installNewVersion": "Zainstaluj nową wersję VS",
       "labelGameVersions": "Wersje VS"
+    },
+    "infoAndHelp": {
+      "debugInfoTitle": "Informacje debugowania",
+      "includeLogs": "Aby jeszcze bardziej nam pomóc, prześlij pliki logów znajdujące się w <folderlink />.",
+      "logsFolderTitle": "Folder logów",
+      "thisFolder": "tym folderze",
+      "title": "Pomoc i informacje o VS Launcher"
     }
   },
   "generic": {
@@ -248,7 +261,15 @@
     "addIcon": "Dodaj ikonę",
     "icon": "Ikona",
     "selectIcon": "Wybierz ikonę",
-    "iconName": "Nazwa ikony"
+    "iconName": "Nazwa ikony",
+    "advanced": "Zaawansowane",
+    "backups": "Kopie zapasowe",
+    "basics": "Podstawowe",
+    "default": "Domyślne",
+    "discord": "Discord",
+    "folders": "Foldery",
+    "general": "Ogólne",
+    "source": "Źródło"
   },
   "notifications": {
     "body": {
@@ -269,8 +290,14 @@
       "updateDownloaded": "Aktualizacja została pobrana pomyślnie! Uruchom ponownie VS Launcher, aby dokończyć aktualizację!",
       "folderNotEmpty": "Wybrany folder nie jest pusty! Upewnij się, że nie ma tam nic ważnego.",
       "noFileSelected": "Nie wybrano pliku!",
-      "coulndtCopyIcon": "Ta ikona nie mogła zostać skopiowana do folderu ikon!"
+      "coulndtCopyIcon": "Ta ikona nie mogła zostać skopiowana do folderu ikon!",
+      "appClosePrevented": "Nie można zamknąć VS Launchera, ponieważ gra Vintage Story jest uruchomiona lub trwa wykonywanie zadania."
     },
     "discard": "Wyczyść powiadomienia"
+  },
+  "featurs": {
+    "infoAndHelp": {
+      "debugInfoDesc": "Skopiuj poniższe informacje i wyślij je wraz ze zgłoszeniem błędu, aby pomóc nam znaleźć problem!"
+    }
   }
 }
