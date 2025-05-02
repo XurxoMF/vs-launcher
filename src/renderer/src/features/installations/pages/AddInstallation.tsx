@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useTranslation, Trans } from "react-i18next"
 import { v4 as uuidv4 } from "uuid"
@@ -6,6 +6,7 @@ import { PiCaretDownDuotone, PiFloppyDiskBackDuotone, PiMagnifyingGlassDuotone, 
 import semver from "semver"
 import clsx from "clsx"
 import { AnimatePresence, motion } from "motion/react"
+import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react"
 
 import { DROPDOWN_MENU_ITEM_VARIANTS, DROPDOWN_MENU_WRAPPER_VARIANTS } from "@renderer/utils/animateVariants"
 import { INSTALLATION_ICONS } from "@renderer/utils/installationIcons"
@@ -34,8 +35,8 @@ import {
 import { TableBody, TableBodyRow, TableCell, TableHead, TableHeadRow, TableWrapper } from "@renderer/components/ui/Table"
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
 import { LinkButton, NormalButton } from "@renderer/components/ui/Buttons"
-import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react"
 import { AddCustomIconPupup } from "@renderer/components/ui/AddCustomIconPupup"
+import { StickyMenuWrapper, StickyMenuGroupWrapper, StickyMenuGroup, StickyMenuBreadcrumbs, GoBackButton, GoToTopButton } from "@renderer/components/ui/StickyMenu"
 
 function AddInslallation(): JSX.Element {
   const { t } = useTranslation()
@@ -57,6 +58,8 @@ function AddInslallation(): JSX.Element {
   const [envVars, setEnvVars] = useState<string>("")
 
   const [addIcon, setAddIcon] = useState<boolean>(false)
+
+  const scrollRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     ;(async (): Promise<void> => {
@@ -103,9 +106,28 @@ function AddInslallation(): JSX.Element {
   }
 
   return (
-    <ScrollableContainer>
-      <div className="min-h-full flex flex-col justify-center gap-4">
-        <FromWrapper className="max-w-[50rem] w-full">
+    <ScrollableContainer ref={scrollRef}>
+      <div className="min-h-full flex flex-col items-center justify-center gap-2">
+        <StickyMenuWrapper scrollRef={scrollRef}>
+          <StickyMenuGroupWrapper>
+            <StickyMenuGroup>
+              <GoBackButton to="/installations" />
+            </StickyMenuGroup>
+
+            <StickyMenuBreadcrumbs
+              breadcrumbs={[
+                { name: t("breadcrumbs.installations"), to: "/installations" },
+                { name: t("breadcrumbs.addInstallation"), to: "/installations/add" }
+              ]}
+            />
+
+            <StickyMenuGroup>
+              <GoToTopButton scrollRef={scrollRef} />
+            </StickyMenuGroup>
+          </StickyMenuGroupWrapper>
+        </StickyMenuWrapper>
+
+        <FromWrapper className="max-w-[50rem] w-full my-auto">
           <FormGroupWrapper title={t("generic.basics")}>
             <FromGroup>
               <FormHead>
@@ -139,7 +161,7 @@ function AddInslallation(): JSX.Element {
                         <img src={icon.custom ? `icons:${icon.icon}` : icon.icon} alt={t("generic.icon")} className="h-full aspect-square object-cover rounded-sm" />
                         <p>{icon.name}</p>
                       </div>
-                      <PiCaretDownDuotone className={clsx("text-zinc-300 duration-200 shrink-0", open && "rotate-180")} />
+                      <PiCaretDownDuotone className={clsx("duration-200 shrink-0", open && "rotate-180")} />
                     </ListboxButton>
 
                     <AnimatePresence>

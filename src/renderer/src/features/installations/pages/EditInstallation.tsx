@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import { useTranslation, Trans } from "react-i18next"
 import { Button, Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react"
@@ -12,6 +12,8 @@ import { DROPDOWN_MENU_ITEM_VARIANTS, DROPDOWN_MENU_WRAPPER_VARIANTS } from "@re
 
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
+
+import { StickyMenuWrapper, StickyMenuGroupWrapper, StickyMenuGroup, StickyMenuBreadcrumbs, GoBackButton, GoToTopButton } from "@renderer/components/ui/StickyMenu"
 
 import {
   FormBody,
@@ -56,6 +58,8 @@ function EditInslallation(): JSX.Element {
 
   const [addIcon, setAddIcon] = useState<boolean>(false)
 
+  const scrollRef = useRef<HTMLDivElement | null>(null)
+
   useEffect(() => {
     setInstallation(config.installations.find((igv) => igv.id === id))
   }, [id])
@@ -97,11 +101,30 @@ function EditInslallation(): JSX.Element {
   }
 
   return (
-    <ScrollableContainer>
-      <div className="min-h-full flex flex-col justify-center gap-4">
-        <FromWrapper className="max-w-[50rem] w-full">
+    <ScrollableContainer ref={scrollRef}>
+      <div className="min-h-full flex flex-col items-center justify-center gap-2">
+        <StickyMenuWrapper scrollRef={scrollRef}>
+          <StickyMenuGroupWrapper>
+            <StickyMenuGroup>
+              <GoBackButton to="/installations" />
+            </StickyMenuGroup>
+
+            <StickyMenuBreadcrumbs
+              breadcrumbs={[
+                { name: t("breadcrumbs.installations"), to: "/installations" },
+                { name: t("breadcrumbs.editInstallation"), to: installation ? `/installations/edit/${installation.id}` : "/installations" }
+              ]}
+            />
+
+            <StickyMenuGroup>
+              <GoToTopButton scrollRef={scrollRef} />
+            </StickyMenuGroup>
+          </StickyMenuGroupWrapper>
+        </StickyMenuWrapper>
+
+        <FromWrapper className="max-w-[50rem] w-full my-auto">
           {!installation ? (
-            <div className="w-full flex flex-col items-center justify-center gap-2 rounded-sm bg-zinc-950/50 p-4">
+            <div className="w-full flex flex-col items-center justify-center gap-2 rounded-sm p-4">
               <p className="text-2xl">{t("features.installations.noInstallationFound")}</p>
               <p className="w-full flex gap-1 items-center justify-center">{t("features.installations.noInstallationFoundDesc")}</p>
             </div>
@@ -132,7 +155,7 @@ function EditInslallation(): JSX.Element {
                             <img src={icon.custom ? `icons:${icon.icon}` : icon.icon} alt={t("generic.icon")} className="h-full aspect-square object-cover rounded-sm" />
                             <p>{icon.name}</p>
                           </div>
-                          <PiCaretDownDuotone className={clsx("text-zinc-300 duration-200 shrink-0", open && "rotate-180")} />
+                          <PiCaretDownDuotone className={clsx("duration-200 shrink-0", open && "rotate-180")} />
                         </ListboxButton>
 
                         <AnimatePresence>

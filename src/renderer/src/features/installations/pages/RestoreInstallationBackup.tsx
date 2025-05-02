@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { useParams } from "react-router-dom"
 import { PiArrowCounterClockwiseDuotone, PiFolderOpenDuotone, PiTrashDuotone, PiXCircleDuotone } from "react-icons/pi"
@@ -16,6 +16,7 @@ import PopupDialogPanel from "@renderer/components/ui/PopupDialogPanel"
 import { NormalButton } from "@renderer/components/ui/Buttons"
 import { FormButton } from "@renderer/components/ui/FormComponents"
 import { ThinSeparator } from "@renderer/components/ui/ListSeparators"
+import { StickyMenuWrapper, StickyMenuGroupWrapper, StickyMenuGroup, StickyMenuBreadcrumbs, GoBackButton, GoToTopButton } from "@renderer/components/ui/StickyMenu"
 
 function RestoreInstallationBackup(): JSX.Element {
   const { id } = useParams()
@@ -29,6 +30,8 @@ function RestoreInstallationBackup(): JSX.Element {
 
   const [backupToRestore, setBackupToRestore] = useState<BackupType | null>(null)
   const [backupToDelete, setBackupToDelete] = useState<BackupType | null>(null)
+
+  const scrollRef = useRef<HTMLDivElement | null>(null)
 
   const installation = config.installations.find((igv) => igv.id === id)
   const backups = installation?.backups
@@ -108,11 +111,30 @@ function RestoreInstallationBackup(): JSX.Element {
   }
 
   return (
-    <ScrollableContainer>
-      <div className="min-h-full flex flex-col justify-center gap-4">
-        <ListWrapper className="max-w-[50rem] w-full">
+    <ScrollableContainer ref={scrollRef}>
+      <div className="min-h-full flex flex-col items-center justify-center gap-2">
+        <StickyMenuWrapper scrollRef={scrollRef}>
+          <StickyMenuGroupWrapper>
+            <StickyMenuGroup>
+              <GoBackButton to="/installations" />
+            </StickyMenuGroup>
+
+            <StickyMenuBreadcrumbs
+              breadcrumbs={[
+                { name: t("breadcrumbs.installations"), to: "/installations" },
+                { name: t("breadcrumbs.manageBackups"), to: installation ? `/installations/backups/${installation.id}` : "/installations" }
+              ]}
+            />
+
+            <StickyMenuGroup>
+              <GoToTopButton scrollRef={scrollRef} />
+            </StickyMenuGroup>
+          </StickyMenuGroupWrapper>
+        </StickyMenuWrapper>
+
+        <ListWrapper className="max-w-[50rem] w-full my-auto">
           {backups && backups.length < 1 && (
-            <div className="relative w-full flex flex-col items-center justify-center gap-2 rounded-sm bg-zinc-950/50 p-4">
+            <div className="relative w-full flex flex-col items-center justify-center gap-2 rounded-sm p-4">
               <p className="text-2xl">{t("features.backups.noBackupsFound")}</p>
             </div>
           )}
@@ -128,7 +150,7 @@ function RestoreInstallationBackup(): JSX.Element {
                     <ThinSeparator />
 
                     <div className="shrink-0 w-fit flex gap-1 text-lg">
-                      <NormalButton className="p-1" title={t("features.backups.restoreBackup")} onClick={() => setBackupToRestore(backup)}>
+                      <NormalButton className="p-1" title={t("features.backups.manageBackups")} onClick={() => setBackupToRestore(backup)}>
                         <PiArrowCounterClockwiseDuotone />
                       </NormalButton>
                       <NormalButton onClick={() => setBackupToDelete(backup)} title={t("generic.delete")} className="p-1">
@@ -152,7 +174,7 @@ function RestoreInstallationBackup(): JSX.Element {
           </ListGroup>
         </ListWrapper>
 
-        <PopupDialogPanel title={t("features.backups.restoreBackup")} isOpen={backupToRestore !== null} close={() => setBackupToRestore(null)}>
+        <PopupDialogPanel title={t("features.backups.manageBackups")} isOpen={backupToRestore !== null} close={() => setBackupToRestore(null)}>
           <>
             <p>{t("features.backups.areYouSureRestoreBackup")}</p>
             <p className="text-zinc-400">{t("features.backups.restoringNotReversible")}</p>

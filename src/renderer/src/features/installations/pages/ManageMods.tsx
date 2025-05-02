@@ -17,6 +17,7 @@ import InstallModPopup from "@renderer/features/mods/components/InstallModPopup"
 import { LinkButton, NormalButton } from "@renderer/components/ui/Buttons"
 import { FormButton } from "@renderer/components/ui/FormComponents"
 import { ThinSeparator } from "@renderer/components/ui/ListSeparators"
+import { StickyMenuWrapper, StickyMenuGroupWrapper, StickyMenuGroup, StickyMenuBreadcrumbs, GoBackButton, GoToTopButton } from "@renderer/components/ui/StickyMenu"
 
 function ListMods(): JSX.Element {
   const { t } = useTranslation()
@@ -36,6 +37,8 @@ function ListMods(): JSX.Element {
   const [modToUpdate, setModToUpdate] = useState<InstalledModType | null>(null)
 
   const [gettingMods, setGettingMods] = useState<boolean>(false)
+
+  const scrollRef = useRef<HTMLDivElement | null>(null)
 
   const firstTimeGettingInstallationModsInstallationModsManager = useRef(true)
   useEffect(() => {
@@ -86,21 +89,40 @@ function ListMods(): JSX.Element {
   }
 
   return (
-    <ScrollableContainer>
-      <div className="min-h-full flex flex-col justify-center gap-4">
+    <ScrollableContainer ref={scrollRef}>
+      <div className="min-h-full flex flex-col items-center justify-center gap-2">
+        <StickyMenuWrapper scrollRef={scrollRef}>
+          <StickyMenuGroupWrapper>
+            <StickyMenuGroup>
+              <GoBackButton to="/installations" />
+            </StickyMenuGroup>
+
+            <StickyMenuBreadcrumbs
+              breadcrumbs={[
+                { name: t("breadcrumbs.installations"), to: "/installations" },
+                { name: t("breadcrumbs.manageMods"), to: installation ? `/installations/mods/${installation.id}` : "/installations" }
+              ]}
+            />
+
+            <StickyMenuGroup>
+              <GoToTopButton scrollRef={scrollRef} />
+            </StickyMenuGroup>
+          </StickyMenuGroupWrapper>
+        </StickyMenuWrapper>
+
         {installation && (
-          <>
+          <div className="max-w-[50rem] w-full m-auto">
             {installedMods.length < 1 && insatlledModsWithErrors.length < 1 && (
-              <ListWrapper className="max-w-[50rem] w-full">
+              <ListWrapper>
                 <ListGroup>
                   {gettingMods ? (
-                    <div className="w-full flex flex-col items-center justify-center gap-2 rounded-sm bg-zinc-950/50 p-8">
+                    <div className="w-full flex flex-col items-center justify-center gap-2 rounded-sm p-8">
                       <div className="w-full h-full flex items-center justify-center">
                         <FiLoader className="animate-spin text-4xl text-zinc-400" />
                       </div>
                     </div>
                   ) : (
-                    <div className="w-full flex flex-col items-center justify-center gap-2 rounded-sm bg-zinc-950/50 p-4">
+                    <div className="w-full flex flex-col items-center justify-center gap-2 rounded-sm p-4">
                       <p className="text-2xl">{t("features.mods.noModsFound")}</p>
                       <p className="w-full flex gap-1 items-center justify-center">
                         <Trans
@@ -121,7 +143,7 @@ function ListMods(): JSX.Element {
             )}
 
             {insatlledModsWithErrors.length > 0 && (
-              <ListWrapper className="max-w-[50rem] w-full">
+              <ListWrapper>
                 <ListGroup>
                   <div className="flex flex-col gap-1">
                     <h2 className="text-2xl text-center font-bold">{t("features.mods.listWithErrorsTitle")}</h2>
@@ -190,7 +212,7 @@ function ListMods(): JSX.Element {
             )}
 
             {installedMods.filter((iMod) => iMod._updatableTo).length > 0 && (
-              <ListWrapper className="max-w-[50rem] w-full">
+              <ListWrapper>
                 <ListGroup>
                   <div className="flex flex-col gap-1">
                     <h2 className="text-2xl text-center font-bold">{t("features.mods.listWithUpdatesTitle")}</h2>
@@ -245,7 +267,7 @@ function ListMods(): JSX.Element {
             )}
 
             {installedMods.filter((iMod) => !iMod._updatableTo && iMod._lastVersion).length > 0 && (
-              <ListWrapper className="max-w-[50rem] w-full">
+              <ListWrapper>
                 <ListGroup>
                   <div className="flex flex-col gap-1">
                     <h2 className="text-2xl text-center font-bold">{t("features.mods.listWithIncompatibleUpdatesTitle")}</h2>
@@ -300,7 +322,7 @@ function ListMods(): JSX.Element {
             )}
 
             {installedMods.filter((iMod) => !iMod._updatableTo && !iMod._lastVersion).length > 0 && (
-              <ListWrapper className="max-w-[50rem] w-full">
+              <ListWrapper>
                 <ListGroup>
                   {installedMods
                     .filter((iMod) => !iMod._updatableTo && !iMod._lastVersion)
@@ -338,7 +360,7 @@ function ListMods(): JSX.Element {
                 </div>
               </>
             </PopupDialogPanel>
-          </>
+          </div>
         )}
       </div>
     </ScrollableContainer>

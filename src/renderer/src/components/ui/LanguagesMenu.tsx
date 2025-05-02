@@ -44,9 +44,9 @@ function LanguagesMenu(): JSX.Element {
               >
                 <p className="flex gap-2 items-center overflow-hidden whitespace-nowrap">
                   <span className="text-sm">{lang.name}</span>
-                  <span className="text-ellipsis overflow-hidden text-zinc-500 text-xs">{lang.credits}</span>
+                  <span className="text-ellipsis overflow-hidden text-zinc-400 text-xs">{lang.credits}</span>
                 </p>
-                <PiCaretDownDuotone className={clsx("text-zinc-300 shrink-0 duration-200", open && "-rotate-180")} />
+                <PiCaretDownDuotone className={clsx("shrink-0 duration-200", open && "-rotate-180")} />
               </ListboxButton>
             ))}
 
@@ -70,7 +70,7 @@ function LanguagesMenu(): JSX.Element {
                     >
                       <p className="flex gap-2 items-center overflow-hidden whitespace-nowrap">
                         <span className="text-sm">{lang.name}</span>
-                        <span className="text-ellipsis overflow-hidden text-zinc-500 text-xs">{lang.credits}</span>
+                        <span className="text-ellipsis overflow-hidden text-zinc-400 text-xs">{lang.credits}</span>
                       </p>
                     </ListboxOption>
                   ))}

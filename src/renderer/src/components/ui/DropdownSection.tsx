@@ -47,7 +47,7 @@ function DropdownSection({
             onClick={() => setOpen((prev) => !prev)}
           >
             <h2 className="shrink-0 font-lg">{title}</h2>
-            <PiCaretDownDuotone className={clsx("text-zinc-300 shrink-0 duration-200", open && "-rotate-180")} />
+            <PiCaretDownDuotone className={clsx("shrink-0 duration-200", open && "-rotate-180")} />
           </Button>
         )}
         <AnimatePresence>

@@ -198,7 +198,8 @@
       "includeLogs": "Aby jeszcze bardziej nam pomóc, prześlij pliki logów znajdujące się w <folderlink />.",
       "logsFolderTitle": "Folder logów",
       "thisFolder": "tym folderze",
-      "title": "Pomoc i informacje o VS Launcher"
+      "title": "Pomoc i informacje o VS Launcher",
+      "debugInfoDesc": "Skopiuj poniższe informacje i wyślij je wraz ze zgłoszeniem błędu, aby pomóc nam znaleźć problem!"
     }
   },
   "generic": {
@@ -243,7 +244,6 @@
     "notPlayedYet": "Nigdy nie grano",
     "order": "Kolejność",
     "password": "Hasło",
-    "searching": "Wyszukiwanie",
     "server": "Serwer",
     "tags": "Tagi",
     "text": "Tekst",
@@ -254,7 +254,6 @@
     "update": "Aktualizuj",
     "updated": "Zaktualizowany",
     "versions": "Wersje",
-    "waitingForChanges": "Oczekiwanie na zmiany",
     "goToTop": "Na początek",
     "addIcon": "Dodaj ikonę",
     "icon": "Ikona",
@@ -294,8 +293,6 @@
     "discard": "Wyczyść powiadomienia"
   },
   "featurs": {
-    "infoAndHelp": {
-      "debugInfoDesc": "Skopiuj poniższe informacje i wyślij je wraz ze zgłoszeniem błędu, aby pomóc nam znaleźć problem!"
-    }
+    "infoAndHelp": {}
   }
 }

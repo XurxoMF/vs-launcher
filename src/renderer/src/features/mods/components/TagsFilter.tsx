@@ -7,7 +7,15 @@ import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headless
 
 import { DROPDOWN_MENU_ITEM_VARIANTS, DROPDOWN_MENU_WRAPPER_VARIANTS } from "@renderer/utils/animateVariants"
 
-function TagsFilter({ tagsFilter, setTagsFilter }: { tagsFilter: DownloadableModTagType[]; setTagsFilter: Dispatch<SetStateAction<DownloadableModTagType[]>> }): JSX.Element {
+function TagsFilter({
+  tagsFilter,
+  setTagsFilter,
+  size = "w-full h-8"
+}: {
+  tagsFilter: DownloadableModTagType[]
+  setTagsFilter: Dispatch<SetStateAction<DownloadableModTagType[]>>
+  size?: string
+}): JSX.Element {
   const { t } = useTranslation()
 
   const [tagsList, setTagsList] = useState<DownloadableModTagType[]>([])
@@ -32,7 +40,10 @@ function TagsFilter({ tagsFilter, setTagsFilter }: { tagsFilter: DownloadableMod
       {({ open }) => (
         <>
           <ListboxButton
-            className="w-32 h-8 px-2 flex items-center justify-between gap-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none cursor-pointer"
+            className={clsx(
+              "px-2 flex items-center justify-between gap-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none cursor-pointer",
+              size
+            )}
             title={tagsFilter.map((tag) => tag.name).join(" · ")}
           >
             <p className={clsx("flex gap-1 items-center overflow-hidden whitespace-nowrap text-ellipsis overflow-x-scroll scrollbar-none", tagsFilter.length < 1 && "text-zinc-600")}>
@@ -44,7 +55,7 @@ function TagsFilter({ tagsFilter, setTagsFilter }: { tagsFilter: DownloadableMod
                     </span>
                   ))}
             </p>
-            <PiCaretDownDuotone className={clsx("text-zinc-300 shrink-0 duration-200", open && "-rotate-180")} />
+            <PiCaretDownDuotone className={clsx("shrink-0 duration-200", open && "-rotate-180")} />
           </ListboxButton>
 
           <AnimatePresence>

@@ -73,7 +73,7 @@ function InstallationsDropdownMenu(): JSX.Element {
                         <p>{t("features.mods.modsCount", { count: current._modsCount })}</p>
                       </div>
                     </div>
-                    <PiCaretUpDuotone className={clsx("text-zinc-300 duration-200 shrink-0", open && "-rotate-180")} />
+                    <PiCaretUpDuotone className={clsx("duration-200 shrink-0", open && "-rotate-180")} />
                   </ListboxButton>
                 ))}
 

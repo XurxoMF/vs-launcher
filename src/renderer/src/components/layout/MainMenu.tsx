@@ -161,7 +161,7 @@ function LinkContent({ icon, text, desc, link }: LinkContentProps): JSX.Element 
       <span className="text-2xl text-zinc-400">{icon}</span>
       <div className="flex flex-col overflow-hidden whitespace-nowrap">
         <p className="font-bold text-sm overflow-hidden text-ellipsis">{text}</p>
-        <p className="text-zinc-500 text-xs overflow-hidden text-ellipsis">{desc}</p>
+        <p className="text-zinc-400 text-xs overflow-hidden text-ellipsis">{desc}</p>
       </div>
     </div>
   )

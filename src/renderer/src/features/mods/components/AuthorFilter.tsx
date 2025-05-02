@@ -7,7 +7,15 @@ import { Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOption
 
 import { DROPDOWN_MENU_ITEM_VARIANTS, DROPDOWN_MENU_WRAPPER_VARIANTS } from "@renderer/utils/animateVariants"
 
-function AuthorFilter({ authorFilter, setAuthorFilter }: { authorFilter: DownloadableModAuthorType; setAuthorFilter: Dispatch<SetStateAction<DownloadableModAuthorType>> }): JSX.Element {
+function AuthorFilter({
+  authorFilter,
+  setAuthorFilter,
+  size = "w-full h-8"
+}: {
+  authorFilter: DownloadableModAuthorType
+  setAuthorFilter: Dispatch<SetStateAction<DownloadableModAuthorType>>
+  size?: string
+}): JSX.Element {
   const { t } = useTranslation()
 
   const [authorsList, setAuthorsList] = useState<DownloadableModAuthorType[]>([])
@@ -39,7 +47,7 @@ function AuthorFilter({ authorFilter, setAuthorFilter }: { authorFilter: Downloa
     <Combobox value={authorFilter} onChange={(value) => setAuthorFilter(value || { userid: "", name: "" })} onClose={() => setAuthorsQuery("")}>
       {({ open }) => (
         <>
-          <div className="w-36 h-8 flex items-center justify-between rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none">
+          <div className={clsx("flex items-center justify-between rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none", size)}>
             <ComboboxInput
               placeholder={t("generic.author")}
               displayValue={() => authorFilter?.name || ""}

@@ -9,10 +9,12 @@ import { DROPDOWN_MENU_ITEM_VARIANTS, DROPDOWN_MENU_WRAPPER_VARIANTS } from "@re
 
 function VersionsFilter({
   versionsFilter,
-  setVersionsFilter
+  setVersionsFilter,
+  size = "w-full h-8"
 }: {
   versionsFilter: DownloadableModGameVersionType[]
   setVersionsFilter: Dispatch<SetStateAction<DownloadableModGameVersionType[]>>
+  size?: string
 }): JSX.Element {
   const { t } = useTranslation()
 
@@ -38,7 +40,10 @@ function VersionsFilter({
       {({ open }) => (
         <>
           <ListboxButton
-            className="w-28 h-8 px-2 flex items-center justify-between gap-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none cursor-pointer"
+            className={clsx(
+              "px-2 flex items-center justify-between gap-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none cursor-pointer",
+              size
+            )}
             title={versionsFilter.map((v) => v.name).join(" · ")}
           >
             <p className={clsx("flex gap-1 items-center overflow-hidden whitespace-nowrap text-ellipsis overflow-x-scroll scrollbar-none", versionsFilter.length < 1 && "text-zinc-600")}>
@@ -50,7 +55,7 @@ function VersionsFilter({
                     </span>
                   ))}
             </p>
-            <PiCaretDownDuotone className={clsx("text-zinc-300 shrink-0 duration-200", open && "-rotate-180")} />
+            <PiCaretDownDuotone className={clsx("shrink-0 duration-200", open && "-rotate-180")} />
           </ListboxButton>
 
           <AnimatePresence>

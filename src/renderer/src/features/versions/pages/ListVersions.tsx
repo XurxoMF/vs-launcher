@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { PiFolderOpenDuotone, PiPlusCircleDuotone, PiTrashDuotone, PiMagnifyingGlassDuotone, PiXCircleDuotone } from "react-icons/pi"
 import { useTranslation } from "react-i18next"
 import semver from "semver"
@@ -12,6 +12,7 @@ import PopupDialogPanel from "@renderer/components/ui/PopupDialogPanel"
 import { LinkButton, NormalButton } from "@renderer/components/ui/Buttons"
 import { FormButton } from "@renderer/components/ui/FormComponents"
 import { ThinSeparator } from "@renderer/components/ui/ListSeparators"
+import { StickyMenuWrapper, StickyMenuGroupWrapper, StickyMenuGroup, StickyMenuBreadcrumbs, GoBackButton, GoToTopButton } from "@renderer/components/ui/StickyMenu"
 
 function ListVersions(): JSX.Element {
   const { t } = useTranslation()
@@ -19,6 +20,8 @@ function ListVersions(): JSX.Element {
   const { config, configDispatch } = useConfigContext()
 
   const [versionToDelete, setVersionToDelete] = useState<GameVersionType | null>(null)
+
+  const scrollRef = useRef<HTMLDivElement | null>(null)
 
   async function DeleteVersionHandler(): Promise<void> {
     if (versionToDelete === null) return addNotification(t("features.versions.noVersionSelected"), "error")
@@ -40,9 +43,23 @@ function ListVersions(): JSX.Element {
   }
 
   return (
-    <ScrollableContainer>
-      <div className="min-h-full flex flex-col items-center justify-center">
-        <ListWrapper className="max-w-[50rem] w-full">
+    <ScrollableContainer ref={scrollRef}>
+      <div className="min-h-full flex flex-col items-center justify-center gap-2">
+        <StickyMenuWrapper scrollRef={scrollRef}>
+          <StickyMenuGroupWrapper>
+            <StickyMenuGroup>
+              <GoBackButton to="/" />
+            </StickyMenuGroup>
+
+            <StickyMenuBreadcrumbs breadcrumbs={[{ name: t("breadcrumbs.versions"), to: "/versions" }]} />
+
+            <StickyMenuGroup>
+              <GoToTopButton scrollRef={scrollRef} />
+            </StickyMenuGroup>
+          </StickyMenuGroupWrapper>
+        </StickyMenuWrapper>
+
+        <ListWrapper className="max-w-[50rem] w-full my-auto">
           <ListGroup>
             <div className="flex gap-2">
               <ListItem className="group">

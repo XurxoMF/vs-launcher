@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Input } from "@headlessui/react"
 import { useNavigate } from "react-router-dom"
@@ -25,6 +25,7 @@ import {
 } from "@renderer/components/ui/FormComponents"
 import { TableBody, TableBodyRow, TableCell, TableHead, TableHeadRow, TableWrapper } from "@renderer/components/ui/Table"
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
+import { StickyMenuWrapper, StickyMenuGroupWrapper, StickyMenuGroup, StickyMenuBreadcrumbs, GoBackButton, GoToTopButton } from "@renderer/components/ui/StickyMenu"
 
 function AddVersion(): JSX.Element {
   const { t } = useTranslation()
@@ -38,6 +39,8 @@ function AddVersion(): JSX.Element {
   const [folder, setFolder] = useState<string>("")
   const [folderByUser, setFolderByUser] = useState<boolean>(false)
   const [versionFilters, setVersionFilters] = useState({ stable: true, rc: false, pre: false })
+
+  const scrollRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     ;(async (): Promise<void> => {
@@ -108,9 +111,28 @@ function AddVersion(): JSX.Element {
   }
 
   return (
-    <ScrollableContainer>
-      <div className="min-h-full flex flex-col justify-center gap-4">
-        <FromWrapper className="max-w-[50rem] w-full">
+    <ScrollableContainer ref={scrollRef}>
+      <div className="min-h-full flex flex-col items-center justify-center gap-2">
+        <StickyMenuWrapper scrollRef={scrollRef}>
+          <StickyMenuGroupWrapper>
+            <StickyMenuGroup>
+              <GoBackButton to="/versions" />
+            </StickyMenuGroup>
+
+            <StickyMenuBreadcrumbs
+              breadcrumbs={[
+                { name: t("breadcrumbs.versions"), to: "/versions" },
+                { name: t("breadcrumbs.addVersion"), to: "/versions/add" }
+              ]}
+            />
+
+            <StickyMenuGroup>
+              <GoToTopButton scrollRef={scrollRef} />
+            </StickyMenuGroup>
+          </StickyMenuGroupWrapper>
+        </StickyMenuWrapper>
+
+        <FromWrapper className="max-w-[50rem] w-full my-auto">
           <FormGroupWrapper title={t("generic.basics")}>
             <FromGroup>
               <FormHead>

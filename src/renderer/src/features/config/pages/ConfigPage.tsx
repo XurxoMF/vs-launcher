@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { PiCaretDownDuotone, PiMagnifyingGlassDuotone } from "react-icons/pi"
 import { Listbox, ListboxButton, ListboxOption, ListboxOptions } from "@headlessui/react"
@@ -13,6 +13,7 @@ import { useNotificationsContext } from "@renderer/contexts/NotificationsContext
 import { FormBody, FormFieldGroup, FormHead, FormLabel, FromGroup, FromWrapper, FormGroupWrapper, FormButton, FormInputText } from "@renderer/components/ui/FormComponents"
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
 import LanguagesMenu from "@renderer/components/ui/LanguagesMenu"
+import { StickyMenuWrapper, StickyMenuGroupWrapper, StickyMenuGroup, StickyMenuBreadcrumbs, GoBackButton, GoToTopButton } from "@renderer/components/ui/StickyMenu"
 
 function ConfigPage(): JSX.Element {
   const { t } = useTranslation()
@@ -20,10 +21,26 @@ function ConfigPage(): JSX.Element {
 
   const { config, configDispatch } = useConfigContext()
 
+  const scrollRef = useRef<HTMLDivElement | null>(null)
+
   return (
-    <ScrollableContainer>
-      <div className="min-h-full flex flex-col justify-center gap-4">
-        <FromWrapper className="max-w-[50rem] w-full">
+    <ScrollableContainer ref={scrollRef}>
+      <div className="min-h-full flex flex-col items-center justify-center gap-2">
+        <StickyMenuWrapper scrollRef={scrollRef}>
+          <StickyMenuGroupWrapper>
+            <StickyMenuGroup>
+              <GoBackButton to="/" />
+            </StickyMenuGroup>
+
+            <StickyMenuBreadcrumbs breadcrumbs={[{ name: t("breadcrumbs.config"), to: "/config" }]} />
+
+            <StickyMenuGroup>
+              <GoToTopButton scrollRef={scrollRef} />
+            </StickyMenuGroup>
+          </StickyMenuGroupWrapper>
+        </StickyMenuWrapper>
+
+        <FromWrapper className="max-w-[50rem] w-full my-auto">
           <FormGroupWrapper title={t("generic.general")}>
             <FromGroup>
               <FormHead>
@@ -157,9 +174,9 @@ function UIScale(): JSX.Element {
             >
               <p className="flex gap-2 items-center overflow-hidden whitespace-nowrap">
                 <span className="text-sm">{scale.value}</span>
-                {scale.key === 100 && <span className="text-ellipsis overflow-hidden text-zinc-500 text-xs">{t("generic.default")}</span>}
+                {scale.key === 100 && <span className="text-ellipsis overflow-hidden text-zinc-400 text-xs">{t("generic.default")}</span>}
               </p>
-              <PiCaretDownDuotone className={clsx("text-zinc-300 shrink-0 duration-200", open && "-rotate-180")} />
+              <PiCaretDownDuotone className={clsx("shrink-0 duration-200", open && "-rotate-180")} />
             </ListboxButton>
           ))}
 
@@ -183,7 +200,7 @@ function UIScale(): JSX.Element {
                     >
                       <p className="flex gap-2 items-center overflow-hidden whitespace-nowrap">
                         <span className="text-sm">{scale.value}</span>
-                        {scale.key === 100 && <span className="text-ellipsis overflow-hidden text-zinc-500 text-xs">{t("generic.default")}</span>}
+                        {scale.key === 100 && <span className="text-ellipsis overflow-hidden text-zinc-400 text-xs">{t("generic.default")}</span>}
                       </p>
                     </ListboxOption>
                   ))}

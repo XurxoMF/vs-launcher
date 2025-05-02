@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react"
 import { useTranslation } from "react-i18next"
-import { PiDownloadDuotone, PiStarDuotone, PiChatCenteredTextDuotone, PiEraserDuotone, PiUserCircleDuotone, PiArrowFatLinesUpDuotone, PiMagnifyingGlassDuotone } from "react-icons/pi"
-import { FiExternalLink, FiLoader } from "react-icons/fi"
+import { PiDownloadDuotone, PiStarDuotone, PiChatCenteredTextDuotone, PiEraserDuotone, PiUserCircleDuotone } from "react-icons/pi"
+import { FiExternalLink } from "react-icons/fi"
 import clsx from "clsx"
 
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
@@ -14,14 +14,14 @@ import { FormButton, FormInputText } from "@renderer/components/ui/FormComponent
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
 import { GridGroup, GridItem, GridWrapper } from "@renderer/components/ui/Grid"
 import InstallModPopup from "@renderer/features/mods/components/InstallModPopup"
-import { StickyMenuWrapper, StickyMenuGroup } from "@renderer/components/ui/StickyMenu"
+import { StickyMenuWrapper, StickyMenuGroupWrapper, StickyMenuGroup, StickyMenuBreadcrumbs, GoBackButton, ReloadButton, GoToTopButton } from "@renderer/components/ui/StickyMenu"
 import { ThinSeparator } from "@renderer/components/ui/ListSeparators"
 import AuthorFilter from "@renderer/features/mods/components/AuthorFilter"
 import VersionsFilter from "@renderer/features/mods/components/VersionsFilter"
 import TagsFilter from "@renderer/features/mods/components/TagsFilter"
 import SideFilter from "@renderer/features/mods/components/SideFilter"
 import OrderFilter from "@renderer/features/mods/components/OrderFilter"
-import InstalledFilter from "../components/InstalledFilter"
+import InstalledFilter from "@renderer/features/mods/components/InstalledFilter"
 
 function ListMods(): JSX.Element {
   const { t } = useTranslation()
@@ -155,21 +155,40 @@ function ListMods(): JSX.Element {
 
   return (
     <ScrollableContainer ref={scrollRef}>
-      <div className="w-full min-h-[101%] flex flex-col justify-center gap-4">
+      <div className="w-full min-h-[101%] flex flex-col justify-center gap-2">
         <StickyMenuWrapper scrollRef={scrollRef}>
-          <StickyMenuGroup>
-            <div className="w-full flex items-center justify-center flex-wrap gap-2">
-              <FormInputText placeholder={t("generic.text")} value={textFilter} onChange={(e) => setTextFilter(e.target.value)} className="w-40" />
+          <StickyMenuGroupWrapper>
+            <StickyMenuGroup>
+              <GoBackButton to="/" />
 
-              <AuthorFilter authorFilter={authorFilter} setAuthorFilter={setAuthorFilter} />
+              <ReloadButton
+                onClick={() => {
+                  if (!searching) triggerQueryMods()
+                }}
+                reloading={searching}
+              />
+            </StickyMenuGroup>
 
-              <VersionsFilter versionsFilter={versionsFilter} setVersionsFilter={setVersionsFilter} />
+            <StickyMenuBreadcrumbs breadcrumbs={[{ name: t("breadcrumbs.mods"), to: "/mods" }]} />
 
-              <TagsFilter tagsFilter={tagsFilter} setTagsFilter={setTagsFilter} />
+            <StickyMenuGroup>
+              <GoToTopButton scrollRef={scrollRef} />
+            </StickyMenuGroup>
+          </StickyMenuGroupWrapper>
 
-              <SideFilter sideFilter={sideFilter} setSideFilter={setSideFilter} />
+          <StickyMenuGroupWrapper type="centered">
+            <StickyMenuGroup>
+              <FormInputText placeholder={t("generic.text")} value={textFilter} onChange={(e) => setTextFilter(e.target.value)} className="w-40 h-8" />
 
-              <InstalledFilter installedFilter={installedFilter} setInstalledFilter={setInstalledFilter} />
+              <AuthorFilter authorFilter={authorFilter} setAuthorFilter={setAuthorFilter} size="w-40 h-8" />
+
+              <VersionsFilter versionsFilter={versionsFilter} setVersionsFilter={setVersionsFilter} size="w-40 h-8" />
+
+              <TagsFilter tagsFilter={tagsFilter} setTagsFilter={setTagsFilter} size="w-40 h-8" />
+
+              <SideFilter sideFilter={sideFilter} setSideFilter={setSideFilter} size="w-40 h-8" />
+
+              <InstalledFilter installedFilter={installedFilter} setInstalledFilter={setInstalledFilter} size="w-40 h-8" />
 
               <FormButton title={t("features.mods.onlyFavMods")} onClick={() => setOnlyFav((prev) => !prev)} className="w-8 h-8 text-lg" type={onlyFav ? "warn" : "normal"}>
                 <PiStarDuotone />
@@ -177,35 +196,14 @@ function ListMods(): JSX.Element {
 
               <OrderFilter orderBy={orderBy} setOrderBy={setOrderBy} orderByOrder={orderByOrder} setOrderByOrder={setOrderByOrder} />
 
-              <FormButton
-                title={searching ? t("generic.searching") : t("generic.waitingForChanges")}
-                onClick={() => {
-                  if (!searching) triggerQueryMods()
-                }}
-                className="w-8 h-8 text-lg"
-              >
-                {searching ? <FiLoader className="animate-spin" /> : <PiMagnifyingGlassDuotone />}
-              </FormButton>
-
               <FormButton title={t("generic.clearFilter")} onClick={() => clearFilters()} className="w-8 h-8 text-lg">
                 <PiEraserDuotone />
               </FormButton>
-
-              <FormButton
-                title={t("generic.goToTop")}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  scrollRef.current?.scrollTo({ top: 0, behavior: "smooth" })
-                }}
-                className="w-8 h-8 text-lg"
-              >
-                <PiArrowFatLinesUpDuotone />
-              </FormButton>
-            </div>
-          </StickyMenuGroup>
+            </StickyMenuGroup>
+          </StickyMenuGroupWrapper>
         </StickyMenuWrapper>
 
-        <GridWrapper>
+        <GridWrapper className="my-auto">
           {modsList.length < 1 || searching ? (
             <div className="flex flex-col items-center justify-center gap-2">
               <p className="p-6 text-center text-2xl rounded-sm bg-zinc-950/50 backdrop-blur-xs shadow-sm shadow-zinc-950/50">

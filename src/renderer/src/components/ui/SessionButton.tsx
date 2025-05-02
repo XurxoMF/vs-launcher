@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
-import { PiFloppyDiskBackDuotone, PiUserDuotone, PiXCircleDuotone } from "react-icons/pi"
+import { PiFloppyDiskBackDuotone, PiTrashDuotone, PiUserDuotone, PiXCircleDuotone } from "react-icons/pi"
 
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 import { CONFIG_ACTIONS, useConfigContext } from "@renderer/features/config/contexts/ConfigContext"
@@ -33,7 +33,8 @@ function SessionButton(): JSX.Element {
   const [twofacode, setTwofacode] = useState("")
 
   const [loggingIn, setLoggingIn] = useState(false)
-  const [logInOpen, setLogInOpen] = useState<boolean>(false)
+  const [logInOpen, setLogInOpen] = useState(false)
+  const [logOutOpen, setLogOutOpen] = useState(false)
 
   async function handleLogin(): Promise<void> {
     setLoggingIn(true)
@@ -63,6 +64,12 @@ function SessionButton(): JSX.Element {
     setLoggingIn(false)
   }
 
+  async function handleLogout(): Promise<void> {
+    configDispatch({ type: CONFIG_ACTIONS.SET_ACCOUNT, payload: null })
+    addNotification(t("features.config.loggedout"), "success")
+    setLogOutOpen(false)
+  }
+
   async function saveLogin(data: object): Promise<void> {
     const newAccount: AccountType = {
       email: email,
@@ -85,13 +92,11 @@ function SessionButton(): JSX.Element {
   return (
     <>
       <FormButton
-        onClick={(e) => {
+        onClick={() => {
           if (!config.account) {
             setLogInOpen(true)
           } else {
-            e.stopPropagation()
-            configDispatch({ type: CONFIG_ACTIONS.SET_ACCOUNT, payload: null })
-            addNotification(t("features.config.loggedout"), "success")
+            setLogOutOpen(true)
           }
         }}
         title={!config.account ? t("features.config.loginTitle") : t("features.config.logoutTitle")}
@@ -175,6 +180,29 @@ function SessionButton(): JSX.Element {
             </FormButton>
           </ButtonsWrapper>
         </FromWrapper>
+      </PopupDialogPanel>
+
+      <PopupDialogPanel title={t("features.config.logoutTitle")} isOpen={logOutOpen} close={() => setLogOutOpen(false)}>
+        <>
+          <p>{t("features.config.areYouSureLogout")}</p>
+          <p className="text-zinc-400">{t("features.config.loginoutNotReversible")}</p>
+          <div className="flex gap-4 items-center justify-center text-lg">
+            <FormButton title={t("generic.cancel")} className="p-2" onClick={() => setLogOutOpen(false)} type="success">
+              <PiXCircleDuotone />
+            </FormButton>
+            <FormButton
+              title={t("features.config.logoutTitle")}
+              className="p-2"
+              onClick={(e) => {
+                e.stopPropagation()
+                handleLogout()
+              }}
+              type="error"
+            >
+              <PiTrashDuotone />
+            </FormButton>
+          </div>
+        </>
       </PopupDialogPanel>
     </>
   )

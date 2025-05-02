@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Trans, useTranslation } from "react-i18next"
 import { PiDiscordLogoDuotone, PiCoinsDuotone, PiInfoDuotone, PiCodeDuotone, PiUsersThreeDuotone, PiGithubLogoDuotone } from "react-icons/pi"
 
@@ -6,6 +6,7 @@ import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
 import { FormButton } from "@renderer/components/ui/FormComponents"
 import { NormalButton } from "@renderer/components/ui/Buttons"
 import DropdownSection from "@renderer/components/ui/DropdownSection"
+import { StickyMenuWrapper, StickyMenuGroupWrapper, StickyMenuGroup, StickyMenuBreadcrumbs, GoBackButton, GoToTopButton } from "@renderer/components/ui/StickyMenu"
 
 function InfoAndHelpPage(): JSX.Element {
   const { t } = useTranslation()
@@ -13,6 +14,8 @@ function InfoAndHelpPage(): JSX.Element {
   const [vslVersion, setVslVersion] = useState("")
   const [os, setOs] = useState("")
   const [logsFolder, setLogsFolder] = useState("")
+
+  const scrollRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     ;(async (): Promise<void> => {
@@ -23,9 +26,23 @@ function InfoAndHelpPage(): JSX.Element {
   }, [])
 
   return (
-    <ScrollableContainer>
-      <div className="min-h-full flex flex-col justify-center items-center gap-4">
-        <div className="w-[50rem] flex flex-col justify-center gap-6">
+    <ScrollableContainer ref={scrollRef}>
+      <div className="min-h-full flex flex-col items-center justify-center gap-2">
+        <StickyMenuWrapper scrollRef={scrollRef}>
+          <StickyMenuGroupWrapper>
+            <StickyMenuGroup>
+              <GoBackButton to="/" />
+            </StickyMenuGroup>
+
+            <StickyMenuBreadcrumbs breadcrumbs={[{ name: t("breadcrumbs.infoAndHelp"), to: "/info-and-help" }]} />
+
+            <StickyMenuGroup>
+              <GoToTopButton scrollRef={scrollRef} />
+            </StickyMenuGroup>
+          </StickyMenuGroupWrapper>
+        </StickyMenuWrapper>
+
+        <div className="w-[50rem] flex flex-col justify-center gap-6 my-auto">
           <h1 className="text-center text-4xl font-bold">{t("features.infoAndHelp.title")}</h1>
 
           <div className="w-full shrink-0 flex flex-wrap items-center justify-center gap-2">
@@ -38,7 +55,7 @@ function InfoAndHelpPage(): JSX.Element {
           </div>
 
           <DropdownSection title={t("features.infoAndHelp.debugInfoTitle")} startOpen={false}>
-            <p>{t("featurs.infoAndHelp.debugInfoDesc")}</p>
+            <p>{t("features.infoAndHelp.debugInfoDesc")}</p>
 
             <div className="select-all p-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 enabled:shadow-sm enabled:shadow-zinc-950/50 enabled:hover:shadow-none enabled:cursor-pointer disabled:opacity-50">
               <p>VS Launcher Version - v{vslVersion}</p>

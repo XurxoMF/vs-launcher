@@ -3,5 +3,13 @@ export function ThinSeparator(): JSX.Element {
 }
 
 export function DotSeparator(): JSX.Element {
-  return <span className="shrink-0 text-zinc-500">·</span>
+  return <span className="shrink-0">·</span>
+}
+
+export function ArrowSeparator(): JSX.Element {
+  return <span className="shrink-0">&gt;</span>
+}
+
+export function SlashSeparator(): JSX.Element {
+  return <span className="shrink-0">/</span>
 }

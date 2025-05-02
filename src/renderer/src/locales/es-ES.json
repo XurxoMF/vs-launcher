@@ -198,7 +198,8 @@
       "includeLogs": "¡Envíanos los archivos log que podrás encontrar en <folderlink /> para ayudarnos aún más!",
       "logsFolderTitle": "Carpeta de logs",
       "thisFolder": "esta carpeta",
-      "title": "Info y Ayuda de VS Launcher"
+      "title": "Info y Ayuda de VS Launcher",
+      "debugInfoDesc": "¡Copia la siguiente información y envíala con tu informe de errores para ayudarnos a encontrar el problema!"
     }
   },
   "generic": {
@@ -241,9 +242,7 @@
     "contributors": "Colaboradores",
     "update": "Actualizar",
     "favorite": "Favorito",
-    "searching": "Buscando",
     "tryMVL": "¿No te gusta VS Launcher? Prueba <link /> launcher!",
-    "waitingForChanges": "Esperando cambios",
     "any": "Cualquiera",
     "both": "Ambos",
     "client": "Cliente",
@@ -294,8 +293,6 @@
     "discard": "Descartar notificación"
   },
   "featurs": {
-    "infoAndHelp": {
-      "debugInfoDesc": "¡Copia la siguiente información y envíala con tu informe de errores para ayudarnos a encontrar el problema!"
-    }
+    "infoAndHelp": {}
   }
 }

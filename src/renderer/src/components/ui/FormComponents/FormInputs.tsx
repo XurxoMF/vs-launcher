@@ -5,7 +5,7 @@ const INPUT_BASE_STYLES = `h-8 px-2 py-1 rounded-md placeholder:text-zinc-200/15
 const INPUT_INVALID_STYLES = "invalid:border invalid:border-red-800 invalid:bg-red-800/20"
 const INPUT_VALID_STYLES = ""
 const INPUT_ENABLED_STYLES = "enabled:shadow-sm enabled:shadow-zinc-950/50 enabled:hover:shadow-none"
-const INPUT_DISABLED_STYLES = "disabled:text-zinc-500"
+const INPUT_DISABLED_STYLES = "disabled:opacity-50"
 
 /**
  * Input with type text and validation for minimum and maximum length.
