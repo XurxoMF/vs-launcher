@@ -67,7 +67,10 @@
     "backups": "Backups",
     "advanced": "Advanced",
     "discord": "Discord",
-    "source": "Source"
+    "source": "Source",
+    "all": "All",
+    "installed": "Installed",
+    "notInstalled": "Not installed"
   },
   "features": {
     "generic": {

@@ -21,6 +21,7 @@ import VersionsFilter from "@renderer/features/mods/components/VersionsFilter"
 import TagsFilter from "@renderer/features/mods/components/TagsFilter"
 import SideFilter from "@renderer/features/mods/components/SideFilter"
 import OrderFilter from "@renderer/features/mods/components/OrderFilter"
+import InstalledFilter from "../components/InstalledFilter"
 
 function ListMods(): JSX.Element {
   const { t } = useTranslation()
@@ -45,6 +46,7 @@ function ListMods(): JSX.Element {
   const [versionsFilter, setVersionsFilter] = useState<DownloadableModGameVersionType[]>([])
   const [tagsFilter, setTagsFilter] = useState<DownloadableModTagType[]>([])
   const [sideFilter, setSideFilter] = useState<string>("any")
+  const [installedFilter, setInstalledFilter] = useState<string>("all")
   const [orderBy, setOrderBy] = useState<string>("follows")
   const [orderByOrder, setOrderByOrder] = useState<string>("desc")
 
@@ -80,7 +82,7 @@ function ListMods(): JSX.Element {
     return (): void => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current)
     }
-  }, [onlyFav, textFilter, authorFilter, versionsFilter, tagsFilter, sideFilter, orderBy, orderByOrder])
+  }, [textFilter, authorFilter, versionsFilter, tagsFilter, sideFilter, installedFilter, onlyFav, orderBy, orderByOrder])
 
   useEffect(() => {
     setInstallation(config.installations.find((i) => i.id === config.lastUsedInstallation))
@@ -107,7 +109,16 @@ function ListMods(): JSX.Element {
       }
     })
 
+    // Filter by side
     if (sideFilter !== "any") mods = mods.filter((mod) => mod.side === sideFilter)
+
+    // Filter by installed
+    if (installedFilter === "installed") mods = mods.filter((mod) => installationInstalledMods.some((iMod) => mod.modidstrs.some((modidstr) => modidstr === iMod.modid)))
+
+    // Filter by not installed
+    if (installedFilter === "not-installed") mods = mods.filter((mod) => !installationInstalledMods.some((iMod) => mod.modidstrs.some((modidstr) => modidstr === iMod.modid)))
+
+    // Filter by favorites
     if (onlyFav) mods = mods.filter((mod) => config.favMods.some((fm) => fm === mod.modid))
 
     setModsList(mods)
@@ -148,6 +159,8 @@ function ListMods(): JSX.Element {
               <TagsFilter tagsFilter={tagsFilter} setTagsFilter={setTagsFilter} />
 
               <SideFilter sideFilter={sideFilter} setSideFilter={setSideFilter} />
+
+              <InstalledFilter installedFilter={installedFilter} setInstalledFilter={setInstalledFilter} />
 
               <FormButton title={t("features.mods.onlyFavMods")} onClick={() => setOnlyFav((prev) => !prev)} className="w-8 h-8 text-lg" type={onlyFav ? "warn" : "normal"}>
                 <PiStarDuotone />
@@ -199,7 +212,7 @@ function ListMods(): JSX.Element {
                     if (!installation) return addNotification(t("features.installations.noInstallationSelected"), "error")
                     setModToInstall(mod)
                   }}
-                  size="basis-[18rem] max-w-[24rem]"
+                  size="w-[18rem]"
                   className="group overflow-hidden"
                 >
                   <div className="relative w-full aspect-[3/2]">
