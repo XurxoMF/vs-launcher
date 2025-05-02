@@ -38,7 +38,7 @@ function ListMods(): JSX.Element {
 
   const [installation, setInstallation] = useState<InstallationType | undefined>(undefined)
 
-  const [installationInstalledMods, setInstallationInstalledMods] = useState<InstalledModType[]>([])
+  const [installationInstalledMods, setInstallationInstalledMods] = useState<InstalledModType[] | null>([])
 
   const [onlyFav, setOnlyFav] = useState<boolean>(false)
   const [textFilter, setTextFilter] = useState<string>("")
@@ -82,7 +82,7 @@ function ListMods(): JSX.Element {
     return (): void => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current)
     }
-  }, [textFilter, authorFilter, versionsFilter, tagsFilter, sideFilter, installedFilter, onlyFav, orderBy, orderByOrder])
+  }, [installationInstalledMods, textFilter, authorFilter, versionsFilter, tagsFilter, sideFilter, installedFilter, onlyFav, orderBy, orderByOrder])
 
   useEffect(() => {
     setInstallation(config.installations.find((i) => i.id === config.lastUsedInstallation))
@@ -90,10 +90,18 @@ function ListMods(): JSX.Element {
 
   useEffect(() => {
     if (!installation) return setInstallationInstalledMods([])
-    triggerGetCompleteInstalledMods()
+    triggerGetInstalledMods()
   }, [installation])
 
   async function triggerQueryMods(): Promise<void> {
+    // If the installed mods are not loaded yet, skip, it'll be run again when the mods are loaded
+    if (installationInstalledMods === null) {
+      window.api.utils.logMessage("info", "[front] [mods] [features/mods/pages/ListMods.tsx] [triggerQueryMods] Installed mods not loaded yet, skipping query")
+      return
+    }
+
+    window.api.utils.logMessage("info", "[front] [mods] [features/mods/pages/ListMods.tsx] [triggerQueryMods] Installed mods loaded, querying mods")
+
     setSearching(true)
 
     let mods = await queryMods({
@@ -109,29 +117,30 @@ function ListMods(): JSX.Element {
       }
     })
 
-    // Filter by side
+    mods = mods.map((mod) => {
+      mod._installed = installationInstalledMods.some((iMod) => mod.modidstrs.some((modidstr) => modidstr === iMod.modid))
+      return mod
+    })
+
     if (sideFilter !== "any") mods = mods.filter((mod) => mod.side === sideFilter)
 
-    // Filter by installed
-    if (installedFilter === "installed") mods = mods.filter((mod) => installationInstalledMods.some((iMod) => mod.modidstrs.some((modidstr) => modidstr === iMod.modid)))
+    if (installedFilter === "installed") mods = mods.filter((mod) => mod._installed)
+    if (installedFilter === "not-installed") mods = mods.filter((mod) => !mod._installed)
 
-    // Filter by not installed
-    if (installedFilter === "not-installed") mods = mods.filter((mod) => !installationInstalledMods.some((iMod) => mod.modidstrs.some((modidstr) => modidstr === iMod.modid)))
-
-    // Filter by favorites
     if (onlyFav) mods = mods.filter((mod) => config.favMods.some((fm) => fm === mod.modid))
 
     setModsList(mods)
     setSearching(false)
   }
 
-  async function triggerGetCompleteInstalledMods(): Promise<void> {
+  async function triggerGetInstalledMods(): Promise<void> {
     if (!installation) return addNotification(t("features.installations.noInstallationSelected"), "error")
 
     const mods = await getInstalledMods({
       path: installation.path
     })
 
+    // Set the installed mods count for the selected Installation. We had to get the mods anyway so... 2x1
     const totalMods = mods.errors.length + mods.mods.length
     configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id: installation.id, updates: { _modsCount: totalMods } } })
 
@@ -197,7 +206,7 @@ function ListMods(): JSX.Element {
         </StickyMenuWrapper>
 
         <GridWrapper>
-          {modsList.length < 1 ? (
+          {modsList.length < 1 || searching ? (
             <div className="flex flex-col items-center justify-center gap-2">
               <p className="p-6 text-center text-2xl rounded-sm bg-zinc-950/50 backdrop-blur-xs shadow-sm shadow-zinc-950/50">
                 {searching ? t("features.mods.searching") : t("features.mods.noMatchingFilters")}
@@ -212,7 +221,8 @@ function ListMods(): JSX.Element {
                     if (!installation) return addNotification(t("features.installations.noInstallationSelected"), "error")
                     setModToInstall(mod)
                   }}
-                  size="w-[18rem]"
+                  selected={mod._installed}
+                  size="w-[18rem] max-w-[26rem]"
                   className="group overflow-hidden"
                 >
                   <div className="relative w-full aspect-[3/2]">
@@ -250,7 +260,7 @@ function ListMods(): JSX.Element {
 
                   <div className="w-full aspect-[3/1] flex text-sm">
                     <div className="shrink-0 w-1/3 flex flex-col gap-1 px-2 py-1 overflow-hidden">
-                      <p className="flex items-center gap-1">
+                      <p className="flex items-center gap-1" title={mod.author}>
                         <PiUserCircleDuotone className="shrink-0 opacity-50" />
                         <span className="overflow-hidden whitespace-nowrap text-ellipsis">{mod.author}</span>
                       </p>
@@ -271,8 +281,12 @@ function ListMods(): JSX.Element {
                     <ThinSeparator />
 
                     <div className="w-full flex flex-col gap-1 px-2 py-1 overflow-hidden">
-                      <p className="text-base font-bold overflow-hidden whitespace-nowrap text-ellipsis">{mod.name}</p>
-                      <p className="text-zinc-400 line-clamp-3">{mod.summary}</p>
+                      <p className="text-base font-bold overflow-hidden whitespace-nowrap text-ellipsis" title={mod.name}>
+                        {mod.name}
+                      </p>
+                      <p className="text-zinc-400 line-clamp-3" title={mod.summary ?? ""}>
+                        {mod.summary}
+                      </p>
                     </div>
                   </div>
                 </GridItem>
@@ -287,11 +301,11 @@ function ListMods(): JSX.Element {
           installation={
             installation && {
               installation: installation,
-              oldMod: installationInstalledMods.find((iMod) => modToInstall?.modidstrs.some((modidstr) => modidstr === iMod.modid))
+              oldMod: installationInstalledMods?.find((iMod) => modToInstall?.modidstrs.some((modidstr) => modidstr === iMod.modid))
             }
           }
           onFinishInstallation={() => {
-            triggerGetCompleteInstalledMods()
+            triggerGetInstalledMods()
           }}
         />
       </div>

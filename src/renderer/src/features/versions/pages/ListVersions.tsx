@@ -81,7 +81,7 @@ function ListVersions(): JSX.Element {
                       </NormalButton>
                       <NormalButton
                         className="p-1"
-                        title={t("generic.delete")}
+                        title={t("features.versions.deleteVersion")}
                         onClick={async () => {
                           setVersionToDelete(gv)
                         }}

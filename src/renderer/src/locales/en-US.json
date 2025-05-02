@@ -20,8 +20,6 @@
     "type": "Type",
     "install": "Install",
     "minMaxAmmount": "Number between {{min}} and {{max}}",
-    "backup": "Backup",
-    "edit": "Edit",
     "donate": "Donations",
     "restore": "Restore",
     "text": "Text",
@@ -111,7 +109,8 @@
       "versionDeleting": "That VS Version is being deleted!",
       "versionPlaying": "You're already playing that VS Version!",
       "deleteWhilePlaying": "You can't delete a VS Version while you're playing it!",
-      "installNewVersion": "Install a new VS Version"
+      "installNewVersion": "Install a new VS Version",
+      "deleteVersion": "Delete Version"
     },
     "installations": {
       "noInstallationsFound": "No Installations found!",
@@ -148,7 +147,9 @@
       "mesaGlThreadDesc": "Enable to run the game with mesa_glthread. This may boost the performance on some Linux systems.",
       "envVars": "ENV variables",
       "envVarsDesc": "List of ENV variables separated with ,",
-      "envVarsPlaceholder": "ENV_1=something, ENV_2=anotherthing"
+      "envVarsPlaceholder": "ENV_1=something, ENV_2=anotherthing",
+      "backupInstallation": "Backup Installation",
+      "editInstallation": "Edit Installation"
     },
     "mods": {
       "modsCount": "{{count}} Mods",

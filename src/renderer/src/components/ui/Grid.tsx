@@ -46,12 +46,25 @@ export function GridGroup({ children, className }: { children: React.ReactNode; 
  *
  * @param {object} props - The component props.
  * @param {React.ReactNode} props.children - The content to be wrapped.
+ * @param {boolean} props.selected - If the item is selected.
  * @param {string} [props.className] - Additional class names for styling.
  * @param {string} [props.size] - Like the className prop but for the size properties.
  * @param {() => void} [props.onClick] - The function to be called when the item is clicked.
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
-export function GridItem({ children, className, size, onClick }: { children: React.ReactNode; className?: string; size?: string; onClick?: () => void }): JSX.Element {
+export function GridItem({
+  children,
+  className,
+  selected = false,
+  size,
+  onClick
+}: {
+  children: React.ReactNode
+  className?: string
+  selected?: boolean
+  size?: string
+  onClick?: () => void
+}): JSX.Element {
   const ref = useRef(null)
   const isInView = useInView(ref, {
     once: false
@@ -60,12 +73,12 @@ export function GridItem({ children, className, size, onClick }: { children: Rea
   return (
     <motion.li ref={ref} variants={GRIDITEM_VARIANTS} onClick={onClick} className={clsx("grow shrink-0", size)}>
       <motion.div
-        variants={GRIDITEM_VARIANTS}
         initial="initial"
         animate={isInView ? "animate" : "initial"}
         exit="exit"
         className={clsx(
-          "w-full h-full rounded-sm backdrop-blur-xs bg-zinc-950/50 border border-zinc-400/5 cursor-pointer shadow-sm shadow-zinc-950/50 hover:shadow-none  duration-200",
+          "w-full h-full rounded-sm backdrop-blur-xs border cursor-pointer shadow-sm shadow-zinc-950/50 hover:shadow-none duration-200",
+          selected ? "bg-vsd/50 border-vsl/25" : "bg-zinc-950/50 border-zinc-400/5",
           onClick && "cursor-pointer",
           className
         )}

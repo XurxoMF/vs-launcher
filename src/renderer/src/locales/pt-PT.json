@@ -20,8 +20,6 @@
     "type": "Tipo",
     "install": "Instalar",
     "minMaxAmmount": "Número entre {{min}} e {{max}}",
-    "backup": "Backup",
-    "edit": "Editar",
     "donate": "Doações",
     "restore": "Restaurar",
     "text": "Texto",

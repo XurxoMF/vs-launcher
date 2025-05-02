@@ -106,7 +106,7 @@ function ListInslallations(): JSX.Element {
                     <div className="flex flex-col gap-1">
                       <NormalButton
                         className="p-1"
-                        title={t("generic.backup")}
+                        title={t("features.installations.backupInstallation")}
                         onClick={async () => {
                           if (!(await window.api.pathsManager.checkPathExists(installation.path))) return addNotification(t("features.backups.folderDoesntExists"), "error")
                           makeInstallationBackup(installation.id)
@@ -134,12 +134,12 @@ function ListInslallations(): JSX.Element {
                       </NormalButton>
                     </div>
                     <div className="flex flex-col gap-1">
-                      <LinkButton to={`/installations/edit/${installation.id}`} title={t("generic.edit")} className="p-1">
+                      <LinkButton to={`/installations/edit/${installation.id}`} title={t("features.installations.editInstallation")} className="p-1">
                         <PiPencilDuotone />
                       </LinkButton>
                       <NormalButton
                         className="p-1"
-                        title={t("generic.delete")}
+                        title={t("features.installations.deleteInstallation")}
                         onClick={async () => {
                           setInstallationToDelete(installation)
                         }}

@@ -24,7 +24,7 @@ function SideFilter({ sideFilter, setSideFilter }: { sideFilter: string; setSide
           {SIDE_FILTERS.filter((side) => side.key === sideFilter).map((lang) => (
             <ListboxButton
               key={lang.key}
-              className="w-28 h-8 px-2 py-1 flex items-center justify-between gap-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none cursor-pointer"
+              className="w-22 h-8 px-2 py-1 flex items-center justify-between gap-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none cursor-pointer"
             >
               <p className="flex gap-2 items-center overflow-hidden whitespace-nowrap text-sm">{lang.value}</p>
               <PiCaretDownDuotone className={clsx("text-zinc-300 shrink-0 duration-200", open && "-rotate-180")} />

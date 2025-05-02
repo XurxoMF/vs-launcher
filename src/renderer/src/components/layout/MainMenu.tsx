@@ -114,7 +114,7 @@ function MainMenu(): JSX.Element {
             <div className="shrink-0 w-14 h-full grid grid-cols-2 grid-rows-2 gap-1 text-sm">
               <FormButton
                 className="p-1"
-                title={t("generic.backup")}
+                title={t("features.installations.backupInstallation")}
                 onClick={async () => {
                   if (!(await window.api.pathsManager.checkPathExists(selectedInstallation.path))) return addNotification(t("features.backups.folderDoesntExists"), "error")
                   makeInstallationBackup(selectedInstallation.id)
@@ -125,10 +125,10 @@ function MainMenu(): JSX.Element {
               <FormLinkButton to={`/installations/mods/${selectedInstallation.id}`} title={t("features.mods.manageMods")}>
                 <PiWrenchDuotone />
               </FormLinkButton>
-              <FormLinkButton title={t("generic.edit")} to={`/installations/edit/${selectedInstallation.id}`}>
+              <FormLinkButton title={t("features.installations.editInstallation")} to={`/installations/edit/${selectedInstallation.id}`}>
                 <PiPencilDuotone />
               </FormLinkButton>
-              <FormLinkButton title={t("generic.add")} to="/installations/add">
+              <FormLinkButton title={t("features.installations.addNewInstallation")} to="/installations/add">
                 <PiPlusCircleDuotone />
               </FormLinkButton>
             </div>

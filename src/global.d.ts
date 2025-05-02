@@ -99,6 +99,7 @@ declare global {
     logo: string
     tags: string[]
     lastreleased: string
+    _installed?: boolean
   }
 
   type DownloadableModType = {

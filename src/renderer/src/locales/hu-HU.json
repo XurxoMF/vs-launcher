@@ -20,8 +20,6 @@
     "type": "Típus",
     "install": "Telepít",
     "minMaxAmmount": "Egy szám {{min}} és {{max}} között",
-    "backup": "Biztonsági mentés",
-    "edit": "Szerkeszt",
     "donate": "Adományok",
     "restore": "Visszaállítás",
     "text": "Szöveg",
