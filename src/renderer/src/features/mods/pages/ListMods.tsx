@@ -125,8 +125,8 @@ function ListMods(): JSX.Element {
 
     if (sideFilter !== "any") mods = mods.filter((mod) => mod.side === sideFilter)
 
-    if (installedFilter === "installed") mods = mods.filter((mod) => installationInstalledMods.some((iMod) => mod.modidstrs.some((modidstr) => modidstr === iMod.modid)))
-    if (installedFilter === "not-installed") mods = mods.filter((mod) => !installationInstalledMods.some((iMod) => mod.modidstrs.some((modidstr) => modidstr === iMod.modid)))
+    if (installedFilter === "installed") mods = mods.filter((mod) => installationInstalledMods.some((iMod) => mod.modidstrs.some((modidstr) => modidstr.toLocaleLowerCase() === iMod.modid)))
+    if (installedFilter === "not-installed") mods = mods.filter((mod) => !installationInstalledMods.some((iMod) => mod.modidstrs.some((modidstr) => modidstr.toLocaleLowerCase() === iMod.modid)))
 
     if (onlyFav) mods = mods.filter((mod) => config.favMods.some((fm) => fm === mod.modid))
 
@@ -220,7 +220,7 @@ function ListMods(): JSX.Element {
                     if (!installation) return addNotification(t("features.installations.noInstallationSelected"), "error")
                     setModToInstall(mod)
                   }}
-                  selected={installationInstalledMods?.some((iMod) => mod.modidstrs.some((modidstr) => modidstr === iMod.modid))}
+                  selected={installationInstalledMods?.some((iMod) => mod.modidstrs.some((modidstr) => modidstr.toLocaleLowerCase() === iMod.modid))}
                   size="w-[18rem] max-w-[26rem]"
                   className="group overflow-hidden"
                 >
