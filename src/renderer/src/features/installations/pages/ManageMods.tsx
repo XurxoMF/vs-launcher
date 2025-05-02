@@ -111,9 +111,9 @@ function ListMods(): JSX.Element {
         </StickyMenuWrapper>
 
         {installation && (
-          <div className="max-w-[50rem] w-full m-auto">
+          <div className="max-w-[50rem] w-full flex flex-col items-center justify-center gap-2 m-auto">
             {installedMods.length < 1 && insatlledModsWithErrors.length < 1 && (
-              <ListWrapper>
+              <ListWrapper className="w-full">
                 <ListGroup>
                   {gettingMods ? (
                     <div className="w-full flex flex-col items-center justify-center gap-2 rounded-sm p-8">
@@ -143,7 +143,7 @@ function ListMods(): JSX.Element {
             )}
 
             {insatlledModsWithErrors.length > 0 && (
-              <ListWrapper>
+              <ListWrapper className="w-full">
                 <ListGroup>
                   <div className="flex flex-col gap-1">
                     <h2 className="text-2xl text-center font-bold">{t("features.mods.listWithErrorsTitle")}</h2>
@@ -212,7 +212,7 @@ function ListMods(): JSX.Element {
             )}
 
             {installedMods.filter((iMod) => iMod._updatableTo).length > 0 && (
-              <ListWrapper>
+              <ListWrapper className="w-full">
                 <ListGroup>
                   <div className="flex flex-col gap-1">
                     <h2 className="text-2xl text-center font-bold">{t("features.mods.listWithUpdatesTitle")}</h2>
@@ -267,7 +267,7 @@ function ListMods(): JSX.Element {
             )}
 
             {installedMods.filter((iMod) => !iMod._updatableTo && iMod._lastVersion).length > 0 && (
-              <ListWrapper>
+              <ListWrapper className="w-full">
                 <ListGroup>
                   <div className="flex flex-col gap-1">
                     <h2 className="text-2xl text-center font-bold">{t("features.mods.listWithIncompatibleUpdatesTitle")}</h2>
@@ -322,7 +322,7 @@ function ListMods(): JSX.Element {
             )}
 
             {installedMods.filter((iMod) => !iMod._updatableTo && !iMod._lastVersion).length > 0 && (
-              <ListWrapper>
+              <ListWrapper className="w-full">
                 <ListGroup>
                   {installedMods
                     .filter((iMod) => !iMod._updatableTo && !iMod._lastVersion)
