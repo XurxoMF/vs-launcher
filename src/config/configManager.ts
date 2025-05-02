@@ -10,14 +10,22 @@ import { logMessage } from "@src/utils/logManager"
  * 1.2: 1.1.0 -> 1.2.3
  * 1.3: 1.3.0 -> 1.3.2
  * 1.4: 1.4.0
- * 1.5: 1.4.1
+ * 1.5: 1.4.1 -> 1.4.3
+ * 1.6: 1.4.4
  */
 const defaultConfig: ConfigType = {
-  version: 1.5,
+  version: 1.6,
   lastUsedInstallation: null,
   defaultInstallationsFolder: join(app.getPath("appData"), "VSLInstallations"),
   defaultVersionsFolder: join(app.getPath("appData"), "VSLGameVersions"),
   backupsFolder: join(app.getPath("appData"), "VSLBackups"),
+  window: {
+    width: 1280,
+    height: 720,
+    x: 0,
+    y: 0,
+    maximized: false
+  },
   account: null,
   installations: [],
   gameVersions: [],
@@ -82,12 +90,11 @@ export async function getConfig(): Promise<ConfigType> {
 export async function ensureConfig(): Promise<boolean> {
   configPath = join(app.getPath("userData"), "config.json")
   try {
-    logMessage("info", `[back] [config] [config/configManager.ts] [ensureConfig] Looking for config at ${configPath}.`)
     if (!(await fse.pathExists(configPath))) {
       logMessage("info", `[back] [config] [config/configManager.ts] [ensureConfig] Config not found. Creating default config.`)
       return await saveConfig(defaultConfig)
     }
-    logMessage("info", `[back] [config] [config/configManager.ts] [ensureConfig] Config found.`)
+    logMessage("info", `[back] [config] [config/configManager.ts] [ensureConfig] Config found at ${configPath}.`)
     return true
   } catch (err) {
     logMessage("error", `[back] [config] [config/configManager.ts] [ensureConfig] Error ensuring config.`)
@@ -129,6 +136,7 @@ function ensureConfigProperties(config: ConfigType): ConfigType {
     defaultInstallationsFolder: config.defaultInstallationsFolder ?? defaultConfig.defaultInstallationsFolder,
     defaultVersionsFolder: config.defaultVersionsFolder ?? defaultConfig.defaultVersionsFolder,
     backupsFolder: config.backupsFolder ?? defaultConfig.backupsFolder,
+    window: config.window ?? defaultConfig.window,
     account: config.account ?? defaultConfig.account,
     installations,
     gameVersions,

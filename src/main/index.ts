@@ -8,13 +8,14 @@ import { pathToFileURL } from "url"
 const customUserDataPath = join(app.getPath("appData"), "VSLauncher")
 app.setPath("userData", customUserDataPath)
 
-import { ensureConfig } from "@src/config/configManager"
+import { ensureConfig, getConfig, saveConfig } from "@src/config/configManager"
 import { getShouldPreventClose } from "@src/utils/shouldPreventClose"
 import icon from "../../resources/icon.png?asset"
 import { logMessage } from "@src/utils/logManager"
 import { IPC_CHANNELS } from "@src/ipc/ipcChannels"
 
 import "@src/ipc"
+import { clearTimeout, setTimeout } from "timers"
 
 autoUpdater.logger = Logger
 autoUpdater.logger.info("Logger configured for auto-updater")
@@ -46,14 +47,40 @@ function createWindow(): void {
     }
   })
 
-  mainWindow.on("ready-to-show", () => {
+  mainWindow.on("ready-to-show", async () => {
     logMessage("info", "[back] [index] [main/index.ts] [createWindow] Main window ready to show. Opening.")
+
+    const config = await getConfig()
+    const oldWindowsState = config.window
+
+    mainWindow.setBounds({ width: oldWindowsState.width, height: oldWindowsState.height }, true)
+    mainWindow.setPosition(oldWindowsState.x, oldWindowsState.y, true)
+    if (oldWindowsState.maximized) mainWindow.maximize()
+
     mainWindow.show()
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url)
     return { action: "deny" }
+  })
+
+  let savePositionTimeout: NodeJS.Timeout | null = null
+
+  function setSavePositionTimeout(): void {
+    if (savePositionTimeout) clearTimeout(savePositionTimeout)
+
+    savePositionTimeout = setTimeout(() => {
+      saveCurrentWindowState()
+    }, 1_000)
+  }
+
+  mainWindow.on("resize", () => {
+    setSavePositionTimeout()
+  })
+
+  mainWindow.on("move", () => {
+    setSavePositionTimeout()
   })
 
   mainWindow.on("close", (e) => {
@@ -142,3 +169,21 @@ app.on("window-all-closed", () => {
     app.quit()
   }
 })
+
+async function saveCurrentWindowState(): Promise<void> {
+  const { width, height } = mainWindow.getBounds()
+  const [x, y] = mainWindow.getPosition()
+  const maximized = mainWindow.isMaximized()
+
+  const config = await getConfig()
+
+  config.window = {
+    width,
+    height,
+    x,
+    y,
+    maximized
+  }
+
+  saveConfig(config)
+}

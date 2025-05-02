@@ -9,6 +9,14 @@ declare global {
     _notifiedModUpdatesInstallations?: string[]
   }
 
+  type WindowType = {
+    width: number
+    height: number
+    x: number
+    y: number
+    maximized: boolean
+  }
+
   type AccountType = {
     email: string
     playerName: string
@@ -58,6 +66,7 @@ declare global {
   }
 
   type ConfigType = BasicConfigType & {
+    window: WindowType
     account: AccountType | null
     installations: InstallationType[]
     gameVersions: GameVersionType[]

@@ -273,6 +273,13 @@ export const initialState: ConfigType = {
   defaultInstallationsFolder: "",
   defaultVersionsFolder: "",
   backupsFolder: "",
+  window: {
+    width: 1280,
+    height: 720,
+    x: 0,
+    y: 0,
+    maximized: false
+  },
   account: null,
   installations: [],
   gameVersions: [],
