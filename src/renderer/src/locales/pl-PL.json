@@ -53,7 +53,8 @@
       "backupsAmount": "Limit kopii zapasowych",
       "folderDoesntExists": "Ta instancja nie ma danych, zagraj na niej przynajmniej raz, aby utworzyć podstawowe dane!",
       "compressionLevel": "Poziom kompresji",
-      "compressionLevelDesc": "Im wyższy poziom kompresji, tym dłużej trwa tworzenie kopii, ale są one mniejsze."
+      "compressionLevelDesc": "Im wyższy poziom kompresji, tym dłużej trwa tworzenie kopii, ale są one mniejsze.",
+      "manageBackups": "Zarządzaj kopiami zapasowymi"
     },
     "config": {
       "backupsFolder": "Folder kopii zapasowych",
@@ -68,7 +69,9 @@
       "onlyIfEnabledTwoFA": "Wypełnij to pole tylko wtedy, gdy masz włączone 2FA!",
       "wrongtwofa": "Błędny kod 2FA!",
       "language": "Język",
-      "uiScale": "Skala UI"
+      "uiScale": "Skala UI",
+      "areYouSureLogout": "Czy na pewno chcesz się wylogować?",
+      "loginoutNotReversible": "Wylogowanie się jest nieodwracalne, ale możesz ponownie zalogować się na to samo konto Vintage Story!"
     },
     "generic": {
       "notImplemented": "Strona w trakcie budowy!",
@@ -113,7 +116,9 @@
       "mesaGlThreadDesc": "Włącz, aby uruchomić grę z mesa_glthread. Może to zwiększyć wydajność w niektórych systemach Linux.",
       "envVars": "Zmienne ENV",
       "envVarsDesc": "Lista zmiennych ENV oddzielonych znakiem ,",
-      "envVarsPlaceholder": "ENV_1=coś, ENV_2=cośinnego"
+      "envVarsPlaceholder": "ENV_1=coś, ENV_2=cośinnego",
+      "editInstallation": "Edytuj instancję",
+      "backupInstallation": "Utwórz kopię zapasową instancji"
     },
     "mods": {
       "modsCount": "{{count}} modów",
@@ -191,7 +196,8 @@
       "versionUninstallationFailed": "Wystąpił błąd podczas odinstalowywania wersji VS {{version}}!",
       "versionUninstalledSuccesfully": "Wersja VS {{version}} została odinstalowana pomyślnie!",
       "installNewVersion": "Zainstaluj nową wersję VS",
-      "labelGameVersions": "Wersje VS"
+      "labelGameVersions": "Wersje VS",
+      "deleteVersion": "Usuń wersję"
     },
     "infoAndHelp": {
       "debugInfoTitle": "Informacje debugowania",
@@ -266,7 +272,13 @@
     "discord": "Discord",
     "folders": "Foldery",
     "general": "Ogólne",
-    "source": "Źródło"
+    "source": "Źródło",
+    "all": "Wszystkie",
+    "installed": "Zainstalowane",
+    "notInstalled": "Nie zainstalowane",
+    "reloading": "Odświeżanie",
+    "reload": "Odśwież",
+    "goBackTo": "Wróć do:"
   },
   "notifications": {
     "body": {
@@ -294,5 +306,19 @@
   },
   "featurs": {
     "infoAndHelp": {}
+  },
+  "breadcrumbs": {
+    "installations": "Instancje",
+    "home": "Strona główna",
+    "editInstallation": "Edytuj instancję",
+    "addInstallation": "Dodaj instancję",
+    "addVersion": "Dodaj wersję",
+    "config": "Konfiguracja",
+    "infoAndHelp": "Informacje i pomoc",
+    "manageBackups": "Zarządzanie kopiami zapasowymi",
+    "manageMods": "Zarządzanie modami",
+    "mods": "Mody",
+    "versions": "Wersje",
+    "lookForAVersion": "Wyszukiwanie wersji"
   }
 }
