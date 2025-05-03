@@ -164,7 +164,13 @@
       "updatesAvailableInstallation_two": "Wybrana instancja zawiera {{count}} mody z dostępnymi aktualizacjami! Kliknij tutaj, aby je zobaczyć!",
       "updatesAvailableInstallation_zero": "Wybrana instancja zawiera {{count}} modów z dostępnymi aktualizacjami! Kliknij tutaj, aby je zobaczyć!",
       "updatesAvailableInstallation_few": "Wybrana instancja zawiera {{count}} mody z dostępnymi aktualizacjami! Kliknij tutaj, aby je zobaczyć!",
-      "worksOnTheVersion": "Autor oznaczył ją jako kompatybilną z wybraną wersją Vintage Story!"
+      "worksOnTheVersion": "Autor oznaczył ją jako kompatybilną z wybraną wersją Vintage Story!",
+      "updateAllButton": "Zaktualizuj wszystkie",
+      "updateAll": "Zaktualizuj wszystkie mody z dostępnymi aktualizacjami",
+      "updatingInstalledMods": "Aktualizowanie zainstalowanych modów!",
+      "modsUpdatedSuccessfully": "Wszystkie mody zostały pomyślnie zaktualizowane!",
+      "errorUpdatingMods": "Wystąpił błąd podczas aktualizacji modów!",
+      "errorUpdatingMod": "Wystąpił błąd podczas aktualizacji moda {mod}!"
     },
     "versions": {
       "areYouSureUninstall": "Czy na pewno chcesz odinstalować tę wersję VS?",
