@@ -54,6 +54,8 @@ flatpak:
   baseVersion: "23.08"
 deb:
   artifactName: ${name}-${version}.${ext}
+rpm:
+  artifactName: ${name}-${version}.${ext}
 npmRebuild: false
 publish:
   provider: github
