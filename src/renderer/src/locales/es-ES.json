@@ -70,7 +70,9 @@
       "mesaGlThread": "mesa_glthread",
       "envVars": "Variables de entorno",
       "envVarsDesc": "Lista de variables de entorno separadas por ,",
-      "envVarsPlaceholder": "ENV_1=algo, ENT_2=otro_algo"
+      "envVarsPlaceholder": "ENV_1=algo, ENT_2=otro_algo",
+      "backupInstallation": "Hacer una Copia de Seguridad de la Instalación",
+      "editInstallation": "Editar Instalación"
     },
     "mods": {
       "modsCount": "{{count}} Mods",
@@ -116,7 +118,13 @@
       "updatesAvailableInstallation_two": "¡La instalación seleccionada tiene {{count}} Mods con actualizaciones disponibles! ¡Haz clic aquí para verlos!",
       "updatesAvailableInstallation_zero": "¡La instalación seleccionada tiene {{count}} Mods con actualizaciones disponibles! ¡Haz clic aquí para verlos!",
       "worksOnTheVersion": "¡El autor lo etiquetó como compatible con la versión seleccionada de Vintage Story!",
-      "cantUpdateWhileinUse": "¡No puedes actualizar un Mod mientras está en uso!"
+      "cantUpdateWhileinUse": "¡No puedes actualizar un Mod mientras está en uso!",
+      "errorUpdatingMod": "¡Ha ocurrido un error al actualizar el Mod {mod}!",
+      "errorUpdatingMods": "¡Ha ocurrido un error al actualizar los Mods!",
+      "modsUpdatedSuccessfully": "¡Todos los Mods se actualizaron con éxito!",
+      "updateAll": "Actualizar todos los Mods con actualizaciones disponibles",
+      "updateAllButton": "Actualizar todo",
+      "updatingInstalledMods": "¡Actualizando los Mods Instalados!"
     },
     "versions": {
       "areYouSureUninstall": "¿Estás seguro de que quieres desinstalar esta Versión de VS?",
@@ -148,7 +156,8 @@
       "versionInstalling": "¡La Versión {{version}} de VS está siendo instalada. ¡Por favor, espera a que termine antes de jugar!",
       "versionPlaying": "¡Ya estás jugando esa Versión de VS!",
       "installNewVersion": "Instalar una nueva Versión de VS",
-      "labelGameVersions": "VS Versions"
+      "labelGameVersions": "VS Versions",
+      "deleteVersion": "Eliminar Versión"
     },
     "config": {
       "defaultInstallationsFolder": "Carpeta de Instalaciones",
@@ -163,7 +172,9 @@
       "onlyIfEnabledTwoFA": "¡Completa este campo solo si tienes 2FA activado!",
       "wrongtwofa": "¡Código 2FA incorrecto!",
       "language": "Idioma",
-      "uiScale": "Escalado de UI"
+      "uiScale": "Escalado de UI",
+      "areYouSureLogout": "¿Estás seguro de que quieres cerrar sesión?",
+      "loginoutNotReversible": "¡No se puede revertir el cierre de sesión, pero puedes volver a iniciar sesión con la misma cuenta de Vintage Story nuevamente!"
     },
     "backups": {
       "automaticBackups": "Copias de Seguridad automáticas",
@@ -191,7 +202,8 @@
       "backupsAmount": "Límite de Copias de Seguridad",
       "folderDoesntExists": "¡Esta Instalación no tiene datos, por favor, juegua al menos una vez para generar los datos básicos!",
       "compressionLevelDesc": "Una compresión más alta lleva más tiempo pero crea copias de seguridad más pequeñas.",
-      "compressionLevel": "Nivel de compresión"
+      "compressionLevel": "Nivel de compresión",
+      "manageBackups": "Gestionar Copias de Seguridad"
     },
     "infoAndHelp": {
       "debugInfoTitle": "Información debug",
@@ -266,7 +278,13 @@
     "discord": "Discord",
     "folders": "Carpetas",
     "general": "General",
-    "source": "Fuente"
+    "source": "Fuente",
+    "all": "Todo",
+    "goBackTo": "Volver a:",
+    "installed": "Instalado",
+    "notInstalled": "No instalado",
+    "reload": "Recargar",
+    "reloading": "Recargando"
   },
   "notifications": {
     "body": {
@@ -291,5 +309,19 @@
       "appClosePrevented": "¡No puedes cerrar VS Launcher o porque estás jugando Vintage Story o porque hay una tarea en progreso!"
     },
     "discard": "Descartar notificación"
+  },
+  "breadcrumbs": {
+    "addInstallation": "Añadir Instalación",
+    "addVersion": "Añadir Versión",
+    "config": "Configuración",
+    "editInstallation": "Editar Instalación",
+    "home": "Inicio",
+    "infoAndHelp": "Info y Ayuda",
+    "installations": "Instalaciones",
+    "lookForAVersion": "Buscar una Versión",
+    "manageBackups": "Gestionar Copias de Seguridad",
+    "manageMods": "Gestionar Mods",
+    "mods": "Mods",
+    "versions": "Versiones"
   }
 }

@@ -207,9 +207,7 @@ function ListMods(): JSX.Element {
         <GridWrapper className="my-auto">
           {modsList.length < 1 ? (
             <div className="flex flex-col items-center justify-center gap-2">
-              <p className="p-6 text-center text-2xl rounded-sm bg-zinc-950/50 backdrop-blur-xs shadow-sm shadow-zinc-950/50">
-                {searching ? t("features.mods.searching") : t("features.mods.noMatchingFilters")}
-              </p>
+              <p className="p-6 text-center text-2xl rounded-sm backdrop-blur-xs shadow-sm shadow-zinc-950/50">{searching ? t("features.mods.searching") : t("features.mods.noMatchingFilters")}</p>
             </div>
           ) : (
             <GridGroup>

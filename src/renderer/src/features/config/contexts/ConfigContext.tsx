@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useReducer, useRef, useState } from "react"
+import { createContext, useContext, useEffect, useReducer, useState } from "react"
 
 import { useGetInstalledMods } from "@renderer/features/mods/hooks/useGetInstalledMods"
 
@@ -300,15 +300,11 @@ const ConfigProvider = ({ children }: { children: React.ReactNode }): JSX.Elemen
 
   const getInstalledMods = useGetInstalledMods()
 
-  const firstExecutedConfigContext = useRef(true)
   useEffect(() => {
     ;(async (): Promise<void> => {
-      if (firstExecutedConfigContext.current) {
-        firstExecutedConfigContext.current = false
-        window.api.utils.logMessage("info", `[front] [config] [features/config/contexts/ConfigCntext.tsx] [ConfigProvider] Setting context config from config file.`)
-        const config = await window.api.configManager.getConfig()
-        configDispatch({ type: CONFIG_ACTIONS.SET_CONFIG, payload: config })
-      }
+      window.api.utils.logMessage("info", `[front] [config] [features/config/contexts/ConfigCntext.tsx] [ConfigProvider] Setting context config from config file.`)
+      const config = await window.api.configManager.getConfig()
+      configDispatch({ type: CONFIG_ACTIONS.SET_CONFIG, payload: config })
     })()
   }, [])
 

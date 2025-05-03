@@ -21,7 +21,7 @@ import HomePage from "@renderer/features/home/pages/HomePage"
 import ListInslallations from "@renderer/features/installations/pages/ListInstallations"
 import AddInslallation from "@renderer/features/installations/pages/AddInstallation"
 import EditInslallation from "@renderer/features/installations/pages/EditInstallation"
-import RestoreInstallationBackup from "@renderer/features/installations/pages/RestoreInstallationBackup"
+import ManageInstallationBackups from "@renderer/features/installations/pages/ManageInstallationBackups"
 import ManageInstallationMods from "@renderer/features/installations/pages/ManageMods"
 
 import ListVersions from "@renderer/features/versions/pages/ListVersions"
@@ -84,7 +84,7 @@ function AnimatedRoutes(): JSX.Element {
         <Route path="/installations" element={<AnimatedRoute element={<ListInslallations />} />} />
         <Route path="/installations/add" element={<AnimatedRoute element={<AddInslallation />} />} />
         <Route path="/installations/edit/:id" element={<AnimatedRoute element={<EditInslallation />} />} />
-        <Route path="/installations/backups/:id" element={<AnimatedRoute element={<RestoreInstallationBackup />} />} />
+        <Route path="/installations/backups/:id" element={<AnimatedRoute element={<ManageInstallationBackups />} />} />
         <Route path="/installations/mods/:id" element={<AnimatedRoute element={<ManageInstallationMods />} />} />
         <Route path="/versions" element={<AnimatedRoute element={<ListVersions />} />} />
         <Route path="/versions/add" element={<AnimatedRoute element={<AddVersion />} />} />

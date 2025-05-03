@@ -18,7 +18,7 @@ import { FormButton } from "@renderer/components/ui/FormComponents"
 import { ThinSeparator } from "@renderer/components/ui/ListSeparators"
 import { StickyMenuWrapper, StickyMenuGroupWrapper, StickyMenuGroup, StickyMenuBreadcrumbs, GoBackButton, GoToTopButton } from "@renderer/components/ui/StickyMenu"
 
-function RestoreInstallationBackup(): JSX.Element {
+function ManageInstallationBackups(): JSX.Element {
   const { id } = useParams()
 
   const { t } = useTranslation()
@@ -36,8 +36,8 @@ function RestoreInstallationBackup(): JSX.Element {
   const installation = config.installations.find((igv) => igv.id === id)
   const backups = installation?.backups
 
-  async function RestoreBackupHandler(): Promise<void> {
-    if (!backupToRestore) return addNotification(t("features.backups.noBackupSelected"), "error")
+  async function RestoreBackupHandler(backup: BackupType | null): Promise<void> {
+    if (!backup) return addNotification(t("features.backups.noBackupSelected"), "error")
 
     if (!installation) return addNotification(t("features.installations.noInstallationFound"), "error")
     if (installation._backuping) return addNotification(t("features.backups.backupInProgress"), "error")
@@ -54,7 +54,7 @@ function RestoreInstallationBackup(): JSX.Element {
       })
       configDispatch({
         type: CONFIG_ACTIONS.EDIT_INSTALLATION_BACKUP,
-        payload: { id: installation.id, backupId: backupToRestore.id, updates: { _restoring: true } }
+        payload: { id: installation.id, backupId: backup.id, updates: { _restoring: true } }
       })
 
       const deletedPath = await window.api.pathsManager.deletePath(installation.path)
@@ -64,7 +64,7 @@ function RestoreInstallationBackup(): JSX.Element {
         t("features.backups.extractTaskName", { name: installation.name }),
         t("features.backups.extractingBackupDescription", { name: installation.name }),
         "all",
-        backupToRestore.path,
+        backup.path,
         installation.path,
         false,
         async (completed) => {
@@ -87,21 +87,21 @@ function RestoreInstallationBackup(): JSX.Element {
       })
       configDispatch({
         type: CONFIG_ACTIONS.EDIT_INSTALLATION_BACKUP,
-        payload: { id: installation.id, backupId: backupToRestore.id, updates: { _restoring: false } }
+        payload: { id: installation.id, backupId: backup.id, updates: { _restoring: false } }
       })
     }
   }
 
-  async function DeleteBackupHandler(): Promise<void> {
+  async function DeleteBackupHandler(backup: BackupType | null): Promise<void> {
     try {
       if (!installation) return addNotification(t("features.installations.noInstallationFound"), "error")
 
-      if (!backupToDelete || backupToDelete._restoring || backupToDelete._deleting) return addNotification(t("features.backups.cantDeleteWhileinUse"), "error")
+      if (!backup || backup._restoring || backup._deleting) return addNotification(t("features.backups.cantDeleteWhileinUse"), "error")
 
-      const deleted = await window.api.pathsManager.deletePath(backupToDelete.path)
+      const deleted = await window.api.pathsManager.deletePath(backup.path)
       if (!deleted) throw new Error("There was an error deleting backup file.")
 
-      configDispatch({ type: CONFIG_ACTIONS.DELETE_INSTALLATION_BACKUP, payload: { id: installation!.id, backupId: backupToDelete.id } })
+      configDispatch({ type: CONFIG_ACTIONS.DELETE_INSTALLATION_BACKUP, payload: { id: installation!.id, backupId: backup.id } })
       addNotification(t("features.backups.backupDeletedSuccesfully"), "success")
     } catch (err) {
       addNotification(t("features.backups.errorDeletingBackup"), "error")
@@ -150,7 +150,7 @@ function RestoreInstallationBackup(): JSX.Element {
                     <ThinSeparator />
 
                     <div className="shrink-0 w-fit flex gap-1 text-lg">
-                      <NormalButton className="p-1" title={t("features.backups.manageBackups")} onClick={() => setBackupToRestore(backup)}>
+                      <NormalButton className="p-1" title={t("features.backups.restoreBackup")} onClick={() => setBackupToRestore(backup)}>
                         <PiArrowCounterClockwiseDuotone />
                       </NormalButton>
                       <NormalButton onClick={() => setBackupToDelete(backup)} title={t("generic.delete")} className="p-1">
@@ -174,15 +174,23 @@ function RestoreInstallationBackup(): JSX.Element {
           </ListGroup>
         </ListWrapper>
 
-        <PopupDialogPanel title={t("features.backups.manageBackups")} isOpen={backupToRestore !== null} close={() => setBackupToRestore(null)}>
+        <PopupDialogPanel title={t("features.backups.restoreBackup")} isOpen={backupToRestore !== null} close={() => setBackupToRestore(null)}>
           <>
             <p>{t("features.backups.areYouSureRestoreBackup")}</p>
             <p className="text-zinc-400">{t("features.backups.restoringNotReversible")}</p>
             <div className="flex gap-4 items-center justify-center text-lg">
-              <FormButton title={t("generic.cancel")} className="p-2" onClick={() => setBackupToRestore(null)}>
+              <FormButton title={t("generic.cancel")} className="p-2" onClick={() => setBackupToRestore(null)} type="success">
                 <PiXCircleDuotone />
               </FormButton>
-              <FormButton title={t("generic.restore")} className="p-2" onClick={RestoreBackupHandler} type="error">
+              <FormButton
+                title={t("generic.restore")}
+                className="p-2"
+                onClick={() => {
+                  RestoreBackupHandler(backupToRestore)
+                  setBackupToRestore(null)
+                }}
+                type="error"
+              >
                 <PiArrowCounterClockwiseDuotone />
               </FormButton>
             </div>
@@ -197,7 +205,15 @@ function RestoreInstallationBackup(): JSX.Element {
               <NormalButton title={t("generic.cancel")} className="p-2" onClick={() => setBackupToDelete(null)} type="success">
                 <PiXCircleDuotone />
               </NormalButton>
-              <NormalButton title={t("generic.delete")} className="p-2" onClick={DeleteBackupHandler} type="error">
+              <NormalButton
+                title={t("generic.delete")}
+                className="p-2"
+                onClick={() => {
+                  DeleteBackupHandler(backupToDelete)
+                  setBackupToDelete(null)
+                }}
+                type="error"
+              >
                 <PiTrashDuotone />
               </NormalButton>
             </div>
@@ -208,4 +224,4 @@ function RestoreInstallationBackup(): JSX.Element {
   )
 }
 
-export default RestoreInstallationBackup
+export default ManageInstallationBackups

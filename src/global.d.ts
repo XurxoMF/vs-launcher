@@ -63,6 +63,7 @@ declare global {
     _playing?: boolean
     _backuping?: boolean
     _restoringBackup?: boolean
+    _updatingMods?: boolean
   }
 
   type ConfigType = BasicConfigType & {

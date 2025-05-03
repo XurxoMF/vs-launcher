@@ -8,7 +8,15 @@ import { SlashSeparator } from "@renderer/components/ui/ListSeparators"
 import { FormButton, FormLinkButton } from "@renderer/components/ui/FormComponents"
 import { FiLoader } from "react-icons/fi"
 
-// TODO: Add documantation
+/**
+ * Sticky container. Must include a StickyMenuGroupWrapper.
+ *
+ * @param {object} props - The component props.
+ * @param {React.ReactNode} props.children - The content to be wrapped.
+ * @param {MutableRefObject<HTMLDivElement | null>} [props.scrollRef] - A ref with the scrollable container.
+ * @param {string} [props.className] - The class lists to apply.
+ * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
+ */
 export function StickyMenuWrapper({ children, scrollRef, className }: { children: ReactNode; scrollRef: MutableRefObject<HTMLDivElement | null>; className?: string }): JSX.Element {
   const [scrTop, setScrTop] = useState(0)
 
@@ -44,12 +52,27 @@ export function StickyMenuWrapper({ children, scrollRef, className }: { children
   )
 }
 
-// TODO: Add documantation
+/**
+ * Wrapper for the sticky menu groups. Must include a StickyMenuGroup.
+ *
+ * @param {object} props - The component props.
+ * @param {React.ReactNode} props.children - The content to be wrapped.
+ * @param {"between" | "centered"} [props.type] - The alignment type of the container.
+ * @param {string} [props.className] - The class lists to apply.
+ * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
+ */
 export function StickyMenuGroupWrapper({ children, type = "between", className }: { children: ReactNode; type?: "between" | "centered"; className?: string }): JSX.Element {
   return <div className={clsx("relative w-full flex flex-row flex-wrap items-center gap-2", type === "between" ? "justify-between" : "justify-center", className)}>{children}</div>
 }
 
-// TODO: Add documantation
+/**
+ * Group for the sticky menu. Any elements can be added inside.
+ *
+ * @param {object} props - The component props.
+ * @param {React.ReactNode} props.children - The content to be wrapped.
+ * @param {string} [props.className] - The class lists to apply.
+ * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
+ */
 export function StickyMenuGroup({ children, className }: { children: ReactNode; className?: string }): JSX.Element {
   return <div className={clsx("flex flex-row flex-wrap items-center justify-center gap-2", className)}>{children}</div>
 }
@@ -59,7 +82,13 @@ type StickyMenuBreadcrumbType = {
   to: string
 }
 
-// TODO: Add documantation
+/**
+ * Not too much to say, just that, breadcrumbs.
+ *
+ * @param {object} props - The component props.
+ * @param {StickyMenuBreadcrumbType[]} props.breadcrumbs - The sections of the breadcrumbs.
+ * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
+ */
 export function StickyMenuBreadcrumbs({ breadcrumbs }: { breadcrumbs: StickyMenuBreadcrumbType[] }): JSX.Element {
   const { t } = useTranslation()
 
@@ -94,7 +123,13 @@ export function StickyMenuBreadcrumbs({ breadcrumbs }: { breadcrumbs: StickyMenu
   )
 }
 
-// TODO: Add documantation
+/**
+ * A go back button to use on the sticky menu.
+ *
+ * @param {object} props - The component props.
+ * @param {string} props.to - Route to redirect to.
+ * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
+ */
 export function GoBackButton({ to }: { to: string }): JSX.Element {
   const { t } = useTranslation()
 
@@ -105,7 +140,14 @@ export function GoBackButton({ to }: { to: string }): JSX.Element {
   )
 }
 
-// TODO: Add documantation
+/**
+ * A button that scrolls up to top anutomatically.
+ *
+ * @param {object} props - The component props.
+ * @param {() => void | Promise<void>} [props.onClick] - The function to execute when clicking the button.
+ * @param {boolean} [props.reloading] - Whether the page is realoading or not.
+ * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
+ */
 export function ReloadButton({ onClick, reloading = false }: { onClick: () => void | Promise<void>; reloading?: boolean }): JSX.Element {
   const { t } = useTranslation()
 
@@ -116,7 +158,13 @@ export function ReloadButton({ onClick, reloading = false }: { onClick: () => vo
   )
 }
 
-// TODO: Add documantation
+/**
+ * A button that scrolls up to top anutomatically.
+ *
+ * @param {object} props - The component props.
+ * @param {MutableRefObject<HTMLDivElement | null>} [props.scrollRef] - A ref with the scrollable container.
+ * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
+ */
 export function GoToTopButton({ scrollRef }: { scrollRef: MutableRefObject<HTMLDivElement | null> }): JSX.Element {
   const { t } = useTranslation()
 

@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useContext, useEffect, useRef } from "react"
+import React, { createContext, useReducer, useContext, useEffect } from "react"
 import { useTranslation } from "react-i18next"
 import { v4 as uuidv4 } from "uuid"
 
@@ -95,29 +95,24 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }): JSX.E
 
   const [tasks, tasksDispatch] = useReducer(taskReducer, initialState)
 
-  const firstExecutedTaskManagerContext = useRef(true)
   useEffect(() => {
-    if (firstExecutedTaskManagerContext) {
-      firstExecutedTaskManagerContext.current = false
+    window.api.utils.logMessage("info", `[front] [tasks] [contexts/TaskManagercontext.tsx] [TaskProvider] Adding listener for download progress.`)
+    window.api.pathsManager.onDownloadProgress((_event, id, progress) => {
+      if (progress === 100) return tasksDispatch({ type: ACTIONS.UPDATE_TASK, payload: { id, updates: { status: "completed" } } })
+      tasksDispatch({ type: ACTIONS.UPDATE_TASK, payload: { id, updates: { progress, status: "in-progress" } } })
+    })
 
-      window.api.utils.logMessage("info", `[front] [tasks] [contexts/TaskManagercontext.tsx] [TaskProvider] Adding listener for download progress.`)
-      window.api.pathsManager.onDownloadProgress((_event, id, progress) => {
-        if (progress === 100) return tasksDispatch({ type: ACTIONS.UPDATE_TASK, payload: { id, updates: { status: "completed" } } })
-        tasksDispatch({ type: ACTIONS.UPDATE_TASK, payload: { id, updates: { progress, status: "in-progress" } } })
-      })
+    window.api.utils.logMessage("info", `[front] [tasks] [contexts/TaskManagercontext.tsx] [TaskProvider] Adding listener for extract progress.`)
+    window.api.pathsManager.onExtractProgress((_event, id, progress) => {
+      if (progress === 100) return tasksDispatch({ type: ACTIONS.UPDATE_TASK, payload: { id, updates: { status: "completed" } } })
+      tasksDispatch({ type: ACTIONS.UPDATE_TASK, payload: { id, updates: { progress, status: "in-progress" } } })
+    })
 
-      window.api.utils.logMessage("info", `[front] [tasks] [contexts/TaskManagercontext.tsx] [TaskProvider] Adding listener for extract progress.`)
-      window.api.pathsManager.onExtractProgress((_event, id, progress) => {
-        if (progress === 100) return tasksDispatch({ type: ACTIONS.UPDATE_TASK, payload: { id, updates: { status: "completed" } } })
-        tasksDispatch({ type: ACTIONS.UPDATE_TASK, payload: { id, updates: { progress, status: "in-progress" } } })
-      })
-
-      window.api.utils.logMessage("info", `[front] [tasks] [contexts/TaskManagercontext.tsx] [TaskProvider] Adding listener for compress progress.`)
-      window.api.pathsManager.onCompressProgress((_event, id, progress) => {
-        if (progress === 100) return tasksDispatch({ type: ACTIONS.UPDATE_TASK, payload: { id, updates: { status: "completed" } } })
-        tasksDispatch({ type: ACTIONS.UPDATE_TASK, payload: { id, updates: { progress, status: "in-progress" } } })
-      })
-    }
+    window.api.utils.logMessage("info", `[front] [tasks] [contexts/TaskManagercontext.tsx] [TaskProvider] Adding listener for compress progress.`)
+    window.api.pathsManager.onCompressProgress((_event, id, progress) => {
+      if (progress === 100) return tasksDispatch({ type: ACTIONS.UPDATE_TASK, payload: { id, updates: { status: "completed" } } })
+      tasksDispatch({ type: ACTIONS.UPDATE_TASK, payload: { id, updates: { progress, status: "in-progress" } } })
+    })
   }, [])
 
   async function startDownload(

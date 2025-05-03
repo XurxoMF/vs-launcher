@@ -33,7 +33,7 @@ function NotificationsOverlay(): JSX.Element {
   const { notifications, removeNotification } = useNotificationsContext()
 
   return (
-    <div className="w-[20rem] h-fit absolute flex flex-col items-end top-2 right-4 z-800 gap-2">
+    <div className="w-[20rem] h-fit absolute flex flex-col items-end top-2 right-2 z-800 gap-2">
       <AnimatePresence>
         {notifications.map(({ id, body, type, options }) => (
           <motion.div
@@ -43,9 +43,9 @@ function NotificationsOverlay(): JSX.Element {
               BORDER_COLOR_TYPES[type],
               options?.onClick && "cursor-pointer"
             )}
-            initial={{ x: 320 }}
+            initial={{ x: 400 }}
             animate={{ x: 0 }}
-            exit={{ x: 320 }}
+            exit={{ x: 400 }}
             onClick={(e) => {
               e.stopPropagation()
               if (options?.onClick) options?.onClick()

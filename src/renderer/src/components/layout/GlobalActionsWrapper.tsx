@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useRef } from "react"
+import { ReactNode, useEffect } from "react"
 import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router-dom"
 
@@ -8,7 +8,7 @@ import { useNotificationsContext } from "@renderer/contexts/NotificationsContext
 import { useGetCompleteInstalledMods } from "@renderer/features/mods/hooks/useGetCompleteInstalledMods"
 
 /**
- * This is a littel workaround to execute hooks that need to acces configs, notifications... but need to be execute globally and not
+ * This is a little workaround to execute hooks that need to acces configs, notifications... but need to be execute globally and not
  * when opening a page or something.
  *
  * Maybe there are better options but this one is clean, easy to unserstand and read... is perfect!
@@ -25,12 +25,8 @@ function GlobalActionsWrapper({ children }: { children: ReactNode }): JSX.Elemen
 
   const getCompleteInstalledMods = useGetCompleteInstalledMods()
 
-  const firstExecutedPreventedAppCloseEventStarter = useRef(true)
   useEffect((): void => {
-    if (firstExecutedPreventedAppCloseEventStarter) {
-      firstExecutedPreventedAppCloseEventStarter.current = false
-      window.api.utils.onPreventedAppClose(() => addNotification(t("notifications.body.appClosePrevented"), "warning"))
-    }
+    window.api.utils.onPreventedAppClose(() => addNotification(t("notifications.body.appClosePrevented"), "warning"))
   }, [])
 
   useEffect((): void => {
