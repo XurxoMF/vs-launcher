@@ -251,8 +251,7 @@
       "logsFolderTitle": "Logs folder",
       "thisFolder": "this folder",
       "debugInfoDesc": "Copy the next info and send it with your bug report to help us find the issue!"
-    },
-    "localization": {}
+    }
   },
   "components": {
     "mainMenu": {
@@ -304,9 +303,6 @@
       "appClosePrevented": "You can't close VS Launcher either because you're playing Vintage Story or because there's a task in progress!"
     },
     "discard": "Discard notification"
-  },
-  "featurs": {
-    "infoAndHelp": {}
   },
   "breadcrumbs": {
     "mods": "Mods",
