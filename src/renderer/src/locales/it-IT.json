@@ -120,8 +120,7 @@
       "noModSelected": "Nessuna mod selezionata!",
       "noModsFound": "Nessuna mod trovata!",
       "noModsInstalled": "Non hai mods installate qui! Puoi installarle nella pagina <link />!",
-      "openOnTheModDB": "Apri nel ModDB!",
-      "searching": "Cercando mods..."
+      "openOnTheModDB": "Apri nel ModDB!"
     },
     "versions": {
       "deleteWhilePlaying": "Non puoi eliminare una versione mentre ci stai giocando!",

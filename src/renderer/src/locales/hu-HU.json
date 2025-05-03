@@ -128,7 +128,6 @@
       "modsCount_few": "{{count}} mod",
       "modsCount_many": "{{count}} mod",
       "modsCount_other": "{{count}} mod",
-      "searching": "Modok keresése...",
       "noMatchingFilters": "Nem találtam modot ezekkel a feltételekkel!",
       "installMod": "Mod telepítése",
       "modTaskName": "{{name}} mod {{version}} ide: {{out}}",

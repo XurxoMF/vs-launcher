@@ -160,7 +160,6 @@
       "modsCount_few": "{{count}} Mods",
       "modsCount_many": "{{count}} Mods",
       "modsCount_other": "{{count}} Mods",
-      "searching": "Searching Mods...",
       "noMatchingFilters": "There are no Mods that match your filters!",
       "installMod": "Install Mod",
       "modTaskName": "{{name}} Mod {{version}} on {{out}}",
