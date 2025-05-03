@@ -20,10 +20,11 @@ This page is the Hall of Fame with the name of all the contributors this project
 
 ## Translators
 
-* [**XurxoMF**](https://github.com/XurxoMF) - English and Spanish (Spain)
+* [**XurxoMF**](https://github.com/XurxoMF)**,** [**SkyFoxCoder**](https://github.com/SkyFoxCoder) - English
+* [**XurxoMF**](https://github.com/XurxoMF) **-** Spanish (Spain)
 * [**megabezdelnik**](https://github.com/megabezdelnik) - Russian
 * [**liuyujielol**](https://github.com/liuyujielol) - Simplified Chinese
-* **LorIlcs** - French
+* [**LorIlcs**](https://github.com/LorIlcs)**,** [**SkyFoxCoder**](https://github.com/SkyFoxCoder) - French
 * **DejFidOFF** - Czech
 * [**BradyThe**](https://github.com/BradyThe)**,** [**GrimFred**](https://github.com/GrimFred) - German
 * [**bruno-cabrita**](https://github.com/bruno-cabrita) - Portuguese
