@@ -55,7 +55,21 @@
     "addIcon": "Ajouter une icône",
     "selectIcon": "Sélectionner l'icône",
     "icon": "Icône",
-    "iconName": "Nom de l'icône"
+    "iconName": "Nom de l'icône",
+    "default": "Par défaut",
+    "general": "Général",
+    "folders": "Dossiers",
+    "basics": "Bases",
+    "backups": "Sauvegardes",
+    "advanced": "Avancé",
+    "discord": "Discord",
+    "source": "Source",
+    "all": "Tous",
+    "installed": "Installé",
+    "notInstalled": "Non installé",
+    "reload": "Recharger",
+    "reloading": "Rechargement",
+    "goBackTo": "Retour à :"
   },
   "features": {
     "generic": {
@@ -96,7 +110,8 @@
       "versionDeleting": "Cette version est en cours de suppression !",
       "versionPlaying": "Vous jouez déjà à cette version !",
       "deleteWhilePlaying": "Vous ne pouvez pas supprimer une version pendant que vous y jouez !",
-      "installNewVersion": "Installer une nouvelle version"
+      "installNewVersion": "Installer une nouvelle version",
+      "deleteVersion": "Supprimer la version"
     },
     "installations": {
       "noInstallationsFound": "Aucune installation trouvée !",
@@ -133,7 +148,9 @@
       "mesaGlThreadDesc": "Activez pour exécuter le jeu avec mesa_glthread. Cela peut améliorer les performances sur certains systèmes Linux.",
       "envVars": "Variables d'environnement",
       "envVarsDesc": "Liste des variables d'environnement séparées avec ,",
-      "envVarsPlaceholder": "ENV_1=quelque_chose, ENV_2=autre_chose"
+      "envVarsPlaceholder": "ENV_1=quelque_chose, ENV_2=autre_chose",
+      "backupInstallation": "Sauvegarder l'installation",
+      "editInstallation": "Modifier l'installation"
     },
     "mods": {
       "modsCount": "{{count}} Mods",
@@ -178,7 +195,13 @@
       "probablyDontWorkOnTheVersion": "L'auteur ne l'a pas marqué comme compatible et il y a 90 % de chances que cela ne fonctionne pas avec la version sélectionnée de Vintage Story !",
       "listWithIncompatibleUpdatesTitle": "Mods avec des mises à jour incompatibles",
       "modsWithIncompatibleUpdatesDescription": "Les mods suivants ont des mises à jour disponibles qui sont incompatibles à 90 % avec votre version sélectionnée de Vintage Story !",
-      "cantUpdateWhileinUse": "Vous ne pouvez pas mettre à jour un mod pendant qu'il est utilisé !"
+      "cantUpdateWhileinUse": "Vous ne pouvez pas mettre à jour un mod pendant qu'il est utilisé !",
+      "updateAll": "Mettre à jour tous les mods avec des mises à jour disponibles",
+      "updatingInstalledMods": "Mise à jour des mods installés !",
+      "errorUpdatingMod": "Une erreur est survenue lors de la mise à jour du mod {mod} !",
+      "errorUpdatingMods": "Une erreur est survenue lors de la mise à jour des mods !",
+      "updateAllButton": "Tout mettre à jour",
+      "modsUpdatedSuccessfully": "Tous les mods ont été mis à jour avec succès !"
     },
     "config": {
       "defaultInstallationsFolder": "Dossier des installations",
@@ -191,7 +214,11 @@
       "wrongtwofa": "Code 2FA incorrect !",
       "invalidEmailPass": "E-mail ou mot de passe invalide !",
       "loggedin": "Connecté en tant que {{user}} !",
-      "onlyIfEnabledTwoFA": "Remplissez ce champ uniquement si vous avez activé la 2FA !"
+      "onlyIfEnabledTwoFA": "Remplissez ce champ uniquement si vous avez activé la 2FA !",
+      "uiScale": "Échelle de l'interface",
+      "language": "Langue",
+      "areYouSureLogout": "Êtes-vous sûr de vouloir vous déconnecter ?",
+      "loginoutNotReversible": "La déconnexion est irréversible, mais vous pouvez vous reconnecter avec le même compte Vintage Story !"
     },
     "backups": {
       "backupInProgress": "Une sauvegarde est déjà en cours !",
@@ -219,19 +246,32 @@
       "backupsAmount": "Limite de sauvegardes",
       "folderDoesntExists": "Cette installation n'a pas de données. Veuillez y jouer au moins une fois pour générer les données de base !",
       "compressionLevel": "Niveau de compression",
-      "compressionLevelDesc": "Une compression plus élevée prend plus de temps mais crée des sauvegardes plus petites."
+      "compressionLevelDesc": "Une compression plus élevée prend plus de temps mais crée des sauvegardes plus petites.",
+      "manageBackups": "Gérer les sauvegardes"
+    },
+    "infoAndHelp": {
+      "title": "Infos & Aide du Lanceur VS",
+      "debugInfoTitle": "Informations de débogage",
+      "includeLogs": "Envoyez-nous les fichiers journaux que vous pouvez trouver dans <folderlink /> pour nous aider davantage !",
+      "logsFolderTitle": "Dossier des journaux",
+      "thisFolder": "ce dossier",
+      "debugInfoDesc": "Copiez les informations ci-dessous et envoyez-les avec votre rapport de bug pour nous aider à identifier le problème !"
     }
   },
   "components": {
     "mainMenu": {
       "homeTitle": "Accueil",
       "homeDesc": "Page principale",
-      "versionsTitle": "Versions",
-      "versionsDesc": "Gérer les versions de votre jeu",
+      "versionsTitle": "Versions de VS",
+      "versionsDesc": "Gérer vos versions de VS",
       "modsTitle": "Mods",
-      "modsDesc": "Rechercher et installer des mods",
+      "modsDesc": "Rechercher et installer des Mods",
       "installationsTitle": "Installations",
-      "installationsDesc": "Gérer vos installations"
+      "installationsDesc": "Gérer vos installations",
+      "configTitle": "Configuration",
+      "configDesc": "Configurer le lanceur VS",
+      "infoAndHelpTitle": "Infos & Aide",
+      "infoAndHelpDesc": "Aide et informations sur le lanceur VS"
     },
     "tasksMenu": {
       "downloading": "Téléchargement",
@@ -241,7 +281,7 @@
       "noTasksAvailable": "Aucune tâche en attente !"
     },
     "loader": {
-      "title": "Bienvenue dans VS Launcher !",
+      "title": "Bienvenue dans le lanceur VS !",
       "desc": "Nous préparons tout pour vous !"
     }
   },
@@ -264,8 +304,23 @@
       "compressError": "Erreur lors de la compression : {{compressName}} !",
       "folderNotEmpty": "Le dossier que vous avez sélectionné n'est pas vide ! Assurez-vous qu'il n'y a rien d'important dedans.",
       "noFileSelected": "Pas de fichier sélectionné !",
-      "coulndtCopyIcon": "L'icône n'a pas pu être copiée dans le dossier des icônes !"
+      "coulndtCopyIcon": "L'icône n'a pas pu être copiée dans le dossier des icônes !",
+      "appClosePrevented": "Vous ne pouvez pas fermer le lanceur VS car vous jouez à Vintage Story ou une tâche est en cours !"
     },
     "discard": "Ignorer la notification"
+  },
+  "breadcrumbs": {
+    "mods": "Mods",
+    "home": "Accueil",
+    "config": "Configuration",
+    "infoAndHelp": "Infos & Aide",
+    "installations": "Installations",
+    "addInstallation": "Ajouter une installation",
+    "editInstallation": "Modifier l'installation",
+    "manageMods": "Gérer les mods",
+    "manageBackups": "Gérer les sauvegardes",
+    "versions": "Versions",
+    "addVersion": "Ajouter une version",
+    "lookForAVersion": "Rechercher une version"
   }
 }
