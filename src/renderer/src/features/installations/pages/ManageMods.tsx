@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { useParams } from "react-router-dom"
 import { Trans, useTranslation } from "react-i18next"
-import { PiArrowClockwiseDuotone, PiTrashDuotone, PiXCircleDuotone } from "react-icons/pi"
+import { PiArrowClockwiseDuotone, PiFolderOpenDuotone, PiTrashDuotone, PiXCircleDuotone } from "react-icons/pi"
 import { FiExternalLink, FiLoader } from "react-icons/fi"
 import clsx from "clsx"
 
@@ -80,6 +80,8 @@ function ListMods(): JSX.Element {
       addNotification(t("features.mods.modSuccessfullyDeleted"), "success")
     } catch (err) {
       addNotification(t("features.mods.errorDeletingMod"), "error")
+    } finally {
+      setModToDelete(null)
     }
   }
 
@@ -160,6 +162,19 @@ function ListMods(): JSX.Element {
                 <FormButton title={t("features.mods.updateAll")} className="p-1 w-fit h-8" onClick={UpdateModsHandler}>
                   <PiArrowClockwiseDuotone className="text-xl" />
                   <p>{t("features.mods.updateAllButton")}</p>
+                </FormButton>
+
+                <FormButton
+                  title={t("features.mods.updateAll")}
+                  className="w-8 h-8"
+                  onClick={async () => {
+                    const path = await window.api.pathsManager.formatPath([installation.path, "Mods"])
+                    const exists = await window.api.pathsManager.ensurePathExists(path)
+                    if (!exists) return addNotification(t("notifications.body.folderDoesntExists"), "error")
+                    window.api.pathsManager.openPathOnFileExplorer(path)
+                  }}
+                >
+                  <PiFolderOpenDuotone className="text-xl" />
                 </FormButton>
               </StickyMenuGroup>
             </StickyMenuGroupWrapper>

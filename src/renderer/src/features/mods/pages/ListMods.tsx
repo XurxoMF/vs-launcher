@@ -125,8 +125,10 @@ function ListMods(): JSX.Element {
 
     if (sideFilter !== "any") mods = mods.filter((mod) => mod.side === sideFilter)
 
-    if (installedFilter === "installed") mods = mods.filter((mod) => installationInstalledMods.some((iMod) => mod.modidstrs.some((modidstr) => modidstr === iMod.modid.toLocaleLowerCase())))
-    if (installedFilter === "not-installed") mods = mods.filter((mod) => !installationInstalledMods.some((iMod) => mod.modidstrs.some((modidstr) => modidstr === iMod.modid.toLocaleLowerCase())))
+    if (installedFilter === "installed")
+      mods = mods.filter((mod) => installationInstalledMods.some((iMod) => mod.modidstrs.some((modidstr) => modidstr === iMod.modid.toLocaleLowerCase() || modidstr === iMod.modid)))
+    if (installedFilter === "not-installed")
+      mods = mods.filter((mod) => !installationInstalledMods.some((iMod) => mod.modidstrs.some((modidstr) => modidstr === iMod.modid.toLocaleLowerCase() || modidstr === iMod.modid)))
 
     if (onlyFav) mods = mods.filter((mod) => config.favMods.some((fm) => fm === mod.modid))
 
@@ -152,6 +154,10 @@ function ListMods(): JSX.Element {
     setTextFilter("")
     setAuthorFilter({ userid: "", name: "" })
     setVersionsFilter([])
+    setTagsFilter([])
+    setSideFilter("any")
+    setInstalledFilter("all")
+    setOnlyFav(false)
   }
 
   return (
@@ -218,7 +224,7 @@ function ListMods(): JSX.Element {
                     if (!installation) return addNotification(t("features.installations.noInstallationSelected"), "error")
                     setModToInstall(mod)
                   }}
-                  selected={installationInstalledMods?.some((iMod) => mod.modidstrs.some((modidstr) => modidstr === iMod.modid.toLocaleLowerCase()))}
+                  selected={installationInstalledMods?.some((iMod) => mod.modidstrs.some((modidstr) => modidstr === iMod.modid.toLocaleLowerCase() || modidstr === iMod.modid))}
                   size="w-[18rem] max-w-[26rem]"
                   className="group overflow-hidden"
                 >
