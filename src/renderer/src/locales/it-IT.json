@@ -175,7 +175,7 @@
       "deleteWhilePlaying": "Non puoi eliminare una versione mentre ci stai giocando!",
       "areYouSureUninstall": "Sei sicuro di voler disinstallare questa versione?",
       "gameVersionDownloadDesc": "Scaricando la versione {{version}} del gioco!",
-      "gameVersionTaskName": "versione {{versione}} del gioco",
+      "gameVersionTaskName": "versione {{version}} del gioco",
       "folderAlreadyInUse": "Quella cartella è già in uso!",
       "gameVersionExtractDesc": "Estraendo la versione {{version}} del gioco!",
       "installNewVersion": "Installa una nuova Versione",
