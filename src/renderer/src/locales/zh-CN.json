@@ -46,13 +46,11 @@
       "gameVersionDownloadDesc": "正在下载游戏版本 {{version}}！",
       "gameVersionTaskName": "游戏版本 {{version}}",
       "gameVersionExtractDesc": "解压游戏版本 {{version}}！",
-      "installTitle": "安装一个新版本",
       "labelStables": "稳定版本",
       "labelRCs": "RC版本",
       "labelPreReleases": "预发布版本",
       "searchForAGameVersion": "查找游戏版本",
       "missingFolderOrVersion": "您未选择任何文件夹或您选择的文件夹中没有任何游戏版本！",
-      "lookForAVersion": "查找一个版本",
       "versionFound": "找到版本"
     },
     "installations": {
@@ -68,10 +66,8 @@
       "folderAlreadyInUse": "该文件夹已被其他安装所使用！",
       "installationSuccessfullyAdded": "安装成功！",
       "errorAddingInstallation": "在添加安装时出现错误！",
-      "addTitle": "添加一个新安装",
       "installationSuccessfullyEdited": "编辑安装成功！",
       "errorEditingInstallation": "在编辑安装时出现错误！",
-      "editTitle": "编辑安装",
       "noInstallationFoundDesc": "您选择的安装不存在！",
       "deleteData": "删除数据",
       "installationSuccessfullyDeleted": "安装删除成功！",
@@ -95,12 +91,9 @@
       "versionsDesc": "管理您的游戏版本",
       "modsTitle": "模组",
       "modsDesc": "",
-      "changelogTitle": "更新日志",
-      "changelogDesc": "《复古物语》更新日志",
       "installationsTitle": "安装",
       "installationsDesc": "管理您的游戏安装"
     },
-    "gameRunningOverlay": {},
     "tasksMenu": {
       "downloading": "正在下载",
       "extracting": "正在解压",
@@ -112,9 +105,6 @@
     }
   },
   "notifications": {
-    "titles": {
-      "warning": "警告"
-    },
     "body": {
       "folderDoesntExists": "您尝试打开的文件夹不存在！",
       "updateAvailable": "有更新可用! 正在下载...",

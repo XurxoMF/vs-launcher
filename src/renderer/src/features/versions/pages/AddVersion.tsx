@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { Input } from "@headlessui/react"
 import { useNavigate } from "react-router-dom"
@@ -25,6 +25,7 @@ import {
 } from "@renderer/components/ui/FormComponents"
 import { TableBody, TableBodyRow, TableCell, TableHead, TableHeadRow, TableWrapper } from "@renderer/components/ui/Table"
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
+import { StickyMenuWrapper, StickyMenuGroupWrapper, StickyMenuGroup, StickyMenuBreadcrumbs, GoBackButton, GoToTopButton } from "@renderer/components/ui/StickyMenu"
 
 function AddVersion(): JSX.Element {
   const { t } = useTranslation()
@@ -38,6 +39,8 @@ function AddVersion(): JSX.Element {
   const [folder, setFolder] = useState<string>("")
   const [folderByUser, setFolderByUser] = useState<boolean>(false)
   const [versionFilters, setVersionFilters] = useState({ stable: true, rc: false, pre: false })
+
+  const scrollRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     ;(async (): Promise<void> => {
@@ -108,12 +111,29 @@ function AddVersion(): JSX.Element {
   }
 
   return (
-    <ScrollableContainer>
-      <div className="min-h-full flex flex-col justify-center gap-4">
-        <h1 className="text-3xl text-center font-bold">{t("features.versions.installTitle")}</h1>
+    <ScrollableContainer ref={scrollRef}>
+      <div className="min-h-full flex flex-col items-center justify-center gap-2">
+        <StickyMenuWrapper scrollRef={scrollRef}>
+          <StickyMenuGroupWrapper>
+            <StickyMenuGroup>
+              <GoBackButton to="/versions" />
+            </StickyMenuGroup>
 
-        <FromWrapper className="max-w-[800px] w-full">
-          <FormGroupWrapper>
+            <StickyMenuBreadcrumbs
+              breadcrumbs={[
+                { name: t("breadcrumbs.versions"), to: "/versions" },
+                { name: t("breadcrumbs.addVersion"), to: "/versions/add" }
+              ]}
+            />
+
+            <StickyMenuGroup>
+              <GoToTopButton scrollRef={scrollRef} />
+            </StickyMenuGroup>
+          </StickyMenuGroupWrapper>
+        </StickyMenuWrapper>
+
+        <FromWrapper className="max-w-[50rem] w-full my-auto">
+          <FormGroupWrapper title={t("generic.basics")}>
             <FromGroup>
               <FormHead>
                 <FormLabel content={t("features.versions.labelGameVersion")} />
@@ -161,7 +181,7 @@ function AddVersion(): JSX.Element {
                       <FiLoader className="animate-spin text-3xl text-zinc-400" />
                     </div>
                   ) : (
-                    <TableBody className="max-h-[250px]">
+                    <TableBody className="max-h-[14rem]">
                       {gameVersions.map(
                         (gv) =>
                           versionFilters[gv.type] && (
@@ -193,10 +213,10 @@ function AddVersion(): JSX.Element {
                   <FormButton
                     onClick={async () => {
                       const path = await window.api.utils.selectFolderDialog()
-                      if (path && path.length > 0) {
-                        if (!(await window.api.pathsManager.checkPathEmpty(path))) addNotification(t("notifications.body.folderNotEmpty"), "warning")
+                      if (path && path.length > 0 && path[0].length > 0) {
+                        if (!(await window.api.pathsManager.checkPathEmpty(path[0]))) addNotification(t("notifications.body.folderNotEmpty"), "warning")
 
-                        setFolder(path)
+                        setFolder(path[0])
                         setFolderByUser(true)
                       }
                     }}
@@ -210,16 +230,16 @@ function AddVersion(): JSX.Element {
               </FormBody>
             </FromGroup>
           </FormGroupWrapper>
-        </FromWrapper>
 
-        <ButtonsWrapper className="text-lg">
-          <FormLinkButton to="/versions" title={t("generic.goBack")} className="p-2">
-            <PiXCircleDuotone />
-          </FormLinkButton>
-          <FormButton onClick={handleInstallVersion} title={t("generic.install")} className="p-2">
-            <PiDownloadDuotone />
-          </FormButton>
-        </ButtonsWrapper>
+          <ButtonsWrapper className="text-lg">
+            <FormLinkButton to="/versions" title={t("generic.goBack")} type="error" className="p-2">
+              <PiXCircleDuotone />
+            </FormLinkButton>
+            <FormButton onClick={handleInstallVersion} title={t("generic.install")} type="success" className="p-2">
+              <PiDownloadDuotone />
+            </FormButton>
+          </ButtonsWrapper>
+        </FromWrapper>
       </div>
     </ScrollableContainer>
   )

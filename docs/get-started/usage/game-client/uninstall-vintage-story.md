@@ -7,12 +7,12 @@ description: >-
 
 # Uninstall Vintage Story
 
-## Uninstall a Version
+## Uninstall a VS Version
 
-Uninstalling a **Version** is as easy as clicking a button. Just check this video:
+Uninstalling a **VS Version** is as easy as clicking a button. Just check this video:
 
-{% embed url="https://www.youtube.com/watch?v=4csDX6S6GeE" %}
-Uninstall a Version | VS Launcher Guides
+{% embed url="https://www.youtube.com/watch?v=LJFy7mb1ztw" %}
+Uninstall a Vintage Story Version | VS Launcher Guides
 {% endembed %}
 
 ***
@@ -26,6 +26,6 @@ If you check the `Delete data` checkbox your worlds, configs, backups and so on 
 If you want to keep them don't check this option so VS Launcher only deletes the **Installation** from the list but keeps the files on the same folder.
 {% endhint %}
 
-{% embed url="https://www.youtube.com/watch?v=V13fd8kh8Pk" %}
+{% embed url="https://www.youtube.com/watch?v=PW00qxd-B88" %}
 Delete Installations | VS Launcher Guides
 {% endembed %}

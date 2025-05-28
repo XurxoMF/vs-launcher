@@ -27,20 +27,25 @@ ipcMain.on(IPC_CHANNELS.UTILS.OPEN_ON_BROWSER, (_event, url: string): void => {
   shell.openExternal(url)
 })
 
-ipcMain.handle(IPC_CHANNELS.UTILS.SELECT_FOLDER_DIALOG, async () => {
+ipcMain.handle(IPC_CHANNELS.UTILS.SELECT_FOLDER_DIALOG, async (_event, options?: { type?: "file" | "folder"; mode?: "single" | "multi"; extensions?: string[] }): Promise<string[]> => {
   logMessage("info", `[back] [ipc] [ipc/handlers/utilsHandlers.ts] [SELECT_FOLDER_DIALOG] Opening folder selection.`)
+
+  const properties: ("openFile" | "openDirectory" | "multiSelections")[] = [options?.type === "file" ? "openFile" : "openDirectory"]
+
+  if (options?.mode === "multi") properties.push("multiSelections")
 
   const result = await dialog.showOpenDialog({
     title: "Selecciona una carpeta",
-    properties: ["openDirectory"]
+    properties,
+    filters: options?.extensions && [{ name: options.extensions.join(", "), extensions: options.extensions }]
   })
 
   if (result.canceled) {
     logMessage("warn", `[back] [ipc] [ipc/handlers/utilsHandlers.ts] [SELECT_FOLDER_DIALOG] Operation cancelled.`)
-    return null
+    return []
   }
 
   logMessage("info", `[back] [ipc] [ipc/handlers/utilsHandlers.ts] [SELECT_FOLDER_DIALOG] Folder selected: ${result}.`)
 
-  return result.filePaths[0]
+  return result.filePaths
 })

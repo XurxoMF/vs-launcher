@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useReducer, useRef, useState } from "react"
+import { createContext, useContext, useEffect, useReducer, useState } from "react"
 
 import { useGetInstalledMods } from "@renderer/features/mods/hooks/useGetInstalledMods"
 
@@ -10,6 +10,7 @@ export enum CONFIG_ACTIONS {
   SET_DEFAULT_INSTALLATIONS_FOLDER = "SET_DEFAULT_INSTALLATIONS_FOLDER",
   SET_DEFAULT_VERSIONS_FOLDER = "SET_DEFAULT_VERSIONS_FOLDER",
   SET_DEFAULT_BACKUPS_FOLDER = "SET_DEFAULT_BACKUPS_FOLDER",
+  SET_ACCOUNT = "SET_ACCOUNT",
 
   ADD_INSTALLATION = "ADD_INSTALLATION",
   DELETE_INSTALLATION = "DELETE_INSTALLATION",
@@ -23,7 +24,10 @@ export enum CONFIG_ACTIONS {
   EDIT_GAME_VERSION = "EDIT_GAME_VERSION",
 
   ADD_FAV_MOD = "ADD_FAV_MOD",
-  REMOVE_FAV_MOD = "REMOVE_FAV_MOD"
+  REMOVE_FAV_MOD = "REMOVE_FAV_MOD",
+
+  ADD_CUSTOM_ICON = "ADD_CUSTOM_ICON",
+  DELETE_CUSTOM_ICON = "DELETE_CUSTOM_ICON"
 }
 
 export interface SetConfig {
@@ -54,6 +58,11 @@ export interface SetDefaultVersionsFolder {
 export interface SetDefaultBackupsFolder {
   type: CONFIG_ACTIONS.SET_DEFAULT_BACKUPS_FOLDER
   payload: string
+}
+
+export interface SetAccount {
+  type: CONFIG_ACTIONS.SET_ACCOUNT
+  payload: AccountType | null
 }
 
 export interface AddInstallation {
@@ -87,6 +96,18 @@ export interface DeleteInstallationBackup {
   payload: {
     id: string
     backupId: string
+  }
+}
+
+export interface AddCustomIcon {
+  type: CONFIG_ACTIONS.ADD_CUSTOM_ICON
+  payload: IconType
+}
+
+export interface DeleteCustomIcon {
+  type: CONFIG_ACTIONS.DELETE_CUSTOM_ICON
+  payload: {
+    id: string
   }
 }
 
@@ -138,12 +159,15 @@ export type ConfigAction =
   | SetDefaultInstllationsFolder
   | SetDefaultVersionsFolder
   | SetDefaultBackupsFolder
+  | SetAccount
   | AddInstallation
   | DeleteInstallation
   | EditInstallation
   | AddInstallationBackup
   | DeleteInstallationBackup
   | EditInslallationBackup
+  | AddCustomIcon
+  | DeleteCustomIcon
   | AddGameVersion
   | DeleteGameVersion
   | EditGameVersion
@@ -164,6 +188,8 @@ const configReducer = (config: ConfigType, action: ConfigAction): ConfigType => 
       return { ...config, defaultVersionsFolder: action.payload }
     case CONFIG_ACTIONS.SET_DEFAULT_BACKUPS_FOLDER:
       return { ...config, backupsFolder: action.payload }
+    case CONFIG_ACTIONS.SET_ACCOUNT:
+      return { ...config, account: action.payload }
     case CONFIG_ACTIONS.ADD_INSTALLATION:
       return { ...config, installations: [action.payload, ...config.installations] }
     case CONFIG_ACTIONS.DELETE_INSTALLATION:
@@ -207,6 +233,13 @@ const configReducer = (config: ConfigType, action: ConfigAction): ConfigType => 
             : installation
         )
       }
+    case CONFIG_ACTIONS.ADD_CUSTOM_ICON:
+      return { ...config, customIcons: [...config.customIcons, action.payload] }
+    case CONFIG_ACTIONS.DELETE_CUSTOM_ICON:
+      return {
+        ...config,
+        customIcons: config.customIcons.filter((customIcon) => customIcon.id !== action.payload.id)
+      }
     case CONFIG_ACTIONS.ADD_GAME_VERSION:
       return { ...config, gameVersions: [action.payload, ...config.gameVersions] }
     case CONFIG_ACTIONS.DELETE_GAME_VERSION:
@@ -240,9 +273,18 @@ export const initialState: ConfigType = {
   defaultInstallationsFolder: "",
   defaultVersionsFolder: "",
   backupsFolder: "",
+  window: {
+    width: 1280,
+    height: 720,
+    x: 0,
+    y: 0,
+    maximized: false
+  },
+  account: null,
   installations: [],
   gameVersions: [],
-  favMods: []
+  favMods: [],
+  customIcons: []
 }
 
 interface ConfigContextType {
@@ -258,15 +300,11 @@ const ConfigProvider = ({ children }: { children: React.ReactNode }): JSX.Elemen
 
   const getInstalledMods = useGetInstalledMods()
 
-  const firstExecutedConfigContext = useRef(true)
   useEffect(() => {
     ;(async (): Promise<void> => {
-      if (firstExecutedConfigContext.current) {
-        firstExecutedConfigContext.current = false
-        window.api.utils.logMessage("info", `[front] [config] [features/config/contexts/ConfigCntext.tsx] [ConfigProvider] Setting context config from config file.`)
-        const config = await window.api.configManager.getConfig()
-        configDispatch({ type: CONFIG_ACTIONS.SET_CONFIG, payload: config })
-      }
+      window.api.utils.logMessage("info", `[front] [config] [features/config/contexts/ConfigCntext.tsx] [ConfigProvider] Setting context config from config file.`)
+      const config = await window.api.configManager.getConfig()
+      configDispatch({ type: CONFIG_ACTIONS.SET_CONFIG, payload: config })
     })()
   }, [])
 

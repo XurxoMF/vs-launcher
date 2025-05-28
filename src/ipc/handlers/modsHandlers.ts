@@ -36,7 +36,7 @@ ipcMain.handle(IPC_CHANNELS.MODS_MANAGER.GET_INSTALLED_MODS, async (_event, path
  * @returns {Promise<{mods: InstalledModType[]; errors: ErrorInstalledModType[]}>} A list with the succesfully parsed mods and another list with the mods that threw an error.
  */
 async function getMods(path: string): Promise<{ mods: InstalledModType[]; errors: ErrorInstalledModType[] }> {
-  const pathToImages = join(app.getPath("userData"), "Cache", "Images")
+  const pathToImages = join(app.getPath("userData"), "Cache", "Images", "Mods")
 
   const mods: InstalledModType[] = []
   const errors: ErrorInstalledModType[] = []

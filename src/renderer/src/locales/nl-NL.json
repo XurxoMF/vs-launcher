@@ -46,13 +46,11 @@
       "gameVersionDownloadDesc": "Downloading spel versie {{version}}!",
       "gameVersionTaskName": "game versie {{version}}",
       "gameVersionExtractDesc": "Spelversie uitpakken {{version}}!",
-      "installTitle": "Installeer een nieuwe versie",
       "labelStables": "Stables",
       "labelRCs": "Uitgaven kanidaten",
       "labelPreReleases": "Pre uitgavens",
       "searchForAGameVersion": "Zoek voor een spel versie",
       "missingFolderOrVersion": "You've no folder selected or there it no game version on the one you've selected!",
-      "lookForAVersion": "Zoek voor een versie",
       "versionFound": "Versie gevonden"
     },
     "installations": {
@@ -68,10 +66,8 @@
       "folderAlreadyInUse": "Die folder is al in gebruik door een andere installatie",
       "installationSuccessfullyAdded": "Installatie succesvol toegevoegd",
       "errorAddingInstallation": "Er is een fout opgetreden bij het toevoegen van de installatie",
-      "addTitle": "Voeg een nieuwe installatie toe",
       "installationSuccessfullyEdited": "Installatie succesvol bijgewerkt",
       "errorEditingInstallation": "Er is een fout opgetreden bij het bewerken van de installatie!",
-      "editTitle": "Bewerk installatie",
       "noInstallationFoundDesc": "De installatie die je hebt geselecteerd bestaat niet!",
       "deleteData": "Verwijder data",
       "installationSuccessfullyDeleted": "Installatie succesvol verwijderd",
@@ -84,16 +80,15 @@
       "startParamsLink": "Vintage Story Wiki"
     },
     "mods": {
-      "modsCount": "{{count}} mods",
-      "modsCount_zero": "{{count}} mods",
-      "modsCount_one": "{{count}} mod",
-      "modsCount_two": "{{count}} mods",
-      "modsCount_few": "{{count}} mods",
-      "modsCount_many": "{{count}} mods",
-      "modsCount_other": "{{count}} mods"
+      "modsCount": "{{count}} Mods",
+      "modsCount_zero": "{{count}} Mods",
+      "modsCount_one": "{{count}} Mod",
+      "modsCount_two": "{{count}} Mods",
+      "modsCount_few": "{{count}} Mods",
+      "modsCount_many": "{{count}} Mods",
+      "modsCount_other": "{{count}} Mods"
     },
     "config": {
-      "title": "Instellingen",
       "defaultInstallationsFolder": "Installaties:",
       "defaultVersionsFolder": "Versies:"
     }
@@ -106,12 +101,9 @@
       "versionsDesc": "Beheer je spel versies",
       "modsTitle": "Mods",
       "modsDesc": "",
-      "changelogTitle": "Wijzigingenlogboek",
-      "changelogDesc": "Wijzigingenlogboek voor Vintage Story",
       "installationsTitle": "Installaties",
       "installationsDesc": "Beheer geinstalleerde versies"
     },
-    "gameRunningOverlay": {},
     "tasksMenu": {
       "downloading": "Downloaden",
       "extracting": "Uitpakken",
@@ -125,9 +117,6 @@
     }
   },
   "notifications": {
-    "titles": {
-      "warning": "Waarschuwing"
-    },
     "body": {
       "folderDoesntExists": "De folder die je probeert te openen bestaat niet!",
       "updateAvailable": "Nieuwe update beschikbaar! Downloaden...",

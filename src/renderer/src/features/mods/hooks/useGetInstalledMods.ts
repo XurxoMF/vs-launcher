@@ -1,6 +1,6 @@
 export function useGetInstalledMods(): ({ path, onFinish }: { path: string; onFinish?: () => void }) => Promise<{ mods: InstalledModType[]; errors: ErrorInstalledModType[] }> {
   /**
-   * Makes a query and returns the mod with the passed Mod ID.
+   * Makes a query and returns all the mods from the selected path.
    *
    * @param {object} props
    * @param {string} [props.path] Where to look for the mods. Not the Mods folder! It'll append Mods at the end.

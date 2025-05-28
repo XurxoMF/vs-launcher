@@ -12,7 +12,8 @@ declare global {
       logMessage: (mode: ErrorTypes, message: string) => void
       setPreventAppClose: (action: "add" | "remove", id: string, desc: string) => void
       openOnBrowser: (url: string) => void
-      selectFolderDialog: () => Promise<string>
+      selectFolderDialog: (options?: { type?: "file" | "folder"; mode?: "single" | "multi"; extensions?: string[] }) => Promise<string[]>
+      onPreventedAppClose: (callback: (event: Electron.IpcRendererEvent) => void) => void
     }
     appUpdater: {
       onUpdateAvailable: (callback) => void
@@ -37,18 +38,20 @@ declare global {
       openPathOnFileExplorer: (path: string) => Promise<string>
       downloadOnPath: (id: string, url: string, outputPath: string, fileName: string) => Promise<string>
       extractOnPath: (id: string, filePath: string, outputPath: string, deleteZip: boolean) => Promise<boolean>
-      compressOnPath: (id: string, inputPath: string, outputPath: string, outputFileName: string) => Promise<boolean>
+      compressOnPath: (id: string, inputPath: string, outputPath: string, outputFileName: string, compressionLevel?: number) => Promise<boolean>
       onDownloadProgress: (callback: ProgressCallback) => void
       onExtractProgress: (callback: ProgressCallback) => void
       onCompressProgress: (callback: ProgressCallback) => void
       changePerms: (paths: string[], perms: number) => void
-      lookForAGameVersion: (path: string) => Promise<{ exists: boolean; installedGameVersion: string | undefined }>
+      copyToIcons: (path: string, name: string) => Promise<{ status: true; file: string } | { status: false }>
     }
     gameManager: {
-      executeGame: (version: GameVersionType, installation: InstallationType) => Promise<boolean>
+      executeGame: (version: GameVersionType, installation: InstallationType, account: AccountType | null) => Promise<boolean>
+      lookForAGameVersion: (path: string) => Promise<{ exists: boolean; installedGameVersion: string | undefined }>
     }
     netManager: {
       queryURL: (url: string) => Promise<string>
+      postUrl: (url: string, body: { email: string; password: string; twofacode?: string; preLoginToken?: string }) => Promise<object>
     }
   }
 

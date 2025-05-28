@@ -5,7 +5,27 @@ declare global {
     defaultInstallationsFolder: string
     defaultVersionsFolder: string
     backupsFolder: string
+    favMods: number[]
     _notifiedModUpdatesInstallations?: string[]
+  }
+
+  type WindowType = {
+    width: number
+    height: number
+    x: number
+    y: number
+    maximized: boolean
+  }
+
+  type AccountType = {
+    email: string
+    playerName: string
+    playerUid: string
+    playerEntitlements: string
+    sessionKey: string
+    sessionSignature: string
+    mptoken: string | null
+    hostGameServer: boolean
   }
 
   type GameVersionType = {
@@ -27,24 +47,31 @@ declare global {
   type InstallationType = {
     id: string
     name: string
+    icon: string
     path: string
     version: string
     startParams: string
     backupsLimit: number
     backupsAuto: boolean
+    compressionLevel: number
     backups: BackupType[]
     lastTimePlayed: number
     totalTimePlayed: number
+    mesaGlThread: boolean
+    envVars: string
     _modsCount?: number
     _playing?: boolean
     _backuping?: boolean
     _restoringBackup?: boolean
+    _updatingMods?: boolean
   }
 
   type ConfigType = BasicConfigType & {
+    window: WindowType
+    account: AccountType | null
     installations: InstallationType[]
     gameVersions: GameVersionType[]
-    favMods: number[]
+    customIcons: IconType[]
   }
 
   type InstalledModType = {
@@ -154,6 +181,13 @@ declare global {
     tagid: number
     name: string
     color: string
+  }
+
+  type IconType = {
+    id: string
+    name: string
+    icon: string
+    custom?: boolean
   }
 
   declare module "*.png" {

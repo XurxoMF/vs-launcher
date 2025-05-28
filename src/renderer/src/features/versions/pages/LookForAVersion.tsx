@@ -1,9 +1,11 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { useNavigate } from "react-router-dom"
+import { PiFloppyDiskBackDuotone, PiMagnifyingGlassDuotone, PiXCircleDuotone } from "react-icons/pi"
 
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 import { CONFIG_ACTIONS, useConfigContext } from "@renderer/features/config/contexts/ConfigContext"
+
 import {
   ButtonsWrapper,
   FormButton,
@@ -13,12 +15,12 @@ import {
   FormLinkButton,
   FromGroup,
   FromWrapper,
-  FormInputTextNotEditable,
+  FormInputText,
   FormFieldGroup,
   FormGroupWrapper
 } from "@renderer/components/ui/FormComponents"
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
-import { PiFloppyDiskBackDuotone, PiMagnifyingGlassDuotone, PiXCircleDuotone } from "react-icons/pi"
+import { StickyMenuWrapper, StickyMenuGroupWrapper, StickyMenuGroup, StickyMenuBreadcrumbs, GoBackButton, GoToTopButton } from "@renderer/components/ui/StickyMenu"
 
 function LookForAVersion(): JSX.Element {
   const { t } = useTranslation()
@@ -28,6 +30,8 @@ function LookForAVersion(): JSX.Element {
 
   const [folder, setFolder] = useState<string>("")
   const [versionFound, setVersionFound] = useState<string>("")
+
+  const scrollRef = useRef<HTMLDivElement | null>(null)
 
   const handleAddVersion = async (): Promise<void> => {
     try {
@@ -53,12 +57,29 @@ function LookForAVersion(): JSX.Element {
   }
 
   return (
-    <ScrollableContainer>
-      <div className="min-h-full flex flex-col justify-center gap-4">
-        <h1 className="text-3xl text-center font-bold">{t("features.versions.lookForAVersion")}</h1>
+    <ScrollableContainer ref={scrollRef}>
+      <div className="min-h-full flex flex-col items-center justify-center gap-2">
+        <StickyMenuWrapper scrollRef={scrollRef}>
+          <StickyMenuGroupWrapper>
+            <StickyMenuGroup>
+              <GoBackButton to="/" />
+            </StickyMenuGroup>
 
-        <FromWrapper className="max-w-[800px] w-full">
-          <FormGroupWrapper>
+            <StickyMenuBreadcrumbs
+              breadcrumbs={[
+                { name: t("breadcrumbs.versions"), to: "/versions" },
+                { name: t("breadcrumbs.lookForAVersion"), to: "/versions/look-for-a-version" }
+              ]}
+            />
+
+            <StickyMenuGroup>
+              <GoToTopButton scrollRef={scrollRef} />
+            </StickyMenuGroup>
+          </StickyMenuGroupWrapper>
+        </StickyMenuWrapper>
+
+        <FromWrapper className="max-w-[50rem] w-full my-auto">
+          <FormGroupWrapper title={t("generic.basics")}>
             <FromGroup>
               <FormHead>
                 <FormLabel content={t("generic.folder")} />
@@ -69,8 +90,8 @@ function LookForAVersion(): JSX.Element {
                   <FormButton
                     onClick={async () => {
                       const path = await window.api.utils.selectFolderDialog()
-                      if (path && path.length > 0) {
-                        const res = await window.api.pathsManager.lookForAGameVersion(path)
+                      if (path && path.length > 0 && path[0].length > 0) {
+                        const res = await window.api.gameManager.lookForAGameVersion(path[0])
 
                         if (!res.exists) {
                           setFolder("")
@@ -78,7 +99,7 @@ function LookForAVersion(): JSX.Element {
                           return addNotification(t("features.versions.noVersionFoundOnThatFolder"), "error")
                         }
 
-                        setFolder(path)
+                        setFolder(path[0])
                         setVersionFound(res.installedGameVersion as string)
                       }
                     }}
@@ -87,7 +108,7 @@ function LookForAVersion(): JSX.Element {
                   >
                     <PiMagnifyingGlassDuotone />
                   </FormButton>
-                  <FormInputTextNotEditable value={folder} placeholder={t("generic.folder")} className="w-full" />
+                  <FormInputText value={folder} placeholder={t("generic.folder")} readOnly className="w-full" />
                 </FormFieldGroup>
               </FormBody>
             </FromGroup>
@@ -98,20 +119,20 @@ function LookForAVersion(): JSX.Element {
               </FormHead>
 
               <FormBody>
-                <FormInputTextNotEditable value={versionFound} placeholder={t("features.versions.versionFound")} />
+                <FormInputText value={versionFound} readOnly placeholder={t("features.versions.versionFound")} />
               </FormBody>
             </FromGroup>
           </FormGroupWrapper>
-        </FromWrapper>
 
-        <ButtonsWrapper className="text-lg">
-          <FormLinkButton to="/versions" title={t("generic.cancel")} className="p-2">
-            <PiXCircleDuotone />
-          </FormLinkButton>
-          <FormButton onClick={handleAddVersion} title={t("generic.add")} className="p-2">
-            <PiFloppyDiskBackDuotone />
-          </FormButton>
-        </ButtonsWrapper>
+          <ButtonsWrapper className="text-lg">
+            <FormLinkButton to="/versions" title={t("generic.cancel")} type="error" className="p-2">
+              <PiXCircleDuotone />
+            </FormLinkButton>
+            <FormButton onClick={handleAddVersion} title={t("generic.add")} type="success" className="p-2">
+              <PiFloppyDiskBackDuotone />
+            </FormButton>
+          </ButtonsWrapper>
+        </FromWrapper>
       </div>
     </ScrollableContainer>
   )

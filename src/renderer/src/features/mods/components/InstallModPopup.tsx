@@ -67,16 +67,16 @@ function InstallModPopup({
         setModToInstall(null)
         setDownloadableModToInstall(null)
       }}
-      maxWidth={false}
+      fixedWidth={false}
     >
       <>
         <p>{t("features.mods.installationPopupDesc", { modName: downloadableModToInstall?.name || "MOD NOT FOUND" })}</p>
-        <TableWrapper className="w-[800px]">
+        <TableWrapper className="w-[50rem]">
           <TableHead>
             <TableHeadRow>
               <TableCell className="w-2/12">{t("generic.version")}</TableCell>
               <TableCell className="w-3/12">{t("generic.releaseDate")}</TableCell>
-              <TableCell className="w-5/12">{t("generic.versions")}</TableCell>
+              <TableCell className="w-5/12">{t("features.versions.labelGameVersions")}</TableCell>
               <TableCell className="w-2/12">{t("generic.actions")}</TableCell>
             </TableHeadRow>
           </TableHead>
@@ -86,7 +86,7 @@ function InstallModPopup({
               <FiLoader className="animate-spin text-3xl text-zinc-400" />
             </div>
           ) : (
-            <TableBody className="max-h-[300px]">
+            <TableBody className="max-h-[18rem]">
               {downloadableModToInstall.releases.map((release) => (
                 <TableBodyRow key={release.releaseid}>
                   <TableCell className="w-2/12">{release.modversion}</TableCell>
@@ -100,8 +100,7 @@ function InstallModPopup({
                         disabled={installation.oldMod && installation.oldMod.version === release.modversion}
                         onClick={async () => {
                           if (!installation) return addNotification(t("features.installations.noInstallationFound"), "error")
-                          if (installation.installation._playing || installation.installation._backuping || installation.installation._restoringBackup)
-                            return addNotification(t("features.mods.cantUpdateWhileinUse"), "error")
+                          if (installation.installation._backuping || installation.installation._restoringBackup) return addNotification(t("features.mods.cantUpdateWhileinUse"), "error")
 
                           installMod({
                             mod: downloadableModToInstall,

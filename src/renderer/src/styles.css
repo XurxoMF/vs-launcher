@@ -10,31 +10,6 @@
   --color-zinc-850: #212122;
 
   --background-image-image-vs: url("./assets/background.jpg");
-
-  --shadow-inner-sm: inset 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-inner: inset 0 4px 6px -1px rgba(0, 0, 0, 0.1), inset 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-inner-md: inset 0 6px 10px -1px rgba(0, 0, 0, 0.1), inset 0 4px 6px -1px rgba(0, 0, 0, 0.06);
-  --shadow-inner-lg: inset 0 10px 15px -3px rgba(0, 0, 0, 0.1), inset 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-inner-xl: inset 0 20px 25px -5px rgba(0, 0, 0, 0.1), inset 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  --shadow-inner-2xl: inset 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-}
-
-/*
-  The default border color has changed to `currentColor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
-@layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
-  }
 }
 
 @layer utilities {
@@ -44,13 +19,36 @@
   }
 }
 
+/* Custom scale options */
+html[data-uiscale="50"] {
+  font-size: 8px;
+}
+html[data-uiscale="75"] {
+  font-size: 12px;
+}
+html[data-uiscale="100"] {
+  font-size: 16px;
+}
+html[data-uiscale="125"] {
+  font-size: 20px;
+}
+html[data-uiscale="150"] {
+  font-size: 24px;
+}
+
 #root {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
 }
 
-* {
-  scrollbar-width: thin;
-  scrollbar-color: #7b4f1f transparent;
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background-color: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: #7e501e;
 }

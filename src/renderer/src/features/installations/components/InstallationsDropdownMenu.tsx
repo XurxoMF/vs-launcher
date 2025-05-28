@@ -4,9 +4,11 @@ import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from "@headless
 import { AnimatePresence, motion } from "motion/react"
 import clsx from "clsx"
 
+import { INSTALLATION_ICONS } from "@renderer/utils/installationIcons"
+import { DROPUP_MENU_ITEM_VARIANTS, DROPUP_MENU_WRAPPER_VARIANTS } from "@renderer/utils/animateVariants"
+
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
 
-import { DROPUP_MENU_ITEM_VARIANTS, DROPUP_MENU_WRAPPER_VARIANTS } from "@renderer/utils/animateVariants"
 import { LinkButton } from "@renderer/components/ui/Buttons"
 
 function InstallationsDropdownMenu(): JSX.Element {
@@ -44,10 +46,25 @@ function InstallationsDropdownMenu(): JSX.Element {
         >
           {({ open }) => (
             <>
-              <ListboxButton className="w-full h-14 px-2 flex items-center justify-between gap-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none text-sm text-start cursor-pointer">
-                {config.installations
-                  .filter((i) => i.id === config.lastUsedInstallation)
-                  .map((current) => (
+              {config.installations
+                .filter((i) => i.id === config.lastUsedInstallation)
+                .map((current) => (
+                  <ListboxButton
+                    key={current.id}
+                    className="w-full h-14 p-1 pr-2 flex items-center justify-between gap-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none text-sm text-start cursor-pointer"
+                  >
+                    <img
+                      src={
+                        INSTALLATION_ICONS.some((ii) => ii.id === current.icon)
+                          ? INSTALLATION_ICONS.find((ii) => ii.id === current.icon)?.icon
+                          : config.customIcons.some((ii) => ii.id === current.icon)
+                            ? `icons:${config.customIcons.find((ii) => ii.id === current.icon)?.icon}`
+                            : INSTALLATION_ICONS[0].icon
+                      }
+                      alt={t("generic.icon")}
+                      className="h-full aspect-square object-cover rounded-sm"
+                    />
+
                     <div key={current.id} className="w-full flex flex-col justify-around overflow-hidden">
                       <p className="font-bold overflow-hidden whitespace-nowrap text-ellipsis">{current.name}</p>
 
@@ -56,9 +73,9 @@ function InstallationsDropdownMenu(): JSX.Element {
                         <p>{t("features.mods.modsCount", { count: current._modsCount })}</p>
                       </div>
                     </div>
-                  ))}
-                <PiCaretUpDuotone className={clsx("text-zinc-300 duration-200 shrink-0", open && "-rotate-180")} />
-              </ListboxButton>
+                    <PiCaretUpDuotone className={clsx("duration-200 shrink-0", open && "-rotate-180")} />
+                  </ListboxButton>
+                ))}
 
               <AnimatePresence>
                 {open && (
@@ -68,7 +85,7 @@ function InstallationsDropdownMenu(): JSX.Element {
                       initial="initial"
                       animate="animate"
                       exit="exit"
-                      className="max-h-40 flex flex-col bg-zinc-950/50 backdrop-blur-md border border-zinc-400/5 shadow-sm shadow-zinc-950/50 hover:shadow-none rounded-sm overflow-y-scroll text-sm"
+                      className="max-h-80 flex flex-col bg-zinc-950/50 backdrop-blur-md border border-zinc-400/5 shadow-sm shadow-zinc-950/50 hover:shadow-none rounded-sm overflow-y-scroll text-sm"
                     >
                       {config.installations.toReversed().map((current) => (
                         <ListboxOption
@@ -76,9 +93,21 @@ function InstallationsDropdownMenu(): JSX.Element {
                           value={current.id}
                           as={motion.li}
                           variants={DROPUP_MENU_ITEM_VARIANTS}
-                          className="w-full h-14 px-2 py-1 shrink-0 flex items-center overflow-hidden odd:bg-zinc-800/30 even:bg-zinc-950/30 cursor-pointer text-start"
+                          className="w-full h-14 p-1 flex items-center justify-between gap-2 overflow-hidden odd:bg-zinc-800/30 even:bg-zinc-950/30 cursor-pointer text-start border border-transparent"
                         >
-                          <div className="w-full flex flex-col justify-around gap-1">
+                          <img
+                            src={
+                              INSTALLATION_ICONS.some((ii) => ii.id === current.icon)
+                                ? INSTALLATION_ICONS.find((ii) => ii.id === current.icon)?.icon
+                                : config.customIcons.some((ii) => ii.id === current.icon)
+                                  ? `icons:${config.customIcons.find((ii) => ii.id === current.icon)?.icon}`
+                                  : INSTALLATION_ICONS[0].icon
+                            }
+                            alt={t("generic.icon")}
+                            className="h-full aspect-square object-cover rounded-sm"
+                          />
+
+                          <div key={current.id} className="w-full flex flex-col justify-around overflow-hidden">
                             <p className="font-bold overflow-hidden whitespace-nowrap text-ellipsis">{current.name}</p>
 
                             <div className="shrink-0 text-zinc-400 flex gap-2 items-start">

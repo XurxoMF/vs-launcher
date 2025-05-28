@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { PiFolderOpenDuotone, PiPlusCircleDuotone, PiTrashDuotone, PiMagnifyingGlassDuotone, PiXCircleDuotone } from "react-icons/pi"
 import { useTranslation } from "react-i18next"
 import semver from "semver"
@@ -12,6 +12,7 @@ import PopupDialogPanel from "@renderer/components/ui/PopupDialogPanel"
 import { LinkButton, NormalButton } from "@renderer/components/ui/Buttons"
 import { FormButton } from "@renderer/components/ui/FormComponents"
 import { ThinSeparator } from "@renderer/components/ui/ListSeparators"
+import { StickyMenuWrapper, StickyMenuGroupWrapper, StickyMenuGroup, StickyMenuBreadcrumbs, GoBackButton, GoToTopButton } from "@renderer/components/ui/StickyMenu"
 
 function ListVersions(): JSX.Element {
   const { t } = useTranslation()
@@ -19,6 +20,8 @@ function ListVersions(): JSX.Element {
   const { config, configDispatch } = useConfigContext()
 
   const [versionToDelete, setVersionToDelete] = useState<GameVersionType | null>(null)
+
+  const scrollRef = useRef<HTMLDivElement | null>(null)
 
   async function DeleteVersionHandler(): Promise<void> {
     if (versionToDelete === null) return addNotification(t("features.versions.noVersionSelected"), "error")
@@ -40,19 +43,33 @@ function ListVersions(): JSX.Element {
   }
 
   return (
-    <ScrollableContainer>
-      <div className="min-h-full flex flex-col items-center justify-center">
-        <ListWrapper className="max-w-[800px] w-full">
+    <ScrollableContainer ref={scrollRef}>
+      <div className="min-h-full flex flex-col items-center justify-center gap-2">
+        <StickyMenuWrapper scrollRef={scrollRef}>
+          <StickyMenuGroupWrapper>
+            <StickyMenuGroup>
+              <GoBackButton to="/" />
+            </StickyMenuGroup>
+
+            <StickyMenuBreadcrumbs breadcrumbs={[{ name: t("breadcrumbs.versions"), to: "/versions" }]} />
+
+            <StickyMenuGroup>
+              <GoToTopButton scrollRef={scrollRef} />
+            </StickyMenuGroup>
+          </StickyMenuGroupWrapper>
+        </StickyMenuWrapper>
+
+        <ListWrapper className="max-w-[50rem] w-full my-auto">
           <ListGroup>
             <div className="flex gap-2">
               <ListItem className="group">
                 <LinkButton to="/versions/add" title={t("features.versions.installNewVersion")} className="w-full h-8">
-                  <PiPlusCircleDuotone className="text-xl text-zinc-400/60 group-hover:scale-95 duration-200" />
+                  <PiPlusCircleDuotone className="text-xl text-zinc-400/25 group-hover:scale-95 duration-200" />
                 </LinkButton>
               </ListItem>
               <ListItem className="group">
                 <LinkButton to="/versions/look-for-a-version" title={t("features.versions.searchForAGameVersion")} className="w-full h-8">
-                  <PiMagnifyingGlassDuotone className="text-xl text-zinc-400/60 group-hover:scale-95 duration-200" />
+                  <PiMagnifyingGlassDuotone className="text-xl text-zinc-400/25 group-hover:scale-95 duration-200" />
                 </LinkButton>
               </ListItem>
             </div>
@@ -61,8 +78,8 @@ function ListVersions(): JSX.Element {
               .sort((a, b) => semver.rcompare(a.version, b.version))
               .map((gv) => (
                 <ListItem key={gv.version}>
-                  <div className="w-full h-8 flex gap-2 px-2 py-1 justify-between items-center">
-                    <div className="w-full flex items-center justify-center text-start font-bold">
+                  <div className="w-full h-8 flex gap-2 p-1 justify-between items-center">
+                    <div className="w-full flex items-center justify-center text-start font-bold pl-1">
                       <p className="w-full">{gv.version}</p>
                     </div>
 
@@ -81,7 +98,7 @@ function ListVersions(): JSX.Element {
                       </NormalButton>
                       <NormalButton
                         className="p-1"
-                        title={t("generic.delete")}
+                        title={t("features.versions.deleteVersion")}
                         onClick={async () => {
                           setVersionToDelete(gv)
                         }}
@@ -100,7 +117,7 @@ function ListVersions(): JSX.Element {
             <p>{t("features.versions.areYouSureUninstall")}</p>
             <p className="text-zinc-400">{t("features.versions.uninstallingNotReversible")}</p>
             <div className="flex gap-4 items-center justify-center text-lg">
-              <FormButton title={t("generic.cancel")} className="p-2" onClick={() => setVersionToDelete(null)}>
+              <FormButton title={t("generic.cancel")} className="p-2" onClick={() => setVersionToDelete(null)} type="success">
                 <PiXCircleDuotone />
               </FormButton>
               <FormButton title={t("generic.uninstall")} className="p-2" onClick={DeleteVersionHandler} type="error">

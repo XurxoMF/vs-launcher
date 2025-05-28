@@ -35,7 +35,7 @@ function TasksMenu(): JSX.Element {
     <Popover className="relative">
       {({ open }) => (
         <>
-          <PopoverButton className="w-8 h-8 flex items-center justify-center gap-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none cursor-pointer">
+          <PopoverButton className="w-8 h-8 aspect-square flex items-center justify-center gap-2 rounded-sm overflow-hidden border border-zinc-400/5 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 hover:shadow-none cursor-pointer">
             <PiDownloadDuotone />
           </PopoverButton>
 

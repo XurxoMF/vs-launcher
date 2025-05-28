@@ -1,5 +1,4 @@
 import { contextBridge, ipcRenderer } from "electron"
-import { autoUpdater } from "electron-updater"
 import { IPC_CHANNELS } from "@src/ipc/ipcChannels"
 
 import { electronAPI } from "@electron-toolkit/preload"
@@ -13,12 +12,14 @@ const api: BridgeAPI = {
     logMessage: (mode: ErrorTypes, message: string): void => ipcRenderer.send(IPC_CHANNELS.UTILS.LOG_MESSAGE, mode, message),
     setPreventAppClose: (action: "add" | "remove", id: string, desc: string): void => ipcRenderer.send(IPC_CHANNELS.UTILS.SET_PREVENT_APP_CLOSE, action, id, desc),
     openOnBrowser: (url: string): void => ipcRenderer.send(IPC_CHANNELS.UTILS.OPEN_ON_BROWSER, url),
-    selectFolderDialog: (): Promise<string> => ipcRenderer.invoke(IPC_CHANNELS.UTILS.SELECT_FOLDER_DIALOG)
+    selectFolderDialog: (options?: { type?: "file" | "folder"; mode?: "single" | "multi"; extensions?: string[] }): Promise<string[]> =>
+      ipcRenderer.invoke(IPC_CHANNELS.UTILS.SELECT_FOLDER_DIALOG, options),
+    onPreventedAppClose: (callback: (event: Electron.IpcRendererEvent, desc: string) => void) => ipcRenderer.on(IPC_CHANNELS.UTILS.PREVENTED_APP_CLOSE, callback)
   },
   appUpdater: {
     onUpdateAvailable: (callback) => ipcRenderer.on(IPC_CHANNELS.APP_UPDATER.UPDATE_AVAILABLE, callback),
     onUpdateDownloaded: (callback) => ipcRenderer.on(IPC_CHANNELS.APP_UPDATER.UPDATE_DOWNLOADED, callback),
-    updateAndRestart: () => autoUpdater.quitAndInstall()
+    updateAndRestart: () => ipcRenderer.send(IPC_CHANNELS.APP_UPDATER.UPDATE_AND_RESTART)
   },
   configManager: {
     getConfig: (): Promise<ConfigType> => ipcRenderer.invoke(IPC_CHANNELS.CONFIG_MANAGER.GET_CONFIG),
@@ -39,19 +40,22 @@ const api: BridgeAPI = {
     downloadOnPath: (id: string, url: string, outputPath: string, fileName: string): Promise<string> => ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.DOWNLOAD_ON_PATH, id, url, outputPath, fileName),
     extractOnPath: (id: string, filePath: string, outputPath: string, deleteZip: boolean): Promise<boolean> =>
       ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.EXTRACT_ON_PATH, id, filePath, outputPath, deleteZip),
-    compressOnPath: (id: string, inputPath: string, outputPath: string, outputFileName: string): Promise<boolean> =>
-      ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.COMPRESS_ON_PATH, id, inputPath, outputPath, outputFileName),
+    compressOnPath: (id: string, inputPath: string, outputPath: string, outputFileName: string, compressionLevel?: number): Promise<boolean> =>
+      ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.COMPRESS_ON_PATH, id, inputPath, outputPath, outputFileName, compressionLevel),
     onDownloadProgress: (callback: ProgressCallback) => ipcRenderer.on(IPC_CHANNELS.PATHS_MANAGER.DOWNLOAD_PROGRESS, callback),
     onExtractProgress: (callback: ProgressCallback) => ipcRenderer.on(IPC_CHANNELS.PATHS_MANAGER.EXTRACT_PROGRESS, callback),
     onCompressProgress: (callback: ProgressCallback) => ipcRenderer.on(IPC_CHANNELS.PATHS_MANAGER.COMPRESS_PROGRESS, callback),
     changePerms: (paths: string[], perms: number): Promise<boolean> => ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.CHANGE_PERMS, paths, perms),
-    lookForAGameVersion: (path: string): Promise<{ exists: boolean; installedGameVersion: string | undefined }> => ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.LOOK_FOR_A_GAME_VERSION, path)
+    copyToIcons: (path: string, name: string): Promise<{ status: true; file: string } | { status: false }> => ipcRenderer.invoke(IPC_CHANNELS.PATHS_MANAGER.COPY_TO_ICONS, path, name)
   },
   gameManager: {
-    executeGame: (version: GameVersionType, installation: InstallationType): Promise<boolean> => ipcRenderer.invoke(IPC_CHANNELS.GAME_MANAGER.EXECUTE_GAME, version, installation)
+    executeGame: (version: GameVersionType, installation: InstallationType, account: AccountType | null): Promise<boolean> =>
+      ipcRenderer.invoke(IPC_CHANNELS.GAME_MANAGER.EXECUTE_GAME, version, installation, account),
+    lookForAGameVersion: (path: string): Promise<{ exists: boolean; installedGameVersion: string | undefined }> => ipcRenderer.invoke(IPC_CHANNELS.GAME_MANAGER.LOOK_FOR_A_GAME_VERSION, path)
   },
   netManager: {
-    queryURL: (url: string): Promise<string> => ipcRenderer.invoke(IPC_CHANNELS.NET_MANAGER.QUERY_URL, url)
+    queryURL: (url: string): Promise<string> => ipcRenderer.invoke(IPC_CHANNELS.NET_MANAGER.QUERY_URL, url),
+    postUrl: (url: string, body: { email: string; password: string; twofacode?: string; preLoginToken?: string }): Promise<object> => ipcRenderer.invoke(IPC_CHANNELS.NET_MANAGER.VS_LOGIN, url, body)
   }
 }
 

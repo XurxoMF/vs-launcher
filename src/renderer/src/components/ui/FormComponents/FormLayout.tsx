@@ -1,5 +1,7 @@
 import clsx from "clsx"
 
+import DropdownSection from "@renderer/components/ui/DropdownSection"
+
 /**
  * Form external wrapper.
  *
@@ -9,7 +11,7 @@ import clsx from "clsx"
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
 export function FromWrapper({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
-  return <div className={clsx("mx-auto flex flex-col gap-4 items-start justify-center", className)}>{children}</div>
+  return <div className={clsx("mx-auto flex flex-col gap-4 items-center justify-center", className)}>{children}</div>
 }
 
 /**
@@ -30,21 +32,29 @@ export function FromGroup({ children, className, alignment = "x" }: { children: 
  *
  * @param {object} props - The component props.
  * @param {React.ReactNode} props.children - The content to be wrapped.
+ * @param {string} props.title - The title of the FormGroupWrapper
  * @param {string} [props.className] - Additional class names for styling.
- * @param {string} [props.title] - The title of the FormGroupWrapper.
+ * @param {boolean} [props.bgDark] - Add or not the darker background.
+ * @param {boolean} [props.startOpen] - True to show it open by default and false to show it closed by default.
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
-export function FormGroupWrapper({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
+export function FormGroupWrapper({
+  children,
+  title,
+  className,
+  bgDark = true,
+  startOpen = true
+}: {
+  children: React.ReactNode
+  title?: string
+  className?: string
+  bgDark?: boolean
+  startOpen?: boolean
+}): JSX.Element {
   return (
-    <div
-      className={clsx(
-        "relative w-full",
-        "before:absolute before:left-0 before:top-0 before:w-full before:h-full before:rounded-md before:backdrop-blur-sm before:bg-zinc-950/25 before:shadow-sm before:shadow-zinc-950/50 before:border before:border-zinc-400/5",
-        className
-      )}
-    >
-      <div className="relative flex flex-col p-2 gap-2 z-1">{children}</div>
-    </div>
+    <DropdownSection title={title} className={className} bgDark={bgDark} startOpen={startOpen}>
+      {children}
+    </DropdownSection>
   )
 }
 
@@ -57,7 +67,7 @@ export function FormGroupWrapper({ children, className }: { children: React.Reac
  * @returns {JSX.Element} A JSX element wrapping the children with specified styles.
  */
 export function FormHead({ children, className }: { children: React.ReactNode; className?: string }): JSX.Element {
-  return <div className={clsx("relative w-1/5 flex flex-col gap-2", className)}>{children}</div>
+  return <div className={clsx("relative w-1/5 flex flex-col gap-2 shrink-0", className)}>{children}</div>
 }
 
 /**

@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { useParams } from "react-router-dom"
 import { PiArrowCounterClockwiseDuotone, PiFolderOpenDuotone, PiTrashDuotone, PiXCircleDuotone } from "react-icons/pi"
@@ -15,8 +15,10 @@ import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
 import PopupDialogPanel from "@renderer/components/ui/PopupDialogPanel"
 import { NormalButton } from "@renderer/components/ui/Buttons"
 import { FormButton } from "@renderer/components/ui/FormComponents"
+import { ThinSeparator } from "@renderer/components/ui/ListSeparators"
+import { StickyMenuWrapper, StickyMenuGroupWrapper, StickyMenuGroup, StickyMenuBreadcrumbs, GoBackButton, GoToTopButton } from "@renderer/components/ui/StickyMenu"
 
-function RestoreInstallationBackup(): JSX.Element {
+function ManageInstallationBackups(): JSX.Element {
   const { id } = useParams()
 
   const { t } = useTranslation()
@@ -29,11 +31,13 @@ function RestoreInstallationBackup(): JSX.Element {
   const [backupToRestore, setBackupToRestore] = useState<BackupType | null>(null)
   const [backupToDelete, setBackupToDelete] = useState<BackupType | null>(null)
 
+  const scrollRef = useRef<HTMLDivElement | null>(null)
+
   const installation = config.installations.find((igv) => igv.id === id)
   const backups = installation?.backups
 
-  async function RestoreBackupHandler(): Promise<void> {
-    if (!backupToRestore) return addNotification(t("features.backups.noBackupSelected"), "error")
+  async function RestoreBackupHandler(backup: BackupType | null): Promise<void> {
+    if (!backup) return addNotification(t("features.backups.noBackupSelected"), "error")
 
     if (!installation) return addNotification(t("features.installations.noInstallationFound"), "error")
     if (installation._backuping) return addNotification(t("features.backups.backupInProgress"), "error")
@@ -50,7 +54,7 @@ function RestoreInstallationBackup(): JSX.Element {
       })
       configDispatch({
         type: CONFIG_ACTIONS.EDIT_INSTALLATION_BACKUP,
-        payload: { id: installation.id, backupId: backupToRestore.id, updates: { _restoring: true } }
+        payload: { id: installation.id, backupId: backup.id, updates: { _restoring: true } }
       })
 
       const deletedPath = await window.api.pathsManager.deletePath(installation.path)
@@ -60,7 +64,7 @@ function RestoreInstallationBackup(): JSX.Element {
         t("features.backups.extractTaskName", { name: installation.name }),
         t("features.backups.extractingBackupDescription", { name: installation.name }),
         "all",
-        backupToRestore.path,
+        backup.path,
         installation.path,
         false,
         async (completed) => {
@@ -83,21 +87,21 @@ function RestoreInstallationBackup(): JSX.Element {
       })
       configDispatch({
         type: CONFIG_ACTIONS.EDIT_INSTALLATION_BACKUP,
-        payload: { id: installation.id, backupId: backupToRestore.id, updates: { _restoring: false } }
+        payload: { id: installation.id, backupId: backup.id, updates: { _restoring: false } }
       })
     }
   }
 
-  async function DeleteBackupHandler(): Promise<void> {
+  async function DeleteBackupHandler(backup: BackupType | null): Promise<void> {
     try {
       if (!installation) return addNotification(t("features.installations.noInstallationFound"), "error")
 
-      if (!backupToDelete || backupToDelete._restoring || backupToDelete._deleting) return addNotification(t("features.backups.cantDeleteWhileinUse"), "error")
+      if (!backup || backup._restoring || backup._deleting) return addNotification(t("features.backups.cantDeleteWhileinUse"), "error")
 
-      const deleted = await window.api.pathsManager.deletePath(backupToDelete.path)
+      const deleted = await window.api.pathsManager.deletePath(backup.path)
       if (!deleted) throw new Error("There was an error deleting backup file.")
 
-      configDispatch({ type: CONFIG_ACTIONS.DELETE_INSTALLATION_BACKUP, payload: { id: installation!.id, backupId: backupToDelete.id } })
+      configDispatch({ type: CONFIG_ACTIONS.DELETE_INSTALLATION_BACKUP, payload: { id: installation!.id, backupId: backup.id } })
       addNotification(t("features.backups.backupDeletedSuccesfully"), "success")
     } catch (err) {
       addNotification(t("features.backups.errorDeletingBackup"), "error")
@@ -107,13 +111,30 @@ function RestoreInstallationBackup(): JSX.Element {
   }
 
   return (
-    <ScrollableContainer>
-      <div className="min-h-full flex flex-col justify-center gap-4">
-        <h1 className="text-3xl text-center font-bold">{t("features.installations.restoreBackup")}</h1>
+    <ScrollableContainer ref={scrollRef}>
+      <div className="min-h-full flex flex-col items-center justify-center gap-2">
+        <StickyMenuWrapper scrollRef={scrollRef}>
+          <StickyMenuGroupWrapper>
+            <StickyMenuGroup>
+              <GoBackButton to="/installations" />
+            </StickyMenuGroup>
 
-        <ListWrapper className="max-w-[800px] w-full">
+            <StickyMenuBreadcrumbs
+              breadcrumbs={[
+                { name: t("breadcrumbs.installations"), to: "/installations" },
+                { name: t("breadcrumbs.manageBackups"), to: installation ? `/installations/backups/${installation.id}` : "/installations" }
+              ]}
+            />
+
+            <StickyMenuGroup>
+              <GoToTopButton scrollRef={scrollRef} />
+            </StickyMenuGroup>
+          </StickyMenuGroupWrapper>
+        </StickyMenuWrapper>
+
+        <ListWrapper className="max-w-[50rem] w-full my-auto">
           {backups && backups.length < 1 && (
-            <div className="relative w-full flex flex-col items-center justify-center gap-2 rounded-sm bg-zinc-950/50 p-4">
+            <div className="relative w-full flex flex-col items-center justify-center gap-2 rounded-sm p-4">
               <p className="text-2xl">{t("features.backups.noBackupsFound")}</p>
             </div>
           )}
@@ -121,16 +142,14 @@ function RestoreInstallationBackup(): JSX.Element {
             {backups &&
               backups.map((backup) => (
                 <ListItem key={backup.id}>
-                  <div className="flex gap-4 px-2 py-1 justify-between items-center whitespace-nowrap">
-                    <div className="flex gap-2 items-center font-bold">
-                      <p>{new Date(backup.date).toLocaleString("es")}</p>
+                  <div className="w-full h-8 flex gap-2 p-1 justify-between items-center">
+                    <div className="w-full flex items-center justify-center text-start font-bold pl-1">
+                      <p className="w-full">{new Date(backup.date).toLocaleString("es")}</p>
                     </div>
 
-                    <div className="w-full text-sm text-zinc-400  text-center overflow-hidden">
-                      <p className="hidden group-hover:block overflow-hidden text-ellipsis">{backup.path}</p>
-                    </div>
+                    <ThinSeparator />
 
-                    <div className="flex gap-1 justify-end text-lg">
+                    <div className="shrink-0 w-fit flex gap-1 text-lg">
                       <NormalButton className="p-1" title={t("features.backups.restoreBackup")} onClick={() => setBackupToRestore(backup)}>
                         <PiArrowCounterClockwiseDuotone />
                       </NormalButton>
@@ -143,7 +162,7 @@ function RestoreInstallationBackup(): JSX.Element {
                           if (!(await window.api.pathsManager.checkPathExists(folder))) return addNotification(t("notifications.body.folderDoesntExists"), "error")
                           window.api.pathsManager.openPathOnFileExplorer(folder)
                         }}
-                        title={t("generic.openOnFileExplorer")}
+                        title={`${t("generic.openOnFileExplorer")} · ${backup.path}`}
                         className="p-1"
                       >
                         <PiFolderOpenDuotone />
@@ -160,10 +179,18 @@ function RestoreInstallationBackup(): JSX.Element {
             <p>{t("features.backups.areYouSureRestoreBackup")}</p>
             <p className="text-zinc-400">{t("features.backups.restoringNotReversible")}</p>
             <div className="flex gap-4 items-center justify-center text-lg">
-              <FormButton title={t("generic.cancel")} className="p-2" onClick={() => setBackupToRestore(null)}>
+              <FormButton title={t("generic.cancel")} className="p-2" onClick={() => setBackupToRestore(null)} type="success">
                 <PiXCircleDuotone />
               </FormButton>
-              <FormButton title={t("generic.restore")} className="p-2" onClick={RestoreBackupHandler} type="error">
+              <FormButton
+                title={t("generic.restore")}
+                className="p-2"
+                onClick={() => {
+                  RestoreBackupHandler(backupToRestore)
+                  setBackupToRestore(null)
+                }}
+                type="error"
+              >
                 <PiArrowCounterClockwiseDuotone />
               </FormButton>
             </div>
@@ -175,10 +202,18 @@ function RestoreInstallationBackup(): JSX.Element {
             <p>{t("features.backups.areYouSureDelete")}</p>
             <p className="text-zinc-400">{t("features.backups.deletingNotReversible")}</p>
             <div className="flex gap-4 items-center justify-center text-lg">
-              <NormalButton title={t("generic.cancel")} className="p-2" onClick={() => setBackupToDelete(null)}>
+              <NormalButton title={t("generic.cancel")} className="p-2" onClick={() => setBackupToDelete(null)} type="success">
                 <PiXCircleDuotone />
               </NormalButton>
-              <NormalButton title={t("generic.delete")} className="p-2" onClick={DeleteBackupHandler} type="error">
+              <NormalButton
+                title={t("generic.delete")}
+                className="p-2"
+                onClick={() => {
+                  DeleteBackupHandler(backupToDelete)
+                  setBackupToDelete(null)
+                }}
+                type="error"
+              >
                 <PiTrashDuotone />
               </NormalButton>
             </div>
@@ -189,4 +224,4 @@ function RestoreInstallationBackup(): JSX.Element {
   )
 }
 
-export default RestoreInstallationBackup
+export default ManageInstallationBackups

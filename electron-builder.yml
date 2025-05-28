@@ -37,8 +37,9 @@ dmg:
 linux:
   target:
     - AppImage
-    - flatpak
     - deb
+    - rpm
+    - flatpak
   maintainer: XurxoMF
   category: Game
   icon: resources/icon.icns
@@ -52,6 +53,8 @@ flatpak:
   base: org.electronjs.Electron2.BaseApp
   baseVersion: "23.08"
 deb:
+  artifactName: ${name}-${version}.${ext}
+rpm:
   artifactName: ${name}-${version}.${ext}
 npmRebuild: false
 publish:

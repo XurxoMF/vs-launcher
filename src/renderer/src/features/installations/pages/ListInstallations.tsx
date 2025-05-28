@@ -1,7 +1,9 @@
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { Input } from "@headlessui/react"
-import { PiFolderOpenDuotone, PiPlusCircleDuotone, PiPencilDuotone, PiBoxArrowDownDuotone, PiArrowCounterClockwiseDuotone, PiGearDuotone, PiXCircleDuotone, PiTrashDuotone } from "react-icons/pi"
+import { PiFolderOpenDuotone, PiPlusCircleDuotone, PiPencilDuotone, PiBoxArrowDownDuotone, PiArrowCounterClockwiseDuotone, PiWrenchDuotone, PiXCircleDuotone, PiTrashDuotone } from "react-icons/pi"
 import { useTranslation } from "react-i18next"
+
+import { INSTALLATION_ICONS } from "@renderer/utils/installationIcons"
 
 import { useConfigContext, CONFIG_ACTIONS } from "@renderer/features/config/contexts/ConfigContext"
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
@@ -14,6 +16,7 @@ import PopupDialogPanel from "@renderer/components/ui/PopupDialogPanel"
 import { FormButton } from "@renderer/components/ui/FormComponents"
 import { LinkButton, NormalButton } from "@renderer/components/ui/Buttons"
 import { ThinSeparator } from "@renderer/components/ui/ListSeparators"
+import { StickyMenuWrapper, StickyMenuGroupWrapper, StickyMenuGroup, StickyMenuBreadcrumbs, GoBackButton, GoToTopButton } from "@renderer/components/ui/StickyMenu"
 
 function ListInslallations(): JSX.Element {
   const { t } = useTranslation()
@@ -24,6 +27,8 @@ function ListInslallations(): JSX.Element {
 
   const [installationToDelete, setInstallationToDelete] = useState<InstallationType | null>(null)
   const [deleteData, setDeleData] = useState<boolean>(false)
+
+  const scrollRef = useRef<HTMLDivElement | null>(null)
 
   async function DeleteInstallationHandler(): Promise<void> {
     try {
@@ -52,24 +57,53 @@ function ListInslallations(): JSX.Element {
   }
 
   return (
-    <ScrollableContainer>
-      <div className="min-h-full flex flex-col items-center justify-center">
-        <ListWrapper className="max-w-[800px] w-full">
+    <ScrollableContainer ref={scrollRef}>
+      <div className="min-h-full flex flex-col items-center justify-center gap-2">
+        <StickyMenuWrapper scrollRef={scrollRef}>
+          <StickyMenuGroupWrapper>
+            <StickyMenuGroup>
+              <GoBackButton to="/" />
+            </StickyMenuGroup>
+
+            <StickyMenuBreadcrumbs breadcrumbs={[{ name: t("breadcrumbs.installations"), to: "/installations" }]} />
+
+            <StickyMenuGroup>
+              <GoToTopButton scrollRef={scrollRef} />
+            </StickyMenuGroup>
+          </StickyMenuGroupWrapper>
+        </StickyMenuWrapper>
+
+        <ListWrapper className="max-w-[50rem] w-full my-auto">
           <ListGroup>
             <ListItem className="group">
               <LinkButton to="/installations/add" title={t("features.installations.addNewInstallation")} className="w-full h-12">
-                <PiPlusCircleDuotone className="text-2xl text-zinc-400/60 group-hover:scale-95 duration-200" />
+                <PiPlusCircleDuotone className="text-3xl text-zinc-400/25 group-hover:scale-95 duration-200" />
               </LinkButton>
             </ListItem>
+
             {config.installations.map((installation) => (
               <ListItem key={installation.id}>
-                <div className="h-16 flex gap-2 px-2 py-1 justify-between items-center whitespace-nowrap">
+                <div className="h-16 flex gap-2 p-1 justify-between items-center whitespace-nowrap">
+                  <img
+                    src={
+                      INSTALLATION_ICONS.some((ii) => ii.id === installation.icon)
+                        ? INSTALLATION_ICONS.find((ii) => ii.id === installation.icon)?.icon
+                        : config.customIcons.some((ii) => ii.id === installation.icon)
+                          ? `icons:${config.customIcons.find((ii) => ii.id === installation.icon)?.icon}`
+                          : INSTALLATION_ICONS[0].icon
+                    }
+                    alt={t("generic.icon")}
+                    className="h-full aspect-square object-cover rounded-sm"
+                  />
+
+                  <ThinSeparator />
+
                   <div className="w-full flex flex-col items-start justify-center gap-1 overflow-hidden">
                     <div className="w-full flex gap-1 items-center justify-start">
                       <p className="font-bold">{installation.name}</p>
                     </div>
 
-                    <div className="w-full flex gap-1 items-center justify-start text-sm text-zinc-500">
+                    <div className="w-full flex gap-1 items-center justify-start text-sm text-zinc-400">
                       <p>{installation.lastTimePlayed === -1 ? t("generic.notPlayedYet") : new Date(installation.lastTimePlayed).toLocaleString("es")}</p>
 
                       <span>·</span>
@@ -91,7 +125,7 @@ function ListInslallations(): JSX.Element {
                     <div className="flex flex-col gap-1">
                       <NormalButton
                         className="p-1"
-                        title={t("generic.backup")}
+                        title={t("features.installations.backupInstallation")}
                         onClick={async () => {
                           if (!(await window.api.pathsManager.checkPathExists(installation.path))) return addNotification(t("features.backups.folderDoesntExists"), "error")
                           makeInstallationBackup(installation.id)
@@ -99,13 +133,13 @@ function ListInslallations(): JSX.Element {
                       >
                         <PiBoxArrowDownDuotone />
                       </NormalButton>
-                      <LinkButton to={`/installations/backups/${installation.id}`} className="p-1" title={t("features.backups.restoreBackup")}>
+                      <LinkButton to={`/installations/backups/${installation.id}`} className="p-1" title={t("features.backups.manageBackups")}>
                         <PiArrowCounterClockwiseDuotone />
                       </LinkButton>
                     </div>
                     <div className="flex flex-col gap-1">
                       <LinkButton to={`/installations/mods/${installation.id}`} title={t("features.mods.manageMods")} className="p-1">
-                        <PiGearDuotone />
+                        <PiWrenchDuotone />
                       </LinkButton>
                       <NormalButton
                         onClick={async () => {
@@ -119,12 +153,12 @@ function ListInslallations(): JSX.Element {
                       </NormalButton>
                     </div>
                     <div className="flex flex-col gap-1">
-                      <LinkButton to={`/installations/edit/${installation.id}`} title={t("generic.edit")} className="p-1">
+                      <LinkButton to={`/installations/edit/${installation.id}`} title={t("features.installations.editInstallation")} className="p-1">
                         <PiPencilDuotone />
                       </LinkButton>
                       <NormalButton
                         className="p-1"
-                        title={t("generic.delete")}
+                        title={t("features.installations.deleteInstallation")}
                         onClick={async () => {
                           setInstallationToDelete(installation)
                         }}
@@ -148,7 +182,7 @@ function ListInslallations(): JSX.Element {
               <label htmlFor="delete-data">{t("features.installations.deleteData")}</label>
             </div>
             <div className="flex gap-4 items-center justify-center text-lg">
-              <FormButton title={t("generic.cancel")} className="p-2" onClick={() => setInstallationToDelete(null)}>
+              <FormButton title={t("generic.cancel")} className="p-2" onClick={() => setInstallationToDelete(null)} type="success">
                 <PiXCircleDuotone />
               </FormButton>
               <FormButton title={t("generic.delete")} className="p-2" onClick={DeleteInstallationHandler} type="error">

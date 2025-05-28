@@ -5,7 +5,7 @@ const INPUT_BASE_STYLES = `h-8 px-2 py-1 rounded-md placeholder:text-zinc-200/15
 const INPUT_INVALID_STYLES = "invalid:border invalid:border-red-800 invalid:bg-red-800/20"
 const INPUT_VALID_STYLES = ""
 const INPUT_ENABLED_STYLES = "enabled:shadow-sm enabled:shadow-zinc-950/50 enabled:hover:shadow-none"
-const INPUT_DISABLED_STYLES = "disabled:text-zinc-500"
+const INPUT_DISABLED_STYLES = "disabled:opacity-50"
 
 /**
  * Input with type text and validation for minimum and maximum length.
@@ -27,15 +27,17 @@ export function FormInputText({
   minLength,
   maxLength,
   placeholder,
-  disabled
+  disabled,
+  readOnly = false
 }: {
   className?: string
   value: string
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
   minLength?: number
   maxLength?: number
   placeholder?: string
   disabled?: boolean
+  readOnly?: boolean
 }): JSX.Element {
   return (
     <Input
@@ -47,44 +49,7 @@ export function FormInputText({
       minLength={minLength}
       maxLength={maxLength}
       disabled={disabled}
-    />
-  )
-}
-
-/**
- * Div with the same styles as the FormInputText. Simulates an Input buth with not editable content.
- *
- * @param {object} props - The component props.
- * @param {string} [props.className] - Additional class names for styling.
- * @param {string} props.value - The text to be displayed within the non-editable input field.
- * @param {boolean} [props.disabled] - If the input is disabled.
- * @returns {JSX.Element} A JSX element representing the non-editable input field with specified styles.
- */
-export function FormInputTextNotEditable({
-  className,
-  value,
-  minLength,
-  maxLength,
-  placeholder,
-  disabled
-}: {
-  className?: string
-  value: string
-  minLength?: number
-  maxLength?: number
-  placeholder?: string
-  disabled?: boolean
-}): JSX.Element {
-  return (
-    <Input
-      type="text"
-      className={clsx(INPUT_BASE_STYLES, INPUT_INVALID_STYLES, INPUT_VALID_STYLES, INPUT_DISABLED_STYLES, INPUT_ENABLED_STYLES, className)}
-      value={value}
-      placeholder={placeholder}
-      minLength={minLength}
-      maxLength={maxLength}
-      disabled={disabled}
-      readOnly
+      readOnly={readOnly}
     />
   )
 }
@@ -109,15 +74,17 @@ export function FormInputNumber({
   min,
   max,
   placeholder,
-  disabled
+  disabled,
+  readOnly = false
 }: {
   className?: string
   value: number
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
   min?: number
   max?: number
   placeholder?: string
   disabled?: boolean
+  readOnly?: boolean
 }): JSX.Element {
   return (
     <Input
@@ -129,47 +96,54 @@ export function FormInputNumber({
       min={min}
       max={max}
       disabled={disabled}
+      readOnly={readOnly}
     />
   )
 }
 
 /**
- * Div with the same styles as the FormInputNumber. Simulates an Input buth with not editable content.
+ * Input with type password and validation for minimum and maximum length.
  *
  * @param {object} props - The component props.
  * @param {string} [props.className] - Additional class names for styling.
- * @param {number} props.value - The current value of the input field.
- * @param {number} [props.min] - The minimum valie of the input value.
- * @param {number} [props.max] - The maximum value of the input value.
+ * @param {string} props.value - The current value of the input field.
+ * @param {(e: React.ChangeEvent<HTMLInputElement>) => void} props.onChange - The function to be called on input value change.
+ * @param {number} [props.minLength] - The minimum length of the input value.
+ * @param {number} [props.maxLength] - The maximum length of the input value.
  * @param {string} [props.placeholder] - Placeholder text to display when the input is empty.
  * @param {boolean} [props.disabled] - If the input is disabled.
  * @returns {JSX.Element} A JSX element representing the input field with specified styles and validation.
  */
-export function FormInputNumberNoteditable({
+export function FormInputPassword({
   className,
   value,
-  min,
-  max,
+  onChange,
+  minLength,
+  maxLength,
   placeholder,
-  disabled
+  disabled,
+  readOnly = false
 }: {
   className?: string
-  value: number
-  min?: number
-  max?: number
+  value: string
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
+  minLength?: number
+  maxLength?: number
   placeholder?: string
   disabled?: boolean
+  readOnly?: boolean
 }): JSX.Element {
   return (
     <Input
-      type="number"
+      type="password"
       className={clsx(INPUT_BASE_STYLES, INPUT_INVALID_STYLES, INPUT_VALID_STYLES, INPUT_DISABLED_STYLES, INPUT_ENABLED_STYLES, className)}
       value={value}
+      onChange={onChange}
       placeholder={placeholder}
-      min={min}
-      max={max}
+      minLength={minLength}
+      maxLength={maxLength}
       disabled={disabled}
-      readOnly
+      readOnly={readOnly}
     />
   )
 }
@@ -187,7 +161,7 @@ export function FormToggle({ value, title, onChange }: { className?: string; val
       checked={value}
       onChange={onChange}
       title={title}
-      className="group relative flex h-fit w-12 enabled:cursor-pointer backdrop-blur-xs rounded-full border border-zinc-400/5 bg-zinc-950/50 p-1 enabled:shadow-sm enabled:shadow-zinc-950/50 enabled:hover:shadow-none transition-colors duration-100 ease-in-out focus:outline-hidden data-focus:outline-1 data-focus:outline-white data-checked:bg-vs"
+      className="shrink-0 group relative flex h-fit w-12 enabled:cursor-pointer backdrop-blur-xs rounded-full border border-zinc-400/5 bg-zinc-950/50 p-1 enabled:shadow-sm enabled:shadow-zinc-950/50 enabled:hover:shadow-none transition-colors duration-100 ease-in-out focus:outline-hidden data-focus:outline-1 data-focus:outline-white data-checked:bg-vs"
     >
       <span
         aria-hidden="true"

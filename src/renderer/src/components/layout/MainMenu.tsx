@@ -1,8 +1,7 @@
 import { ReactNode, useEffect, useState } from "react"
-import { FiExternalLink } from "react-icons/fi"
 import { useTranslation } from "react-i18next"
 import { Link, useLocation } from "react-router-dom"
-import { PiBoxArrowDownDuotone, PiFolderOpenDuotone, PiGearDuotone, PiGitForkDuotone, PiHouseLineDuotone, PiNoteDuotone, PiPencilDuotone, PiPlusCircleDuotone } from "react-icons/pi"
+import { PiBoxArrowDownDuotone, PiFolderOpenDuotone, PiGearDuotone, PiWrenchDuotone, PiGitForkDuotone, PiHouseLineDuotone, PiPencilDuotone, PiPlusCircleDuotone, PiInfoDuotone } from "react-icons/pi"
 import { v4 as uuidv4 } from "uuid"
 import clsx from "clsx"
 
@@ -11,24 +10,17 @@ import { useNotificationsContext } from "@renderer/contexts/NotificationsContext
 
 import { useMakeInstallationBackup } from "@renderer/features/installations/hooks/useMakeInstallationBackup"
 
-import LanguagesMenu from "@renderer/components/ui/LanguagesMenu"
 import InstallationsDropdownMenu from "@renderer/features/installations/components/InstallationsDropdownMenu"
 import TasksMenu from "@renderer/components/ui/TasksMenu"
 import { NormalButton } from "@renderer/components/ui/Buttons"
 import { FormButton, FormLinkButton } from "@renderer/components/ui/FormComponents"
+import SessionButton from "../ui/SessionButton"
 
 interface MainMenuLinkProps {
   icon: ReactNode
   text: string
   desc: string
   to: string
-}
-
-interface MainMenuAProps {
-  icon: ReactNode
-  text: string
-  desc: string
-  href: string
 }
 
 function MainMenu(): JSX.Element {
@@ -38,7 +30,7 @@ function MainMenu(): JSX.Element {
 
   const makeInstallationBackup = useMakeInstallationBackup()
 
-  const [seletedInstallation, setSelectedInstallation] = useState<InstallationType | undefined>(undefined)
+  const [selectedInstallation, setSelectedInstallation] = useState<InstallationType | undefined>(undefined)
 
   useEffect(() => {
     const si = config.installations.find((i) => i.id === config.lastUsedInstallation)
@@ -46,39 +38,12 @@ function MainMenu(): JSX.Element {
   }, [config.lastUsedInstallation, config.installations])
 
   const GROUP_1: MainMenuLinkProps[] = [
-    {
-      icon: <PiHouseLineDuotone />,
-      text: t("components.mainMenu.homeTitle"),
-      desc: t("components.mainMenu.homeDesc"),
-      to: "/"
-    },
-    {
-      icon: <PiFolderOpenDuotone />,
-      text: t("components.mainMenu.installationsTitle"),
-      desc: t("components.mainMenu.installationsDesc"),
-      to: "/installations"
-    },
-    {
-      icon: <PiGitForkDuotone />,
-      text: t("components.mainMenu.versionsTitle"),
-      desc: t("components.mainMenu.versionsDesc"),
-      to: "/versions"
-    },
-    {
-      icon: <PiGearDuotone />,
-      text: t("components.mainMenu.modsTitle"),
-      desc: t("components.mainMenu.modsDesc"),
-      to: "/mods"
-    }
-  ]
-
-  const AS: MainMenuAProps[] = [
-    {
-      icon: <PiNoteDuotone />,
-      text: t("components.mainMenu.changelogTitle"),
-      desc: t("components.mainMenu.changelogDesc"),
-      href: "https://www.vintagestory.at/blog.html/news"
-    }
+    { icon: <PiHouseLineDuotone />, text: t("components.mainMenu.homeTitle"), desc: t("components.mainMenu.homeDesc"), to: "/" },
+    { icon: <PiFolderOpenDuotone />, text: t("components.mainMenu.installationsTitle"), desc: t("components.mainMenu.installationsDesc"), to: "/installations" },
+    { icon: <PiGitForkDuotone />, text: t("components.mainMenu.versionsTitle"), desc: t("components.mainMenu.versionsDesc"), to: "/versions" },
+    { icon: <PiWrenchDuotone />, text: t("components.mainMenu.modsTitle"), desc: t("components.mainMenu.modsDesc"), to: "/mods" },
+    { icon: <PiGearDuotone />, text: t("components.mainMenu.configTitle"), desc: t("components.mainMenu.configDesc"), to: "/config" },
+    { icon: <PiInfoDuotone />, text: t("components.mainMenu.infoAndHelpTitle"), desc: t("components.mainMenu.infoAndHelpDesc"), to: "/info-and-help" }
   ]
 
   async function PlayHandler(): Promise<void> {
@@ -86,28 +51,28 @@ function MainMenu(): JSX.Element {
     window.api.utils.setPreventAppClose("add", id, "Started playing Vintage Story.")
 
     try {
-      if (!seletedInstallation) return addNotification(t("features.installations.noInstallationSelected"), "error")
-      if (seletedInstallation._playing) return addNotification(t("features.installations.gameAlreadyRunning"), "error")
+      if (!selectedInstallation) return addNotification(t("features.installations.noInstallationSelected"), "error")
+      if (selectedInstallation._playing) return addNotification(t("features.installations.gameAlreadyRunning"), "error")
 
-      const gameVersionToRun = config.gameVersions.find((gv) => gv.version === seletedInstallation.version)
-      if (!gameVersionToRun) return addNotification(t("features.versions.versionNotInstalled", { version: seletedInstallation.version }), "error")
-      if (gameVersionToRun._installing) return addNotification(t("features.versions.versionInstalling", { version: seletedInstallation.version }), "error")
-      if (gameVersionToRun._deleting) return addNotification(t("features.versions.versionDeleting", { version: seletedInstallation.version }), "error")
-      if (gameVersionToRun._playing) return addNotification(t("features.versions.versionPlaying", { version: seletedInstallation.version }), "error")
+      const gameVersionToRun = config.gameVersions.find((gv) => gv.version === selectedInstallation.version)
+      if (!gameVersionToRun) return addNotification(t("features.versions.versionNotInstalled", { version: selectedInstallation.version }), "error")
+      if (gameVersionToRun._installing) return addNotification(t("features.versions.versionInstalling", { version: selectedInstallation.version }), "error")
+      if (gameVersionToRun._deleting) return addNotification(t("features.versions.versionDeleting", { version: selectedInstallation.version }), "error")
+      if (gameVersionToRun._playing) return addNotification(t("features.versions.versionPlaying", { version: selectedInstallation.version }), "error")
 
-      configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id: seletedInstallation.id, updates: { _playing: true } } })
+      configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id: selectedInstallation.id, updates: { _playing: true } } })
       configDispatch({ type: CONFIG_ACTIONS.EDIT_GAME_VERSION, payload: { version: gameVersionToRun.version, updates: { _playing: true } } })
 
-      if (seletedInstallation.backupsAuto) {
-        const backupMade = await makeInstallationBackup(seletedInstallation.id)
+      if (selectedInstallation.backupsAuto) {
+        const backupMade = await makeInstallationBackup(selectedInstallation.id)
         if (!backupMade) return
       }
 
       const startedPlaying = Date.now()
-      const closeStatus = await window.api.gameManager.executeGame(gameVersionToRun, seletedInstallation)
+      const closeStatus = await window.api.gameManager.executeGame(gameVersionToRun, selectedInstallation, config.account)
       const finishedPlaying = Date.now()
-      const ttp = finishedPlaying - startedPlaying + seletedInstallation.totalTimePlayed
-      configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id: seletedInstallation.id, updates: { _playing: false, lastTimePlayed: finishedPlaying, totalTimePlayed: ttp } } })
+      const ttp = finishedPlaying - startedPlaying + selectedInstallation.totalTimePlayed
+      configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id: selectedInstallation.id, updates: { _playing: false, lastTimePlayed: finishedPlaying, totalTimePlayed: ttp } } })
       configDispatch({ type: CONFIG_ACTIONS.EDIT_GAME_VERSION, payload: { version: gameVersionToRun.version, updates: { _playing: false } } })
       if (!closeStatus) return addNotification(t("notifications.body.gameExitedWithErrors"), "error")
     } catch (err) {
@@ -118,58 +83,52 @@ function MainMenu(): JSX.Element {
   }
 
   return (
-    <header className="z-99 w-[280px] flex flex-col gap-4 p-2 bg-zinc-950/50 shadow-sm shadow-zinc-950/50 backdrop-blur-sm border-r border-zinc-400/5">
-      <div className="flex h-7 shrink-0 gap-2">
-        <FormLinkButton to="/config" title={t("features.config.title")} className="shrink-0 w-8 h-8">
-          <PiGearDuotone />
-        </FormLinkButton>
+    <header className="z-99 w-72 shrink-0 flex flex-col gap-4 p-2 bg-zinc-950/30 shadow-sm shadow-zinc-950/50 backdrop-blur-sm border-r border-zinc-400/5">
+      <div className="flex items-center shrink-0 gap-2">
+        <SessionButton />
         <TasksMenu />
-        <LanguagesMenu />
       </div>
 
       <div className="h-full flex flex-col gap-2">
         {GROUP_1.map((link) => (
           <Link key={link.to} to={link.to} className="flex items-start">
-            <LinkContent icon={link.icon} text={link.text} desc={link.desc} link={link.to} external={false} />
+            <LinkContent icon={link.icon} text={link.text} desc={link.desc} link={link.to} />
           </Link>
-        ))}
-        {AS.map((link) => (
-          <a key={link.href} onClick={() => window.api.utils.openOnBrowser(link.href)} className="flex items-start cursor-pointer">
-            <LinkContent icon={link.icon} text={link.text} desc={link.desc} link={link.href} external={true} />
-          </a>
         ))}
       </div>
 
       <div className="flex flex-col gap-2">
         <InstallationsDropdownMenu />
+
         <div className="w-full flex gap-2 items-center">
           <NormalButton
             title={t("generic.play")}
-            disabled={!seletedInstallation}
+            disabled={!selectedInstallation}
             onClick={PlayHandler}
-            className="w-full h-14 bg-vs disabled:text-zinc-600 disabled:bg-vs/20 shadow-sm shadow-zinc-950/50 hover:shadow-none"
+            className="w-full h-14 bg-vs disabled:opacity-50 shadow-sm shadow-zinc-950/50 hover:shadow-none"
           >
             <p className="text-2xl">{t("generic.play")}</p>
           </NormalButton>
-          {seletedInstallation && (
+
+          {selectedInstallation && (
             <div className="shrink-0 w-14 h-full grid grid-cols-2 grid-rows-2 gap-1 text-sm">
               <FormButton
                 className="p-1"
-                title={t("generic.backup")}
+                title={t("features.installations.backupInstallation")}
                 onClick={async () => {
-                  if (!(await window.api.pathsManager.checkPathExists(seletedInstallation.path))) return addNotification(t("features.backups.folderDoesntExists"), "error")
-                  makeInstallationBackup(seletedInstallation.id)
+                  if (!(await window.api.pathsManager.checkPathExists(selectedInstallation.path))) return addNotification(t("features.backups.folderDoesntExists"), "error")
+                  makeInstallationBackup(selectedInstallation.id)
                 }}
               >
                 <PiBoxArrowDownDuotone />
               </FormButton>
-              <FormLinkButton to={`/installations/mods/${seletedInstallation.id}`} title={t("features.mods.manageMods")}>
-                <PiGearDuotone />
+              <FormLinkButton to={`/installations/mods/${selectedInstallation.id}`} title={t("features.mods.manageMods")}>
+                <PiWrenchDuotone />
               </FormLinkButton>
-              <FormLinkButton title={t("generic.edit")} to={`/installations/edit/${seletedInstallation.id}`}>
+              <FormLinkButton title={t("features.installations.editInstallation")} to={`/installations/edit/${selectedInstallation.id}`}>
                 <PiPencilDuotone />
               </FormLinkButton>
-              <FormLinkButton title={t("generic.add")} to="/installations/add">
+              <FormLinkButton title={t("features.installations.addNewInstallation")} to="/installations/add">
                 <PiPlusCircleDuotone />
               </FormLinkButton>
             </div>
@@ -185,26 +144,24 @@ interface LinkContentProps {
   text: string
   desc: string
   link: string
-  external: boolean
 }
 
-function LinkContent({ icon, text, desc, link, external }: LinkContentProps): JSX.Element {
+function LinkContent({ icon, text, desc, link }: LinkContentProps): JSX.Element {
   const location = useLocation()
 
   function currentLocation(): boolean {
+    // If we are on the main page return true.
     if (link === "/") return location.pathname === "/"
+    // If we are on any other page return true if the current page URL starts with the menu option URL.
     return location.pathname.startsWith(link)
   }
 
   return (
-    <div className={clsx("w-full flex items-center gap-2 px-2 py-1 rounded-sm duration-100 group hover:pl-3 border-l-4", currentLocation() ? "border-vs bg-vs/15" : "border-transparent")}>
+    <div className={clsx("w-full flex items-center gap-2 px-2 py-1 rounded-sm duration-100 hover:pl-3 border-l-4", currentLocation() ? "border-vs bg-vs/15" : "border-transparent")}>
       <span className="text-2xl text-zinc-400">{icon}</span>
       <div className="flex flex-col overflow-hidden whitespace-nowrap">
-        <div className="font-bold text-sm flex items-center gap-2">
-          <p className="overflow-hidden text-ellipsis">{text}</p>
-          {external && <FiExternalLink className="text-zinc-500" />}
-        </div>
-        <p className="text-zinc-500 text-xs overflow-hidden text-ellipsis">{desc}</p>
+        <p className="font-bold text-sm overflow-hidden text-ellipsis">{text}</p>
+        <p className="text-zinc-400 text-xs overflow-hidden text-ellipsis">{desc}</p>
       </div>
     </div>
   )

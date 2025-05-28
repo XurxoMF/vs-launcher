@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, useRef, useContext } from "react"
+import { createContext, useState, useEffect, useContext } from "react"
 import { useTranslation } from "react-i18next"
 import { v4 as uuidv4 } from "uuid"
 
@@ -28,23 +28,18 @@ const NotificationsProvider = ({ children }: { children: React.ReactNode }): JSX
   const { t } = useTranslation()
   const [notifications, setNotifications] = useState<NotificationType[]>([])
 
-  const firstExecutedNotificationsContext = useRef(true)
   useEffect(() => {
-    if (firstExecutedNotificationsContext.current) {
-      firstExecutedNotificationsContext.current = false
+    window.api.appUpdater.onUpdateAvailable(() => {
+      setTimeout(() => {
+        addNotification(t("notifications.body.updateAvailable"), "info")
+      }, 2_000)
+    })
 
-      window.api.appUpdater.onUpdateAvailable(() => {
-        setTimeout(() => {
-          addNotification(t("notifications.body.updateAvailable"), "info")
-        }, 2_000)
-      })
-
-      window.api.appUpdater.onUpdateDownloaded(() => {
-        setTimeout(() => {
-          addNotification(t("notifications.body.updateDownloaded"), "success", { onClick: () => window.api.appUpdater.updateAndRestart(), duration: 60_000 })
-        }, 2_000)
-      })
-    }
+    window.api.appUpdater.onUpdateDownloaded(() => {
+      setTimeout(() => {
+        addNotification(t("notifications.body.updateDownloaded"), "success", { onClick: () => window.api.appUpdater.updateAndRestart(), duration: 60_000 })
+      }, 2_000)
+    })
   }, [])
 
   const addNotification = (body: string, type: NotificationTypes, options?: { duration?: number; onClick?: () => void }): void => {

@@ -8,7 +8,7 @@ import { useNotificationsContext } from "@renderer/contexts/NotificationsContext
 import { useGetCompleteInstalledMods } from "@renderer/features/mods/hooks/useGetCompleteInstalledMods"
 
 /**
- * This is a littel workaround to execute hooks that need to acces configs, notifications... but need to be execute globally and not
+ * This is a little workaround to execute hooks that need to acces configs, notifications... but need to be execute globally and not
  * when opening a page or something.
  *
  * Maybe there are better options but this one is clean, easy to unserstand and read... is perfect!
@@ -25,7 +25,9 @@ function GlobalActionsWrapper({ children }: { children: ReactNode }): JSX.Elemen
 
   const getCompleteInstalledMods = useGetCompleteInstalledMods()
 
-  //  const GAWMemory = useRef<GlobalActionsWrapperMemoryType>({})
+  useEffect((): void => {
+    window.api.utils.onPreventedAppClose(() => addNotification(t("notifications.body.appClosePrevented"), "warning"))
+  }, [])
 
   useEffect((): void => {
     // If the user selects a new Installation check if there are mod updates.
@@ -50,7 +52,7 @@ function GlobalActionsWrapper({ children }: { children: ReactNode }): JSX.Elemen
           if (updates > 0 && !config._notifiedModUpdatesInstallations.some((numi) => numi === lastUsedInstallation.id)) {
             config._notifiedModUpdatesInstallations.push(lastUsedInstallation.id)
             setTimeout(() => {
-              addNotification(t("features.mods.updatesAvailableInstallation", { amount: updates }), "info", { onClick: () => goTo(`/installations/mods/${lastUsedInstallation.id}`) })
+              addNotification(t("features.mods.updatesAvailableInstallation", { count: updates }), "info", { onClick: () => goTo(`/installations/mods/${lastUsedInstallation.id}`) })
             }, 2_000)
           }
         }
@@ -60,7 +62,5 @@ function GlobalActionsWrapper({ children }: { children: ReactNode }): JSX.Elemen
 
   return <>{children}</>
 }
-
-// type GlobalActionsWrapperMemoryType = {}
 
 export default GlobalActionsWrapper

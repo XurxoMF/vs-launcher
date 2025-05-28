@@ -8,13 +8,14 @@ import { pathToFileURL } from "url"
 const customUserDataPath = join(app.getPath("appData"), "VSLauncher")
 app.setPath("userData", customUserDataPath)
 
-import { ensureConfig } from "@src/config/configManager"
+import { ensureConfig, getConfig, saveConfig } from "@src/config/configManager"
 import { getShouldPreventClose } from "@src/utils/shouldPreventClose"
 import icon from "../../resources/icon.png?asset"
 import { logMessage } from "@src/utils/logManager"
 import { IPC_CHANNELS } from "@src/ipc/ipcChannels"
 
 import "@src/ipc"
+import { clearTimeout, setTimeout } from "timers"
 
 autoUpdater.logger = Logger
 autoUpdater.logger.info("Logger configured for auto-updater")
@@ -32,7 +33,7 @@ function createWindow(): void {
     center: true,
     width: 1280,
     height: 720,
-    title: `VS Launcher`,
+    title: `VS Launcher - ${app.getVersion()}`,
     show: false,
     autoHideMenuBar: true,
     fullscreenable: false,
@@ -46,8 +47,16 @@ function createWindow(): void {
     }
   })
 
-  mainWindow.on("ready-to-show", () => {
+  mainWindow.on("ready-to-show", async () => {
     logMessage("info", "[back] [index] [main/index.ts] [createWindow] Main window ready to show. Opening.")
+
+    const config = await getConfig()
+    const oldWindowsState = config.window
+
+    mainWindow.setBounds({ width: oldWindowsState.width, height: oldWindowsState.height }, true)
+    mainWindow.setPosition(oldWindowsState.x, oldWindowsState.y, true)
+    if (oldWindowsState.maximized) mainWindow.maximize()
+
     mainWindow.show()
   })
 
@@ -56,8 +65,28 @@ function createWindow(): void {
     return { action: "deny" }
   })
 
-  mainWindow.on("close", () => {
+  let savePositionTimeout: NodeJS.Timeout | null = null
+
+  function setSavePositionTimeout(): void {
+    if (savePositionTimeout) clearTimeout(savePositionTimeout)
+
+    savePositionTimeout = setTimeout(() => {
+      saveCurrentWindowState()
+    }, 1_000)
+  }
+
+  mainWindow.on("resize", () => {
+    setSavePositionTimeout()
+  })
+
+  mainWindow.on("move", () => {
+    setSavePositionTimeout()
+  })
+
+  mainWindow.on("close", (e) => {
     if (getShouldPreventClose()) {
+      e.preventDefault()
+      mainWindow.webContents.send(IPC_CHANNELS.UTILS.PREVENTED_APP_CLOSE)
       logMessage("info", "[back] [index] [main/index.ts] [createWindow] Main window prevented from closing.")
       return false
     }
@@ -73,13 +102,25 @@ function createWindow(): void {
   }
 }
 
+const gotTheLock = app.requestSingleInstanceLock()
+
+if (!gotTheLock) app.quit()
+
 // This method will be called when Electron has finished initialization and is ready to create browser windows. Some APIs can only be used after this event occurs.
 app.whenReady().then(async () => {
   logMessage("info", "[back] [index] [main/index.ts] [whenReady] Electron ready.")
 
   // Handler for mod icons
   protocol.handle("cachemodimg", (req) => {
-    const srcPath = join(app.getPath("userData"), "Cache", "Images")
+    const srcPath = join(app.getPath("userData"), "Cache", "Images", "Mods")
+    const reqURL = new URL(req.url)
+    const fileToPathURL = pathToFileURL(join(srcPath, reqURL.pathname)).toString()
+    return net.fetch(fileToPathURL)
+  })
+
+  // Handler for custom icons
+  protocol.handle("icons", (req) => {
+    const srcPath = join(app.getPath("userData"), "Icons")
     const reqURL = new URL(req.url)
     const fileToPathURL = pathToFileURL(join(srcPath, reqURL.pathname)).toString()
     return net.fetch(fileToPathURL)
@@ -118,8 +159,31 @@ app.whenReady().then(async () => {
 
 // Quit when all windows are closed, except on macOS.
 app.on("window-all-closed", () => {
-  logMessage("info", "[back] [index] [main/index.ts] [whenReady] All windows closed.")
+  if (getShouldPreventClose()) {
+    mainWindow.webContents.send(IPC_CHANNELS.UTILS.PREVENTED_APP_CLOSE)
+    return logMessage("info", "[back] [index] [main/index.ts] [window-all-closed] Main window prevented from closing.")
+  }
+
+  logMessage("info", "[back] [index] [main/index.ts] [window-all-closed] All windows closed.")
   if (process.platform !== "darwin") {
     app.quit()
   }
 })
+
+async function saveCurrentWindowState(): Promise<void> {
+  const { width, height } = mainWindow.getBounds()
+  const [x, y] = mainWindow.getPosition()
+  const maximized = mainWindow.isMaximized()
+
+  const config = await getConfig()
+
+  config.window = {
+    width,
+    height,
+    x,
+    y,
+    maximized
+  }
+
+  saveConfig(config)
+}
