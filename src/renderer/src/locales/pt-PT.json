@@ -20,8 +20,6 @@
     "type": "Tipo",
     "install": "Instalar",
     "minMaxAmmount": "Número entre {{min}} e {{max}}",
-    "backup": "Backup",
-    "edit": "Editar",
     "donate": "Doações",
     "restore": "Restaurar",
     "text": "Texto",
@@ -40,8 +38,6 @@
     "authors": "Autores",
     "contributors": "Colaboradores",
     "update": "Atualizar",
-    "searching": "Pesquisando",
-    "waitingForChanges": "Esperando por alterações",
     "tryMVL": "Não gostou do VS Launcher? \nTente <link /> launcher!",
     "favorite": "Favorito",
     "any": "Qualquer",
@@ -50,7 +46,30 @@
     "client": "Cliente",
     "tags": "Tags",
     "totalTime": "{{total}} total",
-    "notPlayedYet": "Nunca jogado"
+    "notPlayedYet": "Nunca jogado",
+    "goToTop": "Vá para o topo",
+    "iconName": "Nome do icon",
+    "installed": "Instalado",
+    "notInstalled": "Não instalado",
+    "password": "Senha",
+    "reload": "Recarregar",
+    "reloading": "Recarregando",
+    "icon": "Icon",
+    "selectIcon": "Selecionar icon",
+    "source": "Fonte",
+    "all": "Todos",
+    "basics": "Essenciais",
+    "advanced": "Avançado",
+    "compression": "Compressão",
+    "discord": "Discord",
+    "folders": "Pastas",
+    "twofacode": "Código 2FA",
+    "email": "Email",
+    "general": "Geral",
+    "goBackTo": "Voltar para:",
+    "addIcon": "Adicionar icon",
+    "backups": "Backups",
+    "default": "Por defeito"
   },
   "features": {
     "generic": {
@@ -78,13 +97,11 @@
       "gameVersionDownloadDesc": "A descarregar a versão do jogo {{version}}!",
       "gameVersionTaskName": "versão do jogo {{version}}",
       "gameVersionExtractDesc": "A extrair a versão do jogo {{version}}!",
-      "installTitle": "Instalar uma nova versão",
       "labelStables": "Estáveis",
       "labelRCs": "Candidatos a lançamento",
       "labelPreReleases": "Pré-lançamentos",
       "searchForAGameVersion": "Procurar por uma versão do jogo",
       "missingFolderOrVersion": "Não tem pasta selecionada ou não existe uma versão do jogo na pasta que selecionou!",
-      "lookForAVersion": "Procurar por uma versão",
       "versionFound": "Versão encontrada",
       "versionInstalling": "A instalar a versão {{version}}. Por favor aguarde a conclusão antes de começar a jogar!",
       "folderAlreadyInUse": "Essa pasta já está a ser utilizada!",
@@ -92,7 +109,9 @@
       "versionDeleting": "Essa versão está a ser eliminada!",
       "versionPlaying": "Já está a jogar com essa versão!",
       "deleteWhilePlaying": "Não pode eliminar essa versão enquanto estiver a jogar!",
-      "installNewVersion": "Instale uma nova versão"
+      "installNewVersion": "Instale uma nova versão",
+      "labelGameVersions": "Versões do VS",
+      "deleteVersion": "Eliminar Versão"
     },
     "installations": {
       "noInstallationsFound": "Nenhuma instalação encontrada!",
@@ -107,10 +126,8 @@
       "folderAlreadyInUse": "Essa pasta já está a ser utilizada por outra instalação!",
       "installationSuccessfullyAdded": "Instalação adicionada com sucesso!",
       "errorAddingInstallation": "Ocorreu um erro ao adicionar a instalação!",
-      "addTitle": "Adicionar uma nova instalação",
       "installationSuccessfullyEdited": "Instalação editada com sucesso!",
       "errorEditingInstallation": "Ocorreu um erro ao editar a instalação!",
-      "editTitle": "Editar instalação",
       "noInstallationFoundDesc": "A instalação que selecionou não existe!",
       "deleteData": "Apagar dados",
       "installationSuccessfullyDeleted": "Instalação apagada com sucesso!",
@@ -124,20 +141,25 @@
       "gameAlreadyRunning": "Já está a jogar com essa instalação",
       "editWhilePlaying": "Não é possível editar a instalação enquanto estiver a jogar!",
       "cantDeleteWhileinUse": "Não pode eliminar a instalação enquanto estiver a ser utilizado!",
-      "restoreBackup": "Restaurar backup da instalação",
       "name": "Nome",
       "dataFolder": "Pasta de dados",
-      "addNewInstallation": "Adicione uma nova instalação"
+      "addNewInstallation": "Adicione uma nova instalação",
+      "backupInstallation": "Fazer backup da instalação",
+      "envVars": "Variáveis de ambiente",
+      "envVarsDesc": "Lista de variáveis de ambiente saparadas por ,",
+      "editInstallation": "Editar Instalação",
+      "mesaGlThread": "mesa_glthread",
+      "envVarsPlaceholder": "ENV_1=coisa, ENV_2=outracoisa",
+      "mesaGlThreadDesc": "Ativa para executar o jogo com mesa_glthread. Isto pode melhorar o desempenho em alguns sistemas Linux."
     },
     "mods": {
-      "modsCount": "{{count}} mods",
-      "modsCount_zero": "{{count}} mods",
-      "modsCount_one": "{{count}} mod",
-      "modsCount_two": "{{count}} mods",
-      "modsCount_few": "{{count}} mods",
-      "modsCount_many": "{{count}} mods",
-      "modsCount_other": "{{count}} mods",
-      "searching": "Pesquisando mods...",
+      "modsCount": "{{count}} Mods",
+      "modsCount_zero": "{{count}} Mods",
+      "modsCount_one": "{{count}} Mod",
+      "modsCount_two": "{{count}} Mods",
+      "modsCount_few": "{{count}} Mods",
+      "modsCount_many": "{{count}} Mods",
+      "modsCount_other": "{{count}} Mods",
       "noMatchingFilters": "Não há mods que correspondam aos filtros!",
       "installMod": "Instalar mod",
       "modTaskName": "{{name}} mod {{versão}} em {{out}}",
@@ -152,7 +174,6 @@
       "deleteMod": "Excluir mod",
       "areYouSureDelete": "Tem certeza de que deseja excluir este mod?",
       "deletingNotReversible": "A exclusão não é reversível, não será possível restaurar os mods, mas poderá sempre descarrega-lo novamente!",
-      "noVersionsFound": "Não foram encontradas versões desse mod!",
       "openOnTheModDB": "Abrir no ModDB!",
       "listWithErrorsTitle": "Mods com erros",
       "modsWithErrorsDescription": "Os próximos mods têm alguns erros e o VS Launcher não consegui identificá-los!",
@@ -162,20 +183,42 @@
       "listWithUpdatesTitle": "Mods com atualizações",
       "modsWithUpdatesDescription": "Os próximos mods têm atualizações disponíveis que são 95% compatíveis com sua versão de Vintage Story!",
       "modsWithUpdatesDescriptionReport": "Se você encontrar algum mod erradamente marcado como atualizável, por favor, relate-o na página <Issues /> ou no nosso servidor de <Discord />!",
-      "updatesAvailableInstallation": "A instalação selecionada tem mods {{vale}} com atualizações disponíveis! Clique aqui para vê-los!",
+      "updatesAvailableInstallation": "A instalação selecionada tem mods {{count}} com atualizações disponíveis! Clique aqui para vê-los!",
       "worksOnTheVersion": "O autor a marcou como compatível com sua versão selecionada de Vintage Story!",
       "shouldWorkOnTheVersion": "O autor não marcou como compatível, mas há 95% de possibilidade de funcionar na versão selecionada da Vintage Story!",
       "probablyDontWorkOnTheVersion": "O autor não marcou como compatível e há 90% de possibilidade de não funcionar na versão selecionada da Vintage Story!",
-      "compatibleUpdate": "Pode atualizar para esta versão!",
       "listWithIncompatibleUpdatesTitle": "Mods com atualizações incompatíveis",
       "modsWithIncompatibleUpdatesDescription": "Os próximos mods têm atualizações disponíveis que são 90% incompatíveis com sua versão selecionada de Vinatge Story!",
-      "cantUpdateWhileinUse": "Não pode atualizar um mod enquanto estiver em uso!"
+      "cantUpdateWhileinUse": "Não pode atualizar um mod enquanto estiver em uso!",
+      "updatesAvailableInstallation_few": "A instalação selecionada tem mods {{count}} com atualizações disponíveis! Clique aqui para vê-los!",
+      "updatesAvailableInstallation_many": "A instalação selecionada tem mods {{count}} com atualizações disponíveis! Clique aqui para vê-los!",
+      "updatesAvailableInstallation_one": "A instalação selecionada tem mods {{count}} com atualizações disponíveis! Clique aqui para vê-los!",
+      "updatesAvailableInstallation_other": "A instalação selecionada tem mods {{count}} com atualizações disponíveis! Clique aqui para vê-los!",
+      "updatesAvailableInstallation_two": "A instalação selecionada tem mods {{count}} com atualizações disponíveis! Clique aqui para vê-los!",
+      "updatesAvailableInstallation_zero": "A instalação selecionada tem mods {{count}} com atualizações disponíveis! Clique aqui para vê-los!",
+      "updatingInstalledMods": "Atualizando os Mods instalados!",
+      "updateAllButton": "Atualizar todos",
+      "errorUpdatingMod": "Ocorreu um error ao atualizar o Mod {mod}!",
+      "errorUpdatingMods": "Ocorreu um erro ao atualizar os Mods!",
+      "modsUpdatedSuccessfully": "Todos os Mods foram atualizados com sucesso!",
+      "updateAll": "Atualizar todos os Mods com atualizações disponíveis"
     },
     "config": {
       "defaultInstallationsFolder": "Instalações",
       "defaultVersionsFolder": "Versões",
-      "title": "Definições",
-      "backupsFolder": "Backups"
+      "backupsFolder": "Backups",
+      "areYouSureLogout": "Tens a certeza que queres terminar a sessão?",
+      "invalidEmailPass": "Email ou password incorretos!",
+      "language": "Idioma",
+      "loggedin": "Sessão iniciada como {{user}}!",
+      "loggedout": "Sessão terminada!",
+      "loggingin": "Iniciando sessão!",
+      "loginTitle": "Iniciar sessão",
+      "logoutTitle": "Terminar sessão",
+      "onlyIfEnabledTwoFA": "Preenche este campo só se tiveres 2FA ativado!",
+      "uiScale": "Escala do UI",
+      "wrongtwofa": "Código 2FA incorreto!",
+      "loginoutNotReversible": "O término da sessão é irreversível, mas podes sempre voltar a iniciar a sessão com a mesma conta do Vintage Story!"
     },
     "backups": {
       "backupInProgress": "Já existe um backup em progresso!",
@@ -201,7 +244,18 @@
       "deletingNotReversible": "A eliminação não é reversível, pelo que não será possível restaurar os seus mundos, dados e outras informações usando este backup.",
       "errorMakingBackup": "Ocorreu um erro ao fazer o backup!",
       "backupsAmount": "Limite de backups",
-      "folderDoesntExists": "Esta instalação não tem dados, por favor, jogue pelo menos uma vez para gerar os dados!"
+      "folderDoesntExists": "Esta instalação não tem dados, por favor, jogue pelo menos uma vez para gerar os dados!",
+      "compressionLevel": "Nível de compressão",
+      "compressionLevelDesc": "Compressões mais altas demoram mais tempo, mas criam Backups menores.",
+      "manageBackups": "Gerir Backups"
+    },
+    "infoAndHelp": {
+      "debugInfoTitle": "Informação de debug",
+      "logsFolderTitle": "Pasta de Logs",
+      "title": "Info e Ajuda do VS Launcher",
+      "thisFolder": "esta pasta",
+      "includeLogs": "Envia-nos os ficheiros de log que estão na pasta <folderlink /> para nos ajudares ainda mais!",
+      "debugInfoDesc": "Copia a seguinte informação e envia-a juntamente com a informação dos erros para nos ajudares a encontrar o problema!"
     }
   },
   "components": {
@@ -211,13 +265,14 @@
       "versionsTitle": "Versões",
       "versionsDesc": "Gerir as versões do seu jogo",
       "modsTitle": "Mods",
-      "modsDesc": "Procurar e instalar mods",
-      "changelogTitle": "Changelog",
-      "changelogDesc": "Changelog do Vintage Story",
+      "modsDesc": "Procurar e instalar Mods",
       "installationsTitle": "Instalações",
-      "installationsDesc": "Gerir as suas instalações"
+      "installationsDesc": "Gerir as suas instalações",
+      "configTitle": "Configuração",
+      "configDesc": "Configurar VS Launcher",
+      "infoAndHelpTitle": "Info & Ajuda",
+      "infoAndHelpDesc": "Ajuda & Info do VS Launcher"
     },
-    "gameRunningOverlay": {},
     "tasksMenu": {
       "downloading": "A descarregar",
       "extracting": "A extrair",
@@ -231,9 +286,6 @@
     }
   },
   "notifications": {
-    "titles": {
-      "warning": "Aviso"
-    },
     "body": {
       "folderDoesntExists": "A pasta que está a tentar abrir não existe!",
       "updateAvailable": "Nova atualização disponível! A descarregar...",
@@ -250,11 +302,25 @@
       "compressing": "A iniciar compressão: {{compressName}}!",
       "compressed": "Compressão concluída: {{compressName}}!",
       "compressError": "Erro a comprimir: {{compressName}}!",
-      "folderNotEmpty": "A pasta que você selecionou não está vazia! Certifique-se de que não tem nada importante lá."
+      "folderNotEmpty": "A pasta que você selecionou não está vazia! Certifique-se de que não tem nada importante lá.",
+      "noFileSelected": "Sem ficheiros selecionados!",
+      "coulndtCopyIcon": "Não foi possível copiar esse icon para a pasta de icons!",
+      "appClosePrevented": "Não podes encerrar o VS Launcher porque ainda estás a jogar Vintage Story ou porque há uma tarefa a ser executada!"
     },
     "discard": "Descartar notificação"
   },
-  "genetic": {
-    "goToTop": "Vá para o topo"
+  "breadcrumbs": {
+    "addInstallation": "Adicionar instalação",
+    "addVersion": "Adicionar Versão",
+    "config": "Configuração",
+    "home": "Início",
+    "editInstallation": "Editar Instalação",
+    "infoAndHelp": "Info & Ajuda",
+    "lookForAVersion": "Procurar uma versão",
+    "manageMods": "Gerir Mods",
+    "manageBackups": "Gerir Backups",
+    "installations": "Instalações",
+    "versions": "Versões",
+    "mods": "Mods"
   }
 }
