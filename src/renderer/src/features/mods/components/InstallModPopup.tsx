@@ -117,16 +117,16 @@ function InstallModPopup({
                         }}
                         className="w-7 h-7"
                         type={
-                          release.tags.includes(`v${installation.installation.version}`)
+                          release.tags.includes(`${installation.installation.version}`)
                             ? "success"
-                            : release.tags.some((tag) => tag.startsWith(`v${installation.installation.version.split(".").slice(0, 2).join(".")}`))
+                            : release.tags.some((tag) => tag.startsWith(`${installation.installation.version.split(".").slice(0, 2).join(".")}`))
                               ? "warn"
                               : "error"
                         }
                         title={
-                          release.tags.includes(`v${installation.installation.version}`)
+                          release.tags.includes(`${installation.installation.version}`)
                             ? t("features.mods.worksOnTheVersion")
-                            : release.tags.some((tag) => tag.startsWith(`v${installation.installation.version.split(".").slice(0, 2).join(".")}`))
+                            : release.tags.some((tag) => tag.startsWith(`${installation.installation.version.split(".").slice(0, 2).join(".")}`))
                               ? t("features.mods.shouldWorkOnTheVersion")
                               : t("features.mods.probablyDontWorkOnTheVersion")
                         }
