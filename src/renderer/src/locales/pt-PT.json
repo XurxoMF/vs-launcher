@@ -47,7 +47,29 @@
     "tags": "Tags",
     "totalTime": "{{total}} total",
     "notPlayedYet": "Nunca jogado",
-    "goToTop": "Vá para o topo"
+    "goToTop": "Vá para o topo",
+    "iconName": "Nome do icon",
+    "installed": "Instalado",
+    "notInstalled": "Não instalado",
+    "password": "Senha",
+    "reload": "Recarregar",
+    "reloading": "Recarregando",
+    "icon": "Icon",
+    "selectIcon": "Selecionar icon",
+    "source": "Fonte",
+    "all": "Todos",
+    "basics": "Essenciais",
+    "advanced": "Avançado",
+    "compression": "Compressão",
+    "discord": "Discord",
+    "folders": "Pastas",
+    "twofacode": "Código 2FA",
+    "email": "Email",
+    "general": "Geral",
+    "goBackTo": "Voltar para:",
+    "addIcon": "Adicionar icon",
+    "backups": "Backups",
+    "default": "Por defeito"
   },
   "features": {
     "generic": {
@@ -87,7 +109,9 @@
       "versionDeleting": "Essa versão está a ser eliminada!",
       "versionPlaying": "Já está a jogar com essa versão!",
       "deleteWhilePlaying": "Não pode eliminar essa versão enquanto estiver a jogar!",
-      "installNewVersion": "Instale uma nova versão"
+      "installNewVersion": "Instale uma nova versão",
+      "labelGameVersions": "Versões do VS",
+      "deleteVersion": "Eliminar Versão"
     },
     "installations": {
       "noInstallationsFound": "Nenhuma instalação encontrada!",
@@ -119,7 +143,14 @@
       "cantDeleteWhileinUse": "Não pode eliminar a instalação enquanto estiver a ser utilizado!",
       "name": "Nome",
       "dataFolder": "Pasta de dados",
-      "addNewInstallation": "Adicione uma nova instalação"
+      "addNewInstallation": "Adicione uma nova instalação",
+      "backupInstallation": "Fazer backup da instalação",
+      "envVars": "Variáveis de ambiente",
+      "envVarsDesc": "Lista de variáveis de ambiente saparadas por ,",
+      "editInstallation": "Editar Instalação",
+      "mesaGlThread": "mesa_glthread",
+      "envVarsPlaceholder": "ENV_1=coisa, ENV_2=outracoisa",
+      "mesaGlThreadDesc": "Ativa para executar o jogo com mesa_glthread. Isto pode melhorar o desempenho em alguns sistemas Linux."
     },
     "mods": {
       "modsCount": "{{count}} Mods",
@@ -164,12 +195,30 @@
       "updatesAvailableInstallation_one": "A instalação selecionada tem mods {{count}} com atualizações disponíveis! Clique aqui para vê-los!",
       "updatesAvailableInstallation_other": "A instalação selecionada tem mods {{count}} com atualizações disponíveis! Clique aqui para vê-los!",
       "updatesAvailableInstallation_two": "A instalação selecionada tem mods {{count}} com atualizações disponíveis! Clique aqui para vê-los!",
-      "updatesAvailableInstallation_zero": "A instalação selecionada tem mods {{count}} com atualizações disponíveis! Clique aqui para vê-los!"
+      "updatesAvailableInstallation_zero": "A instalação selecionada tem mods {{count}} com atualizações disponíveis! Clique aqui para vê-los!",
+      "updatingInstalledMods": "Atualizando os Mods instalados!",
+      "updateAllButton": "Atualizar todos",
+      "errorUpdatingMod": "Ocorreu um error ao atualizar o Mod {mod}!",
+      "errorUpdatingMods": "Ocorreu um erro ao atualizar os Mods!",
+      "modsUpdatedSuccessfully": "Todos os Mods foram atualizados com sucesso!",
+      "updateAll": "Atualizar todos os Mods com atualizações disponíveis"
     },
     "config": {
       "defaultInstallationsFolder": "Instalações",
       "defaultVersionsFolder": "Versões",
-      "backupsFolder": "Backups"
+      "backupsFolder": "Backups",
+      "areYouSureLogout": "Tens a certeza que queres terminar a sessão?",
+      "invalidEmailPass": "Email ou password incorretos!",
+      "language": "Idioma",
+      "loggedin": "Sessão iniciada como {{user}}!",
+      "loggedout": "Sessão terminada!",
+      "loggingin": "Iniciando sessão!",
+      "loginTitle": "Iniciar sessão",
+      "logoutTitle": "Terminar sessão",
+      "onlyIfEnabledTwoFA": "Preenche este campo só se tiveres 2FA ativado!",
+      "uiScale": "Escala do UI",
+      "wrongtwofa": "Código 2FA incorreto!",
+      "loginoutNotReversible": "O término da sessão é irreversível, mas podes sempre voltar a iniciar a sessão com a mesma conta do Vintage Story!"
     },
     "backups": {
       "backupInProgress": "Já existe um backup em progresso!",
@@ -195,7 +244,18 @@
       "deletingNotReversible": "A eliminação não é reversível, pelo que não será possível restaurar os seus mundos, dados e outras informações usando este backup.",
       "errorMakingBackup": "Ocorreu um erro ao fazer o backup!",
       "backupsAmount": "Limite de backups",
-      "folderDoesntExists": "Esta instalação não tem dados, por favor, jogue pelo menos uma vez para gerar os dados!"
+      "folderDoesntExists": "Esta instalação não tem dados, por favor, jogue pelo menos uma vez para gerar os dados!",
+      "compressionLevel": "Nível de compressão",
+      "compressionLevelDesc": "Compressões mais altas demoram mais tempo, mas criam Backups menores.",
+      "manageBackups": "Gerir Backups"
+    },
+    "infoAndHelp": {
+      "debugInfoTitle": "Informação de debug",
+      "logsFolderTitle": "Pasta de Logs",
+      "title": "Info e Ajuda do VS Launcher",
+      "thisFolder": "esta pasta",
+      "includeLogs": "Envia-nos os ficheiros de log que estão na pasta <folderlink /> para nos ajudares ainda mais!",
+      "debugInfoDesc": "Copia a seguinte informação e envia-a juntamente com a informação dos erros para nos ajudares a encontrar o problema!"
     }
   },
   "components": {
@@ -207,7 +267,11 @@
       "modsTitle": "Mods",
       "modsDesc": "Procurar e instalar Mods",
       "installationsTitle": "Instalações",
-      "installationsDesc": "Gerir as suas instalações"
+      "installationsDesc": "Gerir as suas instalações",
+      "configTitle": "Configuração",
+      "configDesc": "Configurar VS Launcher",
+      "infoAndHelpTitle": "Info & Ajuda",
+      "infoAndHelpDesc": "Ajuda & Info do VS Launcher"
     },
     "tasksMenu": {
       "downloading": "A descarregar",
@@ -238,8 +302,25 @@
       "compressing": "A iniciar compressão: {{compressName}}!",
       "compressed": "Compressão concluída: {{compressName}}!",
       "compressError": "Erro a comprimir: {{compressName}}!",
-      "folderNotEmpty": "A pasta que você selecionou não está vazia! Certifique-se de que não tem nada importante lá."
+      "folderNotEmpty": "A pasta que você selecionou não está vazia! Certifique-se de que não tem nada importante lá.",
+      "noFileSelected": "Sem ficheiros selecionados!",
+      "coulndtCopyIcon": "Não foi possível copiar esse icon para a pasta de icons!",
+      "appClosePrevented": "Não podes encerrar o VS Launcher porque ainda estás a jogar Vintage Story ou porque há uma tarefa a ser executada!"
     },
     "discard": "Descartar notificação"
+  },
+  "breadcrumbs": {
+    "addInstallation": "Adicionar instalação",
+    "addVersion": "Adicionar Versão",
+    "config": "Configuração",
+    "home": "Início",
+    "editInstallation": "Editar Instalação",
+    "infoAndHelp": "Info & Ajuda",
+    "lookForAVersion": "Procurar uma versão",
+    "manageMods": "Gerir Mods",
+    "manageBackups": "Gerir Backups",
+    "installations": "Instalações",
+    "versions": "Versões",
+    "mods": "Mods"
   }
 }
