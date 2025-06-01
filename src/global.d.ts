@@ -156,6 +156,7 @@ declare global {
     modidstr: string
     modversion: string
     created: string
+    changelog: string
   }
 
   type DownloadableGameVersionTypeType = {

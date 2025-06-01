@@ -40,12 +40,14 @@ export function useGetCompleteInstalledMods(): ({ path, version, onFinish }: { p
             if (!mod.version || !release.modversion || !semver.valid(release.modversion) || !semver.valid(mod.version)) continue
 
             // If it has the tag of the version selected or a tag of the same patch... Mod: 1.19.6 - Game: 1.19.X
-            const compatibleWithVersion = release.tags.some((tag) => tag.startsWith(`v${version.split(".").slice(0, 2).join(".")}`))
+            const compatibleWithVersion = release.tags.some((tag) => tag.startsWith(`${version.split(".").slice(0, 2).join(".")}`))
 
             // 0 if it's the same version
             // 1 if the downloadable version < than the installed one
             // -1 if the downloadable version > than the isntalled one
             const newRelease = semver.compare(mod.version, release.modversion)
+
+            console.log(`Mod: ${mod.name}, Compatible with: ${release.tags.join(" · ")}, Current version: ${version}`)
 
             if (compatibleWithVersion && newRelease === -1) {
               availableModUpdates++
