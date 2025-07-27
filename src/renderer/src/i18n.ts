@@ -6,7 +6,6 @@ import esES from "@renderer/locales/es-ES.json"
 import ruRU from "@renderer/locales/ru-RU.json"
 import zhCN from "@renderer/locales/zh-CN.json"
 import frFR from "@renderer/locales/fr-FR.json"
-import csCZ from "@renderer/locales/cs-CZ.json"
 import deDE from "@renderer/locales/de-DE.json"
 import ptPT from "@renderer/locales/pt-PT.json"
 import nlNL from "@renderer/locales/nl-NL.json"
@@ -21,7 +20,6 @@ i18n.use(initReactI18next).init({
     "ru-RU": { translation: ruRU, name: "Русский", credits: "by megabezdelnik" },
     "zh-CN": { translation: zhCN, name: "简体中文", credits: "by liuyujielol" },
     "fr-FR": { translation: frFR, name: "Français", credits: "by LorIlcs" },
-    "cs-CZ": { translation: csCZ, name: "Čeština", credits: "by DejFidOFF" },
     "de-DE": { translation: deDE, name: "Deutsch", credits: "by Brady_The" },
     "pt-PT": { translation: ptPT, name: "Português", credits: "by Bruno Cabrita" },
     "nl-NL": { translation: nlNL, name: "Dutch (Netherlands)", credits: "by Dennisjeee" },
