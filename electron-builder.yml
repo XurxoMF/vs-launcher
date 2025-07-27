@@ -38,7 +38,6 @@ linux:
   target:
     - AppImage
     - deb
-    - rpm
     - flatpak
   maintainer: XurxoMF
   category: Game
@@ -53,8 +52,6 @@ flatpak:
   base: org.electronjs.Electron2.BaseApp
   baseVersion: "23.08"
 deb:
-  artifactName: ${name}-${version}.${ext}
-rpm:
   artifactName: ${name}-${version}.${ext}
 npmRebuild: false
 publish:
