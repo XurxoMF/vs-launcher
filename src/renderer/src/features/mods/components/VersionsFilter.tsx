@@ -28,7 +28,8 @@ function VersionsFilter({
     try {
       const res = await window.api.netManager.queryURL("https://mods.vintagestory.at/api/gameversions")
       const data = await JSON.parse(res)
-      setGameVersionsList(data["gameversions"].reverse())
+      data["gameversions"].reverse()
+      setGameVersionsList(data["gameversions"])
     } catch (err) {
       window.api.utils.logMessage("error", `[front] [mods] [features/mods/pages/ListMods.tsx] [VersionsFilter > queryGameVersions] Error fetching game versions.`)
       window.api.utils.logMessage("debug", `[front] [mods] [features/mods/pages/ListMods.tsx] [VersionsFilter > queryGameVersions] Error fetching game versions: ${err}`)
