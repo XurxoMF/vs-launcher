@@ -138,18 +138,20 @@ app.whenReady().then(async () => {
 
   createWindow()
 
-  // Check for updates
-  autoUpdater.checkForUpdatesAndNotify()
+  if (process.env["UPDATE"] != "false") {
+    // Check for updates
+    autoUpdater.checkForUpdatesAndNotify()
 
-  // If there is an update available send an event to the client.
-  autoUpdater.on("update-available", () => {
-    mainWindow.webContents.send(IPC_CHANNELS.APP_UPDATER.UPDATE_AVAILABLE)
-  })
+    // If there is an update available send an event to the client.
+    autoUpdater.on("update-available", () => {
+      mainWindow.webContents.send(IPC_CHANNELS.APP_UPDATER.UPDATE_AVAILABLE)
+    })
 
-  // If there is an update downloaded send an event to the client.
-  autoUpdater.on("update-downloaded", () => {
-    mainWindow.webContents.send(IPC_CHANNELS.APP_UPDATER.UPDATE_DOWNLOADED)
-  })
+    // If there is an update downloaded send an event to the client.
+    autoUpdater.on("update-downloaded", () => {
+      mainWindow.webContents.send(IPC_CHANNELS.APP_UPDATER.UPDATE_DOWNLOADED)
+    })
+  }
 
   app.on("activate", function () {
     // On macOS it's common to re-create a window in the app when the dock icon is clicked and there are no other windows open.
