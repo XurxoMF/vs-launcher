@@ -1,6 +1,6 @@
 ---
-icon: linux
 description: If you're using Linux follow this guide!
+icon: linux
 ---
 
 # Linux
@@ -8,6 +8,10 @@ description: If you're using Linux follow this guide!
 VS Launcher works on ANY Linux distro thanks to the AppImage compilation we're using.
 
 Installing it on Linux is as easy as downloading the AppImage and double clicking it.... that's it. Let's get started:
+
+{% hint style="success" %}
+If you're using Arch Linux you can install it from AUR with `yay -S vs-launcher`. You'll need to manually update using yay tho.
+{% endhint %}
 
 {% stepper %}
 {% step %}
