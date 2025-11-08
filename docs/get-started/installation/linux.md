@@ -89,7 +89,7 @@ To help you with this process we've made a few guide explaining how to install e
 
 {% stepper %}
 {% step %}
-### Install .NET 7
+### Install .NET 7 and 8
 
 ```sh
 wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh
@@ -101,6 +101,10 @@ chmod +x ./dotnet-install.sh
 
 ```sh
 sudo ./dotnet-install.sh --channel 7.0 --install-dir /usr/lib/dotnet
+```
+
+```sh
+sudo ./dotnet-install.sh --channel 8.0 --install-dir /usr/lib/dotnet
 ```
 {% endstep %}
 
@@ -140,7 +144,7 @@ You'll have to look up how to do this for your graphics card and your Linux dist
 ### Install all the dependencies
 
 ```sh
-sudo pacman -S dotnet-runtime-7.0 glibc openal opengl-driver mono
+sudo pacman -S dotnet-runtime-7.0 dotnet-runtime-8.0 glibc openal opengl-driver mono
 ```
 {% endstep %}
 {% endstepper %}
@@ -174,7 +178,7 @@ sudo pacman-key --populate holo
 ### Install all the dependencies
 
 ```sh
-sudo pacman -S dotnet-runtime-7.0 glibc openal opengl-driver mono
+sudo pacman -S dotnet-runtime-7.0 dotnet-runtime-8.0 glibc openal opengl-driver mono
 ```
 {% endstep %}
 
