@@ -8,6 +8,7 @@ import zhCN from "@renderer/locales/zh-CN.json"
 import frFR from "@renderer/locales/fr-FR.json"
 import deDE from "@renderer/locales/de-DE.json"
 import ptPT from "@renderer/locales/pt-PT.json"
+import ptBR from "@renderer/locales/pt-BR.json"
 import nlNL from "@renderer/locales/nl-NL.json"
 import plPL from "@renderer/locales/pl-PL.json"
 import itIT from "@renderer/locales/it-IT.json"
@@ -23,6 +24,7 @@ i18n.use(initReactI18next).init({
     "fr-FR": { translation: frFR, name: "Français", credits: "by LorIlcs" },
     "de-DE": { translation: deDE, name: "Deutsch", credits: "by Brady_The" },
     "pt-PT": { translation: ptPT, name: "Português", credits: "by Bruno Cabrita" },
+    "pt-BR": { translation: ptPT, name: "Português (Brasil)", credits: "by Paulo Nascimento" },
     "nl-NL": { translation: nlNL, name: "Dutch (Netherlands)", credits: "by Dennisjeee" },
     "pl-PL": { translation: plPL, name: "Polski", credits: "by Runo Hawk, Zsuatem" },
     "it-IT": { translation: itIT, name: "Italiano", credits: "by Pingoda" },
