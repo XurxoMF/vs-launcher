@@ -195,6 +195,29 @@ sudo steamos-readonly enable
 This SteamOS guide was sent by an user that got it working with this. I don't know what each stem does and didn't tested it.
 {% endhint %}
 
+### Nixos
+
+{% stepper %}
+{% step %}
+### Enable appimages, and add dotnet as an extra package
+
+Appimages require a couple of options to be enabled in order to load, and they cannot see system libraries such as dotnet. Simply add this to your config to enable appimage support, and reveal the missing dotnet library:
+
+```sh
+  programs.appimage.enable = true;
+  programs.appimage.binfmt = true;
+  programs.appimage.package = pkgs.appimage-run.override { extraPkgs = pkgs: [
+    pkgs.dotnet-runtime
+  ]; };
+```
+{% endstep %}
+
+{% endstepper %}
+
+{% hint style="info" %}
+Note, that this will enable appimages system-wide, and all appimages will have dotnet available to them.
+{% endhint %}
+
 ***
 
 ## Migrating from AppImage to Flatpak
