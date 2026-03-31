@@ -6,7 +6,7 @@ import os from "os"
 import { logMessage } from "@src/utils/logManager"
 import { IPC_CHANNELS } from "@src/ipc/ipcChannels"
 
-ipcMain.handle(IPC_CHANNELS.GAME_MANAGER.EXECUTE_GAME, async (_event, version: GameVersionType, installation: InstallationType, account: AccountType | null): Promise<boolean> => {
+ipcMain.handle(IPC_CHANNELS.GAME_MANAGER.EXECUTE_GAME, async (_event, version: GameVersionType, installation: InstallationType, account: AccountType | null): Promise<{ success: boolean; error?: string }> => {
   logMessage("info", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [EXECUTE_GAME] Trying to run Vintage Story ${version.version} from ${version.path} on ${installation.path}.`)
 
   const processEnv = installation.envVars.split(",").reduce((acc, entry) => {
@@ -36,12 +36,12 @@ ipcMain.handle(IPC_CHANNELS.GAME_MANAGER.EXECUTE_GAME, async (_event, version: G
         params = [join(version.path, "Vintagestory.exe"), `--dataPath=${installation.path}`, installation.startParams]
       } else {
         logMessage("info", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [EXECUTE_GAME] Couldn't find a way to run Vintage Story, aborting...`)
-        return false
+        return { success: false, error: "Couldn't find Vintagestory binary in game folder" }
       }
     } catch (err) {
       logMessage("error", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [EXECUTE_GAME] Error detecting how to run Vintage Story.`)
       logMessage("verbose", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [EXECUTE_GAME] Error detecting how to run Vintage Story: ${err}`)
-      return false
+      return { success: false, error: `Error detecting how to run Vintage Story: ${err}` }
     }
   } else if (os.platform() === "win32") {
     logMessage("info", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [EXECUTE_GAME] Windows platform detected.`)
@@ -55,23 +55,45 @@ ipcMain.handle(IPC_CHANNELS.GAME_MANAGER.EXECUTE_GAME, async (_event, version: G
         params = [`--dataPath=${installation.path}`, installation.startParams]
       } else {
         logMessage("info", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [EXECUTE_GAME] Couldn't find a way to run Vintage Story, aborting...`)
-        return false
+        return { success: false, error: "Couldn't find Vintagestory.exe in game folder" }
       }
     } catch (err) {
       logMessage("error", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [EXECUTE_GAME] Error detecting how to run Vintage Story.`)
       logMessage("verbose", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [EXECUTE_GAME] Error detecting how to run Vintage Story: ${err}`)
-      return false
+      return { success: false, error: `Error detecting how to run Vintage Story: ${err}` }
     }
   } else if (os.platform() === "darwin") {
-    logMessage("info", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [EXECUTE_GAME] MacOS platform detected. Not yet supported.`)
-    return false
+    logMessage("info", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [EXECUTE_GAME] macOS platform detected.`)
+
+    try {
+      const files = fse.readdirSync(version.path)
+      const appBundle = files.find((f) => f.endsWith(".app"))
+      const innerBinary = appBundle ? join(version.path, appBundle, "Contents", "MacOS", "Vintagestory") : null
+
+      if (appBundle && innerBinary && fse.existsSync(innerBinary)) {
+        logMessage("info", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [EXECUTE_GAME] Found .app bundle: ${appBundle}`)
+        command = "arch"
+        params = ["-x86_64", innerBinary, `--dataPath=${installation.path}`, installation.startParams]
+      } else if (files.includes("Vintagestory")) {
+        logMessage("info", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [EXECUTE_GAME] Vintagestory binary found.`)
+        command = "arch"
+        params = ["-x86_64", join(version.path, "Vintagestory"), `--dataPath=${installation.path}`, installation.startParams]
+      } else {
+        logMessage("info", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [EXECUTE_GAME] Couldn't find a way to run Vintage Story, aborting...`)
+        return { success: false, error: "Couldn't find Vintagestory binary or .app bundle in game folder" }
+      }
+    } catch (err) {
+      logMessage("error", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [EXECUTE_GAME] Error detecting how to run Vintage Story.`)
+      logMessage("verbose", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [EXECUTE_GAME] Error detecting how to run Vintage Story: ${err}`)
+      return { success: false, error: `Error detecting how to run Vintage Story: ${err}` }
+    }
   } else {
-    logMessage("info", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [EXECUTE_GAME] Not platform detected.`)
-    return false
+    logMessage("info", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [EXECUTE_GAME] No platform detected.`)
+    return { success: false, error: `Unsupported platform: ${os.platform()}` }
   }
 
   if (command && params) {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       if (account) {
         logMessage("info", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [EXECUTE_GAME] Logged in. Setting session keys.`)
 
@@ -117,30 +139,37 @@ ipcMain.handle(IPC_CHANNELS.GAME_MANAGER.EXECUTE_GAME, async (_event, version: G
       logMessage("info", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [EXECUTE_GAME] Running Vintagestory with ${command} + ${params.join(" + ")}.`)
 
       const externalApp = spawn(command, params, { env })
+      const stderrChunks: string[] = []
 
       externalApp.stdout.on("data", (data) => {
         logMessage("verbose", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [EXECUTE_GAME] ${data}`)
       })
 
       externalApp.stderr.on("data", (data) => {
+        const message = data.toString()
+        stderrChunks.push(message)
         logMessage("error", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [EXECUTE_GAME] Vintage Story threw an error! Check verbose logs for more info.`)
         logMessage("verbose", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [EXECUTE_GAME] ${data}`)
       })
 
       externalApp.on("close", (code) => {
         logMessage("info", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [EXECUTE_GAME] Vintage Story closed: ${code}`)
-        resolve(true)
+        if (code !== 0 && stderrChunks.length > 0) {
+          resolve({ success: false, error: stderrChunks.join("").trim().slice(-500) })
+        } else {
+          resolve({ success: true })
+        }
       })
 
       externalApp.on("error", (error) => {
         logMessage("error", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [EXECUTE_GAME] Error running Vintage Story.`)
         logMessage("verbose", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [EXECUTE_GAME] ${error}`)
-        reject(false)
+        resolve({ success: false, error: `Failed to start process: ${error.message}` })
       })
     })
   } else {
     logMessage("error", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [EXECUTE_GAME] No command or params found.`)
-    return false
+    return { success: false, error: "No command or params found" }
   }
 })
 
@@ -195,10 +224,32 @@ ipcMain.handle(IPC_CHANNELS.GAME_MANAGER.LOOK_FOR_A_GAME_VERSION, async (_event,
       return false
     }
   } else if (os.platform() === "darwin") {
-    logMessage("info", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [LOOK_FOR_A_GAME_VERSION] MacOS platform detected. Not yet supported.`)
-    return false
+    logMessage("info", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [LOOK_FOR_A_GAME_VERSION] macOS platform detected.`)
+
+    try {
+      const files = fse.readdirSync(path)
+      const appBundle = files.find((f) => f.endsWith(".app"))
+      const innerBinary = appBundle ? join(path, appBundle, "Contents", "MacOS", "Vintagestory") : null
+
+      if (appBundle && innerBinary && fse.existsSync(innerBinary)) {
+        logMessage("info", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [LOOK_FOR_A_GAME_VERSION] Found .app bundle: ${appBundle}`)
+        command = "arch"
+        params = ["-x86_64", innerBinary, `-v`]
+      } else if (files.includes("Vintagestory")) {
+        logMessage("info", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [LOOK_FOR_A_GAME_VERSION] Vintagestory binary found.`)
+        command = "arch"
+        params = ["-x86_64", join(path, "Vintagestory"), `-v`]
+      } else {
+        logMessage("info", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [LOOK_FOR_A_GAME_VERSION] Couldn't find Vintage Story in that folder.`)
+        return false
+      }
+    } catch (err) {
+      logMessage("error", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [LOOK_FOR_A_GAME_VERSION] Error looking for Vintage Story.`)
+      logMessage("verbose", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [LOOK_FOR_A_GAME_VERSION] Error looking for Vintage Story: ${err}`)
+      return false
+    }
   } else {
-    logMessage("info", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [LOOK_FOR_A_GAME_VERSION] Not platform detected.`)
+    logMessage("info", `[back] [ipc] [ipc/handlers/gameHandlers.ts] [LOOK_FOR_A_GAME_VERSION] No platform detected.`)
     return false
   }
 

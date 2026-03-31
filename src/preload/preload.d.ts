@@ -43,10 +43,11 @@ declare global {
       onExtractProgress: (callback: ProgressCallback) => void
       onCompressProgress: (callback: ProgressCallback) => void
       changePerms: (paths: string[], perms: number) => void
+      removeQuarantine: (path: string) => Promise<boolean>
       copyToIcons: (path: string, name: string) => Promise<{ status: true; file: string } | { status: false }>
     }
     gameManager: {
-      executeGame: (version: GameVersionType, installation: InstallationType, account: AccountType | null) => Promise<boolean>
+      executeGame: (version: GameVersionType, installation: InstallationType, account: AccountType | null) => Promise<{ success: boolean; error?: string }>
       lookForAGameVersion: (path: string) => Promise<{ exists: boolean; installedGameVersion: string | undefined }>
     }
     netManager: {

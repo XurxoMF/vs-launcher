@@ -26,7 +26,7 @@
     "@headlessui/react": "^2.2.0",
     "@tailwindcss/postcss": "^4.0.8",
     "archiver": "^7.0.1",
-    "axios": "^1.7.9",
+    "axios": "1.14.0",
     "clsx": "^2.1.1",
     "electron-log": "^5.2.3",
     "electron-updater": "^6.1.7",

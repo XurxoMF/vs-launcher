@@ -165,6 +165,7 @@ declare global {
     releaseDate: string
     windows: string
     linux: string
+    macos: string
   }
 
   type DownloadableModAuthorType = {

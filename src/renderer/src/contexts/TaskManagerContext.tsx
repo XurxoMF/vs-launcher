@@ -172,6 +172,7 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }): JSX.E
       if (!result) throw new Error("Extraction failed")
 
       window.api.pathsManager.changePerms([outputPath], 0o755)
+      window.api.pathsManager.removeQuarantine(outputPath)
 
       window.api.utils.logMessage("info", `[front] [tasks] [contexts/TaskManagercontext.tsx] [TaskProvider > startExtract] [${id}] [${filePath}] Extracted.`)
       if (notifications === "all" || notifications === "end") addNotification(t("notifications.body.extracted", { extractName: name }), "success")

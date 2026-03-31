@@ -69,12 +69,18 @@ function MainMenu(): JSX.Element {
       }
 
       const startedPlaying = Date.now()
-      const closeStatus = await window.api.gameManager.executeGame(gameVersionToRun, selectedInstallation, config.account)
+      const result = await window.api.gameManager.executeGame(gameVersionToRun, selectedInstallation, config.account)
       const finishedPlaying = Date.now()
       const ttp = finishedPlaying - startedPlaying + selectedInstallation.totalTimePlayed
       configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id: selectedInstallation.id, updates: { _playing: false, lastTimePlayed: finishedPlaying, totalTimePlayed: ttp } } })
       configDispatch({ type: CONFIG_ACTIONS.EDIT_GAME_VERSION, payload: { version: gameVersionToRun.version, updates: { _playing: false } } })
-      if (!closeStatus) return addNotification(t("notifications.body.gameExitedWithErrors"), "error")
+      if (!result.success) {
+        const openLogs = async (): Promise<void> => {
+          const logsPath = await window.api.pathsManager.formatPath([await window.api.pathsManager.getCurrentUserDataPath(), "VSLauncher", "Logs"])
+          window.api.pathsManager.openPathOnFileExplorer(logsPath)
+        }
+        return addNotification(`${t("notifications.body.gameExitedWithErrors")}${result.error ? ` ${result.error}` : ""}`, "error", { onClick: openLogs, duration: 15_000 })
+      }
     } catch (err) {
       addNotification(t("notifications.body.errorExecutingGame"), "error")
     } finally {

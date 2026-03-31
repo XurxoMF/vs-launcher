@@ -73,7 +73,7 @@ function AddVersion(): JSX.Element {
       return addNotification(t("features.versions.folderAlreadyInUse"), "error")
 
     const os = await window.api.utils.getOs()
-    const url = os === "win32" ? version.windows : version.linux
+    const url = os === "win32" ? version.windows : os === "darwin" ? version.macos : version.linux
 
     const newGameVersion: GameVersionType = {
       version: version.version,

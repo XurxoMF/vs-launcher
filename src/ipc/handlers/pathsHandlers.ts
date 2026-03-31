@@ -3,6 +3,7 @@ import fse from "fs-extra"
 import { join, sep } from "path"
 import os from "os"
 import { Worker } from "worker_threads"
+import { execFile } from "child_process"
 
 import { logMessage } from "@src/utils/logManager"
 import { IPC_CHANNELS } from "@src/ipc/ipcChannels"
@@ -172,7 +173,7 @@ ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.COMPRESS_ON_PATH, async (event, id: st
 })
 
 ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.CHANGE_PERMS, async (_event, paths: string[], perms: number) => {
-  if (os.platform() === "linux") {
+  if (os.platform() === "linux" || os.platform() === "darwin") {
     return new Promise((resolve, reject) => {
       logMessage("info", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [CHANGE_PERMS] Changing perms to ${paths.length} paths.`)
 
@@ -204,6 +205,24 @@ ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.CHANGE_PERMS, async (_event, paths: st
   }
 
   return Promise.reject(true)
+})
+
+ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.REMOVE_QUARANTINE, async (_event, path: string): Promise<boolean> => {
+  if (os.platform() !== "darwin") return true
+
+  logMessage("info", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [REMOVE_QUARANTINE] Removing quarantine attribute from ${path}.`)
+
+  return new Promise((resolve) => {
+    execFile("xattr", ["-rd", "com.apple.quarantine", path], (err) => {
+      if (err) {
+        logMessage("warn", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [REMOVE_QUARANTINE] Failed to remove quarantine: ${err.message}`)
+        resolve(false)
+      } else {
+        logMessage("info", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [REMOVE_QUARANTINE] Quarantine attribute removed.`)
+        resolve(true)
+      }
+    })
+  })
 })
 
 ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.COPY_TO_ICONS, async (_event, path: string, name: string): Promise<{ status: true; file: string } | { status: false }> => {
