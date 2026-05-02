@@ -69,7 +69,9 @@
     "notInstalled": "Not installed",
     "reload": "Reload",
     "reloading": "Reloading",
-    "goBackTo": "Go back to:"
+    "goBackTo": "Go back to:",
+    "name": "Name",
+    "status": "Status"
   },
   "features": {
     "generic": {
@@ -201,7 +203,25 @@
       "errorUpdatingMod": "An error has occurred updating the Mod {mod}!",
       "errorUpdatingMods": "An error has occurred updating the Mods!",
       "updateAllButton": "Update all",
-      "modsUpdatedSuccessfully": "All the Mods were updated successfully!"
+      "modsUpdatedSuccessfully": "All the Mods were updated successfully!",
+      "exportModpack": "Export the installed Mods as a sharable modpack file",
+      "exportModpackButton": "Export Modpack",
+      "exportModpackSuccess": "Modpack exported successfully!",
+      "exportModpackError": "An error has occurred exporting the modpack!",
+      "importModpack": "Import a modpack file to install all its Mods",
+      "importModpackButton": "Import Modpack",
+      "importModpackTitle": "Import Modpack",
+      "importModpackDesc": "The following Mods will be installed from \"{{name}}\":",
+      "importModpackVersionWarning": "This modpack was made for game version {{packVersion}}, but this Installation uses version {{installVersion}}. Some Mods may not be compatible.",
+      "importModpackInvalidFile": "Invalid modpack file!",
+      "importModpackImporting": "Importing...",
+      "importModpackManualRequired": "Manual install required",
+      "importModpackNotFound": "Not found on ModDB",
+      "importModpackNoRelease": "No compatible release",
+      "importModpackStatusPending": "Pending",
+      "importModpackStatusDownloading": "Downloading",
+      "importModpackStatusDone": "Installed",
+      "importModpackStatusFailed": "Failed"
     },
     "config": {
       "defaultInstallationsFolder": "Installations folder",
