@@ -191,6 +191,18 @@ declare global {
     custom?: boolean
   }
 
+  type ModpackModEntryType = {
+    modid: string
+    version: string
+    assetid: number | null
+  }
+
+  type ModpackManifestType = {
+    name: string
+    gameVersion: string
+    mods: ModpackModEntryType[]
+  }
+
   declare module "*.png" {
     const value: string
     export default value

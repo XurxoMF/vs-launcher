@@ -18,7 +18,9 @@ export const IPC_CHANNELS = {
     SAVE_CONFIG: "save-config"
   },
   MODS_MANAGER: {
-    GET_INSTALLED_MODS: "get-installed-mods"
+    GET_INSTALLED_MODS: "get-installed-mods",
+    EXPORT_MODPACK: "export-modpack",
+    IMPORT_MODPACK: "import-modpack"
   },
   PATHS_MANAGER: {
     GET_CURRENT_USER_DATA_PATH: "get-current-user-data-path",
