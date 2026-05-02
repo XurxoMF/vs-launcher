@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { useParams } from "react-router-dom"
 import { Trans, useTranslation } from "react-i18next"
-import { PiArrowClockwiseDuotone, PiFolderOpenDuotone, PiTrashDuotone, PiXCircleDuotone } from "react-icons/pi"
+import { PiArrowClockwiseDuotone, PiFolderOpenDuotone, PiTrashDuotone, PiXCircleDuotone, PiBoxArrowUpDuotone, PiBoxArrowDownDuotone } from "react-icons/pi"
 import { FiExternalLink, FiLoader } from "react-icons/fi"
 import clsx from "clsx"
 
@@ -10,11 +10,13 @@ import { useNotificationsContext } from "@renderer/contexts/NotificationsContext
 import { useInstallMod } from "@renderer/features/mods/hooks/useInstallMod"
 
 import { useGetCompleteInstalledMods } from "@renderer/features/mods/hooks/useGetCompleteInstalledMods"
+import { useExportModpack } from "@renderer/features/mods/hooks/useExportModpack"
 
 import { ListGroup, ListItem, ListWrapper } from "@renderer/components/ui/List"
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
 import PopupDialogPanel from "@renderer/components/ui/PopupDialogPanel"
 import InstallModPopup from "@renderer/features/mods/components/InstallModPopup"
+import ImportModpackPopup from "@renderer/features/mods/components/ImportModpackPopup"
 import { LinkButton, NormalButton } from "@renderer/components/ui/Buttons"
 import { FormButton } from "@renderer/components/ui/FormComponents"
 import { ThinSeparator } from "@renderer/components/ui/ListSeparators"
@@ -27,6 +29,7 @@ function ListMods(): JSX.Element {
 
   const getCompleteInstalledMods = useGetCompleteInstalledMods()
   const installMod = useInstallMod()
+  const exportModpack = useExportModpack()
 
   const { id } = useParams()
 
@@ -37,6 +40,7 @@ function ListMods(): JSX.Element {
 
   const [modToDelete, setModToDelete] = useState<InstalledModType | ErrorInstalledModType | null>(null)
   const [modToUpdate, setModToUpdate] = useState<InstalledModType | null>(null)
+  const [importManifest, setImportManifest] = useState<ModpackManifestType | null>(null)
 
   const [gettingMods, setGettingMods] = useState<boolean>(false)
 
@@ -162,6 +166,32 @@ function ListMods(): JSX.Element {
                 <FormButton title={t("features.mods.updateAll")} className="p-1 w-fit h-8" onClick={UpdateModsHandler}>
                   <PiArrowClockwiseDuotone className="text-xl" />
                   <p>{t("features.mods.updateAllButton")}</p>
+                </FormButton>
+
+                <FormButton
+                  title={t("features.mods.exportModpack")}
+                  className="p-1 w-fit h-8"
+                  onClick={() => exportModpack({ installedMods, installation })}
+                  disabled={installedMods.length === 0}
+                >
+                  <PiBoxArrowUpDuotone className="text-xl" />
+                  <p>{t("features.mods.exportModpackButton")}</p>
+                </FormButton>
+
+                <FormButton
+                  title={t("features.mods.importModpack")}
+                  className="p-1 w-fit h-8"
+                  onClick={async () => {
+                    const result = await window.api.modsManager.importModpack()
+                    if (result.success && result.manifest) {
+                      setImportManifest(result.manifest)
+                    } else if (result.error) {
+                      addNotification(t("features.mods.importModpackInvalidFile"), "error")
+                    }
+                  }}
+                >
+                  <PiBoxArrowDownDuotone className="text-xl" />
+                  <p>{t("features.mods.importModpackButton")}</p>
                 </FormButton>
 
                 <FormButton
@@ -432,6 +462,17 @@ function ListMods(): JSX.Element {
                       oldMod: installedMods.find((iMod) => iMod.modid === modToUpdate?.modid)
                     }}
                     onFinishInstallation={() => {
+                      triggerGetCompleteInstalledMods()
+                    }}
+                  />
+
+                  <ImportModpackPopup
+                    isOpen={importManifest !== null}
+                    manifest={importManifest}
+                    close={() => setImportManifest(null)}
+                    installation={installation}
+                    onFinish={() => {
+                      setImportManifest(null)
                       triggerGetCompleteInstalledMods()
                     }}
                   />
