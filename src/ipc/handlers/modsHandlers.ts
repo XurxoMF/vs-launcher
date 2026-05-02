@@ -1,4 +1,4 @@
-import { app, ipcMain } from "electron"
+import { app, dialog, ipcMain } from "electron"
 import fse from "fs-extra"
 import yauzl from "yauzl"
 import { IPC_CHANNELS } from "../ipcChannels"
@@ -26,6 +26,65 @@ ipcMain.handle(IPC_CHANNELS.MODS_MANAGER.GET_INSTALLED_MODS, async (_event, path
     logMessage("error", `[back] [mods] [ipc/handlers/modsHandlers.ts] [GET_INSTALLED_MODS] Error getting installed mods.`)
     logMessage("debug", `[back] [mods] [ipc/handlers/modsHandlers.ts] [GET_INSTALLED_MODS] Error getting installed mods: ${err}`)
     return { mods: [], errors: [] }
+  }
+})
+
+ipcMain.handle(IPC_CHANNELS.MODS_MANAGER.EXPORT_MODPACK, async (_event, manifest: ModpackManifestType): Promise<{ success: boolean; path?: string }> => {
+  try {
+    logMessage("info", `[back] [mods] [ipc/handlers/modsHandlers.ts] [EXPORT_MODPACK] Exporting modpack "${manifest.name}" with ${manifest.mods.length} mods.`)
+
+    const result = await dialog.showSaveDialog({
+      title: "Export Modpack",
+      defaultPath: manifest.name,
+      filters: [{ name: "JSON", extensions: ["json"] }]
+    })
+
+    if (result.canceled || !result.filePath) {
+      logMessage("info", `[back] [mods] [ipc/handlers/modsHandlers.ts] [EXPORT_MODPACK] Export cancelled.`)
+      return { success: false }
+    }
+
+    fse.writeFileSync(result.filePath, JSON.stringify(manifest, null, 2), "utf-8")
+
+    logMessage("info", `[back] [mods] [ipc/handlers/modsHandlers.ts] [EXPORT_MODPACK] Modpack exported to ${result.filePath}.`)
+    return { success: true, path: result.filePath }
+  } catch (err) {
+    logMessage("error", `[back] [mods] [ipc/handlers/modsHandlers.ts] [EXPORT_MODPACK] Error exporting modpack.`)
+    logMessage("debug", `[back] [mods] [ipc/handlers/modsHandlers.ts] [EXPORT_MODPACK] Error exporting modpack: ${err}`)
+    return { success: false }
+  }
+})
+
+ipcMain.handle(IPC_CHANNELS.MODS_MANAGER.IMPORT_MODPACK, async (): Promise<{ success: boolean; manifest?: ModpackManifestType; error?: string }> => {
+  try {
+    logMessage("info", `[back] [mods] [ipc/handlers/modsHandlers.ts] [IMPORT_MODPACK] Opening file dialog for modpack import.`)
+
+    const result = await dialog.showOpenDialog({
+      title: "Import Modpack",
+      properties: ["openFile"],
+      filters: [{ name: "JSON", extensions: ["json"] }]
+    })
+
+    if (result.canceled || result.filePaths.length === 0) {
+      logMessage("info", `[back] [mods] [ipc/handlers/modsHandlers.ts] [IMPORT_MODPACK] Import cancelled.`)
+      return { success: false }
+    }
+
+    const filePath = result.filePaths[0]
+    const raw = fse.readFileSync(filePath, "utf-8")
+    const manifest = JSON.parse(raw) as ModpackManifestType
+
+    if (!manifest.name || !manifest.gameVersion || !Array.isArray(manifest.mods)) {
+      logMessage("error", `[back] [mods] [ipc/handlers/modsHandlers.ts] [IMPORT_MODPACK] Invalid modpack file structure.`)
+      return { success: false, error: "Invalid modpack file structure." }
+    }
+
+    logMessage("info", `[back] [mods] [ipc/handlers/modsHandlers.ts] [IMPORT_MODPACK] Modpack "${manifest.name}" loaded with ${manifest.mods.length} mods.`)
+    return { success: true, manifest }
+  } catch (err) {
+    logMessage("error", `[back] [mods] [ipc/handlers/modsHandlers.ts] [IMPORT_MODPACK] Error importing modpack.`)
+    logMessage("debug", `[back] [mods] [ipc/handlers/modsHandlers.ts] [IMPORT_MODPACK] Error importing modpack: ${err}`)
+    return { success: false, error: "Error reading modpack file." }
   }
 })
 
