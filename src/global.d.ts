@@ -194,7 +194,6 @@ declare global {
   type ModpackModEntryType = {
     modid: string
     version: string
-    assetid: number | null
   }
 
   type ModpackManifestType = {

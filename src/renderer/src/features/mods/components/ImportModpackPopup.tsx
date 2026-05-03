@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
-import { PiCheckCircleDuotone, PiWarningDuotone, PiProhibitInsetDuotone, PiDownloadDuotone } from "react-icons/pi"
+import { PiCheckCircleDuotone, PiProhibitInsetDuotone, PiDownloadDuotone } from "react-icons/pi"
 import { FiLoader } from "react-icons/fi"
 import clsx from "clsx"
 
@@ -11,7 +11,7 @@ import { TableBody, TableBodyRow, TableCell, TableHead, TableHeadRow, TableWrapp
 import PopupDialogPanel from "@renderer/components/ui/PopupDialogPanel"
 import { FormButton } from "@renderer/components/ui/FormComponents"
 
-type ModStatus = "pending" | "downloading" | "done" | "failed" | "not-found" | "no-release" | "manual-required"
+type ModStatus = "pending" | "downloading" | "done" | "failed" | "not-found" | "no-release"
 
 function ImportModpackPopup({
   isOpen,
@@ -41,7 +41,7 @@ function ImportModpackPopup({
   function getInitialStatuses(mods: ModpackModEntryType[]): Record<string, ModStatus> {
     const statuses: Record<string, ModStatus> = {}
     for (const mod of mods) {
-      statuses[mod.modid] = mod.assetid === null ? "manual-required" : "pending"
+      statuses[mod.modid] = "pending"
     }
     return statuses
   }
@@ -54,11 +54,9 @@ function ImportModpackPopup({
     const versionPrefix = installation.version.split(".").slice(0, 2).join(".")
 
     for (const entry of manifest.mods) {
-      if (entry.assetid === null) continue
-
       updateStatus(entry.modid, "downloading")
 
-      const mod = await queryMod({ modid: entry.assetid })
+      const mod = await queryMod({ modid: entry.modid })
 
       if (!mod) {
         updateStatus(entry.modid, "not-found")
@@ -156,7 +154,7 @@ function ImportModpackPopup({
                   className="p-1 px-4 h-8"
                   onClick={handleImport}
                   type="success"
-                  disabled={Object.values(modStatuses).every((s) => s === "manual-required")}
+                  disabled={manifest.mods.length === 0}
                 >
                   <PiDownloadDuotone className="text-xl" />
                   <p>{t("features.mods.importModpackButton")}</p>
@@ -185,8 +183,6 @@ function StatusIcon({ status }: { status: ModStatus }): JSX.Element {
     case "not-found":
     case "no-release":
       return <PiProhibitInsetDuotone />
-    case "manual-required":
-      return <PiWarningDuotone />
     default:
       return <PiDownloadDuotone />
   }
@@ -202,8 +198,6 @@ function statusColor(status: ModStatus): string {
     case "not-found":
     case "no-release":
       return "text-red-400"
-    case "manual-required":
-      return "text-yellow-400"
     default:
       return "text-zinc-400"
   }
@@ -221,8 +215,6 @@ function statusLabel(status: ModStatus, t: (key: string) => string): string {
       return t("features.mods.importModpackNotFound")
     case "no-release":
       return t("features.mods.importModpackNoRelease")
-    case "manual-required":
-      return t("features.mods.importModpackManualRequired")
     default:
       return t("features.mods.importModpackStatusPending")
   }

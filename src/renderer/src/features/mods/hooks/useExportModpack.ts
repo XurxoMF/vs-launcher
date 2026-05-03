@@ -12,8 +12,7 @@ export function useExportModpack(): ({ installedMods, installation }: { installe
       gameVersion: installation.version,
       mods: installedMods.map((mod) => ({
         modid: mod.modid,
-        version: mod.version,
-        assetid: mod._mod?.assetid ?? null
+        version: mod.version
       }))
     }
 
