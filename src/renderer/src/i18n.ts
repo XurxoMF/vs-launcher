@@ -24,7 +24,7 @@ i18n.use(initReactI18next).init({
     "fr-FR": { translation: frFR, name: "Français", credits: "by LorIlcs" },
     "de-DE": { translation: deDE, name: "Deutsch", credits: "by Brady_The" },
     "pt-PT": { translation: ptPT, name: "Português", credits: "by Bruno Cabrita" },
-    "pt-BR": { translation: ptPT, name: "Português (Brasil)", credits: "by Paulo Nascimento" },
+    "pt-BR": { translation: ptBR, name: "Português (Brasil)", credits: "by Paulo Nascimento" },
     "nl-NL": { translation: nlNL, name: "Dutch (Netherlands)", credits: "by Dennisjeee" },
     "pl-PL": { translation: plPL, name: "Polski", credits: "by Runo Hawk, Zsuatem" },
     "it-IT": { translation: itIT, name: "Italiano", credits: "by Pingoda" },
