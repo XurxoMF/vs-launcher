@@ -206,7 +206,7 @@ function ImportModpackPopup({
               </TableHead>
 
               <TableBody className="max-h-[18rem]">
-                {manifest.mods.map((mod) => {
+                {[...manifest.mods].sort((a, b) => a.modid.localeCompare(b.modid)).map((mod) => {
                   const status = modStatuses[mod.modid] || "pending"
                   return (
                     <TableBodyRow key={mod.modid}>
