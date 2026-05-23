@@ -63,8 +63,9 @@ function ImportModpackPopup({
         continue
       }
 
+      const exactRelease = mod.releases.find((release) => release.modversion === entry.version)
       const compatibleRelease = mod.releases.find((release) => release.tags.some((tag) => tag.startsWith(versionPrefix)))
-      const release = compatibleRelease || mod.releases[0]
+      const release = exactRelease || compatibleRelease || mod.releases[0]
 
       if (!release) {
         updateStatus(entry.modid, "no-release")
