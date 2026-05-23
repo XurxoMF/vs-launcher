@@ -93,7 +93,7 @@ function InstallationsDropdownMenu(): JSX.Element {
                           value={current.id}
                           as={motion.li}
                           variants={DROPUP_MENU_ITEM_VARIANTS}
-                          className="w-full h-14 p-1 flex items-center justify-between gap-2 overflow-hidden odd:bg-zinc-800/30 even:bg-zinc-950/30 cursor-pointer text-start border border-transparent"
+                          className="w-full min-h-14 h-14 p-1 flex items-center justify-between gap-2 overflow-hidden odd:bg-zinc-800/30 even:bg-zinc-950/30 cursor-pointer text-start border border-transparent"
                         >
                           <img
                             src={
