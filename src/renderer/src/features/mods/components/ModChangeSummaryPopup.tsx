@@ -2,21 +2,11 @@ import { useTranslation } from "react-i18next"
 import { FiExternalLink } from "react-icons/fi"
 import { PiArrowRightDuotone, PiCheckCircleDuotone, PiMinusCircleDuotone } from "react-icons/pi"
 
+import { compareVersions } from "@renderer/utils/semver"
 import { TableBody, TableBodyRow, TableCell, TableHead, TableHeadRow, TableWrapper } from "@renderer/components/ui/Table"
 import PopupDialogPanel from "@renderer/components/ui/PopupDialogPanel"
 import { FormButton } from "@renderer/components/ui/FormComponents"
 import { NormalButton } from "@renderer/components/ui/Buttons"
-
-function compareVersions(a: string, b: string): number {
-  const parts = (v: string) => v.split("-")[0].split(".").map(Number)
-  const ap = parts(a)
-  const bp = parts(b)
-  for (let i = 0; i < Math.max(ap.length, bp.length); i++) {
-    const diff = (ap[i] ?? 0) - (bp[i] ?? 0)
-    if (diff !== 0) return diff
-  }
-  return 0
-}
 
 function toVersionColor(entry: ModChangeSummaryEntry): string {
   if (!entry.toVersion) return "text-red-400"

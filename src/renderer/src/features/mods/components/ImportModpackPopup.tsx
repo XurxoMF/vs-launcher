@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
-import { PiCheckCircleDuotone, PiProhibitInsetDuotone, PiDownloadDuotone, PiMinusCircleDuotone } from "react-icons/pi"
+import { useNavigate } from "react-router-dom"
+import { PiCheckCircleDuotone, PiProhibitInsetDuotone, PiDownloadDuotone, PiMinusCircleDuotone, PiWarningDuotone } from "react-icons/pi"
 import { FiLoader } from "react-icons/fi"
 import clsx from "clsx"
 
+import { compareVersions } from "@renderer/utils/semver"
 import { useTaskContext } from "@renderer/contexts/TaskManagerContext"
 import { useQueryMod } from "../hooks/useQueryMod"
 
@@ -30,6 +32,7 @@ function ImportModpackPopup({
   onFinish: () => void
 }): JSX.Element {
   const { t } = useTranslation()
+  const navigate = useNavigate()
 
   const { startDownload } = useTaskContext()
   const queryMod = useQueryMod()
@@ -38,6 +41,14 @@ function ImportModpackPopup({
   const [importing, setImporting] = useState(false)
   const [summaryEntries, setSummaryEntries] = useState<ModChangeSummaryEntry[]>([])
   const [showSummary, setShowSummary] = useState(false)
+
+  const downgradedMods = useMemo(() => {
+    if (!manifest) return []
+    return manifest.mods.filter((entry) => {
+      const existing = installedMods.find((m) => m.modid === entry.modid)
+      return existing && compareVersions(entry.version, existing.version) < 0
+    })
+  }, [manifest, installedMods])
 
   function updateStatus(modid: string, status: ModStatus): void {
     setModStatuses((prev) => ({ ...prev, [modid]: status }))
@@ -158,6 +169,24 @@ function ImportModpackPopup({
               <p className="text-yellow-400 text-sm">
                 {t("features.mods.importModpackVersionWarning", { packVersion: manifest.gameVersion, installVersion: installation.version })}
               </p>
+            )}
+
+            {downgradedMods.length > 0 && (
+              <div className="flex items-center justify-between gap-4 rounded-sm bg-orange-500/10 border border-orange-500/30 px-3 py-2 text-sm text-orange-300">
+                <span className="flex items-center gap-2">
+                  <PiWarningDuotone className="text-lg shrink-0" />
+                  {t("features.mods.importModpackDowngradeWarning", { count: downgradedMods.length })}
+                </span>
+                <button
+                  className="shrink-0 underline hover:text-orange-200 duration-150"
+                  onClick={() => {
+                    handleClose()
+                    navigate(`/installations/backups/${installation.id}`)
+                  }}
+                >
+                  {t("features.mods.importModpackDowngradeBackupLink")}
+                </button>
+              </div>
             )}
 
             <TableWrapper className="w-[40rem]">
