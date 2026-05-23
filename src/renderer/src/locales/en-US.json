@@ -224,6 +224,7 @@
       "importModpackStatusDone": "Installed",
       "importModpackStatusFailed": "Failed",
       "importModpackAlreadyPresent": "Already installed",
+      "importModpackProgress": "{{completed}} / {{total}} mods",
       "importModpackDowngradeWarning": "{{count}} mod(s) will be downgraded. Consider taking a backup first.",
       "importModpackDowngradeBackupLink": "Take a backup",
       "importSummaryTitle": "Modpack Import Summary",

@@ -50,6 +50,13 @@ function ImportModpackPopup({
     })
   }, [manifest, installedMods])
 
+  const completedCount = useMemo(() => {
+    return Object.values(modStatuses).filter((s) => s !== "pending" && s !== "downloading").length
+  }, [modStatuses])
+
+  const totalCount = manifest?.mods.length ?? 0
+  const progressPct = totalCount > 0 ? (completedCount / totalCount) * 100 : 0
+
   function updateStatus(modid: string, status: ModStatus): void {
     setModStatuses((prev) => ({ ...prev, [modid]: status }))
   }
@@ -216,6 +223,18 @@ function ImportModpackPopup({
                 })}
               </TableBody>
             </TableWrapper>
+
+            {importing && (
+              <div className="flex flex-col gap-1">
+                <div className="flex justify-between text-xs text-zinc-400">
+                  <span>{t("features.mods.importModpackProgress", { completed: completedCount, total: totalCount })}</span>
+                  <span>{Math.round(progressPct)}%</span>
+                </div>
+                <div className="w-full h-1.5 rounded-full bg-zinc-700/50">
+                  <div className="h-full rounded-full bg-vs transition-all duration-300" style={{ width: `${progressPct}%` }} />
+                </div>
+              </div>
+            )}
 
             <div className="flex gap-2 justify-center">
               {!importing ? (
