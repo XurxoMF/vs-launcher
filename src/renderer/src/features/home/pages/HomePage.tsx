@@ -10,7 +10,7 @@ function HomePage(): JSX.Element {
       <p className="text-lg">{t("features.home.description")}</p>
 
       <iframe
-        src="https://www.youtube.com/embed/wsyy8pziGLI?si=S1TlAWsMNpjGRyjr"
+        src="https://www.youtube.com/embed/mgvzBB_--xM"
         title="Promotional Video"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         referrerPolicy="strict-origin-when-cross-origin"
