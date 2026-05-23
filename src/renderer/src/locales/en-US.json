@@ -80,7 +80,8 @@
     },
     "home": {
       "title": "Welcome to VS Launcher",
-      "description": "The unofficial Vintage Story Launcher with (almost) all the features you need."
+      "description": "The unofficial Vintage Story Launcher with (almost) all the features you need.",
+      "watchTrailer": "Watch the latest trailer on YouTube"
     },
     "versions": {
       "uninstallVersion": "Uninstall VS Version",
