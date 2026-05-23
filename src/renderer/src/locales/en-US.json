@@ -223,10 +223,12 @@
       "importModpackStatusDownloading": "Downloading",
       "importModpackStatusDone": "Installed",
       "importModpackStatusFailed": "Failed",
+      "importModpackAlreadyPresent": "Already installed",
       "importSummaryTitle": "Modpack Import Summary",
       "updateSummaryTitle": "Mod Update Summary",
       "summaryNew": "New",
       "summaryFailed": "Failed",
+      "summaryAlreadyPresent": "Already installed",
       "summaryClose": "Done"
     },
     "config": {

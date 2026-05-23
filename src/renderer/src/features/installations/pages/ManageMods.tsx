@@ -482,6 +482,7 @@ function ListMods(): JSX.Element {
                     manifest={importManifest}
                     close={() => setImportManifest(null)}
                     installation={installation}
+                    installedMods={installedMods}
                     onFinish={() => {
                       setImportManifest(null)
                       triggerGetCompleteInstalledMods()

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next"
-import { PiCheckCircleDuotone, PiProhibitInsetDuotone, PiDownloadDuotone } from "react-icons/pi"
+import { PiCheckCircleDuotone, PiProhibitInsetDuotone, PiDownloadDuotone, PiMinusCircleDuotone } from "react-icons/pi"
 import { FiLoader } from "react-icons/fi"
 import clsx from "clsx"
 
@@ -12,19 +12,21 @@ import PopupDialogPanel from "@renderer/components/ui/PopupDialogPanel"
 import { FormButton } from "@renderer/components/ui/FormComponents"
 import ModChangeSummaryPopup from "./ModChangeSummaryPopup"
 
-type ModStatus = "pending" | "downloading" | "done" | "failed" | "not-found" | "no-release"
+type ModStatus = "pending" | "downloading" | "done" | "failed" | "not-found" | "no-release" | "already-present"
 
 function ImportModpackPopup({
   isOpen,
   manifest,
   close,
   installation,
+  installedMods,
   onFinish
 }: {
   isOpen: boolean
   manifest: ModpackManifestType | null
   close: () => void
   installation: InstallationType
+  installedMods: InstalledModType[]
   onFinish: () => void
 }): JSX.Element {
   const { t } = useTranslation()
@@ -60,11 +62,19 @@ function ImportModpackPopup({
     for (const entry of manifest.mods) {
       updateStatus(entry.modid, "downloading")
 
+      const existingMod = installedMods.find((m) => m.modid === entry.modid)
+
+      if (existingMod && existingMod.version === entry.version) {
+        updateStatus(entry.modid, "already-present")
+        collected.push({ name: existingMod.name, modid: entry.modid, fromVersion: existingMod.version, toVersion: existingMod.version, assetid: existingMod._mod?.assetid, alreadyPresent: true })
+        continue
+      }
+
       const mod = await queryMod({ modid: entry.modid })
 
       if (!mod) {
         updateStatus(entry.modid, "not-found")
-        collected.push({ name: entry.modid, modid: entry.modid, fromVersion: null, toVersion: null })
+        collected.push({ name: entry.modid, modid: entry.modid, fromVersion: existingMod?.version ?? null, toVersion: null })
         continue
       }
 
@@ -74,8 +84,12 @@ function ImportModpackPopup({
 
       if (!release) {
         updateStatus(entry.modid, "no-release")
-        collected.push({ name: mod.name, modid: entry.modid, fromVersion: null, toVersion: null, assetid: mod.assetid })
+        collected.push({ name: mod.name, modid: entry.modid, fromVersion: existingMod?.version ?? null, toVersion: null, assetid: mod.assetid })
         continue
+      }
+
+      if (existingMod) {
+        await window.api.pathsManager.deletePath(existingMod.path)
       }
 
       const installPath = await window.api.pathsManager.formatPath([installation.path, "Mods"])
@@ -90,7 +104,7 @@ function ImportModpackPopup({
           `${release.modidstr}-${release.modversion}`,
           (status) => {
             updateStatus(entry.modid, status ? "done" : "failed")
-            collected.push({ name: mod.name, modid: entry.modid, fromVersion: null, toVersion: status ? release.modversion : null, assetid: mod.assetid })
+            collected.push({ name: mod.name, modid: entry.modid, fromVersion: existingMod?.version ?? null, toVersion: status ? release.modversion : null, assetid: mod.assetid })
             resolve()
           }
         )
@@ -204,6 +218,8 @@ function StatusIcon({ status }: { status: ModStatus }): JSX.Element {
   switch (status) {
     case "done":
       return <PiCheckCircleDuotone />
+    case "already-present":
+      return <PiMinusCircleDuotone />
     case "downloading":
       return <FiLoader className="animate-spin" />
     case "failed":
@@ -219,6 +235,8 @@ function statusColor(status: ModStatus): string {
   switch (status) {
     case "done":
       return "text-green-400"
+    case "already-present":
+      return "text-zinc-400"
     case "downloading":
       return "text-blue-400"
     case "failed":
@@ -226,7 +244,7 @@ function statusColor(status: ModStatus): string {
     case "no-release":
       return "text-red-400"
     default:
-      return "text-zinc-400"
+      return "text-zinc-500"
   }
 }
 
@@ -234,6 +252,8 @@ function statusLabel(status: ModStatus, t: (key: string) => string): string {
   switch (status) {
     case "done":
       return t("features.mods.importModpackStatusDone")
+    case "already-present":
+      return t("features.mods.importModpackAlreadyPresent")
     case "downloading":
       return t("features.mods.importModpackStatusDownloading")
     case "failed":

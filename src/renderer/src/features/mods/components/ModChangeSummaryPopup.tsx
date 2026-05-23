@@ -1,11 +1,28 @@
 import { useTranslation } from "react-i18next"
 import { FiExternalLink } from "react-icons/fi"
-import { PiArrowRightDuotone, PiCheckCircleDuotone } from "react-icons/pi"
+import { PiArrowRightDuotone, PiCheckCircleDuotone, PiMinusCircleDuotone } from "react-icons/pi"
 
 import { TableBody, TableBodyRow, TableCell, TableHead, TableHeadRow, TableWrapper } from "@renderer/components/ui/Table"
 import PopupDialogPanel from "@renderer/components/ui/PopupDialogPanel"
 import { FormButton } from "@renderer/components/ui/FormComponents"
 import { NormalButton } from "@renderer/components/ui/Buttons"
+
+function compareVersions(a: string, b: string): number {
+  const parts = (v: string) => v.split("-")[0].split(".").map(Number)
+  const ap = parts(a)
+  const bp = parts(b)
+  for (let i = 0; i < Math.max(ap.length, bp.length); i++) {
+    const diff = (ap[i] ?? 0) - (bp[i] ?? 0)
+    if (diff !== 0) return diff
+  }
+  return 0
+}
+
+function toVersionColor(entry: ModChangeSummaryEntry): string {
+  if (!entry.toVersion) return "text-red-400"
+  if (entry.fromVersion && compareVersions(entry.toVersion, entry.fromVersion) < 0) return "text-orange-400"
+  return "text-green-400"
+}
 
 function ModChangeSummaryPopup({
   isOpen,
@@ -36,11 +53,18 @@ function ModChangeSummaryPopup({
               <TableBodyRow key={entry.modid}>
                 <TableCell className="w-5/12 overflow-hidden whitespace-nowrap text-ellipsis">{entry.name}</TableCell>
                 <TableCell className="w-5/12">
-                  <span className="flex items-center gap-1 text-sm">
-                    <span className="text-zinc-400">{entry.fromVersion ? `v${entry.fromVersion}` : t("features.mods.summaryNew")}</span>
-                    <PiArrowRightDuotone className="text-zinc-500 shrink-0" />
-                    <span className={entry.toVersion ? "text-green-400" : "text-red-400"}>{entry.toVersion ? `v${entry.toVersion}` : t("features.mods.summaryFailed")}</span>
-                  </span>
+                  {entry.alreadyPresent ? (
+                    <span className="flex items-center gap-1 text-sm text-zinc-500">
+                      <PiMinusCircleDuotone className="shrink-0" />
+                      v{entry.toVersion} · {t("features.mods.summaryAlreadyPresent")}
+                    </span>
+                  ) : (
+                    <span className="flex items-center gap-1 text-sm">
+                      <span className="text-zinc-400">{entry.fromVersion ? `v${entry.fromVersion}` : t("features.mods.summaryNew")}</span>
+                      <PiArrowRightDuotone className="text-zinc-500 shrink-0" />
+                      <span className={toVersionColor(entry)}>{entry.toVersion ? `v${entry.toVersion}` : t("features.mods.summaryFailed")}</span>
+                    </span>
+                  )}
                 </TableCell>
                 <TableCell className="w-2/12 flex justify-center">
                   {entry.assetid && (

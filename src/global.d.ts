@@ -208,6 +208,7 @@ declare global {
     fromVersion: string | null
     toVersion: string | null
     assetid?: number
+    alreadyPresent?: boolean
   }
 
   declare module "*.png" {
