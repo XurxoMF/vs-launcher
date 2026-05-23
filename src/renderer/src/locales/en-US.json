@@ -207,6 +207,8 @@
       "modsUpdatedSuccessfully": "All the Mods were updated successfully!",
       "exportModpack": "Export the installed Mods as a sharable modpack file",
       "exportModpackButton": "Export Modpack",
+      "exportServerModpack": "Export only server-side and universal mods as a modpack file",
+      "exportServerModpackButton": "Export Server Modpack",
       "exportModpackSuccess": "Modpack exported successfully!",
       "exportModpackError": "An error has occurred exporting the modpack!",
       "importModpack": "Import a modpack file to install all its Mods",

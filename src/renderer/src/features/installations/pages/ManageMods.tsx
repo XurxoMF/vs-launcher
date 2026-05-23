@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { useParams } from "react-router-dom"
 import { Trans, useTranslation } from "react-i18next"
-import { PiArrowClockwiseDuotone, PiFolderOpenDuotone, PiTrashDuotone, PiXCircleDuotone, PiBoxArrowUpDuotone, PiBoxArrowDownDuotone } from "react-icons/pi"
+import { PiArrowClockwiseDuotone, PiFolderOpenDuotone, PiTrashDuotone, PiXCircleDuotone, PiBoxArrowUpDuotone, PiBoxArrowDownDuotone, PiDesktopTowerDuotone } from "react-icons/pi"
 import { FiExternalLink, FiLoader } from "react-icons/fi"
 import clsx from "clsx"
 
@@ -22,6 +22,11 @@ import { LinkButton, NormalButton } from "@renderer/components/ui/Buttons"
 import { FormButton } from "@renderer/components/ui/FormComponents"
 import { ThinSeparator } from "@renderer/components/ui/ListSeparators"
 import { StickyMenuWrapper, StickyMenuGroupWrapper, StickyMenuGroup, StickyMenuBreadcrumbs, GoBackButton, GoToTopButton, ReloadButton } from "@renderer/components/ui/StickyMenu"
+
+function isServerMod(side: string | undefined): boolean {
+  if (!side) return true
+  return !side.toLowerCase().startsWith("client")
+}
 
 function ListMods(): JSX.Element {
   const { t } = useTranslation()
@@ -187,6 +192,16 @@ function ListMods(): JSX.Element {
                 >
                   <PiBoxArrowUpDuotone className="text-xl" />
                   <p>{t("features.mods.exportModpackButton")}</p>
+                </FormButton>
+
+                <FormButton
+                  title={t("features.mods.exportServerModpack")}
+                  className="p-1 w-fit h-8"
+                  onClick={() => exportModpack({ installedMods: installedMods.filter((m) => isServerMod(m.side)), installation: { ...installation, name: `${installation.name} (Server)` } })}
+                  disabled={installedMods.length === 0}
+                >
+                  <PiDesktopTowerDuotone className="text-xl" />
+                  <p>{t("features.mods.exportServerModpackButton")}</p>
                 </FormButton>
 
                 <FormButton
