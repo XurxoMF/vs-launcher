@@ -10,6 +10,7 @@ import { useQueryMod } from "../hooks/useQueryMod"
 import { TableBody, TableBodyRow, TableCell, TableHead, TableHeadRow, TableWrapper } from "@renderer/components/ui/Table"
 import PopupDialogPanel from "@renderer/components/ui/PopupDialogPanel"
 import { FormButton } from "@renderer/components/ui/FormComponents"
+import ModChangeSummaryPopup from "./ModChangeSummaryPopup"
 
 type ModStatus = "pending" | "downloading" | "done" | "failed" | "not-found" | "no-release"
 
@@ -33,6 +34,8 @@ function ImportModpackPopup({
 
   const [modStatuses, setModStatuses] = useState<Record<string, ModStatus>>({})
   const [importing, setImporting] = useState(false)
+  const [summaryEntries, setSummaryEntries] = useState<ModChangeSummaryEntry[]>([])
+  const [showSummary, setShowSummary] = useState(false)
 
   function updateStatus(modid: string, status: ModStatus): void {
     setModStatuses((prev) => ({ ...prev, [modid]: status }))
@@ -52,6 +55,7 @@ function ImportModpackPopup({
     setImporting(true)
 
     const versionPrefix = installation.version.split(".").slice(0, 2).join(".")
+    const collected: ModChangeSummaryEntry[] = []
 
     for (const entry of manifest.mods) {
       updateStatus(entry.modid, "downloading")
@@ -60,6 +64,7 @@ function ImportModpackPopup({
 
       if (!mod) {
         updateStatus(entry.modid, "not-found")
+        collected.push({ name: entry.modid, modid: entry.modid, fromVersion: null, toVersion: null })
         continue
       }
 
@@ -69,6 +74,7 @@ function ImportModpackPopup({
 
       if (!release) {
         updateStatus(entry.modid, "no-release")
+        collected.push({ name: mod.name, modid: entry.modid, fromVersion: null, toVersion: null, assetid: mod.assetid })
         continue
       }
 
@@ -84,6 +90,7 @@ function ImportModpackPopup({
           `${release.modidstr}-${release.modversion}`,
           (status) => {
             updateStatus(entry.modid, status ? "done" : "failed")
+            collected.push({ name: mod.name, modid: entry.modid, fromVersion: null, toVersion: status ? release.modversion : null, assetid: mod.assetid })
             resolve()
           }
         )
@@ -91,21 +98,40 @@ function ImportModpackPopup({
     }
 
     setImporting(false)
-    onFinish()
+    setSummaryEntries(collected)
+    setShowSummary(true)
   }
 
   function handleClose(): void {
     if (importing) return
     setModStatuses({})
     setImporting(false)
+    setSummaryEntries([])
+    setShowSummary(false)
     close()
   }
 
   useEffect(() => {
     if (manifest) {
       setModStatuses(getInitialStatuses(manifest.mods))
+      setSummaryEntries([])
+      setShowSummary(false)
     }
   }, [manifest])
+
+  if (showSummary) {
+    return (
+      <ModChangeSummaryPopup
+        isOpen={isOpen}
+        close={() => {
+          handleClose()
+          onFinish()
+        }}
+        title={t("features.mods.importSummaryTitle")}
+        entries={summaryEntries}
+      />
+    )
+  }
 
   return (
     <PopupDialogPanel title={t("features.mods.importModpackTitle")} isOpen={isOpen} close={handleClose} fixedWidth={false}>

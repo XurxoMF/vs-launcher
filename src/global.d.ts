@@ -202,6 +202,14 @@ declare global {
     mods: ModpackModEntryType[]
   }
 
+  type ModChangeSummaryEntry = {
+    name: string
+    modid: string
+    fromVersion: string | null
+    toVersion: string | null
+    assetid?: number
+  }
+
   declare module "*.png" {
     const value: string
     export default value

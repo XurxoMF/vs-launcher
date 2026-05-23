@@ -221,7 +221,12 @@
       "importModpackStatusPending": "Pending",
       "importModpackStatusDownloading": "Downloading",
       "importModpackStatusDone": "Installed",
-      "importModpackStatusFailed": "Failed"
+      "importModpackStatusFailed": "Failed",
+      "importSummaryTitle": "Modpack Import Summary",
+      "updateSummaryTitle": "Mod Update Summary",
+      "summaryNew": "New",
+      "summaryFailed": "Failed",
+      "summaryClose": "Done"
     },
     "config": {
       "defaultInstallationsFolder": "Installations folder",

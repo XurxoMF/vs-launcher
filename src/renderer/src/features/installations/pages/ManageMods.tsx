@@ -13,6 +13,7 @@ import { useGetCompleteInstalledMods } from "@renderer/features/mods/hooks/useGe
 import { useExportModpack } from "@renderer/features/mods/hooks/useExportModpack"
 
 import { ListGroup, ListItem, ListWrapper } from "@renderer/components/ui/List"
+import ModChangeSummaryPopup from "@renderer/features/mods/components/ModChangeSummaryPopup"
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
 import PopupDialogPanel from "@renderer/components/ui/PopupDialogPanel"
 import InstallModPopup from "@renderer/features/mods/components/InstallModPopup"
@@ -41,6 +42,8 @@ function ListMods(): JSX.Element {
   const [modToDelete, setModToDelete] = useState<InstalledModType | ErrorInstalledModType | null>(null)
   const [modToUpdate, setModToUpdate] = useState<InstalledModType | null>(null)
   const [importManifest, setImportManifest] = useState<ModpackManifestType | null>(null)
+  const [updateSummaryEntries, setUpdateSummaryEntries] = useState<ModChangeSummaryEntry[]>([])
+  const [showUpdateSummary, setShowUpdateSummary] = useState(false)
 
   const [gettingMods, setGettingMods] = useState<boolean>(false)
 
@@ -94,6 +97,8 @@ function ListMods(): JSX.Element {
 
     if (installation._backuping || installation._restoringBackup) return addNotification(t("features.mods.cantUpdateWhileinUse"), "error")
 
+    const collected: ModChangeSummaryEntry[] = []
+
     try {
       configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id: installation.id, updates: { _updatingMods: true } } })
 
@@ -104,6 +109,7 @@ function ListMods(): JSX.Element {
           if (!modToUpdate._mod) {
             window.api.utils.logMessage("error", "[front] [ManageInstallationMods] [features/installations/pages/ManageMods.tsx] [UpdateModsHandler] The mod could not be queried from the ModDB API!")
             addNotification(t("features.mods.errorUpdatingMod", { mod: modToUpdate.name }), "error")
+            collected.push({ name: modToUpdate.name, modid: modToUpdate.modid, fromVersion: modToUpdate.version, toVersion: null })
             return resolve()
           }
 
@@ -115,8 +121,11 @@ function ListMods(): JSX.Element {
               "[front] [ManageInstallationMods] [features/installations/pages/ManageMods.tsx] [UpdateModsHandler] The mod release could not be found on the queried Mod!"
             )
             addNotification(t("features.mods.errorUpdatingMod", { mod: modToUpdate.name }), "error")
+            collected.push({ name: modToUpdate.name, modid: modToUpdate.modid, fromVersion: modToUpdate.version, toVersion: null, assetid: modToUpdate._mod.assetid })
             return resolve()
           }
+
+          collected.push({ name: modToUpdate.name, modid: modToUpdate.modid, fromVersion: modToUpdate.version, toVersion: release.modversion, assetid: modToUpdate._mod.assetid })
 
           installMod({
             path: installation.path,
@@ -130,6 +139,8 @@ function ListMods(): JSX.Element {
       })
 
       await Promise.all(updated)
+      setUpdateSummaryEntries(collected)
+      setShowUpdateSummary(true)
     } catch (err) {
       addNotification(t("features.mods.errorUpdatingMods"), "error")
     } finally {
@@ -475,6 +486,17 @@ function ListMods(): JSX.Element {
                       setImportManifest(null)
                       triggerGetCompleteInstalledMods()
                     }}
+                  />
+
+                  <ModChangeSummaryPopup
+                    isOpen={showUpdateSummary}
+                    close={() => {
+                      setShowUpdateSummary(false)
+                      setUpdateSummaryEntries([])
+                      triggerGetCompleteInstalledMods()
+                    }}
+                    title={t("features.mods.updateSummaryTitle")}
+                    entries={updateSummaryEntries}
                   />
 
                   <PopupDialogPanel title={t("features.mods.deleteMod")} isOpen={modToDelete !== null} close={() => setModToDelete(null)}>
