@@ -11,6 +11,7 @@ files:
   - "!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}"
 asarUnpack:
   - resources/**
+  - node_modules/7zip-bin/**
 win:
   executableName: VS Launcher
   icon: resources/icon.ico
