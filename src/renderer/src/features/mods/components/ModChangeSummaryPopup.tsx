@@ -39,7 +39,7 @@ function ModChangeSummaryPopup({
             </TableHeadRow>
           </TableHead>
           <TableBody className="max-h-[20rem]">
-            {entries.map((entry) => (
+            {[...entries].sort((a, b) => a.name.localeCompare(b.name)).map((entry) => (
               <TableBodyRow key={entry.modid}>
                 <TableCell className="w-5/12 overflow-hidden whitespace-nowrap text-ellipsis">{entry.name}</TableCell>
                 <TableCell className="w-5/12">
