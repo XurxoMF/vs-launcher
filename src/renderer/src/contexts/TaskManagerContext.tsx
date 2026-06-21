@@ -74,6 +74,15 @@ export interface TaskContextType {
     deleteZip: boolean,
     onFinish: (status: boolean, error: Error | null) => void
   ): Promise<void>
+  startInstall(
+    name: string,
+    desc: string,
+    notifications: "all" | "start" | "end" | "none",
+    filePath: string,
+    outputPath: string,
+    deleteInstaller: boolean,
+    onFinish: (status: boolean, error: Error | null) => void
+  ): Promise<void>
   startCompress(
     name: string,
     desc: string,
@@ -187,6 +196,42 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }): JSX.E
     }
   }
 
+  async function startInstall(
+    name: string,
+    desc: string,
+    notifications: "all" | "start" | "end" | "none",
+    filePath: string,
+    outputPath: string,
+    deleteInstaller: boolean,
+    onFinish: (status: boolean, error: Error | null) => void
+  ): Promise<void> {
+    const id = uuidv4()
+
+    try {
+      window.api.utils.setPreventAppClose("add", id, "Started installation.")
+      window.api.utils.logMessage("info", `[front] [tasks] [contexts/TaskManagercontext.tsx] [TaskProvider > startInstall] [${id}] [${filePath}] Adding installation of ${filePath} to ${outputPath}.`)
+      tasksDispatch({ type: ACTIONS.ADD_TASK, payload: { id, name, desc, type: "extract", progress: 0, status: "pending" } })
+
+      window.api.utils.logMessage("info", `[front] [tasks] [contexts/TaskManagercontext.tsx] [TaskProvider > startInstall] [${id}] [${filePath}] Installing...`)
+      if (notifications === "all" || notifications === "start") addNotification(t("notifications.body.extracting", { extractName: name }), "info")
+      const result = await window.api.pathsManager.runInstaller(id, filePath, outputPath, deleteInstaller)
+
+      if (!result) throw new Error("Installation failed")
+
+      window.api.utils.logMessage("info", `[front] [tasks] [contexts/TaskManagercontext.tsx] [TaskProvider > startInstall] [${id}] [${filePath}] Installed.`)
+      if (notifications === "all" || notifications === "end") addNotification(t("notifications.body.extracted", { extractName: name }), "success")
+      onFinish(true, null)
+    } catch (err) {
+      window.api.utils.logMessage("error", `[front] [tasks] [contexts/TaskManagercontext.tsx] [TaskProvider > startInstall] [${id}] [${filePath}] Error installing.`)
+      window.api.utils.logMessage("debug", `[front] [tasks] [contexts/TaskManagercontext.tsx] [TaskProvider > startInstall] [${id}] [${filePath}] Error installing: ${err}`)
+      tasksDispatch({ type: ACTIONS.UPDATE_TASK, payload: { id, updates: { status: "failed" } } })
+      addNotification(t("notifications.body.extractError", { extractName: name }), "error")
+      onFinish(false, new Error(`Error installing ${filePath}: ${err}`))
+    } finally {
+      window.api.utils.setPreventAppClose("remove", id, "Finished installation.")
+    }
+  }
+
   async function startCompress(
     name: string,
     desc: string,
@@ -228,7 +273,7 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }): JSX.E
     tasksDispatch({ type: ACTIONS.REMOVE_TASK, payload: { id } })
   }
 
-  return <TaskContext.Provider value={{ tasks, startDownload, startExtract, startCompress, removeTask }}>{children}</TaskContext.Provider>
+  return <TaskContext.Provider value={{ tasks, startDownload, startExtract, startInstall, startCompress, removeTask }}>{children}</TaskContext.Provider>
 }
 
 export const useTaskContext = (): TaskContextType => {

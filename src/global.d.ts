@@ -162,9 +162,9 @@ declare global {
   type DownloadableGameVersionTypeType = {
     version: string
     type: "stable" | "rc" | "pre"
-    releaseDate: string
     windows: string
     linux: string
+    mac: string
   }
 
   type DownloadableModAuthorType = {

@@ -33,6 +33,7 @@ export const IPC_CHANNELS = {
     OPEN_PATH_ON_FILE_EXPLORER: "open-path-on-file-explorer",
     DOWNLOAD_ON_PATH: "download-on-path",
     EXTRACT_ON_PATH: "extract-on-path",
+    RUN_INSTALLER: "run-installer",
     COMPRESS_ON_PATH: "compress-on-path",
     DOWNLOAD_PROGRESS: "download-progress",
     EXTRACT_PROGRESS: "extract-progress",
