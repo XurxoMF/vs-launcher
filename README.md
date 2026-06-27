@@ -1,3 +1,9 @@
+> [!WARN]
+> VS Launcher will not be updated anymore! It'll abandoned in favor of a new improved version that's under development.
+> The new launcher has no ETA sadly. I'm trying to finish it asap but it'll take time, I've a few hours a week to work on it.
+> If you have any issue join our Discord and ask anything you need there, we'll help you if we can.
+> This repo is now archived to avoid getting PRs that will remain open forever.
+
 # Welcome to VS Launcher
 
 ## What's VS Launcher?
