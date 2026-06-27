@@ -1,4 +1,5 @@
 import { ipcMain, app, shell } from "electron"
+import { path7za } from "7zip-bin"
 import fse from "fs-extra"
 import { join, sep } from "path"
 import os from "os"
@@ -12,6 +13,8 @@ import compressWorker from "@src/ipc/workers/compressWorker?modulePath"
 import extractWorker from "@src/ipc/workers/extractWorker?modulePath"
 import changePermsWorker from "@src/ipc/workers/changePermsWorker?modulePath"
 import downloadWorkerPath from "@src/ipc/workers/downloadWorker?modulePath"
+
+const sevenZipBin = app.isPackaged ? path7za.replace("app.asar", "app.asar.unpacked") : path7za
 
 ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.GET_CURRENT_USER_DATA_PATH, (): string => {
   return app.getPath("appData")
@@ -102,7 +105,7 @@ ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.EXTRACT_ON_PATH, async (event, id: str
     logMessage("info", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [EXTRACT_ON_PATH] [${id}] [${filePath}] Extracting to ${outputPath}.`)
 
     const worker = new Worker(extractWorker, {
-      workerData: { filePath, outputPath, deleteZip }
+      workerData: { filePath, outputPath, deleteZip, sevenZipBin }
     })
 
     worker.on("message", (message) => {
@@ -170,7 +173,7 @@ ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.RUN_INSTALLER, (event, id: string, fil
   })
 })
 
-ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.COMPRESS_ON_PATH, async (event, id: string, inputPath: string, outputPath: string, outputFileName: string, compressionLevel: number = 6) => {
+ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.COMPRESS_ON_PATH, async (event, id: string, inputPath: string, outputPath: string, outputFileName: string, compressionLevel: number = 4) => {
   return new Promise((resolve, reject) => {
     logMessage(
       "info",
@@ -178,7 +181,7 @@ ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.COMPRESS_ON_PATH, async (event, id: st
     )
 
     const worker = new Worker(compressWorker, {
-      workerData: { inputPath, outputPath, outputFileName, compressionLevel }
+      workerData: { inputPath, outputPath, outputFileName, compressionLevel, sevenZipBin }
     })
 
     worker.on("message", (message) => {
