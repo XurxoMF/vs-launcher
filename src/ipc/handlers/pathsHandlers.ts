@@ -4,6 +4,7 @@ import fse from "fs-extra"
 import { join, sep } from "path"
 import os from "os"
 import { Worker } from "worker_threads"
+import { spawn } from "child_process"
 
 import { logMessage } from "@src/utils/logManager"
 import { IPC_CHANNELS } from "@src/ipc/ipcChannels"
@@ -131,6 +132,43 @@ ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.EXTRACT_ON_PATH, async (event, id: str
         logMessage("debug", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [EXTRACT_ON_PATH] [${id}] [${filePath}] Worker exited with errors. Code ${code}`)
         reject(new Error(`Worker stopped with exit code ${code}`))
       }
+    })
+  })
+})
+
+ipcMain.handle(IPC_CHANNELS.PATHS_MANAGER.RUN_INSTALLER, (event, id: string, filePath: string, outputPath: string, deleteInstaller: boolean): Promise<boolean> => {
+  return new Promise((resolve) => {
+    // ponytail: Windows-only. The official VS download is an Inno Setup installer (no portable zip exists,
+    // and no released tool can crack current Inno Setup), so we run it silently into the version folder.
+    // /CURRENTUSER keeps it UAC-free; /DIR drops the game straight into outputPath.
+    logMessage("info", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [RUN_INSTALLER] [${id}] Installing ${filePath} to ${outputPath}.`)
+
+    // downloadWorker always names the downloaded file .zip; Windows won't execute it unless it ends in .exe.
+    let exePath = filePath
+    if (!filePath.toLowerCase().endsWith(".exe")) {
+      exePath = filePath.replace(/\.[^.]+$/, "") + ".exe"
+      fse.renameSync(filePath, exePath)
+    }
+
+    event.sender.send(IPC_CHANNELS.PATHS_MANAGER.EXTRACT_PROGRESS, id, 0)
+
+    const installer = spawn(exePath, ["/VERYSILENT", "/SUPPRESSMSGBOXES", "/NORESTART", "/CURRENTUSER", "/NOICONS", `/DIR=${outputPath}`], { windowsHide: true })
+
+    installer.on("error", (err) => {
+      logMessage("error", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [RUN_INSTALLER] [${id}] Error launching installer.`)
+      logMessage("debug", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [RUN_INSTALLER] [${id}] Error launching installer: ${err}`)
+      resolve(false)
+    })
+
+    installer.on("close", (code) => {
+      if (deleteInstaller) fse.remove(exePath).catch(() => {})
+      if (code !== 0) {
+        logMessage("error", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [RUN_INSTALLER] [${id}] Installer exited with code ${code}.`)
+        return resolve(false)
+      }
+      logMessage("info", `[back] [ipc] [ipc/handlers/pathsHandlers.ts] [RUN_INSTALLER] [${id}] Installation finished.`)
+      event.sender.send(IPC_CHANNELS.PATHS_MANAGER.EXTRACT_PROGRESS, id, 100)
+      resolve(true)
     })
   })
 })

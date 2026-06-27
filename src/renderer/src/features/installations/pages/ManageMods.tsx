@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { useParams } from "react-router-dom"
 import { Trans, useTranslation } from "react-i18next"
-import { PiArrowClockwiseDuotone, PiFolderOpenDuotone, PiTrashDuotone, PiXCircleDuotone } from "react-icons/pi"
+import { PiArrowClockwiseDuotone, PiFolderOpenDuotone, PiTrashDuotone, PiXCircleDuotone, PiBoxArrowUpDuotone, PiBoxArrowDownDuotone, PiDesktopTowerDuotone } from "react-icons/pi"
 import { FiExternalLink, FiLoader } from "react-icons/fi"
 import clsx from "clsx"
 
@@ -10,15 +10,23 @@ import { useNotificationsContext } from "@renderer/contexts/NotificationsContext
 import { useInstallMod } from "@renderer/features/mods/hooks/useInstallMod"
 
 import { useGetCompleteInstalledMods } from "@renderer/features/mods/hooks/useGetCompleteInstalledMods"
+import { useExportModpack } from "@renderer/features/mods/hooks/useExportModpack"
 
 import { ListGroup, ListItem, ListWrapper } from "@renderer/components/ui/List"
+import ModChangeSummaryPopup from "@renderer/features/mods/components/ModChangeSummaryPopup"
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
 import PopupDialogPanel from "@renderer/components/ui/PopupDialogPanel"
 import InstallModPopup from "@renderer/features/mods/components/InstallModPopup"
+import ImportModpackPopup from "@renderer/features/mods/components/ImportModpackPopup"
 import { LinkButton, NormalButton } from "@renderer/components/ui/Buttons"
 import { FormButton } from "@renderer/components/ui/FormComponents"
 import { ThinSeparator } from "@renderer/components/ui/ListSeparators"
 import { StickyMenuWrapper, StickyMenuGroupWrapper, StickyMenuGroup, StickyMenuBreadcrumbs, GoBackButton, GoToTopButton, ReloadButton } from "@renderer/components/ui/StickyMenu"
+
+function isServerMod(side: string | undefined): boolean {
+  if (!side) return true
+  return !side.toLowerCase().startsWith("client")
+}
 
 function ListMods(): JSX.Element {
   const { t } = useTranslation()
@@ -27,6 +35,7 @@ function ListMods(): JSX.Element {
 
   const getCompleteInstalledMods = useGetCompleteInstalledMods()
   const installMod = useInstallMod()
+  const exportModpack = useExportModpack()
 
   const { id } = useParams()
 
@@ -37,6 +46,9 @@ function ListMods(): JSX.Element {
 
   const [modToDelete, setModToDelete] = useState<InstalledModType | ErrorInstalledModType | null>(null)
   const [modToUpdate, setModToUpdate] = useState<InstalledModType | null>(null)
+  const [importManifest, setImportManifest] = useState<ModpackManifestType | null>(null)
+  const [updateSummaryEntries, setUpdateSummaryEntries] = useState<ModChangeSummaryEntry[]>([])
+  const [showUpdateSummary, setShowUpdateSummary] = useState(false)
 
   const [gettingMods, setGettingMods] = useState<boolean>(false)
 
@@ -90,6 +102,8 @@ function ListMods(): JSX.Element {
 
     if (installation._backuping || installation._restoringBackup) return addNotification(t("features.mods.cantUpdateWhileinUse"), "error")
 
+    const collected: ModChangeSummaryEntry[] = []
+
     try {
       configDispatch({ type: CONFIG_ACTIONS.EDIT_INSTALLATION, payload: { id: installation.id, updates: { _updatingMods: true } } })
 
@@ -100,6 +114,7 @@ function ListMods(): JSX.Element {
           if (!modToUpdate._mod) {
             window.api.utils.logMessage("error", "[front] [ManageInstallationMods] [features/installations/pages/ManageMods.tsx] [UpdateModsHandler] The mod could not be queried from the ModDB API!")
             addNotification(t("features.mods.errorUpdatingMod", { mod: modToUpdate.name }), "error")
+            collected.push({ name: modToUpdate.name, modid: modToUpdate.modid, fromVersion: modToUpdate.version, toVersion: null })
             return resolve()
           }
 
@@ -111,8 +126,11 @@ function ListMods(): JSX.Element {
               "[front] [ManageInstallationMods] [features/installations/pages/ManageMods.tsx] [UpdateModsHandler] The mod release could not be found on the queried Mod!"
             )
             addNotification(t("features.mods.errorUpdatingMod", { mod: modToUpdate.name }), "error")
+            collected.push({ name: modToUpdate.name, modid: modToUpdate.modid, fromVersion: modToUpdate.version, toVersion: null, assetid: modToUpdate._mod.assetid })
             return resolve()
           }
+
+          collected.push({ name: modToUpdate.name, modid: modToUpdate.modid, fromVersion: modToUpdate.version, toVersion: release.modversion, assetid: modToUpdate._mod.assetid })
 
           installMod({
             path: installation.path,
@@ -126,6 +144,8 @@ function ListMods(): JSX.Element {
       })
 
       await Promise.all(updated)
+      setUpdateSummaryEntries(collected)
+      setShowUpdateSummary(true)
     } catch (err) {
       addNotification(t("features.mods.errorUpdatingMods"), "error")
     } finally {
@@ -162,6 +182,42 @@ function ListMods(): JSX.Element {
                 <FormButton title={t("features.mods.updateAll")} className="p-1 w-fit h-8" onClick={UpdateModsHandler}>
                   <PiArrowClockwiseDuotone className="text-xl" />
                   <p>{t("features.mods.updateAllButton")}</p>
+                </FormButton>
+
+                <FormButton
+                  title={t("features.mods.exportModpack")}
+                  className="p-1 w-fit h-8"
+                  onClick={() => exportModpack({ installedMods, installation })}
+                  disabled={installedMods.length === 0}
+                >
+                  <PiBoxArrowUpDuotone className="text-xl" />
+                  <p>{t("features.mods.exportModpackButton")}</p>
+                </FormButton>
+
+                <FormButton
+                  title={t("features.mods.exportServerModpack")}
+                  className="p-1 w-fit h-8"
+                  onClick={() => exportModpack({ installedMods: installedMods.filter((m) => isServerMod(m.side)), installation: { ...installation, name: `${installation.name} (Server)` } })}
+                  disabled={installedMods.length === 0}
+                >
+                  <PiDesktopTowerDuotone className="text-xl" />
+                  <p>{t("features.mods.exportServerModpackButton")}</p>
+                </FormButton>
+
+                <FormButton
+                  title={t("features.mods.importModpack")}
+                  className="p-1 w-fit h-8"
+                  onClick={async () => {
+                    const result = await window.api.modsManager.importModpack()
+                    if (result.success && result.manifest) {
+                      setImportManifest(result.manifest)
+                    } else if (result.error) {
+                      addNotification(t("features.mods.importModpackInvalidFile"), "error")
+                    }
+                  }}
+                >
+                  <PiBoxArrowDownDuotone className="text-xl" />
+                  <p>{t("features.mods.importModpackButton")}</p>
                 </FormButton>
 
                 <FormButton
@@ -434,6 +490,29 @@ function ListMods(): JSX.Element {
                     onFinishInstallation={() => {
                       triggerGetCompleteInstalledMods()
                     }}
+                  />
+
+                  <ImportModpackPopup
+                    isOpen={importManifest !== null}
+                    manifest={importManifest}
+                    close={() => setImportManifest(null)}
+                    installation={installation}
+                    installedMods={installedMods}
+                    onFinish={() => {
+                      setImportManifest(null)
+                      triggerGetCompleteInstalledMods()
+                    }}
+                  />
+
+                  <ModChangeSummaryPopup
+                    isOpen={showUpdateSummary}
+                    close={() => {
+                      setShowUpdateSummary(false)
+                      setUpdateSummaryEntries([])
+                      triggerGetCompleteInstalledMods()
+                    }}
+                    title={t("features.mods.updateSummaryTitle")}
+                    entries={updateSummaryEntries}
                   />
 
                   <PopupDialogPanel title={t("features.mods.deleteMod")} isOpen={modToDelete !== null} close={() => setModToDelete(null)}>

@@ -18,7 +18,9 @@ export const IPC_CHANNELS = {
     SAVE_CONFIG: "save-config"
   },
   MODS_MANAGER: {
-    GET_INSTALLED_MODS: "get-installed-mods"
+    GET_INSTALLED_MODS: "get-installed-mods",
+    EXPORT_MODPACK: "export-modpack",
+    IMPORT_MODPACK: "import-modpack"
   },
   PATHS_MANAGER: {
     GET_CURRENT_USER_DATA_PATH: "get-current-user-data-path",
@@ -31,6 +33,7 @@ export const IPC_CHANNELS = {
     OPEN_PATH_ON_FILE_EXPLORER: "open-path-on-file-explorer",
     DOWNLOAD_ON_PATH: "download-on-path",
     EXTRACT_ON_PATH: "extract-on-path",
+    RUN_INSTALLER: "run-installer",
     COMPRESS_ON_PATH: "compress-on-path",
     DOWNLOAD_PROGRESS: "download-progress",
     EXTRACT_PROGRESS: "extract-progress",

@@ -162,9 +162,9 @@ declare global {
   type DownloadableGameVersionTypeType = {
     version: string
     type: "stable" | "rc" | "pre"
-    releaseDate: string
     windows: string
     linux: string
+    mac: string
   }
 
   type DownloadableModAuthorType = {
@@ -189,6 +189,26 @@ declare global {
     name: string
     icon: string
     custom?: boolean
+  }
+
+  type ModpackModEntryType = {
+    modid: string
+    version: string
+  }
+
+  type ModpackManifestType = {
+    name: string
+    gameVersion: string
+    mods: ModpackModEntryType[]
+  }
+
+  type ModChangeSummaryEntry = {
+    name: string
+    modid: string
+    fromVersion: string | null
+    toVersion: string | null
+    assetid?: number
+    alreadyPresent?: boolean
   }
 
   declare module "*.png" {

@@ -26,6 +26,8 @@ declare global {
     }
     modsManager: {
       getInstalledMods: (path: string) => Promise<{ mods: InstalledModType[]; errors: ErrorInstalledModType[] }>
+      exportModpack: (manifest: ModpackManifestType) => Promise<{ success: boolean; path?: string }>
+      importModpack: () => Promise<{ success: boolean; manifest?: ModpackManifestType; error?: string }>
     }
     pathsManager: {
       getCurrentUserDataPath: () => Promise<string>
@@ -38,6 +40,7 @@ declare global {
       openPathOnFileExplorer: (path: string) => Promise<string>
       downloadOnPath: (id: string, url: string, outputPath: string, fileName: string) => Promise<string>
       extractOnPath: (id: string, filePath: string, outputPath: string, deleteZip: boolean) => Promise<boolean>
+      runInstaller: (id: string, filePath: string, outputPath: string, deleteInstaller: boolean) => Promise<boolean>
       compressOnPath: (id: string, inputPath: string, outputPath: string, outputFileName: string, compressionLevel?: number) => Promise<boolean>
       onDownloadProgress: (callback: ProgressCallback) => void
       onExtractProgress: (callback: ProgressCallback) => void

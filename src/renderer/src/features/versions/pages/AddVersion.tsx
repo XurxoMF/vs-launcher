@@ -9,6 +9,7 @@ import { PiDownloadDuotone, PiMagnifyingGlassDuotone, PiXCircleDuotone } from "r
 import { useNotificationsContext } from "@renderer/contexts/NotificationsContext"
 import { CONFIG_ACTIONS, useConfigContext } from "@renderer/features/config/contexts/ConfigContext"
 import { useTaskContext } from "@renderer/contexts/TaskManagerContext"
+import { compareVersions } from "@renderer/utils/semver"
 
 import {
   FormBody,
@@ -27,11 +28,35 @@ import { TableBody, TableBodyRow, TableCell, TableHead, TableHeadRow, TableWrapp
 import ScrollableContainer from "@renderer/components/ui/ScrollableContainer"
 import { StickyMenuWrapper, StickyMenuGroupWrapper, StickyMenuGroup, StickyMenuBreadcrumbs, GoBackButton, GoToTopButton } from "@renderer/components/ui/StickyMenu"
 
+// Official public API: https://api.vintagestory.at/{stable,unstable}.json
+// Shape: { [version]: { [platform]: { urls: { cdn, local }, ... } } }
+type RawPlatform = { urls: { cdn: string; local: string } }
+type RawVersions = Record<string, Record<string, RawPlatform>>
+const VS_API = "https://api.vintagestory.at"
+
+function deriveType(version: string): DownloadableGameVersionTypeType["type"] {
+  if (version.includes("-rc")) return "rc"
+  if (version.includes("-pre")) return "pre"
+  return "stable"
+}
+
+function parseGameVersions(stable: RawVersions, unstable: RawVersions): DownloadableGameVersionTypeType[] {
+  return Object.entries({ ...unstable, ...stable })
+    .map(([version, p]) => ({
+      version,
+      type: deriveType(version),
+      windows: p.windows?.urls.cdn ?? "",
+      linux: p.linux?.urls.cdn ?? "",
+      mac: (p["mac-arm64"] ?? p["mac-x64"])?.urls.cdn ?? ""
+    }))
+    .sort((a, b) => compareVersions(b.version, a.version))
+}
+
 function AddVersion(): JSX.Element {
   const { t } = useTranslation()
   const { addNotification } = useNotificationsContext()
   const { config, configDispatch } = useConfigContext()
-  const { startDownload, startExtract } = useTaskContext()
+  const { startDownload, startExtract, startInstall } = useTaskContext()
   const navigate = useNavigate()
 
   const [gameVersions, setGameVersions] = useState<DownloadableGameVersionTypeType[]>([])
@@ -45,8 +70,8 @@ function AddVersion(): JSX.Element {
   useEffect(() => {
     ;(async (): Promise<void> => {
       try {
-        const { data }: { data: DownloadableGameVersionTypeType[] } = await axios("https://vslapi.xurxomf.xyz/versions")
-        setGameVersions(data)
+        const [stable, unstable] = await Promise.all([axios<RawVersions>(`${VS_API}/stable.json`), axios<RawVersions>(`${VS_API}/unstable.json`)])
+        setGameVersions(parseGameVersions(stable.data, unstable.data))
       } catch (err) {
         window.api.utils.logMessage("error", `[front] [mods] [features/versions/pages/AddVersion.tsx] [AddVersion] Error fetching game versions.`)
         window.api.utils.logMessage("debug", `[front] [mods] [features/versions/pages/AddVersion.tsx] [AddVersion] Error fetching game versions: ${err}`)
@@ -73,7 +98,7 @@ function AddVersion(): JSX.Element {
       return addNotification(t("features.versions.folderAlreadyInUse"), "error")
 
     const os = await window.api.utils.getOs()
-    const url = os === "win32" ? version.windows : version.linux
+    const url = os === "win32" ? version.windows : os === "darwin" ? version.mac : version.linux
 
     const newGameVersion: GameVersionType = {
       version: version.version,
@@ -83,6 +108,11 @@ function AddVersion(): JSX.Element {
 
     configDispatch({ type: CONFIG_ACTIONS.ADD_GAME_VERSION, payload: newGameVersion })
     navigate("/versions")
+
+    const onUnpacked = (status: boolean): void => {
+      if (!status) return configDispatch({ type: CONFIG_ACTIONS.DELETE_GAME_VERSION, payload: { version: newGameVersion.version } })
+      configDispatch({ type: CONFIG_ACTIONS.EDIT_GAME_VERSION, payload: { version: newGameVersion.version, updates: { _installing: undefined } } })
+    }
 
     startDownload(
       t("features.versions.gameVersionTaskName", { version: newGameVersion.version }),
@@ -94,18 +124,28 @@ function AddVersion(): JSX.Element {
       (status, path) => {
         if (!status) return configDispatch({ type: CONFIG_ACTIONS.DELETE_GAME_VERSION, payload: { version: newGameVersion.version } })
 
-        startExtract(
-          t("features.versions.gameVersionTaskName", { version: newGameVersion.version }),
-          t("features.versions.gameVersionExtractDesc", { version: newGameVersion.version }),
-          "all",
-          path,
-          folder,
-          true,
-          (status) => {
-            if (!status) return configDispatch({ type: CONFIG_ACTIONS.DELETE_GAME_VERSION, payload: { version: newGameVersion.version } })
-            configDispatch({ type: CONFIG_ACTIONS.EDIT_GAME_VERSION, payload: { version: newGameVersion.version, updates: { _installing: undefined } } })
-          }
-        )
+        // Windows ships an Inno Setup installer (run silently); Linux/Mac ship a portable archive (extract).
+        if (os === "win32") {
+          startInstall(
+            t("features.versions.gameVersionTaskName", { version: newGameVersion.version }),
+            t("features.versions.gameVersionExtractDesc", { version: newGameVersion.version }),
+            "all",
+            path,
+            folder,
+            true,
+            onUnpacked
+          )
+        } else {
+          startExtract(
+            t("features.versions.gameVersionTaskName", { version: newGameVersion.version }),
+            t("features.versions.gameVersionExtractDesc", { version: newGameVersion.version }),
+            "all",
+            path,
+            folder,
+            true,
+            onUnpacked
+          )
+        }
       }
     )
   }
@@ -170,9 +210,8 @@ function AddVersion(): JSX.Element {
                 <TableWrapper className="text-center">
                   <TableHead>
                     <TableHeadRow>
-                      <TableCell className="w-2/6 ">{t("generic.version")}</TableCell>
-                      <TableCell className="w-2/6">{t("generic.releaseDate")}</TableCell>
-                      <TableCell className="w-2/6">{t("generic.type")}</TableCell>
+                      <TableCell className="w-1/2">{t("generic.version")}</TableCell>
+                      <TableCell className="w-1/2">{t("generic.type")}</TableCell>
                     </TableHeadRow>
                   </TableHead>
 
@@ -191,9 +230,8 @@ function AddVersion(): JSX.Element {
                               disabled={config.gameVersions.some((igv) => igv.version === gv.version)}
                               onClick={() => !config.gameVersions.find((igv) => igv.version === gv.version) && setVersion(gv)}
                             >
-                              <TableCell className="w-2/6">{gv.version}</TableCell>
-                              <TableCell className="w-2/6">{new Date(gv.releaseDate).toLocaleDateString("es")}</TableCell>
-                              <TableCell className="w-2/6">{gv.type}</TableCell>
+                              <TableCell className="w-1/2">{gv.version}</TableCell>
+                              <TableCell className="w-1/2">{gv.type}</TableCell>
                             </TableBodyRow>
                           )
                       )}
