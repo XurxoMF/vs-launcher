@@ -42,7 +42,7 @@ const defaultInstallation: InstallationType = {
   startParams: "",
   backupsLimit: 3,
   backupsAuto: false,
-  compressionLevel: 0,
+  compressionLevel: 4,
   backups: [],
   lastTimePlayed: -1,
   totalTimePlayed: 0,
